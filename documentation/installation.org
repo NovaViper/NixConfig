@@ -1,0 +1,5 @@
+#+title: Installation
+
+ 1. Download repo into /etc/nixos
+ 2. Move repo into /mnt/etc/nixos
+=nixos-install --flake .#yoganva --root /mnt=

@@ -1,0 +1,14 @@
+#+title: =Partitioning and Mounting=
+
+Based on [[https://github.com/Baitinq/nixos-config/tree/master][Baitinq's nix-config]]! My configuration has extra helper scripts for partitioning and mounting the system.
+
+These scripts live in [hosts/HOSTNAME/disks.nix] (which must customized to fit your specific configuration).
+
+* Creating the Partitions
+Execute =nix run .#nixosConfigurations.$HOSTNAME.config.disks-create= to create the disks. Please be warned that this command will destroy everything on the disk so make sure you correctly defined the device in the configs and backed up everything!!!
+
+* Formatting the Partitions
+Execute =nix run .#nixosConfigurations.$HOSTNAME.config.disks-format= to format the filesystems on the newly created partitions
+
+* Mounting the Partitions
+Execute =nix run .#nixosConfigurations.$HOSTNAME.config.disks-mount= to mount all of the newly created partitions to the live installer
