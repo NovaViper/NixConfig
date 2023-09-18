@@ -1,0 +1,10 @@
+session_name: 3-panes
+windows:
+  - default:
+    layout: 63bb,132x42,0,0{83x42,0,0,0,48x42,84,0[48x21,84,0,1,48x20,84,22,2]}
+    panes:
+      - shell_command:
+          -
+        focus: true
+      -
+      - cmatrix -ba -u 3 -C blue

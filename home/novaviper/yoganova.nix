@@ -1,6 +1,7 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
-  imports = [ ./global ];
+  imports = [ ./global ./features/games ];
 
+  colorscheme = inputs.nix-colors.colorSchemes.dracula;
 }

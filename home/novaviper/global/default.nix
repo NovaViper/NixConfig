@@ -1,4 +1,5 @@
 { inputs, lib, pkgs, config, outputs, ... }:
+
 let
   inherit (inputs.nix-colors) colorSchemes;
   inherit (inputs.nix-colors.lib-contrib { inherit pkgs; })
@@ -7,8 +8,8 @@ in {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.nix-colors.homeManagerModule
-    #../features/cli
-    #../features/nvim
+    ../features/cli
+    ../features/nvim
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
@@ -26,14 +27,14 @@ in {
       experimental-features = [ "nix-command" "flakes" "repl-flake" ];
       warn-dirty = false;
     };
+  };
 
-    # Nicely reload system units when changing configs
-    systemd.user.startServices = "sd-switch";
+  # Nicely reload system units when changing configs
+  systemd.user.startServices = "sd-switch";
 
-    programs = {
-      home-manager.enable = true;
-      git.enable = true;
-    };
+  programs = {
+    home-manager.enable = true;
+    git.enable = true;
   };
 
   home = {
@@ -41,8 +42,14 @@ in {
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "23.05";
     sessionPath = [ "$HOME/.local/bin" ];
-    #sessionVariables = { FLAKE = "$HOME/Documents/NixConfig"; };
-    packages = with pkgs; [ firefox kate krita ];
+    sessionVariables = {
+      FLAKE = "/etc/nixos/nixos-config";
+      #FLAKE = "$HOME/Documents/NixConfig";
+      #PYENV_ROOT = "${config.xdg.dataHome}/pyenv";
+      #WGETRC = "${config.xdg.configHome}/wgetrc";
+      #CARGO_HOME = "${config.xdg.dataHome}/cargo";
+    };
+    packages = with pkgs; [ krita ];
 
     /* persistence = {
          "/persist/home/novaviper" = {
@@ -54,5 +61,13 @@ in {
     */
   };
 
-  #colorscheme = lib.mkDefault colorSchemes.dracula;
+  # Enable XDG
+  xdg = {
+    enable = true;
+    userDirs.enable = true;
+    userDirs.createDirectories = true;
+  };
+
+  colorscheme = lib.mkDefault colorSchemes.dracula;
+  home.file.".colorscheme".text = config.colorscheme.slug;
 }

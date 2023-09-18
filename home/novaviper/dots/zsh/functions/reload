@@ -1,0 +1,4 @@
+clear
+exec zsh
+#source /etc/zsh/zshenv
+#source ${ZDOTDIR:-${HOME}/.config/zsh}/.zshrc

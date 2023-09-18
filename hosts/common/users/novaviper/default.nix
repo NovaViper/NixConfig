@@ -8,7 +8,7 @@ in {
     isNormalUser = true;
     shell = pkgs.zsh;
     description = "Nova Leary";
-    extraGroups = [ "networkmanager" "wheel" ]
+    extraGroups = [ "networkmanager" "wheel" "video" "audio" ]
       ++ ifTheyExist [ "libvirtd" "scanner" "i2c" "git" ];
 
     #openssh.authorizedKeys.keys = [ (builtins.readFile ../../../../home/misterio/ssh.pub) ];
