@@ -31,6 +31,7 @@ in {
     ../common/global
     ../common/users/novaviper
 
+    #../common/optional/howdy.nix
     ../common/optional/pipewire.nix
     ../common/optional/de/kde.nix
     ../common/optional/syncthing.nix
@@ -38,9 +39,9 @@ in {
     ../common/optional/flatpak.nix
     ../common/optional/gaming.nix
     ../common/optional/theme.nix
-    ../common/optional/libvirt.nix
-    ../common/optional/rgb.nix
     ../common/optional/quietboot.nix
+    ../common/optional/rgb.nix
+    ../common/optional/libvirt.nix
   ];
 
   networking.hostName = "ryzennova"; # Define your hostname.

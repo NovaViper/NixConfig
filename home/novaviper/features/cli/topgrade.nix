@@ -9,16 +9,16 @@
         cleanup = true;
         skip_notify = false;
       };
-      /* linux = {
-           nix_arguments = "--flake /etc/nixos/nixos-config";
-           home_manager_arguments = [ "--flake" "/etc/nixos/nixos-config" ];
-         };
-      */
-      pre_commands = {
+      linux = {
+        nix_arguments = "--flake ${config.home.sessionVariables.FLAKE}";
+        home_manager_arguments =
+          [ "--flake" "${config.home.sessionVariables.FLAKE}" ];
+      };
+      pre_commands = lib.mkIf (config.programs.emacs.enable) {
         "Discard org-bable changes for upgrade" =
           "git -C ~/.config/emacs reset --hard";
       };
-      post_commands = {
+      post_commands = lib.mkIf (config.programs.emacs.enable) {
         "Make Doom Emacs org-bable work again" = ''
           sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ~/.config/emacs/bin/org-tangle'';
       };

@@ -1,14 +1,13 @@
 { config, pkgs, lib, ... }:
-
-{
-  #home.sessionPath = [ "$HOME/.local/bin:$PYENV_ROOT/bin" ];
-
+let inherit (config.colorscheme) colors;
+in {
   xdg.configFile = {
     "zsh/.p10k.zsh".source = config.lib.file.mkOutOfStoreSymlink
-      (/etc/nixos/nixos-config/home/novaviper/dots/zsh/.p10k.zsh);
-
+      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/zsh/.p10k.zsh";
     "zsh/zsh-styles.sh".source = ../../dots/zsh/zsh-styles.sh;
     "zsh/zsh-functions.sh".source = ../../dots/zsh/zsh-functions.sh;
+    "zsh/zsh-syntax-highlighting.sh".source =
+      ../../dots/zsh/zsh-syntax-highlighting.sh;
   };
 
   home.packages = with pkgs; [ wl-clipboard wl-clipboard-x11 ];
@@ -26,6 +25,20 @@
     fzf = {
       enable = true;
       enableZshIntegration = true;
+      colors = {
+        fg = "#${colors.base05}"; # foreground
+        bg = "#${colors.base00}"; # background
+        hl = "#${colors.base0D}"; # purple
+        "fg+" = "#${colors.base05}"; # foreground
+        "bg+" = "#${colors.base02}"; # current-line
+        "hl+" = "#${colors.base0D}"; # purple
+        info = "#${colors.base09}"; # orange
+        prompt = "#${colors.base0B}"; # green
+        pointer = "#${colors.base0E}"; # pink
+        marker = "#${colors.base0E}"; # pink
+        spinner = "#${colors.base09}"; # orange
+        header = "#${colors.base03}"; # comment
+      };
     };
 
     dircolors = {
@@ -60,16 +73,16 @@
 
       initExtra = ''
         source "$ZDOTDIR/.p10k.zsh"
-        #source "$ZDOTDIR/zsh-syntax-highlighting.sh"
+        source "$ZDOTDIR/zsh-syntax-highlighting.sh"
         source "$ZDOTDIR/zsh-styles.sh"
         source "$ZDOTDIR/zsh-functions.sh"
         setopt beep CORRECT # Enable terminal bell and autocorrect
         autoload -U colors && colors # Enable colors
 
         ### Pyenv command
-        #if command -v pyenv 1>/dev/null 2>&1; then
-        #  eval "$(pyenv init -)"
-        #fi
+        if command -v pyenv 1>/dev/null 2>&1; then
+          eval "$(pyenv init -)"
+        fi
 
 
         # Append extra variables
@@ -77,11 +90,11 @@
 
 
         if [[ ! $TMUX ]]; then
-            ${pkgs.tmux}/bin/tmux attach || ${pkgs.tmuxp}/bin/tmuxp load ~/.config/tmuxp/session.yaml
+            ${pkgs.tmux}/bin/tmux attach || ${pkgs.tmuxp}/bin/tmuxp load ${config.xdg.configHome}/tmuxp/session.yaml
         fi
 
         # Create shell prompt
-        if [[ $(tput cols) -ge '75' ]]; then
+        if [[ $(tput cols) -ge '100' ]]; then
           ${pkgs.dwt1-shell-color-scripts}/bin/colorscript exec square
           ${pkgs.toilet}/bin/toilet -f pagga "FOSS AND BEAUTIFUL" --metal
         fi
@@ -89,20 +102,25 @@
 
       shellAliases = {
         # Easy access to accessing Doom cli
-        doom = "$EMDOTDIR/bin/doom";
+        doom = "${config.home.sessionVariables.EMDOTDIR}/bin/doom";
         # Refresh Doom configurations and Reload Doom Emacs
         doom-config-reload =
-          "$EMDOTDIR/bin/org-tangle $DOOMDIR/config.org && $EMDOTDIR/bin/doom sync && systemctl --user restart emacs";
+          "${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle ${config.home.sessionVariables.DOOMDIR}/config.org && ${config.home.sessionVariables.EMDOTDIR}/bin/doom sync && systemctl --user restart emacs";
         # Substitute Doom upgrade command to account for fixing the issue of org-tangle not working
         doom-upgrade = ''
-          $EMDOTDIR/bin/doom upgrade --force && sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" $EMDOTDIR/bin/org-tangle
+          ${config.home.sessionVariables.EMDOTDIR}/bin/doom upgrade --force && sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle
         '';
-        # Easy install Doom Emacs frameworks
+        # Download Doom Emacs frameworks
         doom-download = ''
-          git clone https://github.com/hlissner/doom-emacs.git $EMDOTDIR && $EMDOTDIR/bin/doom install && sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" $EMDOTDIR/bin/org-tangle
+          git clone https://github.com/hlissner/doom-emacs.git ${config.home.sessionVariables.EMDOTDIR}
+        '';
+        # Run fix to make org-tangle module work again
+        doom-fix = ''
+          sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle
         '';
         # Create Emacs config.el from my Doom config.org
-        org-tangle = "$EMDOTDIR/bin/org-tangle $DOOMDIR/config.org";
+        doom-org-tangle =
+          "${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle ${config.home.sessionVariables.DOOMDIR}/config.org";
         # Easy Weather
         weather = "curl 'wttr.in/Baton+Rouge?u?format=3'";
         # Make gpg switch Yubikey
@@ -114,7 +132,7 @@
         # Make ssh keys import from Yubikey
         import-ssh-keys = "ssh-keygen -K";
         # Quickly start Minecraft server
-        start-minecraft-server =
+        start-minecraft-server = lib.mkIf (config.programs.mangohud.enable)
           "cd ~/Games/MinecraftServer-1.20.1/ && ./run.sh --nogui && cd || cd";
       };
 

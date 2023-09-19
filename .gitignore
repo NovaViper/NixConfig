@@ -2,3 +2,12 @@
 result*
 *.qcow2
 .nixie
+
+# ignore temporary files
+.#.*
+
+# Ignore Doom Emacs generated files
+**/dots/doom/config.el
+**/dots/doom/init.el
+**/dots/doom/packages.el
+**/dots/doom/mu4e-accounts.el

@@ -1,9 +1,6 @@
 { inputs, lib, pkgs, config, outputs, ... }:
 
-let
-  inherit (inputs.nix-colors) colorSchemes;
-  inherit (inputs.nix-colors.lib-contrib { inherit pkgs; })
-    colorschemeFromPicture nixWallpaperFromScheme;
+let inherit (inputs.nix-colors) colorSchemes;
 in {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
@@ -45,16 +42,14 @@ in {
     sessionVariables = {
       FLAKE = "/etc/nixos/nixos-config";
       #FLAKE = "$HOME/Documents/NixConfig";
-      #PYENV_ROOT = "${config.xdg.dataHome}/pyenv";
       #WGETRC = "${config.xdg.configHome}/wgetrc";
       #CARGO_HOME = "${config.xdg.dataHome}/cargo";
     };
-    packages = with pkgs; [ krita ];
 
     /* persistence = {
          "/persist/home/novaviper" = {
            directories =
-             [ "Documents" "Downloads" "Pictures" "Videos" ".local/bin" ];
+             [ "Desktop" "Documents" "Downloads" "Music" "Pictures" "Videos" ".local/bin" ];
            allowOther = true;
          };
        };

@@ -7,12 +7,10 @@
     ./features/games
     ./features/emacs
     ./features/productivity
-    #./features/virt-manager
+    ./features/virt-manager
     ./features/syncthing
     #./features/vnc TODO: Work on remote desktop
   ];
 
   colorscheme = inputs.nix-colors.colorSchemes.dracula;
-
-  home.packages = with pkgs; [ keepassxc krita ];
 }

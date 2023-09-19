@@ -39,6 +39,8 @@ in {
     ../common/optional/gaming.nix
     ../common/optional/theme.nix
     ../common/optional/quietboot.nix
+    #../common/optional/rgb.nix
+    #../common/optional/libvirt.nix
   ];
 
   networking.hostName = "yoganova"; # Define your hostname.

@@ -3,18 +3,22 @@
 {
   imports = [ ./global.nix ];
 
-  # Enable the XFCE Desktop Environment.
-  services.xserver = {
-    displayManager.lightdm = {
-      enable = true;
-      #greeters.slick = {
-      #enable = true;
-      #theme.name = "Dracula";
-      #iconTheme.name = "Dracula";
-      #cursorTheme.name = "Dracula";
-      #};
+  services = {
+    # Enable blueman if bluetooth is enabled
+    blueman.enable = lib.mkDefault config.hardware.bluetooth.enable;
+    # Enable the XFCE Desktop Environment.
+    xserver = {
+      displayManager.lightdm = {
+        enable = true;
+        #greeters.slick = {
+        #enable = true;
+        #theme.name = "Dracula";
+        #iconTheme.name = "Dracula";
+        #cursorTheme.name = "Dracula";
+        #};
+      };
+      desktopManager.xfce.enable = true;
     };
-    desktopManager.xfce.enable = true;
   };
 
   programs.thunar = {
