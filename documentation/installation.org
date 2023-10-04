@@ -1,9 +1,13 @@
 #+title: Installation
 
-1. Grant ownership of =/etc/nixos= to the current user with =sudo chmod 777 -R /etc/nixos=
-2. Download repo into =/etc/nixos=
-3. Move repo into =/mnt/etc/nixos=
+1. Download the repo onto an live image copy of NixOS
+2. Open the terminal and enter the repo directory
+3. Run =nix-shell= to enter environment with all necessary packages to build the config properly
 4. Follow the instructions over in the [[file:partitioning.org][Partitioning]] file!
-5. Run =nixos-generate-config --show-hardware-config= to create a base configuration file that the installer provides and see what are the ids for the newly created partitions. This also shows what kernel modules are necessary for the device
+5. Run =nixos-generate-config --show-hardware-config --root /mnt= to create a base configuration file that the installer provides and see what are the ids for the newly created partitions.
+   - This also shows what kernel modules are necessary for the device
 6. Add the partition ids as exactly as they appear inside the =./hardware-configuration= file for the host; as well as any additional kernel modules
-7. Run =nixos-install --flake .#yoganva --root /mnt= to install NixOS with the configuration
+7. Change the =FLAKE= variable located under =./home/USERNAME/global/default.nix=, some dotfiles are sym-links and not having repo in the location will cause them to not work (which can break some apps)
+8. Run =nixos-install --flake .#HOSTNAME --root /mnt= to install NixOS with the configuration
+9. Move repo into the folder located on /mnt that matches your =FLAKE= environment variable
+10. Restart and the system will boot up into NixOS!

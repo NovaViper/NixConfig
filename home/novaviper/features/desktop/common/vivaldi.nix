@@ -33,4 +33,9 @@
   # Makes Plasma Browser Integration work properly
   xdg.configFile."vivaldi/NativeMessagingHosts/org.kde.plasma.browser_integration.json".source =
     "${pkgs.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
+
+  /* home.persistence = {
+       "/persist/home/novaviper".directories = [ ".config/vivaldi" ];
+     };
+  */
 }

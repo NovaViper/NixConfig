@@ -20,6 +20,11 @@
     pyenv.enable = true;
   };
 
+  /* home.persistence = {
+       "/persist/home/novaviper".directories = [ ".config/emacs" ];
+     };
+  */
+
   xdg = {
     configFile = {
       "doom" = {

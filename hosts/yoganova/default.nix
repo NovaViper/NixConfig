@@ -31,7 +31,6 @@ in {
     ../common/users/novaviper
 
     ../common/optional/howdy.nix
-    ../common/optional/pipewire.nix
     ../common/optional/de/kde.nix
     ../common/optional/syncthing.nix
     ../common/optional/tailscale.nix
@@ -39,8 +38,11 @@ in {
     ../common/optional/gaming.nix
     ../common/optional/theme.nix
     ../common/optional/quietboot.nix
+    #../common/optional/sunshine-server.nix
+    ../common/optional/sunshine-client.nix
     #../common/optional/rgb.nix
     #../common/optional/libvirt.nix
+    ../common/optional/qmk.nix
   ];
 
   networking.hostName = "yoganova"; # Define your hostname.
@@ -95,19 +97,36 @@ in {
           defaultSession = "plasmawayland";
         };
     };
+    # Set IR blaster device
+    linux-enable-ir-emitter.device = "video2";
+
+    # Configure Howdy
+    howdy.settings = {
+      video = {
+        device_path = "/dev/video2";
+        dark_threshold = 90;
+      };
+      # you may not need these
+      core.no_confirmation = true;
+      /* rubberstamps = {
+           enabled = true;
+           stamp_rules = "nod 15s failsafe min_distance=5";
+         };
+      */
+    };
   };
 
   environment = {
     # Add virtual keyboard for touchscreen
     systemPackages = with pkgs; [ maliit-keyboard ];
-    # Enable native Wayland support in all chrome and most electron apps
-    sessionVariables.NIXOS_OZONE_WL = "1";
   };
 
   # Apply configs
   system.activationScripts.copySysConfigs = ''
     mkdir -p /var/lib/linux-enable-ir-emitter
 
-    cp ${ir-config} /var/lib/linux-enable-ir-emitter/pci-0000:00:14.0-usb-0:6:1.2-video-index0_emitter0.driver
+    if [ -z "$(ls -A /var/lib/linux-enable-ir-emitter)" ]; then
+       cp ${ir-config} /var/lib/linux-enable-ir-emitter/pci-0000:00:14.0-usb-0:6:1.2-video-index0_emitter0.driver
+    fi
   '';
 }

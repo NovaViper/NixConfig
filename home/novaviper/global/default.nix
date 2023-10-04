@@ -5,8 +5,10 @@ in {
   imports = [
     inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.nix-colors.homeManagerModule
+    inputs.plasma-manager.homeManagerModules.plasma-manager
     ../features/cli
     ../features/nvim
+    #../features/sops
   ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
@@ -40,16 +42,22 @@ in {
     stateVersion = lib.mkDefault "23.05";
     sessionPath = [ "$HOME/.local/bin" ];
     sessionVariables = {
-      FLAKE = "/etc/nixos/nixos-config";
-      #FLAKE = "$HOME/Documents/NixConfig";
-      #WGETRC = "${config.xdg.configHome}/wgetrc";
+      FLAKE = "${config.home.homeDirectory}/Documents/NixConfig";
+      #FLAKE = "/etc/nixos/nixos-config";
       #CARGO_HOME = "${config.xdg.dataHome}/cargo";
     };
 
     /* persistence = {
          "/persist/home/novaviper" = {
-           directories =
-             [ "Desktop" "Documents" "Downloads" "Music" "Pictures" "Videos" ".local/bin" ];
+           directories = [
+             "Desktop"
+             "Documents"
+             "Downloads"
+             "Music"
+             "Pictures"
+             "Videos"
+             ".local/bin"
+           ];
            allowOther = true;
          };
        };

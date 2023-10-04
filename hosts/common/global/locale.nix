@@ -21,5 +21,5 @@
   };
 
   # Set your time zone.
-  time.timeZone = lib.mkDefault "America/Chicago";
+  #time.timeZone = lib.mkDefault "America/Chicago";
 }

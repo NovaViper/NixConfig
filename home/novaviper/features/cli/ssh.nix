@@ -6,9 +6,11 @@
     matchBlocks = {
       "thinkknox" = {
         hostname = "192.168.1.159";
-        identityFile = "${config.home.homeDirectory}/.ssh/id_ecdsa_sk";
+        identityFile = "${config.home.homeDirectory}/.ssh/id_ecdsa_sk_rk_knox";
         port = 22;
       };
     };
   };
+
+  #home.persistence = { "/persist/home/novaviper".directories = [ ".ssh" ]; };
 }

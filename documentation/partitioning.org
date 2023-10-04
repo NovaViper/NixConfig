@@ -12,3 +12,6 @@ Execute =nix run .#nixosConfigurations.$HOSTNAME.config.disks-format= to format 
 
 * Mounting the Partitions
 Execute =nix run .#nixosConfigurations.$HOSTNAME.config.disks-mount= to mount all of the newly created partitions to the live installer
+
+* Get Resume Offset for swapfiles
+Execute =nix run .#nixosConfigurations.$HOSTNAME.config.get-resume-offset= to retrieve the resume-offset needed for the system to find where the swap header is located. This is only needed if you're installing with a swapfile

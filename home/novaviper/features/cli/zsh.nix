@@ -4,8 +4,13 @@ in {
   xdg.configFile = {
     "zsh/.p10k.zsh".source = config.lib.file.mkOutOfStoreSymlink
       "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/zsh/.p10k.zsh";
+    "zsh/functions" = {
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/zsh/functions";
+      recursive = true;
+    };
     "zsh/zsh-styles.sh".source = ../../dots/zsh/zsh-styles.sh;
-    "zsh/zsh-functions.sh".source = ../../dots/zsh/zsh-functions.sh;
+    #"zsh/zsh-functions.sh".source = ../../dots/zsh/zsh-functions.sh;
     "zsh/zsh-syntax-highlighting.sh".source =
       ../../dots/zsh/zsh-syntax-highlighting.sh;
   };
@@ -46,11 +51,6 @@ in {
       enableZshIntegration = true;
     };
 
-    #nix-index = {
-    #  enable = true;
-    #  enableZshIntegration = true;
-    #};
-
     zsh = {
       enable = true;
       enableCompletion = true;
@@ -60,6 +60,10 @@ in {
       defaultKeymap = "viins";
       historySubstringSearch.enable = true;
       autocd = true;
+      zsh-abbr = {
+        enable = true;
+        #abbreviations = { };
+      };
       history = {
         expireDuplicatesFirst = true;
         extended = true;
@@ -69,13 +73,21 @@ in {
       initExtraFirst = ''
         # If not running interactively, don't do anything
         [[ $- != *i* ]] && return
+
+        #if [ -z "$TMUX" ]; then
+        #  ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
+        #  exit
+        #fi
       '';
 
       initExtra = ''
+        # Append extra variables
+        AUTO_NOTIFY_IGNORE+=("yadm" "emacs")
+
         source "$ZDOTDIR/.p10k.zsh"
         source "$ZDOTDIR/zsh-syntax-highlighting.sh"
         source "$ZDOTDIR/zsh-styles.sh"
-        source "$ZDOTDIR/zsh-functions.sh"
+        #source "$ZDOTDIR/zsh-functions.sh"
         setopt beep CORRECT # Enable terminal bell and autocorrect
         autoload -U colors && colors # Enable colors
 
@@ -84,17 +96,8 @@ in {
           eval "$(pyenv init -)"
         fi
 
-
-        # Append extra variables
-        AUTO_NOTIFY_IGNORE+=("yadm" "emacs")
-
-
-        if [[ ! $TMUX ]]; then
-            ${pkgs.tmux}/bin/tmux attach || ${pkgs.tmuxp}/bin/tmuxp load ${config.xdg.configHome}/tmuxp/session.yaml
-        fi
-
         # Create shell prompt
-        if [[ $(tput cols) -ge '100' ]]; then
+        if [ $(tput cols) -ge '80' ] || [ $(tput cols) -ge '100' ]; then
           ${pkgs.dwt1-shell-color-scripts}/bin/colorscript exec square
           ${pkgs.toilet}/bin/toilet -f pagga "FOSS AND BEAUTIFUL" --metal
         fi
@@ -126,11 +129,21 @@ in {
         # Make gpg switch Yubikey
         gpg-switch-yubikey =
           ''gpg-connect-agent "scd serialno" "learn --force" /bye'';
+
         # Make gpg smartcard functionality work again
-        fix-gpg-smartcard =
-          "pkill gpg-agent && sudo systemctl restart pcscd.service && sudo systemctl restart pcscd.socket && gpg-connect-agent /bye";
-        # Make ssh keys import from Yubikey
-        import-ssh-keys = "ssh-keygen -K";
+        #fix-gpg-smartcard =
+        #"pkill gpg-agent && sudo systemctl restart pcscd.service && sudo systemctl restart pcscd.socket && gpg-connect-agent /bye";
+        # Load PKCS11 keys into ssh-agent
+        load-pkcs-key = "ssh-add -s ${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
+        # Remove PKCS11 keys into ssh-agent
+        remove-pkcs-key =
+          "ssh-add -e ${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
+        # Remove all identities
+        remove-ssh-keys = "ssh-add -D";
+        # List all SSH keys in the agent
+        list-ssh-key = "ssh-add -L";
+        # Make resident ssh keys import from Yubikey
+        load-res-keys = "ssh-keygen -K";
         # Quickly start Minecraft server
         start-minecraft-server = lib.mkIf (config.programs.mangohud.enable)
           "cd ~/Games/MinecraftServer-1.20.1/ && ./run.sh --nogui && cd || cd";
@@ -143,7 +156,6 @@ in {
           "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [nyae] ";
         HISTTIMEFORMAT = "[%F %T] ";
         ZSH_AUTOSUGGEST_STRATEGY = [ "history" "completion" ];
-        #ZFUNCDIR="\${ZDOTDIR:-$HOME/.config/zsh}/functions";
       };
 
       antidote = {
@@ -157,13 +169,14 @@ in {
           "jeffreytse/zsh-vi-mode"
 
           # Fish-like Plugins
-          #"mattmc3/zfunctions"
+          "mattmc3/zfunctions"
           "Aloxaf/fzf-tab"
           "MichaelAquilina/zsh-auto-notify"
 
           # Sudo escape
           "ohmyzsh/ohmyzsh path:lib"
           "ohmyzsh/ohmyzsh path:plugins/sudo"
+          #"ohmyzsh/ohmyzsh path:plugins/tmux"
 
           # Nix stuff
           "chisui/zsh-nix-shell"

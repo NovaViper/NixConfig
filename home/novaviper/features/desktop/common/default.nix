@@ -3,20 +3,17 @@
 {
   imports = [
     ./font.nix
-    #./theme.nix
+    ./theme.nix
     ./discord.nix
     ./cider.nix
-    ./jellyfin.nix
+    #./jellyfin.nix
     #./firefox.nix
     ./vivaldi.nix
     ./backup.nix
-    ./alacritty.nix
+    #./alacritty.nix
   ];
 
-  home.sessionVariables = {
-    GTK_USE_PORTAL = "1";
-    #QT_STYLE_OVERRIDE = "kvantum";
-  };
+  home.sessionVariables.GTK_USE_PORTAL = "1";
 
   xdg.mimeApps.enable = true;
 

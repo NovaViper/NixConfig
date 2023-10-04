@@ -32,16 +32,18 @@ in {
     ../common/users/novaviper
 
     #../common/optional/howdy.nix
-    ../common/optional/pipewire.nix
     ../common/optional/de/kde.nix
     ../common/optional/syncthing.nix
     ../common/optional/tailscale.nix
     ../common/optional/flatpak.nix
     ../common/optional/gaming.nix
     ../common/optional/theme.nix
-    ../common/optional/quietboot.nix
+    #../common/optional/quietboot.nix
+    ../common/optional/sunshine-server.nix
+    #../common/optional/sunshine-client.nix
     ../common/optional/rgb.nix
     ../common/optional/libvirt.nix
+    ../common/optional/qmk.nix
   ];
 
   networking.hostName = "ryzennova"; # Define your hostname.
@@ -90,5 +92,8 @@ in {
     cp ${configFile} /var/lib/OpenRGB/OpenRGB.json
   '';
 
-  services.hardware.openrgb.motherboard = lib.mkDefault "amd";
+  services = {
+    xserver.videoDrivers = [ "nvidia" ];
+    hardware.openrgb.motherboard = lib.mkDefault "amd";
+  };
 }

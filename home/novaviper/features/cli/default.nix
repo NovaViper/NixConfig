@@ -6,10 +6,11 @@
     ./btop.nix
     ./eza.nix
     ./git.nix
-    ./gpg.nix
     ./topgrade.nix
+    ./gpg.nix
     ./ssh.nix
     ./zsh.nix
+    ./nix-index.nix
     #./shellcolor.nix
     ./tmux.nix
   ];
@@ -22,5 +23,6 @@
     cmatrix # Show off the Matrix
     timer # Cooler timer in terminal
     inputs.nh.default # nixos-rebuild and home-manager CLI wrapper
+    dmidecode
   ];
 }

@@ -3,7 +3,13 @@
 {
   imports = [ ../common ];
 
+  environment.desktop = "xfce";
+
   #xfconf.settings = {};
 
-  environment.desktop = "xfce";
+  home = {
+    packages = with pkgs; [ qt5ct qt6ct ];
+    sessionVariables.QT_QPA_PLATFORMTHEME = "qt5ct";
+  };
+
 }

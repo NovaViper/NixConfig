@@ -11,6 +11,7 @@
       directories = [ "/var/lib/systemd" "/var/lib/nixos" "/var/log" "/srv" ];
     };
   };
+
   programs.fuse.userAllowOther = true;
 
   system.activationScripts.persistent-dirs.text = let

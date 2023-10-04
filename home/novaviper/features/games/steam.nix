@@ -9,9 +9,29 @@
     ludusavi
   ];
 
+  /* home.persistence = {
+       "/persist/home/novaviper" = {
+         allowOther = true;
+         directories = [
+           ".factorio"
+              ".config/Hero_Siege"
+              ".config/unity3d/Berserk Games/Tabletop Simulator"
+              ".config/unity3d/IronGate/Valheim"
+              ".local/share/Tabletop Simulator"
+              ".local/share/Paradox Interactive"
+              ".paradoxlauncher"
+           {
+             # A couple of games don't play well with bindfs
+             directory = ".local/share/Steam";
+             method = "symlink";
+           }
+         ];
+       };
+     };
+  */
+
   programs.mangohud = {
     enable = true;
-    enableSessionWide = true;
     settings = {
       ### From https://github.com/flightlessmango/MangoHud/blob/master/data/MangoHud.conf
       ### MangoHud configuration file

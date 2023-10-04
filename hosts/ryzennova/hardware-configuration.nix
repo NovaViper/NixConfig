@@ -2,8 +2,11 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
-
-{
+let
+  mainPart = "/dev/disk/by-uuid/88c5f974-bde5-4b5b-8f1a-085e625bfb78";
+  bootPart = "/dev/disk/by-uuid/DEA8-6959";
+  resumeOffset = "72843264";
+in {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
@@ -20,22 +23,32 @@
     };
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = [ ];
+
+    # Swapfile hibernate
+    resumeDevice = "${mainPart}";
+    kernelParams = [ "resume_offset=${resumeOffset}" ];
   };
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/2dee54f0-6204-4ae2-8ad5-31af8854355d";
+      device = "${mainPart}";
       fsType = "ext4";
     };
 
     "/boot" = {
-      device = "/dev/disk/by-uuid/DEDB-660D";
+      device = "${bootPart}";
       fsType = "vfat";
     };
   };
 
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/72d97190-ce60-442e-a210-5efe0cdcd10f"; }];
+  swapDevices = [{
+    device = "/swapfile";
+    size = 16 * 1024;
+  }];
+
+  # swapDevices = [{
+  #   device = "/dev/disk/by-uuid/72d97190-ce60-442e-a210-5efe0cdcd10f";
+  # }];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

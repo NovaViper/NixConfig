@@ -8,6 +8,9 @@
         pre_sudo = true;
         cleanup = true;
         skip_notify = false;
+        display_time = true;
+        set_title = true;
+        disable = [ "nix" ]; # Not needed for NixOS
       };
       linux = {
         nix_arguments = "--flake ${config.home.sessionVariables.FLAKE}";

@@ -18,4 +18,16 @@
       diff = { tool = "${pkgs.kdiff3}/bin/kdiff3"; };
     };
   };
+
+  # Enable fancy git changelogs
+  programs.git-cliff = {
+    enable = true;
+    settings = {
+      header = "Changelog";
+      trim = true;
+    };
+  };
+
+  # Enable git authentication handler for OAuth
+  programs.git-credential-oauth.enable = true;
 }

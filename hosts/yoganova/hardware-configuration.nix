@@ -3,7 +3,11 @@
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
 
-{
+let
+  mainPart = "/dev/disk/by-uuid/18126378-895a-4f23-a33d-2d7eec465e64";
+  bootPart = "/dev/disk/by-uuid/4C8B-EE1C";
+  resumeOffset = "53626880";
+in {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
@@ -20,20 +24,32 @@
     };
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
+
+    # Swapfile hibernate
+    resumeDevice = "${mainPart}";
+    kernelParams = [ "resume_offset=${resumeOffset}" ];
   };
 
-  fileSystems."/" = {
-    device = "/dev/disk/by-uuid/409925da-ffef-4da1-adee-436b72063f3c";
-    fsType = "ext4";
+  fileSystems = {
+    "/" = {
+      device = "${mainPart}";
+      fsType = "ext4";
+    };
+
+    "/boot" = {
+      device = "${bootPart}";
+      fsType = "vfat";
+    };
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/B2C3-9D9F";
-    fsType = "vfat";
-  };
+  swapDevices = [{
+    device = "/swapfile";
+    size = 16 * 1024;
+  }];
 
-  swapDevices =
-    [{ device = "/dev/disk/by-uuid/741e26e9-9339-4ef8-906f-646e88d3da50"; }];
+  # swapDevices = [{
+  #   device = "/dev/disk/by-uuid/57c9756d-3deb-4225-bd37-2e34010586aa";
+  # }];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";

@@ -1,31 +1,35 @@
 { config, lib, inputs, pkgs, ... }:
 let
   DISK = "/dev/disk/by-id/nvme-Sabrent_Rocket_Q_BE72071303B600060935";
-  MEMORY = "32G";
+  SWAP = "/swapfile";
 
   partitionsCreateScript = ''
     sudo sgdisk -Z -a 2048 -o ${DISK}
     sudo sgdisk -n 1::+512M -t 1:ef00 -c 1:BOOT ${DISK}
-    sudo sgdisk -n 2::-${MEMORY} -t 2:8300 -c 2:nixos ${DISK}
-    sudo sgdisk -n 3::0 -t 3:8200 -c 3:swap ${DISK}
+    sudo sgdisk -n 2::0 -t 2:8300 -c 2:nixos ${DISK}
     sudo udevadm trigger --subsystem-match=block; udevadm settle
   '';
   partitionsFormatScript = ''
     sudo mkfs.vfat "${DISK}"-part1
     sudo mkfs.ext4 "${DISK}"-part2
-    sudo mkswap "${DISK}"-part3
   '';
   partitionsMountScript = ''
     sudo mount /dev/disk/by-partlabel/nixos /mnt
     sudo mkdir -p /mnt/{boot,nix}
 
     sudo mount /dev/disk/by-partlabel/BOOT /mnt/boot
-    sudo swapon /dev/disk/by-partlabel/swap
+  '';
+  resumeOffsetScript = ''
+    sudo filefrag -v ${SWAP} | awk '$1=="0:" {print substr($4, 1, length($4)-2)}'
   '';
 in {
 
-  config.environment.systemPackages =
-    [ config.disks-create config.disks-format config.disks-mount ];
+  config.environment.systemPackages = [
+    config.disks-create
+    config.disks-format
+    config.disks-mount
+    config.get-resume-offset
+  ];
 
   options.disks-create = with lib;
     mkOption rec {
@@ -66,6 +70,17 @@ in {
             cryptsetup
             lvm2
           ];
+        };
+    };
+
+  options.get-resume-offset = with lib;
+    mkOption rec {
+      type = types.package;
+      default = with pkgs;
+        symlinkJoin {
+          name = "get-resume-offset";
+          paths =
+            [ (writeScriptBin default.name resumeOffsetScript) e2fsprogs ];
         };
     };
 }

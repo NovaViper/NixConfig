@@ -1,5 +1,5 @@
-# This file (and the global directory) holds config that i use on all hosts
-{ inputs, outputs, pkgs, ... }:
+# This file (and the global directory) holds config that I use on all hosts
+{ inputs, outputs, pkgs, config, ... }:
 
 {
   imports = [
@@ -8,9 +8,11 @@
     ./locale.nix
     ./nix.nix
     ./filesystem.nix
-    #./gpg.nix # TODO Look at this
-    #./security.nix # TODO Add onto this
-    #./optin-persistence.nix # TODO start on this
+    ./openssh.nix
+    ./gpg.nix
+    #./sops.nix
+    ./security.nix
+    #./optin-persistence.nix # TODO Maybe later, alot more involved than initally thought
   ] ++ (builtins.attrValues outputs.nixosModules);
 
   home-manager.extraSpecialArgs = { inherit inputs outputs; };
@@ -23,20 +25,23 @@
     };
   };
 
-  # Fix for qt6 plugins
-  # TODO: maybe upstream this?
-  /* environment.profileRelativeSessionVariables = {
-       QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
-     };
-  */
-
-  # Install all terminfo outputs
-  environment.enableAllTerminfo = true;
   # Enable use of firmware that allows redistribution
   hardware.enableRedistributableFirmware = true;
 
-  # A Fedora recommendation
-  boot.kernel.sysctl."vm.max_map_count" = 2147483642;
+  # Replace iptables with nftables
+  networking.nftables.enable = true;
+
+  boot = {
+    # A Fedora recommendation: https://fedoraproject.org/wiki/Changes/IncreaseVmMaxMapCount
+    # Good for Windows games running through Wine or Steam
+    kernel.sysctl."vm.max_map_count" = 2147483642;
+
+    # Make NixOS use the latest Linux Kernel
+    kernelPackages = pkgs.linuxPackages_latest;
+
+    # Makes OBS Virtual Camera feature function
+    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+  };
 
   console = {
     earlySetup = true;
@@ -62,17 +67,27 @@
 
   #systemd.services.NetworkManager-wait-online.enable = false;
 
-  # Gets rid of mailddr bug until nixpkg update comes out https://github.com/NixOS/nixpkgs/issues/254807#issuecomment-1722351771
-  boot.swraid.enable = false;
-
   # Enable firmware updates on Linux
   services.fwupd.enable = true;
 
   # Install more packages
-  environment.systemPackages = with pkgs; [
-    pciutils
-    usbutils
-    killall
-    git-crypt
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      pciutils
+      usbutils
+      killall
+      git-crypt
+      smartmontools
+    ];
+
+    # Fix for qt6 plugins
+    # TODO: maybe upstream this?
+    /* profileRelativeSessionVariables = {
+         QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
+       };
+    */
+
+    # Install all terminfo outputs
+    enableAllTerminfo = true;
+  };
 }

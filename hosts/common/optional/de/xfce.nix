@@ -31,6 +31,9 @@
   };
 
   environment.systemPackages = with pkgs; [
+    # General
+    gnome.simple-scan
+
     # XFCE General
     gparted
     dockbarx

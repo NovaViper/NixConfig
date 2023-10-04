@@ -9,17 +9,21 @@
     gamemode.enable = true;
   };
 
-  # Enable Steam hardware compatibility
-  hardware.steam-hardware.enable = true;
+  hardware = {
+    # Enable Steam hardware compatibility
+    steam-hardware.enable = true;
 
+    # Enable OpenGL
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+      extraPackages = with pkgs; [ libva-utils ];
+    };
+  };
   # Allow Minecraft server ports
   networking.firewall.allowedTCPPorts = [ 25565 ];
 
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [ libva-utils ];
-  };
+  # Fixes SteamLink/Remote play crashing
+  environment.systemPackages = with pkgs; [ libcanberra ];
 }

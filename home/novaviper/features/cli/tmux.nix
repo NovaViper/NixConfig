@@ -45,7 +45,7 @@
         set -g renumber-windows on
 
         # Change status bar position
-        set -g status-position top
+        #set -g status-position bottom
 
         # -- keybindings -----------------------------------------------------------------
         # reload config file (change file location to your the tmux.conf you want to use)

@@ -24,4 +24,8 @@
     };
   };
 
+  /* home.persistence = {
+       "/persist/home/novaviper".directories = [ ".config/Cider" ];
+     };
+  */
 }

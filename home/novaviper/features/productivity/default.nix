@@ -9,8 +9,13 @@
   ];
 
   home.packages = with pkgs;
-    [ vlc freecad ]
+    [ vlc freecad openscad ]
     ++ lib.optionals (config.environment.desktop == "kde") [ libreoffice-qt ]
     ++ lib.optionals (config.environment.desktop == "xfce")
     [ libreoffice-fresh ];
+
+  /* home.persistence = {
+       "/persist/home/novaviper".directories = [ ".config/keepassxc" ];
+     };
+  */
 }
