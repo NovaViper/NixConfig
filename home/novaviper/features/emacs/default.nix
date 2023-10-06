@@ -27,6 +27,7 @@
 
   xdg = {
     configFile = {
+      # Doom Emacs
       "doom" = {
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/doom";
@@ -48,6 +49,8 @@
       };
       defaultApplications = {
         "x-scheme-handler/mailto" = "emacs-mail.desktop";
+        "text/plain" = "emacsclient.desktop";
+        "text/richtext" = "emacsclient.desktop";
       };
     };
   };

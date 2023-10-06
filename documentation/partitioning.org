@@ -14,4 +14,4 @@ Execute =nix run .#nixosConfigurations.$HOSTNAME.config.disks-format= to format 
 Execute =nix run .#nixosConfigurations.$HOSTNAME.config.disks-mount= to mount all of the newly created partitions to the live installer
 
 * Get Resume Offset for swapfiles
-Execute =nix run .#nixosConfigurations.$HOSTNAME.config.get-resume-offset= to retrieve the resume-offset needed for the system to find where the swap header is located. This is only needed if you're installing with a swapfile
+Execute =nix run .#nixosConfigurations.$HOSTNAME.config.get-resume-offset= to calculate what the =resume-offset= value should be for the current system. This is required since I'm using swapfiles; the system needs to know where the swap header is on the system's disk. This command can only be ran *AFTER* the installation is complete and the system booted, as the swapfile isn't mounted nor exist in the live image. Once it's ran, you take this value and put it in the =hosts/HOSTNAME/hardware-configuration.nix= file under the =resumeOffset= variable.

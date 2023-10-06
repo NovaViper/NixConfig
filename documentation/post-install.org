@@ -1,0 +1,18 @@
+#+title: Post Installation
+
+* Note
+Some of these steps require an active internet connection! So it is recommended to have a place where you have stable internet before go through these steps.
+
+* Setting up Hibernation
+As mentioned in the [[file:partitioning.org][Partitioning]] guide, the =resume-offset= kernel must be calculated in order for hibernation to work properly with swapfiles. Please refer to the *Get Resume Offset for swapfiles* section in the guide to find what is the system's resume offset.
+
+* App Setup
+Some apps may need additional commands to be ran in order to be fully functional.
+
+** Emacs
+While standard Emacs is installed and can be used as normally (if you remove all instances of doom emacs declared in the feature module for it), I use the framework [[https://github.com/doomemacs/doomemacs][Doom Emacs]]. The declaration for it under =home/USERNAME/features/emacs= already downloads the repo for Doom Emacs, so all one must do is run the following commands
+#+begin_src shell
+sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ~/.emacs.d/bin/org-tangle
+~/.config/emacs/bin/doom install
+#+end_src
+The first command fixes a long-lasting bug that breaks org-tangle. and the second one is the actual installation command for Doom Emacs. This will take a while so be patient! Installing Doom Emacs requires internet connection as it must download many packages!

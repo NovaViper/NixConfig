@@ -78,6 +78,7 @@
       killall
       git-crypt
       smartmontools
+      openssl
     ];
 
     # Fix for qt6 plugins

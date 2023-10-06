@@ -39,10 +39,12 @@
     associations = {
       added = {
         "x-scheme-handler/prusaslicer" = "PrusaSlicerURLProtocol.desktop";
+        "model/stl" = "PrusaSlicer.desktop";
       };
     };
     defaultApplications = {
       "x-scheme-handler/prusaslicer" = "PrusaSlicerURLProtocol.desktop";
+      "model/stl" = "PrusaSlicer.desktop";
     };
   };
 }

@@ -10,12 +10,13 @@
       signByDefault = true;
     };
     extraConfig = {
-      pull = { rebase = true; };
-      fetch = { prune = true; };
-      push = { default = "simple"; };
-      credential = { useHttpPath = true; };
-      difftool = { prompt = true; };
-      diff = { tool = "${pkgs.kdiff3}/bin/kdiff3"; };
+      init.defaultBranch = "main";
+      pull.rebase = true;
+      fetch.prune = true;
+      push.default = "simple";
+      credential.useHttpPath = true;
+      difftool.prompt = true;
+      diff.tool = "${pkgs.kdiff3}/bin/kdiff3";
     };
   };
 

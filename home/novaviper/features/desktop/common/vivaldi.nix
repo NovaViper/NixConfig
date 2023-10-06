@@ -30,9 +30,34 @@
     ];
   };
 
-  # Makes Plasma Browser Integration work properly
-  xdg.configFile."vivaldi/NativeMessagingHosts/org.kde.plasma.browser_integration.json".source =
-    "${pkgs.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
+  xdg = {
+    # Setup file associations
+    mimeApps = {
+      associations = {
+        added = {
+          "application/xhtml+xml" = "vivaldi.desktop";
+          #"text/htmlh" = [ "vivaldi.desktop" ];
+        };
+        removed = {
+          # Force vivaldi to open xhtml+xml files
+          "application/xhtml+xml" = [ "emacsclient.desktop" "writer.desktop" ];
+          #"text/htmlh" = [ "emacsclient.desktop" "writer.desktop" ];
+        };
+      };
+      defaultApplications = {
+        "application/xhtml+xml" = [ "vivaldi.desktop" ];
+        "text/html" = [ "vivaldi.desktop" ];
+        "text/xml" = [ "vivaldi.desktop" ];
+        #"text/htmlh" = [ "vivaldi.desktop" ];
+        "x-scheme-handler/http" = [ "vivaldi.desktop" ];
+        "x-scheme-handler/https" = [ "vivaldi.desktop" ];
+      };
+    };
+
+    # Makes Plasma Browser Integration work properly
+    configFile."vivaldi/NativeMessagingHosts/org.kde.plasma.browser_integration.json".source =
+      "${pkgs.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
+  };
 
   /* home.persistence = {
        "/persist/home/novaviper".directories = [ ".config/vivaldi" ];

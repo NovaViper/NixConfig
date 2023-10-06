@@ -19,7 +19,7 @@
     plasma5.excludePackages = with pkgs.libsForQt5; [ elisa ];
     systemPackages = with pkgs; [
       # Apps
-      kate
+      #kate
       ktorrent
       krename
       kdiff3
