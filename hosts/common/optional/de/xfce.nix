@@ -3,6 +3,9 @@
 {
   imports = [ ./global.nix ];
 
+  # Special Variables
+  variables.desktop.environment = "xfce";
+
   services = {
     # Enable blueman if bluetooth is enabled
     blueman.enable = lib.mkDefault config.hardware.bluetooth.enable;

@@ -19,9 +19,7 @@ let
 in {
   imports = [
     inputs.hardware.nixosModules.common-cpu-intel
-    inputs.hardware.nixosModules.common-pc-laptop
     inputs.hardware.nixosModules.common-pc-ssd
-    #inputs.hardware.nixosModules.common-pc-laptop-acpi_call
     inputs.hardware.nixosModules.common-hidpi
 
     ./hardware-configuration.nix
@@ -35,6 +33,7 @@ in {
     ../common/optional/syncthing.nix
     ../common/optional/tailscale.nix
     ../common/optional/flatpak.nix
+    ../common/optional/appimage.nix
     ../common/optional/gaming.nix
     ../common/optional/theme.nix
     ../common/optional/quietboot.nix
@@ -66,12 +65,17 @@ in {
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
-  hardware = {
-    # Enable bluetooth
-    bluetooth.enable = true;
-    # Automatic screen orentiation
-    sensor.iio.enable = true;
-  };
+  ### Special Variables
+  variables.useVR = false;
+  #variables.machine.gpu = "nvidia";
+  variables.desktop.useWayland = true;
+  variables.machine.motherboard = "intel";
+  variables.machine.buildType = "laptop";
+  #variables.machine.lowSpec = true;
+  ###
+
+  # Enable bluetooth
+  hardware.bluetooth.enable = true;
 
   services = {
     # Fingerprint reader: login and unlock with fingerprint (if you add one with `fprintd-enroll`)
@@ -88,15 +92,6 @@ in {
     # Enable Thunderbolt
     hardware.bolt.enable = true;
 
-    xserver = {
-      # Enable Wacom touch drivers
-      wacom.enable = lib.mkDefault config.services.xserver.enable;
-      # Force KDE to use Wayland, works much better for the laptop
-      displayManager =
-        lib.mkIf (config.services.xserver.desktopManager.plasma5.enable) {
-          defaultSession = "plasmawayland";
-        };
-    };
     # Set IR blaster device
     linux-enable-ir-emitter.device = "video2";
 
@@ -114,11 +109,6 @@ in {
          };
       */
     };
-  };
-
-  environment = {
-    # Add virtual keyboard for touchscreen
-    systemPackages = with pkgs; [ maliit-keyboard ];
   };
 
   # Apply configs

@@ -12,11 +12,11 @@
      };
 
      qt = lib.mkMerge [
-       (lib.mkIf (config.environment.desktop == "kde") {
+       (lib.mkIf (config.variables.desktop.environment == "kde") {
          enable = true;
          platformTheme = "kde";
        })
-       (lib.mkIf (config.environment.desktop == "xfce") {
+       (lib.mkIf (config.variables.desktop,environment == "xfce") {
          enable = true;
          platformTheme = "qtct";
          style = {

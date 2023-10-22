@@ -3,7 +3,7 @@
 let inherit (inputs.nix-colors) colorSchemes;
 in {
   imports = [
-    inputs.impermanence.nixosModules.home-manager.impermanence
+    #inputs.impermanence.nixosModules.home-manager.impermanence
     inputs.nix-colors.homeManagerModule
     inputs.plasma-manager.homeManagerModules.plasma-manager
     ../features/cli
@@ -46,7 +46,6 @@ in {
       #FLAKE = "/etc/nixos/nixos-config";
       #CARGO_HOME = "${config.xdg.dataHome}/cargo";
     };
-
     /* persistence = {
          "/persist/home/novaviper" = {
            directories = [

@@ -15,7 +15,7 @@
 
   home.packages = with pkgs; [ keepassxc krita libsForQt5.tokodon ];
 
-  programs.plasma = lib.mkIf (config.environment.desktop == "kde") {
+  programs.plasma = lib.mkIf (config.variables.desktop.environment == "kde") {
     configFile = {
       kcminputrc."Libinput.1739.52992.SYNACF00:00 06CB:CF00 Touchpad" = {
         TapToClick = true;

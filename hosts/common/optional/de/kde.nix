@@ -3,6 +3,9 @@
 {
   imports = [ ./global.nix ];
 
+  # Special Variables
+  variables.desktop.environment = "kde";
+
   # Enable the KDE Plasma Desktop Environment.
   services.xserver = {
     displayManager.sddm.enable = true;

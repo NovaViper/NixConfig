@@ -3,6 +3,9 @@ let
   ifTheyExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in {
+  # Special Variables
+  variables.username = "novaviper";
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.novaviper = {
     isNormalUser = true;
@@ -17,7 +20,7 @@ in {
   };
 
   services.syncthing = lib.mkIf (config.services.syncthing.enable) {
-    user = lib.mkForce "novaviper";
+    user = lib.mkForce config.variables.username;
   };
 
   /* sops.secrets.novaviper-password = {

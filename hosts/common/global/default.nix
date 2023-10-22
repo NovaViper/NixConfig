@@ -83,12 +83,8 @@
 
     # Fix for qt6 plugins
     # TODO: maybe upstream this?
-    /* profileRelativeSessionVariables = {
-         QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
-       };
-    */
-
-    # Install all terminfo outputs
-    enableAllTerminfo = true;
+    profileRelativeSessionVariables = {
+      QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
+    };
   };
 }

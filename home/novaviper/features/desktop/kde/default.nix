@@ -3,7 +3,7 @@
 {
   imports = [ ../common ];
 
-  environment.desktop = "kde";
+  variables.desktop.environment = "kde";
 
   xdg.mimeApps = {
     associations = {

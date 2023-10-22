@@ -30,6 +30,11 @@
      };
   */
 
+  xdg.mimeApps = {
+    defaultApplications."x-scheme-handler/steam" = "steam.desktop";
+    associations.added."x-scheme-handler/steam" = "steam.desktop";
+  };
+
   programs.mangohud = {
     enable = true;
     settings = {

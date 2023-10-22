@@ -1,6 +1,6 @@
 { inputs, config, pkgs, ... }:
 let
-  desktop = config.environment.desktop;
+  desktop = config.variables.desktop.environment;
 
   pinentry = if (desktop == "kde") then {
     name = "qt";

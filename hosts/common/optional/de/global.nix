@@ -4,6 +4,7 @@
   # Enable desktop integration
   xdg.portal = {
     enable = true;
+    xdgOpenUsePortal = true;
     wlr.enable = true;
     extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
   };
@@ -53,6 +54,10 @@
       # for a WiFi printer
       openFirewall = true;
     };
+
+    # Replace power-profile-daemon with tlp since it's no longer maintained
+    #power-profiles-daemon.enable = lib.mkForce false;
+    #tlp.enable = lib.mkForce true;
   };
 
   hardware = {
@@ -79,6 +84,7 @@
     systemPackages = with pkgs; [
       # Audio
       pavucontrol
+      pulseaudio
 
       # X11
       libnotify
@@ -90,6 +96,9 @@
 
       # Printers
       hplipWithPlugin
+
+      # Enable guestures for touchpad
+      libinput-gestures
     ];
   };
 }

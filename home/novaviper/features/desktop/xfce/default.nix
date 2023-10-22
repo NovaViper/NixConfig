@@ -3,7 +3,7 @@
 {
   imports = [ ../common ];
 
-  environment.desktop = "xfce";
+  variables.desktop.environment = "xfce";
 
   #xfconf.settings = {};
 

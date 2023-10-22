@@ -10,8 +10,9 @@
 
   home.packages = with pkgs;
     [ vlc freecad openscad ]
-    ++ lib.optionals (config.environment.desktop == "kde") [ libreoffice-qt ]
-    ++ lib.optionals (config.environment.desktop == "xfce")
+    ++ lib.optionals (config.variables.desktop.environment == "kde")
+    [ libreoffice-qt ]
+    ++ lib.optionals (config.variables.desktop.environment == "xfce")
     [ libreoffice-fresh ];
 
   /* home.persistence = {

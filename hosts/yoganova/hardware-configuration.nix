@@ -4,9 +4,9 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  mainPart = "/dev/disk/by-uuid/18126378-895a-4f23-a33d-2d7eec465e64";
-  bootPart = "/dev/disk/by-uuid/4C8B-EE1C";
-  resumeOffset = "53626880";
+  mainPart = "/dev/disk/by-uuid/f402bc6a-38cc-402a-82f6-3f8fdd6e4c49";
+  bootPart = "/dev/disk/by-uuid/9B30-918B";
+  resumeOffset = "12550144";
 in {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -20,14 +20,19 @@ in {
     initrd = {
       availableKernelModules =
         [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "sdhci_pci" ];
-      kernelModules = [ ];
+      kernelModules = [ "ideapad_laptop" ];
     };
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
 
     # Swapfile hibernate
     resumeDevice = "${mainPart}";
-    kernelParams = [ "resume_offset=${resumeOffset}" ];
+    # mem_sleep and pcie_aspm policy changes provide much better energy savings
+    kernelParams = [
+      "resume_offset=${resumeOffset}"
+      #"mem_sleep_default=deep"
+      #"pcie_aspm.policy=powersupersave"
+    ];
   };
 
   fileSystems = {

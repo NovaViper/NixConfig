@@ -3,5 +3,5 @@
 {
   # List your module files here
   # my-module = import ./my-module.nix;
-  envpick = import ./envpick.nix;
+  user-vars = import ./user-vars.nix;
 }

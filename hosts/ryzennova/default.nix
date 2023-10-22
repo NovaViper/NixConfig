@@ -36,9 +36,10 @@ in {
     ../common/optional/syncthing.nix
     ../common/optional/tailscale.nix
     ../common/optional/flatpak.nix
+    ../common/optional/appimage.nix
     ../common/optional/gaming.nix
     ../common/optional/theme.nix
-    #../common/optional/quietboot.nix
+    ../common/optional/quietboot.nix
     ../common/optional/sunshine-server.nix
     #../common/optional/sunshine-client.nix
     ../common/optional/rgb.nix
@@ -67,6 +68,15 @@ in {
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
+  ### Special Variables
+  variables.useVR = true;
+  #variables.machine.gpu = "nvidia";
+  variables.desktop.useWayland = false;
+  variables.machine.motherboard = "amd";
+  variables.machine.buildType = "desktop";
+  #variables.machine.lowSpec = false;
+  ###
+
   hardware = {
     # Enable bluetooth
     bluetooth.enable = true;
@@ -75,25 +85,25 @@ in {
       powerManagement.enable = true;
       modesetting.enable = true;
       open = false;
-      nvidiaSettings = true;
+      nvidiaSettings = config.services.xserver.enable;
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
   };
+
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   environment = {
     systemPackages = with pkgs; [ gwe ];
     sessionVariables = { LIBVA_DRIVER_NAME = "nvidia"; };
   };
 
-  system.activationScripts.makeOpenRGBSettings = ''
-    mkdir -p /var/lib/OpenRGB/plugins/settings/effect-profiles
+  system.activationScripts =
+    lib.mkIf (config.services.hardware.openrgb.enable) {
+      makeOpenRGBSettings = ''
+        mkdir -p /var/lib/OpenRGB/plugins/settings/effect-profiles
 
-    cp ${configFile} /var/lib/OpenRGB/OpenRGB.json
-  '';
-
-  services = {
-    xserver.videoDrivers = [ "nvidia" ];
-    hardware.openrgb.motherboard = lib.mkDefault "amd";
-  };
+        cp ${configFile} /var/lib/OpenRGB/OpenRGB.json
+      '';
+    };
 }
