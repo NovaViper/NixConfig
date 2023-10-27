@@ -35,10 +35,10 @@ Here's an overview of the repo's file structure:
     - =global=: Configurations that are globally applied to all my machines.
     - =optional=: Opt-in configurations my machines can use.
     - =users=: Configurations for each system on the machines
-  - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 GB | KDE Plasma X11
+  - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma X11
   - =yoganova=: Lenovo Yoga 7i - 8GB RAM, Intel i5 1335U | KDE Plasma Wayland
 - =home=: My Home-manager configuration, accessible via =home-manager --flake=
-  - Each directory here is a "feature" each HM configuration can toggle, thus customizing my setup for each machine
+  - Each directory here is a "feature" each HM configuration can toggle, thus customizing each machine with configurations for the specific user
 - =modules=: Custom modules that aren't available in nixpkgs. Can be nixos or home-manager modules
 - =overlay=: Patches and version overrides for some packages. Accessible via =nix build=.
 - =pkgs=: Custom nix packages defined similarly to nixpkg ones. Also accessible via =nix build=. You can compose these into your own configuration by using my flake's overlay, or consume them through NUR.

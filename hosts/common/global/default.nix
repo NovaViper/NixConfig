@@ -28,9 +28,6 @@
   # Enable use of firmware that allows redistribution
   hardware.enableRedistributableFirmware = true;
 
-  # Replace iptables with nftables
-  networking.nftables.enable = true;
-
   boot = {
     # A Fedora recommendation: https://fedoraproject.org/wiki/Changes/IncreaseVmMaxMapCount
     # Good for Windows games running through Wine or Steam

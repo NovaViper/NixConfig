@@ -26,7 +26,7 @@
 
   # Fixes SteamLink/Remote play crashing, add packages necessary for VR
   environment.systemPackages = with pkgs;
-    [ libcanberra ] ++ lib.optionals (config.variables.useVR) [
+    [ libcanberra protonup-qt ] ++ lib.optionals (config.variables.useVR) [
       android-tools
       android-udev-rules
       sidequest
@@ -44,4 +44,5 @@
     defaultApplications."x-scheme-handler/steam" = "steam.desktop";
     addedAssociations."x-scheme-handler/steam" = "steam.desktop";
   };
+
 }

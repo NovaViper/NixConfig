@@ -9,7 +9,7 @@
   ];
 
   home.packages = with pkgs;
-    [ vlc freecad openscad ]
+    [ vlc openscad ]
     ++ lib.optionals (config.variables.desktop.environment == "kde")
     [ libreoffice-qt ]
     ++ lib.optionals (config.variables.desktop.environment == "xfce")

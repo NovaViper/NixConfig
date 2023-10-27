@@ -8,7 +8,6 @@
     ./features/emacs
     ./features/productivity
     ./features/virt-manager
-    #./features/vnc TODO: Work on remote desktop
   ];
 
   colorscheme = inputs.nix-colors.colorSchemes.dracula;

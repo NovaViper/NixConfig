@@ -3,16 +3,20 @@
 * Note
 Some of these steps require an active internet connection! So it is recommended to have a place where you have stable internet before go through these steps.
 
-* Setting up Hibernation
-As mentioned in the [[file:partitioning.org][Partitioning]] guide, the =resume-offset= kernel must be calculated in order for hibernation to work properly with swapfiles. Please refer to the *Get Resume Offset for swapfiles* section in the guide to find what is the system's resume offset.
-
 * App Setup
 Some apps may need additional commands to be ran in order to be fully functional.
 
 ** Emacs
-While standard Emacs is installed and can be used as normally (if you remove all instances of doom emacs declared in the feature module for it), I use the framework [[https://github.com/doomemacs/doomemacs][Doom Emacs]]. The declaration for it under =home/USERNAME/features/emacs= already downloads the repo for Doom Emacs, so all one must do is run the following commands
+*NOTE*: I also have included some ZSH aliases for managing Doom Emacs:
+- =doom-download= - Downloads the Doom Emacs Github repo
+- =doom-fix= - Fixes a long-standing bug that breaks org-tangle
+- =doom-upgrade= - Resets the local repo and runs the standard =doom update= command and then reapplies the org-tangle fix
+- =doom-org-tangle= - Easily run =emacs/bin/org-tangle= to tangle the config.org file for Doom Emacs (use only if you have a literate configuration similar to the one I use)
+- =doom-config-reload= - Creates the Doom Emacs files from the literate config file, runs =doom sync= to sync the changes made from the config, and then reloads the systemd service for Emacs (since I use emacsclient and its activated with systemd)
+
+While standard Emacs is installed and can be used as normally (if you remove all instances of doom emacs declared in the feature module for it), I use the framework [[https://github.com/doomemacs/doomemacs][Doom Emacs]]. +The declaration for it under =home/USERNAME/features/emacs= already downloads the repo for Doom Emacs, so all one must do is run the following commands+ This is actually isn't the case for installation of NixOS from the official ISOs. This is because Home Manager isn't immediately activated (which is what the declaration depends on), so you have to download the Doom Emacs git repo with =git clone --depth 1 https://github.com/doomemacs/doomemacs ~/.config/emacs= first; then after it downloads you run the following commands:
 #+begin_src shell
-sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ~/.emacs.d/bin/org-tangle
+sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ~/.config/emacs/bin/org-tangle
 ~/.config/emacs/bin/doom install
 #+end_src
-The first command fixes a long-lasting bug that breaks org-tangle. and the second one is the actual installation command for Doom Emacs. This will take a while so be patient! Installing Doom Emacs requires internet connection as it must download many packages!
+The first command fixes a long-standing bug that breaks org-tangle. and the second one is the actual installation command for Doom Emacs. This will take a while so be patient! Installing Doom Emacs requires internet connection as it must download many packages!
