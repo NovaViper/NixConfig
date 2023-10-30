@@ -14,11 +14,22 @@ in {
         Keeps track of the name of your user, useful for looking up the username for other settings in the flake.
       '';
     };
+
     useVR = mkOption {
       type = types.bool;
       #default = false;
+      example = "false";
       description = ''
         Install necessary fixes to make SteamVR work on the system..
+      '';
+    };
+
+    useKonsole = mkOption {
+      type = types.bool;
+      #default = false;
+      example = "false";
+      description = ''
+        Install KDE's Konsole and Yakuake applications and include configuration files
       '';
     };
 
@@ -78,6 +89,24 @@ in {
         message =
           "You need to enable Steam, since all of the necessary libraries are bundled with Steam";
       }];
+    })
+
+    # Remove Konsole if 'useKonsole is NOT enabled (only for KDE since it's already included)'
+    (mkIf (cfg.desktop.environment == "kde") {
+      environment = {
+        systemPackages = with pkgs;
+          lib.mkIf cfg.useKonsole [ libsForQt5.yakuake ];
+        plasma5 = mkIf (!cfg.useKonsole) {
+          excludePackages = with pkgs.libsForQt5; [ konsole ];
+        };
+      };
+    })
+
+    # Download Konsole if `useKonsole` is used on a DE that DOESN'T include Konsole (like KDE)
+    (mkIf (cfg.useKonsole) {
+      environment = mkIf (!cfg.desktop.environment == "kde") {
+        systemPackages = with pkgs.libsForQt5; [ konsole ];
+      };
     })
 
     (mkIf cfg.desktop.useWayland {

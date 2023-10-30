@@ -3,7 +3,7 @@ with lib;
 
 let
   inherit (lib) mkOption types;
-  cfg = config.environment.desktop;
+  cfg = config.variables;
 in {
   options.variables = {
     desktop = {
@@ -27,6 +27,16 @@ in {
         '';
       };
     };
+
+    useKonsole = mkOption {
+      type = types.bool;
+      #default = false;
+      example = "false";
+      description = ''
+        Install KDE's Konsole and Yakuake applications and include configuration files
+      '';
+    };
+
   };
 
   /* config = mkMerge [

@@ -13,6 +13,7 @@
     ./nix-index.nix
     #./shellcolor.nix
     ./tmux.nix
+    ./cava.nix
   ];
 
   #programs.command-not-found.enable = true;

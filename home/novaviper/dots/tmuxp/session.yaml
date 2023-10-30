@@ -7,4 +7,5 @@ windows:
           -
         focus: true
       -
-      - cmatrix -ba -u 3 -C blue
+      - cava
+      #- cmatrix -ba -u 3 -C blue

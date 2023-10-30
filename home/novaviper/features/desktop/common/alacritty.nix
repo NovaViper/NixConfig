@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
 {
-
   xdg.configFile."alacritty/themes/dracula.yml".source =
     ../../../dots/alacritty/dracula.yml;
 
@@ -10,7 +9,7 @@
     settings = {
       import = [ "${config.xdg.configHome}/alacritty/themes/dracula.yml" ];
       env = {
-        TERM = "xterm-direct256";
+        TERM = "xterm-256color";
         COLORTERM = "truecolor";
         WINIT_X11_SCALE_FACTOR = "1";
       };
@@ -257,11 +256,13 @@
     associations = {
       added = {
         "mimetype" = "alacritty.desktop";
+        "application/x-terminal-emulator" = "alacritty.desktop";
         "x-terminal-emulator" = "alacritty.desktop";
       };
     };
     defaultApplications = {
       "mimetype" = "alacritty.desktop";
+      "application/x-terminal-emulator" = "alacritty.desktop";
       "x-terminal-emulator" = "alacritty.desktop";
     };
   };

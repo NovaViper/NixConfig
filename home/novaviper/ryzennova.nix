@@ -10,7 +10,9 @@
     ./features/virt-manager
   ];
 
-  colorscheme = inputs.nix-colors.colorSchemes.dracula;
+  ### Special Variables
+  variables.useKonsole = false;
+  ###
 
   home.packages = with pkgs; [ keepassxc krita libsForQt5.tokodon ];
 }

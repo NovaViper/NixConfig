@@ -16,8 +16,8 @@
       mouse = true;
       escapeTime = 0;
       prefix = "C-a";
-      terminal = "xterm-direct256";
-      shell = "${pkgs.zsh}/bin/zsh";
+      terminal = "xterm-256color";
+      #shell = "${pkgs.zsh}/bin/zsh";
       #newSession = true;
       #secureSocket = false;
       resizeAmount = 15;

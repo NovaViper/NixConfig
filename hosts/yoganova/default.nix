@@ -67,6 +67,7 @@ in {
 
   ### Special Variables
   variables.useVR = false;
+  variables.useKonsole = false;
   #variables.machine.gpu = "nvidia";
   variables.desktop.useWayland = true;
   variables.machine.motherboard = "intel";

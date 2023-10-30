@@ -1,10 +1,8 @@
 { inputs, lib, pkgs, config, outputs, ... }:
 
-let inherit (inputs.nix-colors) colorSchemes;
-in {
+{
   imports = [
     #inputs.impermanence.nixosModules.home-manager.impermanence
-    inputs.nix-colors.homeManagerModule
     inputs.plasma-manager.homeManagerModules.plasma-manager
     ../features/cli
     ../features/nvim
@@ -68,8 +66,6 @@ in {
     enable = true;
     userDirs.enable = true;
     userDirs.createDirectories = true;
+    mimeApps.enable = true;
   };
-
-  colorscheme = lib.mkDefault colorSchemes.dracula;
-  home.file.".colorscheme".text = config.colorscheme.slug;
 }

@@ -1,7 +1,4 @@
-{ config, lib, pkgs, ... }:
-let color = pkgs.writeText "color.vim" (import ./theme.nix config.colorscheme);
-in {
-  #imports = [];
+{ config, lib, pkgs, ... }: {
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -19,14 +16,23 @@ in {
           set termguicolors
         endif
 
-        "Source colorscheme
-        source ${color}
-        "colorscheme dracula
+        "Enable Dracula theme
+        colorscheme dracula
+
+        "Configure lualine
+        lua << END
+        require('lualine').setup {
+          options = {
+            theme = 'dracula-nvim',
+          }
+        }
+        END
       '';
     plugins = with pkgs.vimPlugins; [
       dracula-nvim
       vim-tmux-clipboard
       clipboard-image-nvim
+      lualine-nvim
     ];
   };
 

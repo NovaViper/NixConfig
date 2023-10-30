@@ -7,7 +7,7 @@ CursorShape=0
 
 [General]
 Command=/run/current-system/sw/bin/zsh
-Environment=TERM=xterm-direct256,COLORTERM=truecolor,WINIT_X11_SCALE_FACTOR=1
+Environment=TERM=xterm-256color,COLORTERM=truecolor,WINIT_X11_SCALE_FACTOR=1
 Name=MyProfile
 Parent=FALLBACK/
 SemanticInputClick=false

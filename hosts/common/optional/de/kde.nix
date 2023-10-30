@@ -34,7 +34,6 @@
       libsForQt5.plasma-welcome # Welcome screen
       libsForQt5.plasma-vault
       libsForQt5.plasma-disks
-      libsForQt5.yakuake
 
       # Libraries/Utilities
       clinfo # for kinfocenter for OpenCL page

@@ -11,6 +11,9 @@
     ./vivaldi.nix
     ./backup.nix
     #./alacritty.nix
+    ./wezterm.nix
+    #./rio.nix
+    #./kitty.nix
   ];
 
   home.sessionVariables.GTK_USE_PORTAL = "1";

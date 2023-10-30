@@ -1,4 +1,4 @@
-{ config, pkgs, dotfilesLib, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   imports = [ ../common ];
@@ -21,32 +21,38 @@
     "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/misc/kdiff3rc";
 
   # Konsole settings
-  xdg.dataFile."konsole" = {
+  xdg.dataFile = lib.mkIf config.variables.useKonsole {
+    "konsole" = {
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/konsole";
+      recursive = true;
+    };
+
+    # Dolphin settings
+    "kxmlgui5/dolphin/dolphinui.rc".source = config.lib.file.mkOutOfStoreSymlink
+      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
+
+    # Yakuake settings
+    "yakuake/skins/Dracula".source = fetchGit {
+      url = "https://github.com/dracula/yakuake";
+      rev = "591a705898763167dd5aca2289d170f91a85aa56";
+    };
+  };
+
+  xdg.configFile."yakuakerc" = lib.mkIf config.variables.useKonsole {
     source = config.lib.file.mkOutOfStoreSymlink
-      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/konsole";
-    recursive = true;
+      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/yakuake/yakuakerc";
   };
-
-  # Dolphin settings
-  xdg.dataFile."kxmlgui5/dolphin/dolphinui.rc".source =
-    config.lib.file.mkOutOfStoreSymlink
-    "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
-
-  # Yakuake settings
-  xdg.dataFile."yakuake/skins/Dracula".source = fetchGit {
-    url = "https://github.com/dracula/yakuake";
-    rev = "591a705898763167dd5aca2289d170f91a85aa56";
-  };
-
-  xdg.configFile."yakuakerc".source = config.lib.file.mkOutOfStoreSymlink
-    "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/yakuake/yakuakerc";
 
   programs.plasma = {
     enable = true;
     workspace.clickItemTo = "select";
-    shortcuts.yakuake.toggle-window-state = "F12";
+    shortcuts.yakuake =
+      lib.mkIf config.variables.useKonsole { toggle-window-state = "F12"; };
     configFile = {
-      kglobalshortcutsrc.yakuake."_k_friendly_name" = "Yakuake";
+      kglobalshortcutsrc.yakuake = lib.mkIf config.variables.useKonsole {
+        "_k_friendly_name" = "Yakuake";
+      };
       kwinrc.NightColor.Active = true;
       kcminputrc.Mouse.cursorTheme = "Dracula-cursors";
     };
@@ -91,5 +97,4 @@
        };
      };
   */
-
 }

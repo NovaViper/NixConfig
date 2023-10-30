@@ -1,4 +1,4 @@
-{ config, lib, pkgs, dotfilesLib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   xdg.configFile = {

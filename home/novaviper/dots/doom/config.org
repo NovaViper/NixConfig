@@ -35,7 +35,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#window-splitting][Window Splitting]]
     - [[#global-auto-revert][Global Auto Revert]]
     - [[#enable-auto-save-and-backup][Enable Auto Save and Backup]]
-    - [[#enable-tmux-integration][Enable tmux integration]]
+    - [[#enable-tmux-integration][Enable Tmux Integration]]
     - [[#centaur-tabs][Centaur Tabs]]
   - [[#gpg-encryption-and-password-configuration][GPG Encryption and Password Configuration]]
   - [[#key-bindings][Key Bindings]]
@@ -264,7 +264,7 @@ This code is written to ~init.el~ to select which modules to load.
        unicode           ; extended unicode support for various languages
        (vc-gutter +pretty) ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       ;;window-select     ; visually switch windows
+       (window-select +numbers)     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        ;;zen               ; distraction-free coding or writing
 
@@ -275,7 +275,7 @@ This code is written to ~init.el~ to select which modules to load.
        (format +onsave)  ; automated prettiness
        ;;god               ; run Emacs commands without modifier keys
        ;;lispy             ; vim for lisp, for people who don't like vim
-       ;;multiple-cursors  ; editing in many places at once
+       multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
        parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
@@ -471,7 +471,7 @@ Fixes infinite loop issue with Emojify downloading not working and going into in
 
 ** Visual, Session, and Window Settings
 *** Font setup
-Makes my fonts larger, depending on what system it's on. Yadm automatically picks the machine specific configurations and renames the files into ~fonts.el~. Use the mixed-pitch package to make monospace fonts appear correctly for code blocks, tables and such in Org mode. The ~nova/org-font-setup~ function configures various text faces to tweak the sizes of headings and makes list hyphens with dots.
+Makes my fonts larger, depending on what system it's on. The =fonts.el= file automatically picks the specific font layout for each machine. Use the mixed-pitch package to make monospace fonts appear correctly for code blocks, tables and such in Org mode. The ~nova/org-font-setup~ function configures various text faces to tweak the sizes of headings and makes list hyphens with dots.
 #+begin_src emacs-lisp
 (load (concat doom_directory "fonts.el"))
 
@@ -495,7 +495,20 @@ Makes my fonts larger, depending on what system it's on. Yadm automatically pick
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font org-mode-font :weight 'bold :height (cdr face))))
+    (set-face-attribute (car face) nil :font org-mode-font :weight 'bold :height (cdr face)))
+
+  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
+  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
 #+end_src
 
 *** Line Number Modes
@@ -591,7 +604,7 @@ Re-enable auto-save, creation of lock files, and backup files
 (setq make-backup-files t)
 #+end_src
 
-*** Enable tmux integration
+*** Enable Tmux Integration
 #+begin_src emacs-lisp
 (use-package! clipetty
   :ensure t
