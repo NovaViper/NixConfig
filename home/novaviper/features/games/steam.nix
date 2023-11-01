@@ -30,9 +30,15 @@
      };
   */
 
-  xdg.mimeApps = {
-    defaultApplications."x-scheme-handler/steam" = "steam.desktop";
-    associations.added."x-scheme-handler/steam" = "steam.desktop";
+  xdg = {
+    mimeApps = {
+      defaultApplications."x-scheme-handler/steam" = "steam.desktop";
+      associations.added."x-scheme-handler/steam" = "steam.desktop";
+    };
+
+    configFile."alvr/session.json".source =
+      lib.mkIf (config.variables.useVR) config.lib.file.mkOutOfStoreSymlink
+      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/alvr/session.json";
   };
 
   programs.mangohud = {

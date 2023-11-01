@@ -12,6 +12,7 @@
 
   ### Special Variables
   variables.useKonsole = false;
+  variables.machine.gpu = "nvidia";
   ###
 
   home.packages = with pkgs; [ keepassxc krita libsForQt5.tokodon ];

@@ -20,7 +20,7 @@ in {
       #default = false;
       example = "false";
       description = ''
-        Install necessary fixes to make SteamVR work on the system..
+        Install necessary fixes to make SteamVR work on the system.
       '';
     };
 
@@ -59,7 +59,7 @@ in {
         #default = "";
         example = "desktop";
         description = ''
-          Type of machine the computer is Available values are desktop, laptop, and server
+          Type of machine the computer is. Available values are desktop, laptop, and server
         '';
       };
       motherboard = mkOption {
@@ -68,6 +68,14 @@ in {
         example = "intel";
         description = ''
           Motherboard platform that the computer is using.
+        '';
+      };
+      gpu = mkOption {
+        type = types.nullOr (types.enum [ "nvidia" "intel" "amd" ]);
+        #default = "";
+        example = "desktop";
+        description = ''
+          Type of gpu the the computer is running. Available values are nvidia, intel, and amd
         '';
       };
     };

@@ -32,6 +32,7 @@ in {
     ../common/optional/de/kde.nix
     ../common/optional/syncthing.nix
     ../common/optional/tailscale.nix
+    ../common/optional/localsend.nix
     ../common/optional/flatpak.nix
     ../common/optional/appimage.nix
     ../common/optional/gaming.nix
@@ -68,7 +69,7 @@ in {
   ### Special Variables
   variables.useVR = false;
   variables.useKonsole = false;
-  #variables.machine.gpu = "nvidia";
+  variables.machine.gpu = "intel";
   variables.desktop.useWayland = true;
   variables.machine.motherboard = "intel";
   variables.machine.buildType = "laptop";

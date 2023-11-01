@@ -1,34 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
-  # Enable desktop integration
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    wlr.enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
-  };
 
-  # Enable ALSA sound
-  sound.enable = true;
-  # Enable the RealtimeKit system service
-  security.rtkit.enable = true;
+  imports = [ ../pipewire.nix ../printing.nix ../xdg.nix ];
 
   services = {
-    # Enable Pipewire
-    pipewire = {
-      enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
-      pulse.enable = true;
-      # If you want to use JACK applications, uncomment this
-      #jack.enable = true;
-
-      # use the example session manager (no others are packaged yet so this is enabled by default,
-      # no need to redefine it in your config for now)
-      #media-session.enable = true;
-    };
-
     # Enable the X11 windowing system.
     xserver = {
       enable = true;
@@ -43,31 +19,9 @@
       excludePackages = with pkgs; [ xterm ];
     };
 
-    # Printer Setup
-    printing = {
-      enable = true;
-      drivers = with pkgs; [ hplipWithPlugin ];
-    };
-    avahi = {
-      enable = true;
-      nssmdns = true;
-      # for a WiFi printer
-      openFirewall = true;
-    };
-
     # Replace power-profile-daemon with tlp since it's no longer maintained
     #power-profiles-daemon.enable = lib.mkForce false;
     #tlp.enable = lib.mkForce true;
-  };
-
-  hardware = {
-    # Disable PulseAudio
-    pulseaudio.enable = false;
-    # Scanner Setup
-    sane = {
-      enable = true;
-      extraBackends = with pkgs; [ sane-airscan hplipWithPlugin ];
-    };
   };
 
   # Enable networking
@@ -82,10 +36,6 @@
   environment = {
     sessionVariables.NIXOS_OZONE_WL = "1";
     systemPackages = with pkgs; [
-      # Audio
-      pavucontrol
-      pulseaudio
-
       # X11
       libnotify
       xorg.xkbutils
@@ -93,9 +43,6 @@
 
       #PDF
       poppler
-
-      # Printers
-      hplipWithPlugin
 
       # Enable guestures for touchpad
       libinput-gestures

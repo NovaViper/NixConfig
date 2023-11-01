@@ -44,7 +44,6 @@
         tab_bar_at_bottom = true,
         status_update_interval = 1000,
         use_fancy_tab_bar = false,
-        window_decorations = "RESIZE",
         window_background_opacity = 0.9,
 
         -- Dim inactive panes
