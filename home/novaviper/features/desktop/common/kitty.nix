@@ -1,9 +1,27 @@
 { config, lib, pkgs, ... }:
 
 {
-  xdg.configFile = {
-    "kitty/default.conf".source = ../../../dots/kitty/default.conf;
+  xdg = {
+    configFile = {
+      "kitty/default.conf".source = ../../../dots/kitty/default.conf;
+    };
+    mimeApps = {
+      associations = {
+        added = {
+          "mimetype" = "kitty.desktop";
+          "application/x-terminal-emulator" = "kitty.desktop";
+          "x-terminal-emulator" = "kitty.desktop";
+        };
+      };
+      defaultApplications = {
+        "mimetype" = "kitty.desktop";
+        "application/x-terminal-emulator" = "kitty.desktop";
+        "x-terminal-emulator" = "kitty.desktop";
+      };
+    };
   };
+
+  home.sessionVariables.TERMINAL = "kitty";
 
   programs.kitty = {
     enable = true;
@@ -118,22 +136,5 @@
       # }}}
     };
     extraConfig = "";
-  };
-
-  home.sessionVariables.TERMINAL = "kitty";
-
-  xdg.mimeApps = {
-    associations = {
-      added = {
-        "mimetype" = "kitty.desktop";
-        "application/x-terminal-emulator" = "kitty.desktop";
-        "x-terminal-emulator" = "kitty.desktop";
-      };
-    };
-    defaultApplications = {
-      "mimetype" = "kitty.desktop";
-      "application/x-terminal-emulator" = "kitty.desktop";
-      "x-terminal-emulator" = "kitty.desktop";
-    };
   };
 }

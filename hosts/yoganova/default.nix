@@ -29,7 +29,7 @@ in {
     ../common/users/novaviper
 
     ../common/optional/howdy.nix
-    ../common/optional/de/kde.nix
+    ../common/optional/desktop/kde.nix
     ../common/optional/syncthing.nix
     ../common/optional/tailscale.nix
     ../common/optional/localsend.nix

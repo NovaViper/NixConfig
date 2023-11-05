@@ -19,4 +19,10 @@ While standard Emacs is installed and can be used as normally (if you remove all
 sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ~/.config/emacs/bin/org-tangle
 ~/.config/emacs/bin/doom install
 #+end_src
-The first command fixes a long-standing bug that breaks org-tangle. and the second one is the actual installation command for Doom Emacs. This will take a while so be patient! Installing Doom Emacs requires internet connection as it must download many packages!
+The first command fixes a [[https://github.com/doomemacs/doomemacs/issues/6267][long-standing bug]] that breaks org-tangle. and the second one is the actual installation command for Doom Emacs. This will take a while so be patient! Installing Doom Emacs requires internet connection as it must download many packages!
+** SteamVR
+- The vrcompositor for SteamVR requires superuser permissions to function properly, so you must run the following command prior to starting SteamVR:
+#+begin_src shell
+setcap CAP_SYS_NICE+ep ~/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher
+#+end_src
+This command is also included within the activation script under =hosts/common/optional/gaming.nix=. So all that would need to be ran is =home-manager switch --flake $FLAKE= (if using my config directly). This activation script may need to be ran again upon after installation since activation scripts do not function on installation.

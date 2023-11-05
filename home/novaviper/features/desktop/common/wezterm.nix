@@ -1,12 +1,30 @@
 { config, lib, pkgs, ... }:
 
 {
-  xdg.configFile = {
-    "wezterm/keybinds.lua".source = config.lib.file.mkOutOfStoreSymlink
-      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/keybinds.lua";
-    "wezterm/on.lua".source = config.lib.file.mkOutOfStoreSymlink
-      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/on.lua";
+  xdg = {
+    configFile = {
+      "wezterm/keybinds.lua".source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/keybinds.lua";
+      "wezterm/on.lua".source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/on.lua";
+    };
+    mimeApps = {
+      associations = {
+        added = {
+          "mimetype" = "wezterm.desktop";
+          "application/x-terminal-emulator" = "wezterm.desktop";
+          "x-terminal-emulator" = "wezterm.desktop";
+        };
+      };
+      defaultApplications = {
+        "mimetype" = "wezterm.desktop";
+        "application/x-terminal-emulator" = "wezterm.desktop";
+        "x-terminal-emulator" = "wezterm.desktop";
+      };
+    };
   };
+
+  home.sessionVariables.TERMINAL = "wezterm";
 
   programs.wezterm = {
     enable = true;
@@ -52,6 +70,7 @@
           brightness = 0.8,
         },
         leader = { key = "a", mods = "CTRL", timeout_miliseconds = 1000 },
+        front_end = "OpenGL",
         keys = keybinds.default_keybinds,
         key_tables = keybinds.key_tables,
         --mouse_bindings = keybind.mouse_bindings,
@@ -136,23 +155,6 @@
           underline = "None";
         };
       };
-    };
-  };
-
-  home.sessionVariables.TERMINAL = "wezterm";
-
-  xdg.mimeApps = {
-    associations = {
-      added = {
-        "mimetype" = "wezterm.desktop";
-        "application/x-terminal-emulator" = "wezterm.desktop";
-        "x-terminal-emulator" = "wezterm.desktop";
-      };
-    };
-    defaultApplications = {
-      "mimetype" = "wezterm.desktop";
-      "application/x-terminal-emulator" = "wezterm.desktop";
-      "x-terminal-emulator" = "wezterm.desktop";
     };
   };
 }

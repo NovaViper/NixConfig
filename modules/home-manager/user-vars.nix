@@ -14,7 +14,14 @@ in {
         Install necessary fixes to make SteamVR work on the system.
       '';
     };
-
+    useKonsole = mkOption {
+      type = types.bool;
+      #default = false;
+      example = "false";
+      description = ''
+        Install KDE's Konsole and Yakuake applications and include configuration files
+      '';
+    };
     desktop = {
       environment = mkOption {
         type = types.str;
@@ -24,8 +31,15 @@ in {
           Determines what desktop environment you are using, setting this will make the config enable DE specific options.
         '';
       };
+      useWayland = mkOption {
+        type = types.bool;
+        #default = "";
+        example = "false";
+        description = ''
+          Enable Wayland as the default display manager for the system, option toggles various different tweaks depending on the variables.desktop.environment variable
+        '';
+      };
     };
-
     machine = {
       buildType = mkOption {
         type = types.nullOr (types.enum [ "desktop" "laptop" "server" ]);
@@ -43,15 +57,6 @@ in {
           Type of gpu the the computer is running. Available values are nvidia, intel, and amd
         '';
       };
-    };
-
-    useKonsole = mkOption {
-      type = types.bool;
-      #default = false;
-      example = "false";
-      description = ''
-        Install KDE's Konsole and Yakuake applications and include configuration files
-      '';
     };
   };
 

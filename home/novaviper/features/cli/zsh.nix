@@ -16,7 +16,20 @@
       ../../dots/zsh/zsh-syntax-highlighting.sh;
   };
 
-  home.packages = with pkgs; [ wl-clipboard wl-clipboard-x11 ];
+  home.packages = lib.mkMerge [
+    (lib.mkIf config.variables.desktop.useWayland [
+      pkgs.wl-clipboard
+      pkgs.wl-clipboard-x11
+    ])
+
+    (lib.mkIf (!config.variables.desktop.useWayland) [
+      pkgs.xclip
+      pkgs.xsel
+      pkgs.xdotool
+      pkgs.xorg.xwininfo
+      pkgs.xorg.xprop
+    ])
+  ];
 
   services.gpg-agent.enableZshIntegration = true;
 
@@ -79,15 +92,15 @@
         # If not running interactively, don't do anything
         [[ $- != *i* ]] && return
 
-        #if [ -z "$TMUX" ]; then
-        #  ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
-        #  exit
-        #fi
+        if [ -z "$TMUX" ]; then
+          ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
+          exit
+        fi
       '';
 
       initExtra = ''
         # Append extra variables
-        AUTO_NOTIFY_IGNORE+=("yadm" "emacs")
+        AUTO_NOTIFY_IGNORE+=("yadm" "emacs" "nix-shell")
 
         source "$ZDOTDIR/manpages.zshrc"
         source "$ZDOTDIR/.p10k.zsh"
@@ -153,59 +166,69 @@
         # Quickly start Minecraft server
         start-minecraft-server = lib.mkIf (config.programs.mangohud.enable)
           "cd ~/Games/MinecraftServer-1.20.1/ && ./run.sh --nogui && cd || cd";
+        cava = "TERM=xterm-256color cava";
       };
-      antidote = {
-        enable = true;
-        useFriendlyNames = true;
-        plugins = [
-          # Prompts
-          "romkatv/powerlevel10k"
-
-          #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
-          "jeffreytse/zsh-vi-mode"
-
-          # Fish-like Plugins
-          "mattmc3/zfunctions"
-          "Aloxaf/fzf-tab"
-          "MichaelAquilina/zsh-auto-notify"
-
-          # Sudo escape
-          "ohmyzsh/ohmyzsh path:lib"
-          "ohmyzsh/ohmyzsh path:plugins/sudo"
-          #"ohmyzsh/ohmyzsh path:plugins/tmux"
-
-          # Nix stuff
-          "chisui/zsh-nix-shell"
-
-          # Make ZLE use system clipboard
-          "kutsan/zsh-system-clipboard"
-        ];
-      };
-      /* zplug = {
+      /* antidote = {
            enable = true;
-           zplugHome = "${config.xdg.configHome}/zsh/zplug";
+           useFriendlyNames = true;
            plugins = [
-             {
-               name = "romkatv/powerlevel10k";
-               tags = [ "as:theme" "depth:1" ];
-             }
+             # Prompts
+             "romkatv/powerlevel10k"
+
              #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
-             { name = "jeffreytse/zsh-vi-mode"; }
-             { name = "mattmc3/zfunctions"; }
-             { name = "Aloxaf/fzf-tab"; }
-             { name = "MichaelAquilina/zsh-auto-notify"; }
-             {
-               name = "plugins/sudo";
-               tags = [ "from:oh-my-zsh" ];
-             }
-             {
-               name = "plugins/tmux";
-               tags = [ "from:oh-my-zsh" ];
-             }
-             { name = "chisui/zsh-nix-shell"; }
+             "jeffreytse/zsh-vi-mode"
+
+             # Fish-like Plugins
+             "mattmc3/zfunctions"
+             "Aloxaf/fzf-tab"
+             "MichaelAquilina/zsh-auto-notify"
+
+             # Sudo escape
+             "ohmyzsh/ohmyzsh path:lib"
+             "ohmyzsh/ohmyzsh path:plugins/sudo"
+             #"ohmyzsh/ohmyzsh path:plugins/tmux"
+
+             # Nix stuff
+             "chisui/zsh-nix-shell"
+
+             # Make ZLE use system clipboard
+             "kutsan/zsh-system-clipboard"
            ];
          };
       */
+      zplug = {
+        enable = true;
+        zplugHome = "${config.xdg.configHome}/zsh/zplug";
+        plugins = [
+          # Prompts
+          {
+            name = "romkatv/powerlevel10k";
+            tags = [ "as:theme" "depth:1" ];
+          }
+          #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
+          { name = "jeffreytse/zsh-vi-mode"; }
+          { name = "mattmc3/zfunctions"; }
+          { name = "Aloxaf/fzf-tab"; }
+          {
+            name = "MichaelAquilina/zsh-auto-notify";
+          }
+          # Sudo escape
+          {
+            name = "plugins/sudo";
+            tags = [ "from:oh-my-zsh" ];
+          }
+          {
+            name = "plugins/tmux";
+            tags = [ "from:oh-my-zsh" ];
+          }
+          # Nix stuff
+          {
+            name = "chisui/zsh-nix-shell";
+          }
+          # Make ZLE use system clipboard
+          { name = "kutsan/zsh-system-clipboard"; }
+        ];
+      };
     };
     dircolors = {
       enable = true;

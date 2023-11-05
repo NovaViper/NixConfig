@@ -5,43 +5,52 @@
 
   variables.desktop.environment = "kde";
 
-  xdg.mimeApps = {
-    associations = {
-      added = {
+  xdg = {
+    mimeApps = {
+      associations = {
+        added = {
+          "x-scheme-handler/tel" = [ "org.kde.kdeconnect.handler.desktop" ];
+        };
+      };
+      defaultApplications = {
         "x-scheme-handler/tel" = [ "org.kde.kdeconnect.handler.desktop" ];
       };
     };
-    defaultApplications = {
-      "x-scheme-handler/tel" = [ "org.kde.kdeconnect.handler.desktop" ];
-    };
-  };
 
-  # Kdiff configurations
-  xdg.configFile."kdiff3rc".source = config.lib.file.mkOutOfStoreSymlink
-    "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/misc/kdiff3rc";
+    configFile = {
+      # Kdiff configurations
+      "kdiff3rc".source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/misc/kdiff3rc";
 
-  # Konsole settings
-  xdg.dataFile = lib.mkIf config.variables.useKonsole {
-    "konsole" = {
-      source = config.lib.file.mkOutOfStoreSymlink
-        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/konsole";
-      recursive = true;
+      # Yakuake settings
+      "yakuakerc" = lib.mkIf config.variables.useKonsole {
+        source = config.lib.file.mkOutOfStoreSymlink
+          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/yakuake/yakuakerc";
+      };
     };
 
-    # Dolphin settings
-    "kxmlgui5/dolphin/dolphinui.rc".source = config.lib.file.mkOutOfStoreSymlink
-      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
-
-    # Yakuake settings
-    "yakuake/skins/Dracula".source = fetchGit {
-      url = "https://github.com/dracula/yakuake";
-      rev = "591a705898763167dd5aca2289d170f91a85aa56";
-    };
-  };
-
-  xdg.configFile."yakuakerc" = lib.mkIf config.variables.useKonsole {
-    source = config.lib.file.mkOutOfStoreSymlink
-      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/yakuake/yakuakerc";
+    dataFile = lib.mkMerge [
+      ({
+        # Dolphin settings
+        "kxmlgui5/dolphin/dolphinui.rc".source =
+          config.lib.file.mkOutOfStoreSymlink
+          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
+      })
+      (lib.mkIf config.variables.useKonsole {
+        # Konsole settings
+        "konsole" = {
+          source = config.lib.file.mkOutOfStoreSymlink
+            "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/konsole";
+          recursive = true;
+        };
+        # Yakuake settings
+        "yakuake/skins/Dracula".source =
+          lib.mkIf config.variables.useKonsole fetchGit {
+            url = "https://github.com/dracula/yakuake";
+            rev = "591a705898763167dd5aca2289d170f91a85aa56";
+          };
+      })
+    ];
   };
 
   programs.plasma = {
@@ -55,6 +64,12 @@
       };
       kwinrc.NightColor.Active = true;
       kcminputrc.Mouse.cursorTheme = "Dracula-cursors";
+      dolphinrc = {
+        "KFileDialog Settings" = {
+          "Places Icons Auto-resize" = false;
+          "Places Icons Static Size" = 22;
+        };
+      };
     };
   };
 

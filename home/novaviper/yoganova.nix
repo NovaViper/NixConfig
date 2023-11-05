@@ -11,8 +11,13 @@
   ];
 
   ### Special Variables
+  variables.useVR = false;
   variables.useKonsole = false;
   variables.machine.gpu = "intel";
+  variables.desktop.useWayland = true;
+  #variables.machine.motherboard = "intel";
+  variables.machine.buildType = "laptop";
+  #variables.machine.lowSpec = true;
   ###
 
   home.packages = with pkgs; [ keepassxc krita libsForQt5.tokodon ];

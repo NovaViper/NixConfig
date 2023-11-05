@@ -1,37 +1,41 @@
 { config, lib, pkgs, ... }:
-
-{
+let cfg = config.programs.tmux;
+in {
 
   xdg.configFile = {
     "tmuxp/session.yaml".source = ../../dots/tmuxp/session.yaml;
   };
 
   programs = {
-
     fzf.tmux.enableShellIntegration = true;
     tmux = {
       enable = true;
+      aggressiveResize = true;
+      customPaneNavigationAndResize = true;
+      baseIndex = 1;
       historyLimit = 5000;
       keyMode = "vi";
       mouse = true;
       escapeTime = 0;
-      prefix = "C-a";
-      terminal = "xterm-256color";
-      #shell = "${pkgs.zsh}/bin/zsh";
+      shortcut = "a";
+      terminal = "tmux-256color";
+      resizeAmount = 15;
+      tmuxp.enable = true;
       #newSession = true;
       #secureSocket = false;
-      resizeAmount = 15;
-      baseIndex = 1;
-      tmuxp.enable = true;
       extraConfig = ''
         # -- more settings ---------------------------------------------------------------
         set -s set-clipboard on
         set -g set-titles on
+        set -g set-titles-string "#S / #W / #(pwd)"
+
+        # Enable full RGB support
+        set -as terminal-features ",*-256color:RGB"
 
         # Pane numbers, line messages duration and status line updates
         set -g display-panes-time 800
-        set -g display-time 1000
-        set -g status-interval 10
+        set -g display-time 2000
+        set -g status-interval 5
 
         # Monitor for terminal activity changes, and manage how the alerts are displayed
         set -g monitor-activity on
@@ -45,62 +49,80 @@
         set -g renumber-windows on
 
         # Change status bar position
-        #set -g status-position bottom
+        set -g status-position bottom
+        # -------------------------------------------------------------------------------------
+
 
         # -- keybindings -----------------------------------------------------------------
         # reload config file (change file location to your the tmux.conf you want to use)
-        bind r source-file ~/.config/tmux/tmux.conf \; display "Reloaded!"
+        unbind R
+        bind -N "Reload configuration" r source-file ${config.xdg.configHome}/tmux/tmux.conf \; display "Reloaded!"
+
+        unbind C-p
+        unbind C-n
 
         # Setup clipboard binding keys
         unbind p
-        bind-key -T copy-mode-vi 'v' send -X begin-selection
-        bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel
-        bind-key p paste-buffer
-        bind-key P previous-window # make old previous window command use P instead of p
+        bind -N "Paste the most recent paste buffer" p paste-buffer
+        bind -N "Go back to previous window" P previous-window
 
-        # switch panes using Alt-arrow without prefix
-        bind -n M-Left select-pane -L
-        bind -n M-Right select-pane -R
-        bind -n M-Up select-pane -U
-        bind -n M-Down select-pane -D
+        # Tmux-copycat functionality
+        # https://github.com/tmux-plugins/tmux-copycat/issues/148#issuecomment-997929971
+        bind -N "Copy selection" -T copy-mode-vi y send -X copy-selection-no-clear
+        bind -N "Search backwards" / copy-mode \; send ?
+        # Somewhat tmux-copycat select url functionality (requires 3.1+)
+        bind -N "Select URL" C-u copy-mode \; send -X search-backward "(https?://|git@|git://|ssh://|ftp://|file:///)[[:alnum:]?=%/_.:,;~@!#$&()*+-]*"
 
-        # split panes using - and _
-        bind-key "|" split-window -h -c "#{pane_current_path}"
-        bind-key "\\" split-window -fh -c "#{pane_current_path}"
+        # Navigate panes using Alt-arrow without prefix
+        bind -N "Switch pane, left" -n M-Left select-pane -L
+        bind -N "Switch pane, right" -n M-Right select-pane -R
+        bind -N "Switch pane, up" -n M-Up select-pane -U
+        bind -N "Switch pane, down" -n M-Down select-pane -D
 
-        bind-key "-" split-window -v -c "#{pane_current_path}"
-        bind-key "_" split-window -fv -c "#{pane_current_path}"
+        # Join pane bindings
+        bind -N "Join panes horizitonally" = choose-window 'join-pane -h -s "%%"'
+        bind -N "Join panes vertically" + choose-window 'join-pane -s "%%"'
+
+        # Split pane bindings
         unbind '"'
         unbind %
+        bind-key -N "Split panes horizontally" "\\" split-window -h -c "#{pane_current_path}"
+        bind-key -N "Split panes horizontally, full window length" "|" split-window -fh -c "#{pane_current_path}"
+        bind-key -N "Split panes vertically" "-" split-window -v -c "#{pane_current_path}"
+        bind-key -N "Split panes vertically, full window length" "_" split-window -fv -c "#{pane_current_path}"
 
-        # Swap windows
-        bind -r "<" swap-window -d -t -1
-        bind -r ">" swap-window -d -t +1
-
-        # Keep current path
-        bind c new-window -c "#{pane_current_path}"
-        # Toggle between windows
-        bind Space last-window
-        # Toggle between the current and the previous session
-        bind-key C-Space switch-client -l
-        # Jump to marked session
-        bind \` switch-client -t'{marked}'
-
-        # Join panes horizontally (j) and vertically (J)
-        bind j choose-window 'join-pane -h -s "%%"'
-        bind J choose-window 'join-pane -s "%%"'
-
-        bind X confirm-before -p "kill-window #W? (y/n)" kill-window
-        bind C-x confirm-before -p "kill-session #W? (y/n)" kill-session
-
-        bind C-c new-session
+        # Manage Session/Window
+        bind -N "Switch to next window" -r ">" swap-window -d -t +1
+        bind -N "Switch to previous window" -r "<" swap-window -d -t -1
+        bind -N "Create new window" c new-window -c "#{pane_current_path}"
+        bind -N "Create new session" C-c new-session
+        bind -N "Toggle between windows" Space last-window
+        bind -N "Toggle between current and previous session" C-Space switch-client -l
+        bind -N "Jump to marked session" \` switch-client -t'{marked}'
+        unbind &
+        ${if cfg.disableConfirmationPrompt then ''
+          bind -N "Kill the active pane" x kill-pane
+          bind -N "Kill the current window" X kill-window
+          bind -N "Kill the current session" C-x kill-session
+        '' else ''
+          bind -N "Kill the current window" X confirm-before -p "kill-window #W? (y/n)" kill-window
+          bind -N "Kill the current session" C-x confirm-before -p "kill-session #W? (y/n)" kill-session
+        ''}
 
         #Example
-        #bind-key h split-window -h "vim ~/scratch/notes.md"
+        #bind -N "Example note" h split-window -h "vim ~/scratch/notes.md"
+        # -------------------------------------------------------------------------------------
       '';
       plugins = with pkgs.tmuxPlugins; [
         sensible
-        yank
+        {
+          plugin = yank;
+          extraConfig = ''
+            # Enable Mouse support for tmux-yank
+            set -g @yank_with_mouse on
+          '';
+        }
+        open
         {
           plugin = dracula;
           extraConfig = ''

@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ./global.nix ];
+  imports = [ ./global.nix ./x11.nix ./wayland.nix ];
 
   # Special Variables
   variables.desktop.environment = "kde";
@@ -46,6 +46,7 @@
       wayland-utils
       libsForQt5.qt5.qtimageformats
       libsForQt5.packagekit-qt
+      konsave # Saving KDE customizations
     ];
   };
 

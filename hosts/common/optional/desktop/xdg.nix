@@ -1,8 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-
-  # Enable desktop integration
   xdg.portal = {
     enable = true;
     xdgOpenUsePortal = true;

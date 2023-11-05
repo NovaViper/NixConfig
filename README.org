@@ -22,6 +22,7 @@ My current NixOS (and constant changing) configuration
 - Wayland/X11 Setups
 - Multiple fully-featured desktop environments (KDE Plasma and XFCE)
 - Includes extra features flags for example configs other can use
+- Live image ISO build with Nvidia drivers and experimental nix features already enabled (and unfree software usage)
 
 * References
 - [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Makes up a large majority of the entire config, primary template used when making the config
@@ -63,7 +64,7 @@ Main user relevant apps
 - libreoffice
 - bat
 - cider
-- wezterm
+- alacritty + tmux
 - and quite a bit more...
 
 Nix stuff

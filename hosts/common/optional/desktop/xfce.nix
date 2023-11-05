@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ./global.nix ];
+  imports = [ ./global.nix ./x11.nix ];
 
   # Special Variables
   variables.desktop.environment = "xfce";

@@ -108,6 +108,10 @@
           modules = [ ./hosts/yoganova ];
           specialArgs = { inherit inputs outputs; };
         };
+        isoimage = lib.nixosSystem {
+          modules = [ ./hosts/isoimage ];
+          specialArgs = { inherit inputs outputs; };
+        };
       };
 
       # Standalone home-manager configuration entrypoint

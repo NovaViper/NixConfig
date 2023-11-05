@@ -52,7 +52,6 @@ in {
         '';
       };
     };
-
     machine = {
       buildType = mkOption {
         type = types.nullOr (types.enum [ "desktop" "laptop" "server" ]);
@@ -99,11 +98,17 @@ in {
       }];
     })
 
-    # Remove Konsole if 'useKonsole is NOT enabled (only for KDE since it's already included)'
+    # Remove Konsole if 'useKonsole is NOT enabled (only for KDE since it's already included)', otherwise install yakuake and konsole
     (mkIf (cfg.desktop.environment == "kde") {
+      # Make SDDM use Wayland
+      services.xserver.displayManager = mkIf cfg.desktop.useWayland {
+        defaultSession = "plasmawayland";
+        sddm.wayland.enable = true;
+      };
+
       environment = {
         systemPackages = with pkgs;
-          lib.mkIf cfg.useKonsole [ libsForQt5.yakuake ];
+          lib.mkIf cfg.useKonsole [ libsForQt5.yakuake libsForQt5.konsole ];
         plasma5 = mkIf (!cfg.useKonsole) {
           excludePackages = with pkgs.libsForQt5; [ konsole ];
         };
@@ -114,16 +119,6 @@ in {
     (mkIf (cfg.useKonsole) {
       environment = mkIf (!cfg.desktop.environment == "kde") {
         systemPackages = with pkgs.libsForQt5; [ konsole ];
-      };
-    })
-
-    (mkIf cfg.desktop.useWayland {
-      # KDE specific stuff
-      services.xserver = mkIf (cfg.desktop.environment == "kde") {
-        displayManager = {
-          defaultSession = "plasmawayland";
-          sddm.wayland.enable = true;
-        };
       };
     })
 

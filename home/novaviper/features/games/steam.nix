@@ -1,13 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [
-    protontricks
-    keyutils
-    gamescope
-    goverlay
-    ludusavi
-  ];
+  home.packages = with pkgs; [ protontricks keyutils goverlay ludusavi ];
 
   /* home.persistence = {
        "/persist/home/novaviper" = {
@@ -36,9 +30,34 @@
       associations.added."x-scheme-handler/steam" = "steam.desktop";
     };
 
-    configFile."alvr/session.json".source =
-      lib.mkIf (config.variables.useVR) config.lib.file.mkOutOfStoreSymlink
-      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/alvr/session.json";
+    configFile."alvr/session.json" = lib.mkIf (config.variables.useVR) {
+      source = config.lib.file.mkOutOfStoreSymlink
+        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/alvr/session.json";
+    };
+    desktopEntries = {
+      "BeatSaberModManager" = lib.mkIf (config.variables.useVR) {
+        name = "Beat Saber ModManager";
+        genericName = "Game";
+        exec = "BeatSaberModManager";
+        icon =
+          "${pkgs.BeatSaberModManager}/lib/BeatSaberModManager/Resources/Icons/Icon.ico";
+        type = "Application";
+        categories = [ "Game" ];
+        startupNotify = true;
+        comment = "Beat Saber ModManager is a mod manager for Beat Saber";
+      };
+      "ALVR" = lib.mkIf (config.variables.useVR) {
+        name = "ALVR";
+        genericName = "Game";
+        exec = "${config.home.homeDirectory}/Games/ALVR-x86_64.AppImage";
+        icon = "alvr";
+        type = "Application";
+        categories = [ "Game" ];
+        startupNotify = true;
+        comment =
+          "ALVR is an open source remote VR display which allows playing SteamVR games on a standalone headset such as Gear VR or Oculus Go/Quest.";
+      };
+    };
   };
 
   programs.mangohud = {

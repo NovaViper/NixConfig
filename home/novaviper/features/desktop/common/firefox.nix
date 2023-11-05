@@ -2,6 +2,21 @@
 #let addons = pkgs.nur.repos.rycee.firefox-addons;
 let addons = inputs.firefox-addons.packages.${pkgs.system};
 in {
+  xdg.mimeApps.defaultApplications = {
+    "text/html" = [ "firefox.desktop" ];
+    "text/xml" = [ "firefox.desktop" ];
+    "x-scheme-handler/http" = [ "firefox.desktop" ];
+    "x-scheme-handler/https" = [ "firefox.desktop" ];
+  };
+
+  home = {
+    sessionVariables = { BROWSER = "firefox"; };
+    /* persistence = {
+         # Not persisting is safer
+         # "/persist/home/misterio".directories = [ ".mozilla/firefox" ];
+       };
+    */
+  };
 
   programs.firefox = {
     enable = true;
@@ -77,20 +92,5 @@ in {
       };
       userChrome = "";
     };
-  };
-  home = {
-    sessionVariables = { BROWSER = "firefox"; };
-    /* persistence = {
-         # Not persisting is safer
-         # "/persist/home/misterio".directories = [ ".mozilla/firefox" ];
-       };
-    */
-  };
-
-  xdg.mimeApps.defaultApplications = {
-    "text/html" = [ "firefox.desktop" ];
-    "text/xml" = [ "firefox.desktop" ];
-    "x-scheme-handler/http" = [ "firefox.desktop" ];
-    "x-scheme-handler/https" = [ "firefox.desktop" ];
   };
 }

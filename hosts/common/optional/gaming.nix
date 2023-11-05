@@ -6,7 +6,27 @@
       enable = true;
       remotePlay.openFirewall = true;
     };
-    gamemode.enable = true;
+    gamescope = {
+      enable = true;
+      capSysNice = true;
+      #args = [];
+      #env = {};
+    };
+    gamemode = {
+      enable = true;
+      enableRenice = true;
+      settings = {
+        general = {
+          softrealtime = "off";
+          inhibit_screensaver = 1;
+        };
+
+        custom = {
+          start = "''${pkgs.libnotify}/bin/notify-send 'GameMode started'";
+          end = "''${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
+        };
+      };
+    };
   };
 
   hardware = {

@@ -2,6 +2,7 @@
 result*
 *.qcow2
 .nixie
+.nobackup
 
 # ignore temporary files
 .#.*

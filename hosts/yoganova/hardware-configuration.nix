@@ -22,7 +22,7 @@ in {
     initrd = {
       availableKernelModules =
         [ "xhci_pci" "thunderbolt" "nvme" "usb_storage" "sd_mod" "sdhci_pci" ];
-      kernelModules = [ ];
+      kernelModules = [ "ideapad_laptop" ];
     };
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];

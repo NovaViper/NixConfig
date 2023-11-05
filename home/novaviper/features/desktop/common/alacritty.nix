@@ -1,8 +1,27 @@
 { config, pkgs, ... }:
 
 {
-  xdg.configFile."alacritty/themes/dracula.yml".source =
-    ../../../dots/alacritty/dracula.yml;
+  xdg = {
+    configFile."alacritty/themes/dracula.yml".source =
+      ../../../dots/alacritty/dracula.yml;
+
+    mimeApps = {
+      associations = {
+        added = {
+          "mimetype" = "alacritty.desktop";
+          "application/x-terminal-emulator" = "alacritty.desktop";
+          "x-terminal-emulator" = "alacritty.desktop";
+        };
+      };
+      defaultApplications = {
+        "mimetype" = "alacritty.desktop";
+        "application/x-terminal-emulator" = "alacritty.desktop";
+        "x-terminal-emulator" = "alacritty.desktop";
+      };
+    };
+  };
+
+  home.sessionVariables.TERMINAL = "alacritty";
 
   programs.alacritty = {
     enable = true;
@@ -35,7 +54,7 @@
         #
         # Window opacity as a floating point number from `0.0` to `1.0`.
         # The value `0.0` is completely transparent and `1.0` is opaque.
-        opacity = 1.0;
+        opacity = 0.9;
         # Startup Mode (changes require restart)
         #
         # Values for `startup_mode`:
@@ -53,7 +72,7 @@
       scrolling = {
         # Maximum number of lines in the scrollback buffer.
         # Specifying '0' will disable scrolling.
-        history = 10000;
+        history = 0;
 
         # Scrolling distance multiplier.
         multiplier = 3;
@@ -137,13 +156,13 @@
 
       bell = {
         # Visual Bell Animation
-        #animation: EaseOutExpo
+        #animation = "EaseOutExpo";
 
         # Duration of the visual bell flash in milliseconds.
         duration = 0;
 
         # Visual bell animation color.
-        #color: '#ffffff'
+        #color = "#ffffff";
 
         # Bell Command
         command = "xkbbell";
@@ -151,10 +170,10 @@
       selection = {
         # This string contains all characters that are used as separators for
         # "semantic words" in Alacritty.
-        #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+        #semantic_escape_chars = ",│`|:\"' ()[]{}<>\t";
 
         # When set to `true`, selected text will be copied to the primary clipboard.
-        save_to_clipboard = true;
+        save_to_clipboard = false;
       };
 
       cursor = {
@@ -166,7 +185,7 @@
           #   - ▇ Block
           #   - _ Underline
           #   - | Beam
-          shape = "Beam";
+          shape = "Block";
 
           # Cursor blinking state
           #
@@ -187,12 +206,12 @@
         vi_mode_style = "None";
 
         # Cursor blinking interval in milliseconds.
-        blink_interval = 750;
+        blink_interval = 300;
 
         # Time after which cursor stops blinking, in seconds.
         #
         # Specifying '0' will disable timeout for blinking.
-        #blink_timeout: 5
+        #blink_timeout = 5;
 
         # If this is `true`, the cursor will be rendered as a hollow box when the
         # window is not focused.
@@ -200,21 +219,22 @@
 
         # Thickness of the cursor relative to the cell width as floating point number
         # from `0.0` to `1.0`.
-        #thickness: 0.15
+        #thickness = 0.15;
       };
 
       # Live config reload (changes require restart)
       live_config_reload = true;
 
-      shell = {
-        program = "${pkgs.zsh}/bin/zsh";
-        args = [
-          "--login"
-          "-c"
-          "${pkgs.tmux}/bin/tmux attach || ${pkgs.tmuxp}/bin/tmuxp load ~/.config/tmuxp/session.yaml"
-          #"tmux attach || tmux"
-        ];
-      };
+      /* shell = {
+           #program = "${pkgs.zsh}/bin/zsh";
+           args = [
+             "--login"
+             #"-c"
+             #"${pkgs.tmux}/bin/tmux attach || ${pkgs.tmuxp}/bin/tmuxp load ~/.config/tmuxp/session.yaml"
+             #"tmux attach || tmux"
+           ];
+         };
+      */
 
       # Startup directory
       # Directory the shell is started in. If this is unset, or `None`, the working
@@ -222,7 +242,7 @@
       working_directory = "None";
 
       # Offer IPC using `alacritty msg` (unix only)
-      #ipc_socket: true
+      #ipc_socket = true;
 
       mouse = {
         # Click settings
@@ -237,33 +257,179 @@
         hide_when_typing = true;
       };
 
+      # Terminal hints can be used to find text or hyperlink in the visible part of
+      # the terminal and pipe it to other applications.
+      # hints = {
+      # Keys used for the hint labels.
+      # alphabet = "jfkdls;ahgurieowpq";
+
+      # List with all available hints
+      #
+      # Each hint must have any of `regex` or `hyperlinks` field and either an
+      # `action` or a `command` field. The fields `mouse`, `binding` and
+      # `post_processing` are optional.
+      #
+      # The `hyperlinks` option will cause OSC 8 escape sequence hyperlinks to be
+      # highlighted.
+      #
+      # The fields `command`, `binding.key`, `binding.mods`, `binding.mode` and
+      # `mouse.mods` accept the same values as they do in the `key_bindings` section.
+      #
+      # The `mouse.enabled` field controls if the hint should be underlined while
+      # the mouse with all `mouse.mods` keys held or the vi mode cursor is above it.
+      #
+      # If the `post_processing` field is set to `true`, heuristics will be used to
+      # shorten the match if there are characters likely not to be part of the hint
+      # (e.g. a trailing `.`). This is most useful for URIs and applies only to
+      # `regex` matches.
+      #
+      # Values for `action`:
+      #   - Copy
+      #       Copy the hint's text to the clipboard.
+      #   - Paste
+      #       Paste the hint's text to the terminal or search.
+      #   - Select
+      #       Select the hint's text.
+      #   - MoveViModeCursor
+      #       Move the vi mode cursor to the beginning of the hint.
+      # enabled = {
+      #   regex = ''
+      #     (ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^u0000-u001Fu007F-u009F<>"\s{-}\^⟨⟩`]+
+      #   '';
+      #   hyperlinks = true;
+      #   command = "xdg-open";
+      #   post_processing = true;
+      #   mouse = {
+      #     enabled = true;
+      #     mods = "None";
+      #   };
+      #   binding = {
+      #     key = "U";
+      #     mods = "Control|Shift";
+      #   };
+      # };
+      # };
+
       mouse_bindings = [
-        #  - { mouse: Right,                 action: ExpandSelection }
-        #  - { mouse: Right,  mods: Control, action: ExpandSelection }
-        #  - { mouse: Middle, mode: ~Vi,     action: PasteSelection  }
+        #  { mouse = "Right";                   action = "ExpandSelection"; }
+        #  { mouse = "Right";  mods = "Control"; action = "ExpandSelection"; }
+        #  { mouse = "Middle"; mode = "~Vi";     action = "PasteSelection";  }
         # Paste selection with middle click
         {
           mouse = "Middle";
-          action = "PasteSelection";
+          action = "Paste";
+        }
+        {
+          mouse = "Right";
+          action = "ReceiveChar";
         }
       ];
-    };
-  };
-
-  home.sessionVariables.TERMINAL = "alacritty";
-
-  xdg.mimeApps = {
-    associations = {
-      added = {
-        "mimetype" = "alacritty.desktop";
-        "application/x-terminal-emulator" = "alacritty.desktop";
-        "x-terminal-emulator" = "alacritty.desktop";
-      };
-    };
-    defaultApplications = {
-      "mimetype" = "alacritty.desktop";
-      "application/x-terminal-emulator" = "alacritty.desktop";
-      "x-terminal-emulator" = "alacritty.desktop";
+      # Stolen from here: https://www.reddit.com/r/tmux/comments/rijn8h/alacritty_users_my_config_to_free_up_key_bindings/
+      key_bindings = [
+        # scrollback
+        {
+          key = "PageUp";
+          mods = "Shift";
+          mode = "~Alt";
+          action = "ReceiveChar";
+        }
+        {
+          key = "PageDown";
+          mods = "Shift";
+          mode = "~Alt";
+          action = "ReceiveChar";
+        }
+        {
+          key = "Home";
+          mods = "Shift";
+          mode = "~Alt";
+          action = "ReceiveChar";
+        }
+        {
+          key = "End";
+          mods = "Shift";
+          mode = "~Alt";
+          action = "ReceiveChar";
+        }
+        {
+          key = "K";
+          mods = "Command";
+          mode = "~Vi|~Search";
+          action = "ReceiveChar";
+        }
+        # searching
+        {
+          key = "F";
+          mods = "Control|Shift";
+          mode = "~Search";
+          action = "ReceiveChar";
+        }
+        {
+          key = "F";
+          mods = "Command";
+          mode = "~Search";
+          action = "ReceiveChar";
+        }
+        {
+          key = "B";
+          mods = "Control|Shift";
+          mode = "~Search";
+          action = "ReceiveChar";
+        }
+        {
+          key = "B";
+          mods = "Command";
+          mode = "~Search";
+          action = "ReceiveChar";
+        }
+        # copy/paste
+        {
+          key = "Paste";
+          action = "ReceiveChar";
+        }
+        {
+          key = "Copy";
+          action = "ReceiveChar";
+        }
+        {
+          key = "V";
+          mods = "Control|Shift";
+          mode = "~Vi";
+          action = "ReceiveChar";
+        }
+        {
+          key = "V";
+          mods = "Command";
+          action = "ReceiveChar";
+        }
+        {
+          key = "C";
+          mods = "Control|Shift";
+          action = "ReceiveChar";
+        }
+        {
+          key = "C";
+          mods = "Command";
+          action = "ReceiveChar";
+        }
+        {
+          key = "C";
+          mods = "Control|Shift";
+          mode = "Vi|~Search";
+          action = "ReceiveChar";
+        }
+        {
+          key = "C";
+          mods = "Command";
+          mode = "Vi|~Search";
+          action = "ReceiveChar";
+        }
+        {
+          key = "Insert";
+          mods = "Shift";
+          action = "ReceiveChar";
+        }
+      ];
     };
   };
 }

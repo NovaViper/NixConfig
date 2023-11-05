@@ -11,7 +11,6 @@
     ./ssh.nix
     ./zsh.nix
     ./nix-index.nix
-    #./shellcolor.nix
     ./tmux.nix
     ./cava.nix
   ];
@@ -23,6 +22,9 @@
     dwt1-shell-color-scripts # Display cool graphics in terminal
     cmatrix # Show off the Matrix
     timer # Cooler timer in terminal
+    tree
+    neofetch
+    pfetch
     #inputs.nh.default # nixos-rebuild and home-manager CLI wrapper
     dmidecode
   ];

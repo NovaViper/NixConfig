@@ -5,13 +5,21 @@
     ./font.nix
     ./theme.nix
     ./discord.nix
+
+    # Music
     ./cider.nix
     #./jellyfin.nix
+
+    # Browser
     #./firefox.nix
     ./vivaldi.nix
+
+    # Backup solutions
     ./backup.nix
-    #./alacritty.nix
-    ./wezterm.nix
+
+    # Terminals
+    ./alacritty.nix
+    #./wezterm.nix
     #./rio.nix
     #./kitty.nix
   ];

@@ -32,7 +32,7 @@ in {
     ../common/users/novaviper
 
     #../common/optional/howdy.nix
-    ../common/optional/de/kde.nix
+    ../common/optional/desktop/kde.nix
     ../common/optional/syncthing.nix
     ../common/optional/tailscale.nix
     ../common/optional/localsend.nix
@@ -89,7 +89,7 @@ in {
       open = false;
       nvidiaSettings = config.services.xserver.enable;
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
   };
 
