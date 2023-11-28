@@ -64,7 +64,7 @@ Main user relevant apps
 - libreoffice
 - bat
 - cider
-- alacritty + tmux
+- wezterm
 - and quite a bit more...
 
 Nix stuff

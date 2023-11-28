@@ -80,7 +80,7 @@
       "transcoding_view_resolution": {
         "Scale": 1.0,
         "Absolute": {
-          "width": 4096,
+          "width": 2592,
           "height": {
             "set": false,
             "content": 1072
@@ -91,7 +91,7 @@
       "emulated_headset_view_resolution": {
         "Scale": 1.0,
         "Absolute": {
-          "width": 4096,
+          "width": 2592,
           "height": {
             "set": false,
             "content": 1072

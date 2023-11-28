@@ -62,18 +62,21 @@
         tab_bar_at_bottom = true,
         status_update_interval = 1000,
         use_fancy_tab_bar = false,
-        window_background_opacity = 0.9,
+        window_background_opacity = 0.8,
 
         -- Dim inactive panes
         inactive_pane_hsb = {
           --saturation = 0.9,
           brightness = 0.8,
         },
+
         leader = { key = "a", mods = "CTRL", timeout_miliseconds = 1000 },
         front_end = "OpenGL",
+        -- disable most of the keybindings because I want them to use the LEADER keys.
+        disable_default_key_bindings = true,
         keys = keybinds.default_keybinds,
         key_tables = keybinds.key_tables,
-        --mouse_bindings = keybind.mouse_bindings,
+        mouse_bindings = keybinds.mouse_bindings,
       }
 
 

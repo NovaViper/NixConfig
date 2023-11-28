@@ -92,10 +92,15 @@
         # If not running interactively, don't do anything
         [[ $- != *i* ]] && return
 
-        if [ -z "$TMUX" ]; then
-          ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
-          exit
-        fi
+        ${if config.programs.alacritty.enable
+        && config.programs.tmux.enable then ''
+          # Run Tmux on startup for Alacritty
+          if [ -z "$TMUX" ]; then
+            ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
+            exit
+          fi
+        '' else
+          ""}
       '';
 
       initExtra = ''
@@ -166,7 +171,6 @@
         # Quickly start Minecraft server
         start-minecraft-server = lib.mkIf (config.programs.mangohud.enable)
           "cd ~/Games/MinecraftServer-1.20.1/ && ./run.sh --nogui && cd || cd";
-        cava = "TERM=xterm-256color cava";
       };
       /* antidote = {
            enable = true;
@@ -217,10 +221,11 @@
             name = "plugins/sudo";
             tags = [ "from:oh-my-zsh" ];
           }
-          {
-            name = "plugins/tmux";
-            tags = [ "from:oh-my-zsh" ];
-          }
+          /* {
+               name = "plugins/tmux";
+               tags = [ "from:oh-my-zsh" ];
+             }
+          */
           # Nix stuff
           {
             name = "chisui/zsh-nix-shell";

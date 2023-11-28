@@ -108,7 +108,7 @@ in {
 
       environment = {
         systemPackages = with pkgs;
-          lib.mkIf cfg.useKonsole [ libsForQt5.yakuake libsForQt5.konsole ];
+          mkIf cfg.useKonsole [ libsForQt5.yakuake libsForQt5.konsole ];
         plasma5 = mkIf (!cfg.useKonsole) {
           excludePackages = with pkgs.libsForQt5; [ konsole ];
         };
@@ -117,7 +117,7 @@ in {
 
     # Download Konsole if `useKonsole` is used on a DE that DOESN'T include Konsole (like KDE)
     (mkIf (cfg.useKonsole) {
-      environment = mkIf (!cfg.desktop.environment == "kde") {
+      environment = mkIf (cfg.desktop.environment != "kde") {
         systemPackages = with pkgs.libsForQt5; [ konsole ];
       };
     })
@@ -132,8 +132,7 @@ in {
       hardware.sensor.iio.enable = true;
 
       # Enable Wacom touch drivers
-      services.xserver.wacom.enable =
-        lib.mkDefault config.services.xserver.enable;
+      services.xserver.wacom.enable = mkDefault config.services.xserver.enable;
 
       environment = mkIf (cfg.desktop.useWayland) {
         # Add virtual keyboard for touchscreen

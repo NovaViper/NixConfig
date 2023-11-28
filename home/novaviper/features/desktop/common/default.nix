@@ -18,8 +18,8 @@
     ./backup.nix
 
     # Terminals
-    ./alacritty.nix
-    #./wezterm.nix
+    #./alacritty.nix
+    ./wezterm.nix
     #./rio.nix
     #./kitty.nix
   ];

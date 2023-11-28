@@ -118,18 +118,15 @@
       wordnet
 
       # :tools lsp
+      semgrep
       yaml-language-server
+      lua-language-server
       nodePackages.vscode-langservers-extracted
       omnisharp-roslyn
       java-language-server
 
       # :tools pdf
       #emacsPackages.pdf-tools
-
-      # :os tty
-      #xclip
-      #wl-clipboard
-      #wl-clipboard-x11
 
       # :lang java
       #jdt-language-server
@@ -140,16 +137,25 @@
       # :lang markdown
       proselint
       pandoc
+      grip
+
+      # :lang org
+      maim
 
       # :lang python, debugger, formatter
       (python310.withPackages
-        (ps: with ps; [ debugpy pyflakes isort pytest black pip ]))
+        (ps: with ps; [ debugpy pyflakes isort pytest black pip nose3 ]))
       pyright
+      pipenv
 
       # :lang sh
       shellcheck
       bashdb
       nodePackages.bash-language-server
+
+      # :lang web
+      stylelint
+      jsbeautifier
 
       # :apps mu
       #mu

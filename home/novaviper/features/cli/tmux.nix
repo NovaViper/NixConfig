@@ -7,6 +7,9 @@ in {
   };
 
   programs = {
+    zsh.shellAliases = lib.mkIf (config.programs.cava.enable) {
+      cava = "TERM=xterm-256color cava";
+    };
     fzf.tmux.enableShellIntegration = true;
     tmux = {
       enable = true;

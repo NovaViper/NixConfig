@@ -30,6 +30,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#word-count][Word Count]]
     - [[#beacon][Beacon]]
     - [[#workspace-emacsclient-fix][Workspace Emacsclient Fix]]
+    - [[#nerd-fonts-fix-nixos-only][Nerd Fonts Fix (NixOS only)]]
     - [[#rainbow-mode][Rainbow Mode]]
     - [[#modeline][Modeline]]
     - [[#window-splitting][Window Splitting]]
@@ -556,6 +557,12 @@ This fixes [[https://github.com/hlissner/doom-emacs/issues/5876][my issue]] wher
   (setq persp-emacsclient-init-frame-behaviour-override "main"))
 #+end_src
 
+*** Nerd Fonts Fix (NixOS only)
+This fixes =doom doctor= when it says that NerdFonts aren't installed on NixOS. Addresses [[https://github.com/doomemacs/doomemacs/issues/7431#ref-commit-f3f8e7d][this issue]].
+#+begin_src emacs-lisp :tangle (if (executable-find "nixos-version") "yes" "no")
+(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
+#+end_src
+
 *** Rainbow Mode
 ~hl-line-mode~ overrides the color highlighting of ~rainbow-mode~, limiting the use of that plugin and on-site color changes using ~kurecolor~. This line will automatically disable ~hl-line-mode~ only when ~rainbow-mode~ is active
 #+begin_src emacs-lisp
@@ -917,7 +924,8 @@ Configures dap mode configurations for different languages
 
 ** LSP Mode Configurations
 #+begin_src emacs-lisp
-;(setq lsp-clients-lua-language-server-bin "/usr/bin/lua-language-server"
+; Change lua-language-server location to where the binary location is
+(setq lsp-clients-lua-language-server-bin (executable-find "lua-language-server"))
 ;      lsp-clients-lua-language-server-main-location "/usr/lib/lua-language-server/main.lua")
 #+end_src
 

@@ -10,7 +10,7 @@ in {
   };
 
   home = {
-    sessionVariables = { BROWSER = "firefox"; };
+    sessionVariables.BROWSER = "firefox";
     /* persistence = {
          # Not persisting is safer
          # "/persist/home/misterio".directories = [ ".mozilla/firefox" ];
@@ -28,7 +28,7 @@ in {
         return-youtube-dislikes
         darkreader
         bypass-paywalls-clean
-        #plasma-integration
+        plasma-integration
         #keepassxc-browser
         #enhancer-for-youtube
         #honey

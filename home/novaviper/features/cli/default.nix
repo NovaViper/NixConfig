@@ -23,8 +23,6 @@
     cmatrix # Show off the Matrix
     timer # Cooler timer in terminal
     tree
-    neofetch
-    pfetch
     #inputs.nh.default # nixos-rebuild and home-manager CLI wrapper
     dmidecode
   ];

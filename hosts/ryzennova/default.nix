@@ -96,7 +96,7 @@ in {
   services.xserver.videoDrivers = [ "nvidia" ];
 
   environment = {
-    systemPackages = with pkgs; [ gwe ];
+    #systemPackages = with pkgs; [ gwe ];
     sessionVariables = { LIBVA_DRIVER_NAME = "nvidia"; };
   };
 
