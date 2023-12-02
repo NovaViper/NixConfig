@@ -143,7 +143,7 @@
       maim
 
       # :lang python, debugger, formatter
-      (python310.withPackages
+      (python311.withPackages
         (ps: with ps; [ debugpy pyflakes isort pytest black pip nose3 ]))
       pyright
       pipenv

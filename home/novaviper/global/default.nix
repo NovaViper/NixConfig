@@ -11,11 +11,7 @@
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
-    config = {
-      allowUnfree = true;
-      allowUnfreePredicate = (_: true);
-      joypixels.acceptLicense = true;
-    };
+    config = import ./nixpkgs-config.nix;
   };
 
   nix = {
@@ -61,11 +57,14 @@
     */
   };
 
-  # Enable XDG
   xdg = {
     enable = true;
+    # Enable XDG
     userDirs.enable = true;
     userDirs.createDirectories = true;
     mimeApps.enable = true;
+
+    # Import nixpkgs config into default path for nix shell commands
+    configFile."nixpkgs/config.nix".source = ./nixpkgs-config.nix;
   };
 }

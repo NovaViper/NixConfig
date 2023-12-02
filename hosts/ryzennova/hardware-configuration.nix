@@ -1,8 +1,8 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  MAIN_PART = "/dev/disk/by-uuid/bcccc3fa-52e7-405d-bee7-9d90f21df2cb";
-  BOOT_PART = "/dev/disk/by-uuid/0555-917D";
+  MAIN_PART = "/dev/disk/by-uuid/8745497b-25df-415a-89fa-5aef1ffd2a9a";
+  BOOT_PART = "/dev/disk/by-uuid/E03E-5244";
   SWAP_PATH = "/swapfile";
   SWAP_SIZE = 32;
   RESUME_OFFSET = "244056064";

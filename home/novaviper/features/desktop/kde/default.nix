@@ -6,6 +6,11 @@
   variables.desktop.environment = "kde";
 
   xdg = {
+    portal = {
+      extraPortals = with pkgs; [ xdg-desktop-portal-kde ];
+      configPackages = with pkgs; [ libsForQt5.plasma-desktop libsForQt5.plasma-workspace ];
+    };
+
     mimeApps = {
       associations = {
         added = {
@@ -44,11 +49,10 @@
           recursive = true;
         };
         # Yakuake settings
-        "yakuake/skins/Dracula".source =
-          lib.mkIf config.variables.useKonsole fetchGit {
-            url = "https://github.com/dracula/yakuake";
-            rev = "591a705898763167dd5aca2289d170f91a85aa56";
-          };
+        "yakuake/skins/Dracula".source = fetchGit {
+          url = "https://github.com/dracula/yakuake";
+          rev = "591a705898763167dd5aca2289d170f91a85aa56";
+        };
       })
     ];
   };

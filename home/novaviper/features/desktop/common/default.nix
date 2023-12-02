@@ -24,9 +24,18 @@
     #./kitty.nix
   ];
 
-  home.sessionVariables.GTK_USE_PORTAL = "1";
-
-  xdg.mimeApps.enable = true;
+  xdg = {
+    portal = {
+      enable = true;
+      xdgOpenUsePortal = true;
+      gtkUsePortal = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-gtk
+        xdg-desktop-portal-wlr
+      ];
+    };
+    mimeApps.enable = true;
+  };
 
   # Make mimeapps.list be overriden by default
   xdg.configFile."mimeapps.list".force = true;

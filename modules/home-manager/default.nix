@@ -2,6 +2,6 @@
 # These should be stuff you would like to share with others, not your personal configurations.
 {
   # List your module files here
-  # my-module = import ./my-module.nix;
   user-vars = import ./user-vars.nix;
+  xdg-portal = import ./xdg-portal.nix;
 }

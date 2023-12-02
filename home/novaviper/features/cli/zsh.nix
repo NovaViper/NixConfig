@@ -67,7 +67,11 @@
       syntaxHighlighting.enable = true;
       dotDir = ".config/zsh";
       defaultKeymap = "viins";
-      historySubstringSearch.enable = true;
+      historySubstringSearch = {
+        enable = true;
+        searchUpKey = [ "$terminfo[kcuu1]" ];
+        searchDownKey = [ "$terminfo[kcud1]" ];
+      };
       autocd = true;
       zsh-abbr = {
         enable = true;
