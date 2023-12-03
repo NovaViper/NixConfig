@@ -7,7 +7,7 @@
 
   sops = {
     gnupg = {
-      home = "/home/root/.gnupg";
+      home = "/home/${config.variables.username}/.gnupg";
       sshKeyPaths = [ ];
     };
   };

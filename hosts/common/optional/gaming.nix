@@ -51,22 +51,15 @@
   # Allow Minecraft server ports
   networking.firewall.allowedTCPPorts = [ 25565 ];
 
-  environment = {
-    variables = {
-      LD_LIBRARY_PATH = lib.mkForce
-        "/run/opengl-driver/lib:/run/opengl-driver-32/lib:/etc/sane-libs";
-    };
-
-    # Fixes SteamLink/Remote play crashing, add packages necessary for VR
-    systemPackages = with pkgs;
-      [ libcanberra protonup-qt ] ++ lib.optionals (config.variables.useVR) [
-        android-tools
-        android-udev-rules
-        sidequest
-        BeatSaberModManager
-        helvum
-      ];
-  };
+  # Fixes SteamLink/Remote play crashing, add packages necessary for VR
+  environment.systemPackages = with pkgs;
+    [ libcanberra protonup-qt ] ++ lib.optionals (config.variables.useVR) [
+      android-tools
+      android-udev-rules
+      sidequest
+      BeatSaberModManager
+      helvum
+    ];
 
   # Fixes issue with SteamVR not starting
   system.activationScripts = lib.mkIf (config.variables.useVR) {
