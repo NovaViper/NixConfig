@@ -24,6 +24,8 @@
      };
   */
 
+  home.sessionVariables.ICED_BACKEND = "tiny-skia";
+
   xdg = {
     mimeApps = {
       defaultApplications."x-scheme-handler/steam" = "steam.desktop";
