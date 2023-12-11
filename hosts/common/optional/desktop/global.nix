@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ./pipewire.nix ./printing.nix ];
+  imports = [ ./pipewire.nix ./printing.nix ./xdg.nix ];
 
   # Enable networking
   networking.networkmanager.enable = true;

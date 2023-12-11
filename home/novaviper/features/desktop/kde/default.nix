@@ -6,11 +6,6 @@
   variables.desktop.environment = "kde";
 
   xdg = {
-    portal = {
-      extraPortals = with pkgs; [ xdg-desktop-portal-kde ];
-      configPackages = with pkgs; [ libsForQt5.plasma-desktop libsForQt5.plasma-workspace ];
-    };
-
     mimeApps = {
       associations = {
         added = {

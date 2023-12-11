@@ -15,11 +15,6 @@ in {
     ./hyprbars.nix
   ];
 
-  xdg.portal = {
-    extraPortals = with pkgs; [ inputs.hyprland.xdg-desktop-portal-hyprland ];
-    configPackages = with pkgs; [ inputs.hyprland.hyprland ];
-  };
-
   home.packages = with pkgs; [ hyprpicker networkmanagerapplet gtk3 ];
   home.sessionVariables = lib.mkMerge [
     # toolkit-specific scale

@@ -3,5 +3,4 @@
 {
   # List your module files here
   user-vars = import ./user-vars.nix;
-  xdg-portal = import ./xdg-portal.nix;
 }

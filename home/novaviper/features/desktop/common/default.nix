@@ -25,18 +25,9 @@
   ];
 
   xdg = {
-    portal = {
-      enable = true;
-      xdgOpenUsePortal = true;
-      gtkUsePortal = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-wlr
-      ];
-    };
     mimeApps.enable = true;
-  };
 
-  # Make mimeapps.list be overriden by default
-  xdg.configFile."mimeapps.list".force = true;
+    # Make mimeapps.list be overriden by default
+    configFile."mimeapps.list".force = true;
+  };
 }
