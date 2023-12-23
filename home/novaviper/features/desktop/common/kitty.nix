@@ -47,7 +47,7 @@
       "f7" = "focus_visible_window";
       "f8" = "swap_with_window";
 
-      "pctrl+left" = "resize_window narrower";
+      "ctrl+left" = "resize_window narrower";
       "ctrl+right" = "resize_window wider";
       "ctrl+up" = "resize_window taller";
       "ctrl+down" = "resize_window shorter";
@@ -99,7 +99,7 @@
       #term = "xterm-256color";
       #shell = "${pkgs.zsh}/bin/zsh --login --interactive";
       #kitty_mod = "ctrl+shift";
-      startup_session = "default.conf";
+      #startup_session = "default.conf";
       # }}}
 
       # Cursor {{{

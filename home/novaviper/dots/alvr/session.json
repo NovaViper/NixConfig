@@ -1,11 +1,11 @@
 {
-  "server_version": "21.0.0-dev00+nightly.2023.11.02",
+  "server_version": "20.5.0",
   "drivers_backup": null,
   "openvr_config": {
-    "eye_resolution_width": 1440,
-    "eye_resolution_height": 1568,
-    "target_eye_resolution_width": 1440,
-    "target_eye_resolution_height": 1568,
+    "eye_resolution_width": 2144,
+    "eye_resolution_height": 2336,
+    "target_eye_resolution_width": 2144,
+    "target_eye_resolution_height": 2336,
     "tracking_ref_only": false,
     "enable_vive_tracker_proxy": false,
     "aggressive_keyframe_resend": false,
@@ -25,19 +25,19 @@
     "sw_thread_count": 0,
     "controller_is_tracker": false,
     "controllers_enabled": true,
-    "enable_foveated_rendering": false,
-    "foveation_center_size_x": 0.0,
-    "foveation_center_size_y": 0.0,
-    "foveation_center_shift_x": 0.0,
-    "foveation_center_shift_y": 0.0,
-    "foveation_edge_ratio_x": 0.0,
-    "foveation_edge_ratio_y": 0.0,
+    "enable_foveated_encoding": true,
+    "foveation_center_size_x": 0.45,
+    "foveation_center_size_y": 0.4,
+    "foveation_center_shift_x": 0.4,
+    "foveation_center_shift_y": 0.1,
+    "foveation_edge_ratio_x": 4.0,
+    "foveation_edge_ratio_y": 5.0,
     "enable_color_correction": true,
     "brightness": 0.0,
     "contrast": 0.0,
     "saturation": 0.5,
     "gamma": 1.0,
-    "sharpening": 0.0,
+    "sharpening": 0.5,
     "linux_async_reprojection": false,
     "nvenc_quality_preset": 1,
     "nvenc_tuning_preset": 2,
@@ -62,12 +62,10 @@
     "_controller_profile": 1
   },
   "client_connections": {
-    "1906.client.alvr": {
+    "9251.client.alvr": {
       "display_name": "Quest",
       "current_ip": "192.168.1.77",
-      "manual_ips": [
-        "192.168.1.77"
-      ],
+      "manual_ips": [],
       "trusted": true,
       "connection_state": "Disconnected",
       "cabled": false
@@ -80,24 +78,24 @@
       "transcoding_view_resolution": {
         "Scale": 1.0,
         "Absolute": {
-          "width": 2592,
+          "width": 2144,
           "height": {
             "set": false,
             "content": 1072
           }
         },
-        "variant": "Scale"
+        "variant": "Absolute"
       },
       "emulated_headset_view_resolution": {
         "Scale": 1.0,
         "Absolute": {
-          "width": 2592,
+          "width": 2144,
           "height": {
             "set": false,
             "content": 1072
           }
         },
-        "variant": "Scale"
+        "variant": "Absolute"
       },
       "preferred_fps": 72.0,
       "max_buffering_frames": 2.0,
@@ -249,8 +247,8 @@
           ]
         ]
       },
-      "foveated_rendering": {
-        "enabled": false,
+      "foveated_encoding": {
+        "enabled": true,
         "content": {
           "gui_collapsed": true,
           "center_size_x": 0.45,
@@ -281,7 +279,6 @@
           "vertical_offset_deg": 0.0
         }
       },
-      "dynamic_oculus_foveation": true,
       "color_correction": {
         "enabled": true,
         "content": {
@@ -290,7 +287,7 @@
           "contrast": 0.0,
           "saturation": 0.5,
           "gamma": 1.0,
-          "sharpening": 0.0
+          "sharpening": 0.5
         }
       }
     },
@@ -304,9 +301,9 @@
         "content": {
           "gui_collapsed": true,
           "device": {
-            "set": false,
+            "set": true,
             "content": {
-              "NameSubstring": "",
+              "NameSubstring": "pipewire",
               "Index": 0,
               "variant": "NameSubstring"
             }
@@ -590,10 +587,11 @@
       "tracking_ref_only": false,
       "enable_vive_tracker_proxy": false,
       "face_tracking": {
-        "enabled": false,
+        "enabled": true,
         "content": {
           "gui_collapsed": true,
           "sources": {
+            "combined_eye_gaze": true,
             "eye_tracking_fb": true,
             "face_tracking_fb": true,
             "eye_expressions_htc": true,
@@ -908,7 +906,7 @@
             "enabled": true,
             "content": {
               "gui_collapsed": true,
-              "only_touch": false,
+              "only_touch": true,
               "pinch_touch_distance": 0.0,
               "pinch_trigger_distance": 0.25,
               "curl_touch_distance": 2.0,
@@ -1011,8 +1009,8 @@
       "max_queued_server_video_frames": 1024,
       "avoid_video_glitching": false,
       "aggressive_keyframe_resend": false,
-      "on_connect_script": "/home/novaviper/Games/easyalvr-audio.sh",
-      "on_disconnect_script": "/home/novaviper/Games/easyalvr-audio.sh",
+      "on_connect_script": "/home/novaviper/.config/alvr/audio-setup.sh",
+      "on_disconnect_script": "/home/novaviper/.config/alvr/audio-setup.sh",
       "packet_size": 1400,
       "statistics_history_size": 256
     },
@@ -1024,7 +1022,7 @@
           "variant": "Error"
         }
       },
-      "log_to_disk": true,
+      "log_to_disk": false,
       "log_tracking": false,
       "log_button_presses": false,
       "log_haptics": false,
@@ -1045,7 +1043,7 @@
       "driver_launch_action": {
         "variant": "UnregisterOtherDriversAtStartup"
       },
-      "open_close_steamvr_with_dashboard": true
+      "open_close_steamvr_with_dashboard": false
     },
     "capture": {
       "gui_collapsed": false,

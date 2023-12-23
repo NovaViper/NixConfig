@@ -33,6 +33,11 @@
         };
       };
     };
+
+    alvr = {
+      enable = config.variables.useVR;
+      openFirewall = true;
+    };
   };
 
   hardware = {

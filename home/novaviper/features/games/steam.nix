@@ -50,17 +50,6 @@
           startupNotify = true;
           comment = "Beat Saber ModManager is a mod manager for Beat Saber";
         };
-        "ALVR" = {
-          name = "ALVR";
-          genericName = "Game";
-          exec = "${config.home.homeDirectory}/Games/ALVR-x86_64.AppImage";
-          icon = "alvr";
-          type = "Application";
-          categories = [ "Game" ];
-          startupNotify = true;
-          comment =
-            "ALVR is an open source remote VR display which allows playing SteamVR games on a standalone headset such as Gear VR or Oculus Go/Quest.";
-        };
       })
     ];
   };
