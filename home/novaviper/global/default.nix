@@ -1,4 +1,4 @@
-{ inputs, lib, pkgs, config, outputs, ... }:
+{ inputs, outputs, lib, pkgs, config, ... }:
 
 {
   imports = [
@@ -22,6 +22,9 @@
     };
   };
 
+  # Enable HTML help page
+  manual.html.enable = true;
+
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
@@ -40,6 +43,7 @@
       #FLAKE = "/etc/nixos/nixos-config";
       #CARGO_HOME = "${config.xdg.dataHome}/cargo";
     };
+    file = { "./Pictures/Wallpapers".source = inputs.wallpapers; };
     /* persistence = {
          "/persist/home/novaviper" = {
            directories = [

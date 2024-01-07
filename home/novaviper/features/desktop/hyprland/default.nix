@@ -24,6 +24,14 @@ in {
     ({ XCURSOR_SIZE = "32"; })
   ];
 
+  xdg.portal = {
+    extraPortals = [
+      pkgs.xdg-desktop-portal-wlr
+      pkgs.inputs.hyprland.xdg-desktop-portal-hyprland
+    ];
+    configPackages = [ pkgs.inputs.hyprland.hyprland ];
+  };
+
   programs.waybar = {
     enable = true;
     systemd = {
@@ -60,7 +68,7 @@ in {
     enable = true;
     systemd.enable = true;
     package = pkgs.inputs.hyprland.hyprland;
-    enableNvidiaPatches = nvidia;
+    #enableNvidiaPatches = nvidia;
     settings = {
       # change monitor to high resolution, the last argument is the scale factor
       monitor = "${machineScale}";

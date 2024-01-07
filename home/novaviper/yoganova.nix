@@ -3,6 +3,7 @@
 {
   imports = [
     ./global
+    ./features/theming
     ./features/desktop/kde
     ./features/games
     ./features/emacs
@@ -28,7 +29,6 @@
         TapToClick = true;
         TapDragLock = true;
       };
-      kxkbrc.Layout.Options = "caps:ctrl_modifier";
       kwinrc.Xwayland.Scale = 1.25;
     };
   };

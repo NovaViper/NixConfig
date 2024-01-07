@@ -3,4 +3,5 @@
 {
   # List your module files here
   user-vars = import ./user-vars.nix;
+  theme = import ./theme.nix;
 }

@@ -3,6 +3,7 @@
 {
   imports = [
     ./global
+    ./features/theming
     ./features/desktop/kde
     ./features/games
     ./features/emacs

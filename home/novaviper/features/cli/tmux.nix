@@ -7,10 +7,12 @@ in {
   };
 
   programs = {
+    # Fixes issue where cava can't run under tmux
     zsh.shellAliases = lib.mkIf (config.programs.cava.enable) {
       cava = "TERM=xterm-256color cava";
     };
-    fzf.tmux.enableShellIntegration = true;
+    fzf.tmux.enableShellIntegration =
+      lib.mkIf (config.programs.fzf.enable) true;
     tmux = {
       enable = true;
       aggressiveResize = true;
@@ -31,6 +33,7 @@ in {
         set -s set-clipboard on
         set -g set-titles on
         set -g set-titles-string "#S / #W / #(pwd)"
+        set -g allow-passthrough on
 
         # Enable full RGB support
         set -as terminal-features ",*-256color:RGB"

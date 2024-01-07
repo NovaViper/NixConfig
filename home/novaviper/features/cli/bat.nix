@@ -11,7 +11,7 @@
       prettybat
     ];
     config = {
-      theme = "Dracula";
+      theme = "${config.theme.name}";
       map-syntax = [ ".ignore:Git Ignore" "*.conf:INI" ];
     };
   };

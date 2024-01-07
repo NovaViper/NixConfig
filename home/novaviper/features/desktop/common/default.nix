@@ -1,9 +1,10 @@
-{ lib, pkgs, outputs, ... }:
+{ lib, pkgs, outputs, config, ... }:
 
 {
   imports = [
     ./font.nix
-    ./theme.nix
+    ./gtk.nix
+    ./qt.nix
     ./discord.nix
 
     # Music
@@ -19,15 +20,19 @@
 
     # Terminals
     #./alacritty.nix
-    ./wezterm.nix
+    #./wezterm.nix
     #./rio.nix
-    #./kitty.nix
+    ./kitty.nix
   ];
 
   xdg = {
+    # Allow modification of app assosications
     mimeApps.enable = true;
 
     # Make mimeapps.list be overriden by default
     configFile."mimeapps.list".force = true;
+
+    # Enable desktop portal
+    portal.enable = true;
   };
 }

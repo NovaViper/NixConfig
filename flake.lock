@@ -283,7 +283,8 @@
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-howdy": "nixpkgs-howdy",
         "plasma-manager": "plasma-manager",
-        "sops-nix": "sops-nix"
+        "sops-nix": "sops-nix",
+        "wallpapers": "wallpapers"
       }
     },
     "sops-nix": {
@@ -319,6 +320,22 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default-linux",
+        "type": "github"
+      }
+    },
+    "wallpapers": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1703877214,
+        "narHash": "sha256-ucVaq+DYb0+fos9dkaBhqvhYznhTWKj3xbNnHFOhVFI=",
+        "owner": "NovaViper",
+        "repo": "Wallpapers",
+        "rev": "6ab1f989339a4ed9bef01ce37b405a910ed3b3d9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NovaViper",
+        "repo": "Wallpapers",
         "type": "github"
       }
     },

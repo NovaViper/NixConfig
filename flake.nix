@@ -13,6 +13,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    wallpapers = {
+      url = "github:NovaViper/Wallpapers";
+      flake = false;
+    };
+
     ## Hyperland
     hyprland = {
       url = "github:hyprwm/hyprland";

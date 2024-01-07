@@ -39,6 +39,8 @@ in {
       enableWidevine = true;
     };
 
+    papirus-icon-theme = prev.papirus-icon-theme.override { color = "violet"; };
+
     firefox = prev.firefox.override {
       cfg = {
         enableFXCastBridge = true;

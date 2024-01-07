@@ -10,6 +10,7 @@
     ./filesystem.nix
     ./openssh.nix
     ./gpg.nix
+    ./network.nix
     #./sops.nix
     ./security.nix
     #./optin-persistence.nix # TODO Maybe later, alot more involved than initally thought

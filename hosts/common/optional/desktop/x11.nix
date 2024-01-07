@@ -5,9 +5,13 @@
     # Enable the X11 windowing system.
     xserver = {
       enable = true;
+
       # Configure keymap in X11
-      layout = "us";
-      xkbVariant = "";
+      xkb = {
+        layout = "us";
+        variant = "";
+        options = "terminate:ctrl_alt_bksp,caps:ctrl_modifier";
+      };
 
       # Enable touchpad support
       libinput.enable = true;

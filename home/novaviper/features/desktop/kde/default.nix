@@ -54,7 +54,19 @@
 
   programs.plasma = {
     enable = true;
-    workspace.clickItemTo = "select";
+    workspace = {
+      lookAndFeel = "${config.theme.name}";
+      cursorTheme = "${config.theme.cursorTheme.name}";
+      iconTheme = "${config.theme.iconTheme.name}";
+      colorScheme = "DraculaPurple";
+      theme = "default";
+      #wallpaper = "";
+      clickItemTo = "select";
+    };
+    kwin.titlebarButtons = {
+      left = [ "on-all-desktops" "keep-above-windows" ];
+      right = [ "help" "minimize" "maximize" "close" ];
+    };
     shortcuts.yakuake =
       lib.mkIf config.variables.useKonsole { toggle-window-state = "F12"; };
     configFile = {
@@ -62,7 +74,7 @@
         "_k_friendly_name" = "Yakuake";
       };
       kwinrc.NightColor.Active = true;
-      kcminputrc.Mouse.cursorTheme = "Dracula-cursors";
+      kcminputrc.Mouse.cursorSize = config.theme.cursorTheme.size;
       dolphinrc = {
         "KFileDialog Settings" = {
           "Places Icons Auto-resize" = false;

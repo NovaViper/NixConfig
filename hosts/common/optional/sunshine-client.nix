@@ -3,14 +3,9 @@
 {
   environment.systemPackages = with pkgs; [ moonlight-qt ];
 
+  # https://docs.lizardbyte.dev/projects/sunshine/en/latest/about/advanced_usage.html#port
   networking.firewall = {
-    allowedTCPPortRanges = [{
-      from = 47984;
-      to = 48010;
-    }];
-    allowedUDPPortRanges = [{
-      from = 47998;
-      to = 48010;
-    }];
+    allowedTCPPorts = [ 47984 47989 47990 48010 ];
+    allowedUDPPorts = [ 47998 47999 48000 48002 ];
   };
 }

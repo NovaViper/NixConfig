@@ -1,18 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
-  services = {
-    # Printer Setup
-    printing = {
-      enable = true;
-      drivers = with pkgs; [ hplipWithPlugin ];
-    };
-    avahi = {
-      enable = true;
-      nssmdns = true;
-      # for a WiFi printer
-      openFirewall = true;
-    };
+  # Printer Setup
+  services.printing = {
+    enable = true;
+    drivers = with pkgs; [ hplipWithPlugin ];
   };
 
   # Scanner Setup

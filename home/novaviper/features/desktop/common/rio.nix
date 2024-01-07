@@ -2,40 +2,6 @@
 
 {
   xdg = {
-    configFile."rio/themes/dracula.toml".text = ''
-      [colors]
-      background       = '#282A36'
-      black            = '#44475A'
-      blue             = '#BD93F9'
-      cursor           = '#F8F8F2'
-      cyan             = '#8BE9FD'
-      foreground       = '#F8F8F2'
-      green            = '#50fa7b'
-      magenta          = '#FF79C6'
-      red              = '#FF5555'
-      tabs             = '#494c62'
-      tabs-active      = '#6a6e8e'
-      white            = '#F8F8F2'
-      yellow           = '#F1FA8C'
-      dim-black        = '#393C4b'
-      dim-blue         = '#AE7BF8'
-      dim-cyan         = '#69C3dE'
-      dim-foreground   = '#dfdfd9'
-      dim-green        = '#06572F'
-      dim-magenta      = '#FF60BB'
-      dim-red          = '#FF3C3C'
-      dim-white        = '#EFEFE1'
-      dim-yellow       = '#E6A003'
-      light-black      = '#6272A4'
-      light-blue       = '#D6ACFF'
-      light-cyan       = '#A4FFFF'
-      light-foreground = '#f8f8f1'
-      light-green      = '#69FF94'
-      light-magenta    = '#FF92DF'
-      light-red        = '#FF6E6E'
-      light-white      = '#FFFFFF'
-      light-yellow     = '#FFFFA5'
-    '';
     mimeApps = {
       associations = {
         added = {
@@ -57,46 +23,80 @@
   programs.rio = {
     enable = true;
     settings = {
+
+      # Editor
+      #
+      # Default editor is "vi".
+      #
+      # Whenever the key binding `OpenConfigEditor` is triggered it will
+      # use the value of the editor along with the rio configuration path.
+      editor = "vi";
+
       # Cursor
       #
       # Default cursor is Block
       # Other available options are: '_' and '|'
+      #
       cursor = "▇";
 
       # Blinking Cursor
       #
       # Default is false
-      "blinking_cursor" = true;
+      #
+      blinking-cursor = true;
 
       # Ignore theme selection foreground color
       #
       # Default is false
-      "ignore_theme_selection_fg_color" = false;
-
-      # Performance
       #
-      # Set WGPU rendering performance
-      # High: Adapter that has the highest performance. This is often a discrete GPU.
-      # Low: Adapter that uses the least possible power. This is often an integrated GPU.
-      performance = "High";
-
-      # Theme
-      #
-      # It makes Rio look for the specified theme in the themes folder
-      # (macos and linux: ~/.config/rio/themes/dracula.toml)
-      # (windows: C:\Users\USER\AppData\Local\rio\themes\dracula.toml)
-      theme = "dracula";
+      # Example:
+      ignore-selection-foreground-color = false;
 
       # Padding-x
       #
       # define x axis padding (default is 10)
-      # "padding-x" = 10;
+      #
+      # Example:
+      # padding-x = 10;
 
       # Option as Alt
       #
       # This config only works on MacOs.
       # Possible choices: 'both', 'left' and 'right'.
-      # "option-as-alt" = "left";
+      #
+      # Example:
+      # option-as-alt = "left";
+
+      # Startup directory
+      #
+      # Directory the shell is started in. If this is unset the working
+      # directory of the parent process will be used.
+      #
+      # This configuration only has effect if use-fork is disabled
+      #
+      # Example:
+      working-dir = "${config.home.homeDirectory}";
+
+      # Environment variables
+      #
+      # The example below sets fish as the default SHELL using env vars
+      # please do not copy this if you do not need
+      #
+      # Example:
+      env-vars = [
+        "TERM=xterm-256color"
+        "COLORTERM=truecolor"
+        "WINIT_X11_SCALE_FACTOR=1"
+      ];
+
+      # Use fork
+      #
+      # Defaults for POSIX-based systems (Windows is not configurable):
+      # MacOS: spawn processes
+      # Linux/BSD: fork processes
+      #
+      # Example:
+      # use-fork = false;
 
       # Window configuration
       #
@@ -110,38 +110,59 @@
       #     - "Windowed" (default) is based on width and height
       #     - "Maximized" window is created with maximized
       #     - "Fullscreen" window is created with fullscreen
+      #
+      # • background-opacity - Set background opacity
+      #
+      # • foreground-opacity - Set foreground opacity
+      #
+      # • blur - Set blur on the window background. Changing this config requires restarting Rio to take effect.
+      #
+      # • decorations - Set window decorations, options: "Enabled", "Disabled", "Transparent", "Buttonless"
+      #
+      # Example:
       window = {
         width = 1200;
         height = 800;
         mode = "Windowed";
+        foreground-opacity = 1.0;
+        background-opacity = 1.0;
+        blur = false;
+        decorations = "Enabled";
       };
 
-      # Background configuration
+      # Renderer
       #
-      # • opacity - changes the background transparency state
-      #   Default: 1.0
+      # • Performance: Set WGPU rendering performance
+      #   - High: Adapter that has the highest performance
+      #   - Low: Adapter that uses the least possible power. This is often an integrated GPU.
       #
-      # • mode - defines background mode bewteen "Color" and "Image"
+      # • Backend - Set WGPU rendering backend
+      #   - Automatic: Leave Sugarloaf/WGPU to decide
+      #   - GL: Supported on Linux/Android, and Windows and macOS/iOS via ANGLE
+      #   - Vulkan: Supported on Windows, Linux/Android
+      #   - DX12: Supported on Windows 10
+      #   - DX11: Supported on Windows 7+
+      #   - Metal: Supported on macOS/iOS
       #
-      # • image - Set an image as background
-      #   Default: None
-      # background = {
-      #   mode = "Image";
-      #   opacity = 1;
-      #   image = {
-      #     path = "/home/novaviper/Desktop/eastward.jpg";
-      #     width = 200;
-      #     height = 200;
-      #     x = 0;
-      #     y = 0;
-      #   };
-      # };
+      # • disable-renderer-when-unfocused - This property disable renderer processes while Rio is unfocused.
+      renderer = {
+        performance = "High";
+        backend = "Automatic";
+        disable-renderer-when-unfocused = false;
+      };
 
-      # Window Height
+      # Keyboard
       #
-      # window-height changes the inital window height.
-      #   Default: 400
-      "window-height" = 400;
+      # use-kitty-keyboard-protocol - Enable Kitty Keyboard protocol
+      #
+      # disable-ctlseqs-alt - Disable ctlseqs with ALT keys
+      #   - For example: Terminal.app does not deal with ctlseqs with ALT keys
+      #
+      # Example:
+      # keyboard = {
+      #   use-kitty-keyboard-protocol = false;
+      #   disable-ctlseqs-alt = false;
+      # };
 
       # Fonts
       #
@@ -151,33 +172,61 @@
       # will always look for regular font bounds whene
       #
       # You can also set family on root to overwritte all fonts
-      # fonts.family = "cascadiamono";
-      # Example
       # fonts = {
-      #   size = 18;
+      #   family = "cascadiamono";
+      # };
+      #
+      # You can also specify extra fonts to load
+      # fonts = {
+      #   extras = [{ family = "Microsoft JhengHei"; }]
+      # };
+      #
+      #
+      # Example:
+      # fonts = {
+      #   size = 18
       #   regular = {
-      #     family = "MesloLGS Nerd Font";
+      #     family = "cascadiamono";
       #     style = "normal";
       #     weight = 400;
       #   };
       #   bold = {
-      #     family = "MesloLGS Nerd Font";
+      #     family = "cascadiamono";
       #     style = "normal";
       #     weight = 800;
       #   };
       #   italic = {
-      #     family = "MesloLGS Nerd Font";
+      #     family = "cascadiamono";
       #     style = "italic";
       #     weight = 400;
       #   };
-      #   "bold-italic" = {
-      #     family = "MesloLGS Nerd Font";
+      #   bold-italic = {
+      #     family = "cascadiamono";
       #     style = "italic";
       #     weight = 800;
       #   };
       # };
-      fonts.family =
-        "MesloLGS Nerd Font"; # This is currently broken since nixpkgs version is stuck on 0.19.0
+      fonts = {
+        size = 18;
+        family = "MesloLGS Nerd Font";
+      };
+
+      # Scroll
+      #
+      # You can change how many lines are scrolled each time by setting this option.
+      #
+      # Scroll calculation for canonical mode will be based on `lines = (accumulated scroll * multiplier / divider)`,
+      # If you want a quicker scroll, keep increasing the multiplier.
+      # If you want to reduce scroll speed you will need to increase the divider.
+      # You can use both properties also to find the best scroll for you.
+      #
+      # Multiplier default is 3.0.
+      # Divider default is 1.0.
+      # Example:
+      # scroll = {
+      #   multiplier = 3.0;
+      #   divider = 1.0;
+      # };
 
       # Navigation
       #
@@ -191,14 +240,14 @@
       #
       # "clickable" - Enable click on tabs to switch.
       # "use-current-path" - Use same path whenever a new tab is created.
-      # "color-automation" - Set a specific color for the tab whenever a specific program is running.
-      # "macos-hide-window-buttons" - (MacOS only) Hide window buttons
+      # "color-automation" - Set a specific color for the tab whenever a specific program is running, or in a specific directory.
+      #
+      # Example:
       navigation = {
-        mode = "CollapsedTab";
-        clickable = false;
-        "use-current-path" = false;
-        "color-automation" = [ ];
-        #   "macos-hide-window-buttons" = false;
+        mode = "BottomTab";
+        clickable = true;
+        use-current-path = true;
+        color-automation = [ ];
       };
 
       # Shell
@@ -210,51 +259,47 @@
       #   - (macOS) user login shell
       #   - (Linux/BSD) user login shell
       #   - (Windows) powershell
-      shell = {
-        program = "/bin/zsh";
-        args = [ "--login" ];
-      };
-
-      # Startup directory
       #
-      # Directory the shell is started in. If this is unset the working
-      # directory of the parent process will be used.
+      # Example 1 using fish shell from bin path:
       #
-      # This configuration only has effect if use-fork is disabled
-      "working-dir" = "${config.home.homeDirectory}";
-
-      # Environment variables
+      # shell = {
+      #   program = "/bin/fish";
+      #   args = [ "--login" ];
+      # };
       #
-      # The example below sets fish as the default SHELL using env vars
-      # please do not copy this if you do not need
-      "env-vars" = [
-        "TERM=xterm-direct256"
-        "COLORTERM=truecolor"
-        "WINIT_X11_SCALE_FACTOR=1"
-      ];
-
-      # Disable render when unfocused
+      # Example 2 for Windows using powershell
       #
-      # This property disable renderer processes while Rio is unfocused.
-      # "disable-renderer-when-unfocused" = false;
-
-      # Use fork
+      # shell = {
+      #   program = "pwsh";
+      #   args = [];
+      # };
       #
-      # Defaults for POSIX-based systems (Windows is not configurable):
-      # MacOS: spawn processes
-      # Linux/BSD: fork processes
-      # "use-fork" = true;
+      # Example 3 for Windows using powershell with login
+      #
+      # shell = {
+      #   program = "pwsh";
+      #   args = [ "-l" ];
+      # };
+      #
+      # Example 4 for MacOS with tmux installed by homebrew
+      #
+      # shell = {
+      #   program = "/opt/homebrew/bin/tmux";
+      #   args = ["new-session", "-c", "/var/www"];
+      # };
 
       # Colors
       #
       # Colors definition will overwrite any property in theme
       # (considering if theme folder does exists and is being used)
+      #
+      # Example:
       # colors = {
       #   background = "#0F0D0E";
       #   foreground = "#F9F4DA";
       #   cursor = "#F38BA3";
       #   tabs = "#443d40";
-      #   "tabs-active" = "#F38BA3";
+      #   tabs-active = "#F38BA3";
       #   green = "#0BA95B";
       #   red = "#ED203D";
       #   blue = "#12B5E5";
@@ -265,12 +310,15 @@
       #
       # Create custom Key bindings for Rio terminal
       # More information in: raphamorim.io/rio/docs/custom-key-bindings
+      #
+      # Example:
       bindings = {
         keys = [{
           key = "q";
-          "with" = "shift";
+          "with" = "control | shift";
           action = "Quit";
         }
+        # Bytes[27 91 53 126] is equivalent to "\x1b[5~"
         #     {
         #       key = "home";
         #       "with" = "super | shift";
@@ -282,7 +330,11 @@
       # Log level
       #
       # This property enables log level filter. Default is "OFF".
-      developer = { "log-level" = "OFF"; };
+      #
+      # Example:
+      # developer = {
+      #   log-level = "OFF";
+      # };
     };
   };
 }

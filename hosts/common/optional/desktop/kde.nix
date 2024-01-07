@@ -8,7 +8,10 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.xserver = {
-    displayManager.sddm.enable = true;
+    displayManager.sddm = {
+      enable = true;
+      autoNumlock = true;
+    };
     desktopManager.plasma5.enable = true;
   };
 

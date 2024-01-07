@@ -2,9 +2,6 @@
 
 {
   xdg = {
-    configFile."alacritty/themes/dracula.yml".source =
-      ../../../dots/alacritty/dracula.yml;
-
     mimeApps = {
       associations = {
         added = {
@@ -26,7 +23,6 @@
   programs.alacritty = {
     enable = true;
     settings = {
-      import = [ "${config.xdg.configHome}/alacritty/themes/dracula.yml" ];
       env = {
         TERM = "xterm-256color";
         COLORTERM = "truecolor";

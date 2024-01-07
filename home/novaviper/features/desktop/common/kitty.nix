@@ -25,13 +25,8 @@
 
   programs.kitty = {
     enable = true;
-    theme = "Dracula";
-    shellIntegration = {
-      enableZshIntegration = true;
-      #mode = "";
-    };
+    theme = "${config.theme.name}";
     environment = {
-      TERM = "xterm-256color";
       COLORTERM = "truecolor";
       WINIT_X11_SCALE_FACTOR = "1";
     };
@@ -40,25 +35,68 @@
       name = "MesloLGS Nerd Font";
       #size = "";
     };
+    settings = {
+      # Advanced {{{
+      term = "xterm-256color";
+      #shell = "${pkgs.zsh}/bin/zsh --login --interactive";
+      #kitty_mod = "ctrl+shift";
+      #startup_session = "default.conf";
+      # }}}
+
+      # Terminal Bell {{{
+      enable_audio_bell = "yes";
+      visual_bell_duration = "0.5";
+      bell_on_tab = "🔔 ";
+      #command_on_bell = "xkbbell";
+      # }}}
+
+      # Cursor {{{
+      cursor_shape = "underline";
+      cursor_blink_interval = "-1";
+      # }}}
+
+      # Scrollback {{{
+      scrollback_lines = 2000;
+      # }}}
+
+      # Mouse {{{
+      show_hyperlink_targets = "yes";
+      copy_on_select = "yes";
+      paste_actions = "quote-urls-at-prompt";
+      focus_follows_mouse = "yes";
+      # }}}
+
+      # Window Layout {{{
+      initial_window_width = 1920;
+      initial_window_height = 1080;
+
+      enabled_layouts = "tall:bias=65;full_size=1;mirrored=false";
+      # }}}
+
+      # Color Scheme {{{
+      dynamic_background_opacity = "yes";
+      # }}}
+    };
+    extraConfig = "";
     keybindings = {
       #: Window management {{{
       #: New window
-      "kitty_mod+enter" = "new_window";
-      "f7" = "focus_visible_window";
-      "f8" = "swap_with_window";
+      #"kitty_mod+enter" = "new_window";
+      #"f7" = "focus_visible_window";
+      #"f8" = "swap_with_window";
 
-      "ctrl+left" = "resize_window narrower";
-      "ctrl+right" = "resize_window wider";
-      "ctrl+up" = "resize_window taller";
-      "ctrl+down" = "resize_window shorter";
+      #"ctrl+left" = "resize_window narrower";
+      #"ctrl+right" = "resize_window wider";
+      #"ctrl+up" = "resize_window taller";
+      #"ctrl+down" = "resize_window shorter";
 
       # reset all windows in the tab to default sizes
-      "kitty_mod+z" = "resize_window reset";
+      #"kitty_mod+z" = "resize_window reset";
 
       # }}}
 
       #: Tab Management {{{
-      "ctrl+t" = "new_tab";
+      #"ctrl+t" = "new_tab";
       # }}}
 
       # Font Sizes {{{
@@ -82,7 +120,7 @@
       "f10" = "toggle_maximized";
 
       #: Edit config file
-      "f2" = "launch --type=tab emacsclient -nw ~/.config/kitty/kitty.conf";
+      #"f2" = "launch --type=tab emacsclient -nw ~/.config/kitty/kitty.conf";
 
       #: Reload kitty.conf
       "f5" =
@@ -93,48 +131,5 @@
       "f6" = "debug_config";
       # }}}
     };
-    settings = {
-
-      # Advanced {{{
-      #term = "xterm-256color";
-      #shell = "${pkgs.zsh}/bin/zsh --login --interactive";
-      #kitty_mod = "ctrl+shift";
-      #startup_session = "default.conf";
-      # }}}
-
-      # Cursor {{{
-      cursor_shape = "underline";
-      cursor_blink_interval = "-1";
-      # }}}
-
-      # Scrollback {{{
-      scrollback_lines = 2000;
-      # }}}
-
-      # Mouse {{{
-      show_hyperlink_targets = "yes";
-      copy_on_select = "yes";
-      paste_actions = "quote-urls-at-prompt";
-      focus_follows_mouse = "yes";
-      # }}}
-
-      # Window Layout {{{
-      initial_window_width = 1920;
-      initial_window_height = 1080;
-
-      enabled_layouts = "*";
-      # }}}
-
-      # Window Layout {{{
-      tab_bar_style = "powerline";
-      tab_powerline_style = "angled";
-      tab_activity_symbol = "x";
-      # }}}
-
-      # Coloe Scheme {{{
-      dynamic_background_opacity = "yes";
-      # }}}
-    };
-    extraConfig = "";
   };
 }

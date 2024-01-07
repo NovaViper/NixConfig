@@ -4,6 +4,8 @@ with lib;
 let
   inherit (lib) mkOption types;
   cfg = config.variables;
+  cfgde = config.variables.desktop;
+  cfgma = config.variables.machine;
 in {
   options.variables = {
     username = mkOption {
@@ -98,45 +100,46 @@ in {
       }];
     })
 
-    # Remove Konsole if 'useKonsole is NOT enabled (only for KDE since it's already included)', otherwise install yakuake and konsole
-    (mkIf (cfg.desktop.environment == "kde") {
-      # Make SDDM use Wayland
-      services.xserver.displayManager = mkIf cfg.desktop.useWayland {
-        defaultSession = "plasmawayland";
-        sddm.wayland.enable = true;
-      };
+    ({
+      services.xserver = mkMerge [
+        # Enable Wacom touch drivers
+        (mkIf (cfgma.buildType == "laptop") {
+          wacom.enable = mkDefault config.services.xserver.enable;
+        })
+
+        ({
+          displayManager = mkIf (cfgde.environment == "kde") (mkMerge [
+            # Make SDDM use Wayland
+            (mkIf cfgde.useWayland {
+              defaultSession = "plasmawayland";
+              sddm.wayland.enable = true;
+            })
+          ]);
+        })
+      ];
+
+      # Automatic screen orentiation for laptops
+      hardware.sensor.iio.enable =
+        (if (cfgma.buildType == "laptop") then true else false);
 
       environment = {
+        # Remove Konsole if `useKonsole` is NOT enabled (only for KDE since it's already included)
+        plasma5.excludePackages = with pkgs.libsForQt5;
+          mkIf (!cfg.useKonsole && cfgde.environment == "kde") [ konsole ];
+
         systemPackages = with pkgs;
-          mkIf cfg.useKonsole [ libsForQt5.yakuake libsForQt5.konsole ];
-        plasma5 = mkIf (!cfg.useKonsole) {
-          excludePackages = with pkgs.libsForQt5; [ konsole ];
-        };
-      };
-    })
+          (mkMerge [
+            # Add virtual keyboard for touchscreen laptops (Wayland only)
+            (mkIf (cfgde.useWayland && cfgma.buildType == "laptop")
+              [ maliit-keyboard ])
 
-    # Download Konsole if `useKonsole` is used on a DE that DOESN'T include Konsole (like KDE)
-    (mkIf (cfg.useKonsole) {
-      environment = mkIf (cfg.desktop.environment != "kde") {
-        systemPackages = with pkgs.libsForQt5; [ konsole ];
-      };
-    })
-
-    (mkIf (cfg.machine.buildType == "desktop") {
-      # KDE specific stuff
-    })
-
-    (mkIf (cfg.machine.buildType == "laptop") {
-
-      # Automatic screen orentiation
-      hardware.sensor.iio.enable = true;
-
-      # Enable Wacom touch drivers
-      services.xserver.wacom.enable = mkDefault config.services.xserver.enable;
-
-      environment = mkIf (cfg.desktop.useWayland) {
-        # Add virtual keyboard for touchscreen
-        systemPackages = with pkgs; [ maliit-keyboard ];
+            # Download Konsole if `useKonsole` is used on a DE that DOESN'T include Konsole (like KDE);
+            # download Yakuake if `useKonsole` is used on a DE that DOES include Konsole (like KDE)
+            (mkIf (cfg.useKonsole && cfgde.environment != "kde")
+              [ libsForQt5.konsole ])
+            (mkIf (cfg.useKonsole && cfgde.environment == "kde")
+              [ libsForQt5.yakuake ])
+          ]);
       };
     })
   ];
