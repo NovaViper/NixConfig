@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./font.nix
     ./gtk.nix
     ./qt.nix
     ./discord.nix
@@ -24,6 +23,8 @@
     #./rio.nix
     ./kitty.nix
   ];
+
+  fonts.fontconfig.enable = true;
 
   xdg = {
     # Allow modification of app assosications

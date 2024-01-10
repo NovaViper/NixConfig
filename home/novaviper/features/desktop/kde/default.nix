@@ -6,6 +6,11 @@
   variables.desktop.environment = "kde";
 
   xdg = {
+    portal = {
+      extraPortals = [ pkgs.xdg-desktop-portal-kde ];
+      configPackages = lib.mkDefault [ pkgs.xdg-desktop-portal-kde ];
+    };
+
     mimeApps = {
       associations = {
         added = {
@@ -70,6 +75,10 @@
     shortcuts.yakuake =
       lib.mkIf config.variables.useKonsole { toggle-window-state = "F12"; };
     configFile = {
+      "gtk-3.0/settings.ini"."Settings"."gtk-theme-name" =
+        "${config.theme.name}";
+      "gtk-4.0/settings.ini"."Settings"."gtk-theme-name" =
+        "${config.theme.name}";
       kglobalshortcutsrc.yakuake = lib.mkIf config.variables.useKonsole {
         "_k_friendly_name" = "Yakuake";
       };

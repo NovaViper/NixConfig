@@ -1,17 +1,17 @@
 { config, lib, pkgs, ... }:
-
-{
-
-  gtk = {
-    enable = true;
-    gtk2.configLocation = "${config.xdg.configHome}/gtk-2.0/gtkrc";
-  };
+let
+  notKDE =
+    if (config.variables.desktop.environment != "kde") then true else false;
+in {
+  gtk.enable = notKDE;
 
   services.xsettingsd = {
-    enable = true;
+    enable = notKDE;
     settings = {
       "Net/ThemeName" = "${config.theme.name}";
       "Net/IconThemeName" = "${config.theme.iconTheme.name}";
+      "Gtk/CursorThemeName" = "${config.theme.cursorTheme.name}";
+      "Gtk/CursorThemeSize" = config.theme.cursorTheme.size;
     };
   };
 

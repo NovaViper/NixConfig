@@ -23,6 +23,7 @@ My current NixOS (and constant changing) configuration
 - Multiple fully-featured desktop environments (KDE Plasma and XFCE)
 - Includes extra features flags for example configs other can use
 - Live image ISO build with Nvidia drivers and experimental nix features already enabled (and unfree software usage)
+- Global theme configuration
 
 * References
 - [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Makes up a large majority of the entire config, primary template used when making the config

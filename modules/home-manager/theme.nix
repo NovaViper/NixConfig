@@ -25,22 +25,6 @@ in {
       description =
         "The symbolic name of the theme within the package without any spaces.";
     };
-    iconTheme = {
-      package = mkOption {
-        type = types.nullOr types.package;
-        default = null;
-        example = literalExpression "pkgs.papirus-icon-theme";
-        description = ''
-          Package providing the theme. This package will be installed to your profile. If 'null', then the theme is assumed to be already available in your profile.
-        '';
-      };
-      name = mkOption {
-        type = types.str;
-        example = "Papirus-Dark";
-        description =
-          "The symbolic name of the theme within the package without any spaces.";
-      };
-    };
     cursorTheme = {
       package = mkOption {
         type = types.nullOr types.package;
@@ -58,14 +42,29 @@ in {
       };
       size = mkOption {
         type = types.int;
-        default = 24;
+        default = null;
         example = 30;
         description = ''
           The size of the cursor.
         '';
       };
     };
-
+    iconTheme = {
+      package = mkOption {
+        type = types.nullOr types.package;
+        default = null;
+        example = literalExpression "pkgs.papirus-icon-theme";
+        description = ''
+          Package providing the theme. This package will be installed to your profile. If 'null', then the theme is assumed to be already available in your profile.
+        '';
+      };
+      name = mkOption {
+        type = types.str;
+        example = "Papirus-Dark";
+        description =
+          "The symbolic name of the theme within the package without any spaces.";
+      };
+    };
     app = {
       rio.name = mkOption {
         type = types.str;
@@ -106,7 +105,22 @@ in {
 
   };
 
-  config = mkIf (cfg != null) (mkMerge [
+  config = mkIf (cfg != null) (let
+    theme-name = optionalString (cfg.name != null) cfg.name;
+    theme-name-symbolic =
+      optionalString (cfg.nameSymbolic != null) cfg.nameSymbolic;
+    cursor-name =
+      optionalString (cfg.cursorTheme != null && cfg.cursorTheme.name != null)
+      cfg.cursorTheme.name;
+    cursor-size =
+      optionalString (cfg.cursorTheme != null && cfg.cursorTheme.size != null)
+      cfg.cursorTheme.size;
+    icon-name =
+      optionalString (cfg.iconTheme != null && cfg.iconTheme.name != null)
+      cfg.iconTheme.name;
+    rio-name = optionalString (cfgapp.rio.name != null) cfgapp.rio.name;
+    fzf-colors = optionals (cfgapp.fzf.colors != [ ]) cfgapp.fzf.colors;
+  in mkMerge [
     # Import theme for Alacritty!
     # See themes at https://github.com/alacritty/alacritty-theme/tree/master/themes
     (mkIf (config.programs.alacritty.enable) {
@@ -115,30 +129,38 @@ in {
         import = [ "${pkgs.alacritty-theme}/${cfg.nameSymbolic}.yaml" ];
       };
     })
+    # Configure btop
+    (mkIf (config.programs.btop.enable) {
+      programs.btop.settings = mkBefore {
+        #* Themes should be placed in "../share/btop/themes" relative to binary or "$HOME/.config/btop/themes"
+        color_theme =
+          "${pkgs.btop}/share/btop/themes/${theme-name-symbolic}.theme";
+      };
+    })
     # Configure rio
-    (mkIf (config.programs.rio.enable && cfgapp.rio.name != null) {
-      xdg.configFile."rio/themes/${cfgapp.rio.name}.toml".source = fetchGit {
+    (mkIf (cfgapp != null && config.programs.rio.enable) {
+      xdg.configFile."rio/themes/${rio-name}.toml".source = fetchGit {
         url = "https://github.com/raphamorim/rio-terminal-themes";
         rev = "9d76eb416c1cc46f959f236fdfa5479a19c0a070";
-      } + "/themes/${cfgapp.rio.name}.toml";
+      } + "/themes/${rio-name}.toml";
       programs.rio.settings = mkBefore {
         # It makes Rio look for the specified theme in the themes folder
         # (macos and linux: ~/.config/rio/themes/dracula.toml)
         # (windows: C:\Users\USER\AppData\Local\rio\themes\dracula.toml)
-        theme = "${cfgapp.rio.name}";
+        theme = "${rio-name}";
       };
     })
     # Configure the colors for fzf
-    (mkIf (config.programs.fzf.enable && cfgapp.fzf.colors != [ ]) {
-      programs.fzf.colors = cfgapp.fzf.colors;
+    (mkIf (cfgapp != null && config.programs.fzf.enable) {
+      programs.fzf.colors = fzf-colors;
     })
     # Configure the cursor theme
     (mkIf (cfg.cursorTheme != null && config.variables.desktop.environment
       != null) {
         home.pointerCursor = {
           package = cfg.cursorTheme.package;
-          name = cfg.cursorTheme.name;
-          size = cfg.cursorTheme.size;
+          name = cursor-name;
+          size = cursor-size;
           gtk.enable = config.gtk.enable;
           x11.enable = true;
         };
@@ -150,16 +172,16 @@ in {
           name = cfg.name;
           package = cfg.package;
         };
-        iconTheme = {
+        iconTheme = mkIf (cfg.iconTheme != null) {
+          name = icon-name;
           package = cfg.iconTheme.package;
-          name = cfg.iconTheme.name;
         };
       };
     })
     # Configure qt theme
     (mkIf (config.qt.enable && config.qt.platformTheme != "kde") {
       qt.style = {
-        name = cfg.name;
+        name = theme-name;
         package = cfg.package;
       };
     })

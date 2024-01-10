@@ -65,7 +65,7 @@ in {
       };
       size = mkOption {
         type = types.int;
-        default = 24;
+        default = null;
         example = 30;
         description = ''
           The size of the cursor.
