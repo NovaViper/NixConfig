@@ -1,6 +1,6 @@
 #+title: Tips
 * Notable Hints
-Peppered throughout my configuration, I have a set of *special variables from the user-vars module [[file:~/Documents/NixConfig/modules/nixos/user-vars.nix][(nixos)]] [[file:~/Documents/NixConfig/modules/home-manager/user-vars.nix][(home-manager)]]* that all of my configs include. These variables used throughout the flake to switch between different settings per config and allows for more fine control over what settings your system will have in the resultant builds.
+Peppered throughout my configuration, I have a set of *special variables from the user-vars module [[file:../modules/nixos/user-vars.nix][(nixos)]] [[file:../modules/home-manager/user-vars.nix][(home-manager)]]* that all of my configs include. These variables used throughout the flake to switch between different settings per config and allows for more fine control over what settings your system will have in the resultant builds.
 
 NOTE: My iso/vm configurations do not have explicitly defined variables as my other configs do, since null values for them assumes you are trying to build either one of these configs. The only special variables that included are those that are from any of the =host opt-in configurations that lie under hosts/common/optional=
 
