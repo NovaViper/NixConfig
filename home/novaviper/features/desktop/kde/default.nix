@@ -59,15 +59,19 @@
 
   programs.plasma = {
     enable = true;
-    workspace = {
-      lookAndFeel = "${config.theme.name}";
-      cursorTheme = "${config.theme.cursorTheme.name}";
-      iconTheme = "${config.theme.iconTheme.name}";
-      colorScheme = "DraculaPurple";
-      theme = "default";
-      #wallpaper = "";
-      clickItemTo = "select";
-    };
+    workspace = lib.mkMerge [
+      ({
+        #wallpaper = "";
+        clickItemTo = "select";
+      })
+      (lib.mkIf (config.theme != null) {
+        lookAndFeel = "${config.theme.name}";
+        cursorTheme = "${config.theme.cursorTheme.name}";
+        iconTheme = "${config.theme.iconTheme.name}";
+        colorScheme = "DraculaPurple";
+        theme = "default";
+      })
+    ];
     kwin.titlebarButtons = {
       left = [ "on-all-desktops" "keep-above-windows" ];
       right = [ "help" "minimize" "maximize" "close" ];

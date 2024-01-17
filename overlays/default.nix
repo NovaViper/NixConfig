@@ -41,12 +41,7 @@ in {
 
     papirus-icon-theme = prev.papirus-icon-theme.override { color = "violet"; };
 
-    firefox = prev.firefox.override {
-      cfg = {
-        enableFXCastBridge = true;
-        enablePlasmaBrowserIntegration = true;
-      };
-    };
+    firefox = prev.firefox.override { cfg.nativeMessagingHosts.fxCast = true; };
 
     discord = prev.discord.override { withOpenASAR = true; };
   };

@@ -3,11 +3,37 @@ with lib;
 let
   inherit (lib) mkOption types;
   cfg = config.theme;
-
+  cursorThemeModule = types.submodule {
+    options = {
+      package = mkOption {
+        type = with types; nullOr package;
+        default = null;
+        example = literalExpression "pkgs.capitaine-cursors";
+        description = ''
+          Package providing the theme. This package will be installed to your profile. If 'null', then the theme is assumed to be already available in your profile.
+        '';
+      };
+      name = mkOption {
+        type = with types; str;
+        default = "";
+        example = "capitaine-cursors-white";
+        description =
+          "The symbolic name of the theme within the package with no spaces.";
+      };
+      size = mkOption {
+        type = with types; nullOr int;
+        default = null;
+        example = 30;
+        description = ''
+          The size of the cursor.
+        '';
+      };
+    };
+  };
 in {
   options.theme = {
     package = mkOption {
-      type = types.nullOr types.package;
+      type = with types; nullOr package;
       default = null;
       example = literalExpression "pkgs.dracula-theme";
       description = ''
@@ -15,7 +41,8 @@ in {
       '';
     };
     name = mkOption {
-      type = types.str;
+      type = with types; str;
+      default = "";
       example = "Dracula";
       description = "The name of the theme within the package.";
     };
@@ -48,29 +75,10 @@ in {
       '';
     };
     #consoleTheme.enable = mkEnableOption "TTY config generation the theming module";
-    cursorTheme = {
-      package = mkOption {
-        type = types.nullOr types.package;
-        default = null;
-        example = literalExpression "pkgs.capitaine-cursors";
-        description = ''
-          Package providing the theme. This package will be installed to your profile. If 'null', then the theme is assumed to be already available in your profile.
-        '';
-      };
-      name = mkOption {
-        type = types.str;
-        example = "capitaine-cursors-white";
-        description =
-          "The symbolic name of the theme within the package with no spaces.";
-      };
-      size = mkOption {
-        type = types.int;
-        default = null;
-        example = 30;
-        description = ''
-          The size of the cursor.
-        '';
-      };
+    cursorTheme = mkOption {
+      type = types.nullOr cursorThemeModule;
+      default = { };
+      description = "Cursor configuration options.";
     };
   };
 

@@ -7,9 +7,15 @@
     hardware.url = "github:nixos/nixos-hardware";
     #impermanence.url = "github:nix-community/impermanence";
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
+    nix-software-center.url = "github:snowfallorg/nix-software-center";
 
     home-manager = {
       url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -113,7 +119,7 @@
           modules = [ ./hosts/yoganova ];
           specialArgs = { inherit inputs outputs; };
         };
-        isoimage = lib.nixosSystem {
+        nixosIso = lib.nixosSystem {
           modules = [ ./hosts/isoimage ];
           specialArgs = { inherit inputs outputs; };
         };
@@ -131,6 +137,12 @@
         # Laptops
         "novaviper@yoganova" = lib.homeManagerConfiguration {
           modules = [ ./home/novaviper/yoganova.nix ];
+          pkgs = pkgsFor.x86_64-linux;
+          extraSpecialArgs = { inherit inputs outputs; };
+        };
+        # Portal minimum configuration
+        "nixos@nixosIso" = lib.homeManagerConfiguration {
+          modules = [ ./home/novaviper/generic.nix ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
         };
