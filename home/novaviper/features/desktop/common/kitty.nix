@@ -2,9 +2,9 @@
 
 {
   xdg = {
-    configFile = {
-      "kitty/default.conf".source = ../../../dots/kitty/default.conf;
-    };
+    #configFile = {
+    #  "kitty/default.conf".source = ../../../dots/kitty/default.conf;
+    #};
     mimeApps = {
       associations = {
         added = {
@@ -111,7 +111,7 @@
 
       #: Miscellaneous {{{
       #: Show documentation
-      "f1" = "show_kitty_doc overview";
+      "f9" = "show_kitty_doc overview";
 
       #: Toggle fullscreen
       "f11" = "toggle_fullscreen";
@@ -125,8 +125,7 @@
       #: Reload kitty.conf
       "f5" =
         "combine : load_config_file : launch --type=overlay --hold --allow-remote-control kitty @ send-text 'kitty config reloaded'";
-      "ctrl+r" =
-        "combine : load_config_file : launch --type=overlay --hold --allow-remote-control kitty @ send-text 'kitty config reloaded'";
+      #"ctrl+r" = "combine : load_config_file : launch --type=overlay --hold --allow-remote-control kitty @ send-text 'kitty config reloaded'";
       #: Debug kitty configuration
       "f6" = "debug_config";
       # }}}

@@ -22,7 +22,6 @@
     dwt1-shell-color-scripts # Display cool graphics in terminal
     cmatrix # Show off the Matrix
     timer # Cooler timer in terminal
-    tree
     inputs.nh.default # nixos-rebuild and home-manager CLI wrapper
     dmidecode
   ];

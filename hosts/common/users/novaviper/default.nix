@@ -33,12 +33,16 @@ in {
 
     geoclue2 = {
       enableDemoAgent = lib.mkForce true;
-      enable = true;
+      submitData = true;
+      appConfig.vivaldi = {
+        isAllowed = true;
+        isSystem = false;
+      };
     };
 
     # Setup automatic timezone detection
-    #automatic-timezoned.enable = true;
-    localtimed.enable = true;
+    automatic-timezoned.enable = true;
+    #localtimed.enable = true;
   };
 
   # Setup geolocation

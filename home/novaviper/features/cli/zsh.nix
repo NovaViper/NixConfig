@@ -17,35 +17,48 @@
   };
 
   home.packages = lib.mkMerge [
-    (lib.mkIf config.variables.desktop.useWayland [
-      pkgs.wl-clipboard
-      pkgs.wl-clipboard-x11
-    ])
+    (lib.mkIf (config.variables.desktop.useWayland)
+      (with pkgs; [ wl-clipboard wl-clipboard-x11 ]))
 
-    (lib.mkIf (!config.variables.desktop.useWayland) [
-      pkgs.xclip
-      pkgs.xsel
-      pkgs.xdotool
-      pkgs.xorg.xwininfo
-      pkgs.xorg.xprop
-    ])
+    (lib.mkIf (!config.variables.desktop.useWayland)
+      (with pkgs; [ xclip xsel xdotool xorg.xwininfo xorg.xprop ]))
   ];
 
   services.gpg-agent.enableZshIntegration = true;
 
   programs = {
+    # Better shell history search
     mcfly = {
       enable = true;
-      enableZshIntegration = true;
       fuzzySearchFactor = 2;
       keyScheme = "vim";
+      fzf.enable = true;
     };
-
+    # Custom colors for ls, grep and more
+    dircolors.enable = true;
+    # Better tree command
+    broot = {
+      enable = true;
+      settings = {
+        # Enable vim mode
+        modal = true;
+      };
+    };
+    # terminal file manager written in Go
+    lf = {
+      enable = true;
+      settings = {
+        number = true;
+        tabstop = 4;
+      };
+    };
+    # Command-line fuzzy finder
     fzf = {
       enable = true;
-      enableZshIntegration = true;
+      #defaultOptions = [ ];
     };
 
+    # The shell itself
     zsh = {
       enable = true;
       enableCompletion = true;
@@ -67,11 +80,12 @@
         expireDuplicatesFirst = true;
         extended = true;
         ignoreDups = true;
-        path = "$HOME/.config/zsh/.zsh_history";
+        path = "${config.xdg.configHome}/zsh/.zsh_history";
       };
       localVariables = {
         AUTO_NOTIFY_EXPIRE_TIME = 5000; # in miliseconds
-        ZVM_CURSOR_STYLE_ENABLED = false;
+        ZVM_INIT_MODE = "sourcing"; # Make zsh-vi-mode be sourced
+        ZVM_CURSOR_STYLE_ENABLED = false; # Disable zsh-vi-mode's custom cursors
         SPROMPT =
           "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [nyae] ";
         HISTTIMEFORMAT = "[%F %T] ";
@@ -92,7 +106,7 @@
           ""}
       '';
 
-      initExtra = ''
+      initExtra = lib.mkAfter ''
         # Append extra variables
         AUTO_NOTIFY_IGNORE+=("yadm" "emacs" "nix-shell")
 
@@ -110,7 +124,7 @@
         fi
 
         # Create shell prompt
-        if [ $(tput cols) -ge '80' ] || [ $(tput cols) -ge '100' ]; then
+        if [ $(tput cols) -ge '75' ] || [ $(tput cols) -ge '100' ]; then
           ${pkgs.dwt1-shell-color-scripts}/bin/colorscript exec square
           ${pkgs.toilet}/bin/toilet -f pagga "FOSS AND BEAUTIFUL" --metal
         fi
@@ -161,72 +175,71 @@
         start-minecraft-server = lib.mkIf (config.programs.mangohud.enable)
           "cd ~/Games/MinecraftServer-1.20.1/ && ./run.sh --nogui && cd || cd";
       };
-      /* antidote = {
+      antidote = {
+        enable = true;
+        useFriendlyNames = true;
+        plugins = [
+          # Prompts
+          "romkatv/powerlevel10k"
+
+          #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
+          "jeffreytse/zsh-vi-mode"
+
+          # Fish-like Plugins
+          "mattmc3/zfunctions"
+          "Aloxaf/fzf-tab"
+          "MichaelAquilina/zsh-auto-notify"
+
+          # Sudo escape
+          "ohmyzsh/ohmyzsh path:lib"
+          "ohmyzsh/ohmyzsh path:plugins/sudo"
+
+          # Tmux integration
+          (lib.mkIf (config.programs.tmux.enable)
+            "ohmyzsh/ohmyzsh path:plugins/tmux")
+
+          # Nix stuff
+          "chisui/zsh-nix-shell"
+
+          # Make ZLE use system clipboard
+          "kutsan/zsh-system-clipboard"
+        ];
+      };
+
+      /* zplug = {
            enable = true;
-           useFriendlyNames = true;
+           zplugHome = "${config.xdg.configHome}/zsh/zplug";
            plugins = [
              # Prompts
-             "romkatv/powerlevel10k"
-
+             {
+               name = "romkatv/powerlevel10k";
+               tags = [ "as:theme" "depth:1" ];
+             }
              #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
-             "jeffreytse/zsh-vi-mode"
-
-             # Fish-like Plugins
-             "mattmc3/zfunctions"
-             "Aloxaf/fzf-tab"
-             "MichaelAquilina/zsh-auto-notify"
-
+             { name = "jeffreytse/zsh-vi-mode"; }
+             { name = "mattmc3/zfunctions"; }
+             { name = "Aloxaf/fzf-tab"; }
+             {
+               name = "MichaelAquilina/zsh-auto-notify";
+             }
              # Sudo escape
-             "ohmyzsh/ohmyzsh path:lib"
-             "ohmyzsh/ohmyzsh path:plugins/sudo"
-
-             #"ohmyzsh/ohmyzsh path:plugins/tmux"
-
+             {
+               name = "plugins/sudo";
+               tags = [ "from:oh-my-zsh" ];
+             }
+             (lib.mkIf (config.programs.tmux.enable) {
+               name = "plugins/tmux";
+               tags = [ "from:oh-my-zsh" ];
+             })
              # Nix stuff
-             "chisui/zsh-nix-shell"
-
+             {
+               name = "chisui/zsh-nix-shell";
+             }
              # Make ZLE use system clipboard
-             "kutsan/zsh-system-clipboard"
+             { name = "kutsan/zsh-system-clipboard"; }
            ];
          };
       */
-      zplug = {
-        enable = true;
-        zplugHome = "${config.xdg.configHome}/zsh/zplug";
-        plugins = [
-          # Prompts
-          {
-            name = "romkatv/powerlevel10k";
-            tags = [ "as:theme" "depth:1" ];
-          }
-          #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
-          { name = "jeffreytse/zsh-vi-mode"; }
-          { name = "mattmc3/zfunctions"; }
-          { name = "Aloxaf/fzf-tab"; }
-          {
-            name = "MichaelAquilina/zsh-auto-notify";
-          }
-          # Sudo escape
-          {
-            name = "plugins/sudo";
-            tags = [ "from:oh-my-zsh" ];
-          }
-          (lib.mkIf (config.programs.tmux.enable) {
-            name = "plugins/tmux";
-            tags = [ "from:oh-my-zsh" ];
-          })
-          # Nix stuff
-          {
-            name = "chisui/zsh-nix-shell";
-          }
-          # Make ZLE use system clipboard
-          { name = "kutsan/zsh-system-clipboard"; }
-        ];
-      };
-    };
-    dircolors = {
-      enable = true;
-      enableZshIntegration = true;
     };
   };
 }

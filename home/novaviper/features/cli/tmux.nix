@@ -21,7 +21,7 @@ in {
       historyLimit = 5000;
       keyMode = "vi";
       mouse = true;
-      escapeTime = 0;
+      #escapeTime = 0;
       shortcut = "a";
       terminal = "tmux-256color";
       resizeAmount = 15;
@@ -129,33 +129,44 @@ in {
           '';
         }
         open
+        fuzzback
+        extrakto
+        tmux-fzf
         {
           plugin = dracula;
           extraConfig = ''
             # Theme settings
             # available plugins: battery, cpu-usage, git, gpu-usage, ram-usage, network, network-bandwidth, network-ping, attached-clients, network-vpn, weather, time, spotify-tui, kubernetes-context
-            set -g @dracula-plugins "battery weather gpu-usage git time"
+            set -g @dracula-plugins "battery cpu-usage ram-usage git time"
 
             # Show powerline symbols
-            set -g @dracula-show-powerline false
+            set -g @dracula-show-powerline true
 
             # Enable window flags
             set -g @dracula-show-flags true
 
-            # Switch left icon, can accept `session`, `smiley`, `window`, or any character.
-            set -g @dracula-show-left-icon smiley
+            # it can accept `hostname` (full hostname), `session`, `shortname` (short name), `smiley`, `window`, or any character.
+            set -g @dracula-show-left-icon window
 
             # Hide empty plugins
             set -g @dracula-show-empty-plugins false
 
+            # time options
+            set -g @dracula-show-timezone false
+
+            # weather options
+            set -g @dracula-show-location false
+            set -g @dracula-border-contrast true
+
+
             # Theme color settings
             # available colors: white, gray, dark_gray, light_purple, dark_purple, cyan, green, orange, red, pink, yellow
             # set -g @dracula-[plugin-name]-colors "[background] [foreground]"
-            set -g @dracula-gpu-usage-colors "red white"
+            #set -g @dracula-gpu-usage-colors "red white"
           '';
         }
         /* {
-                plugin = tmux-nova;
+                plugin = nova;
                 extraConfig = ''
                   # -- theme -----------------------------------------------------------------
                   # Dracula Color Palette

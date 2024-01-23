@@ -3,6 +3,7 @@
 {
   imports = [
     #inputs.impermanence.nixosModules.home-manager.impermanence
+    inputs.nix-colors.homeManagerModule
     inputs.plasma-manager.homeManagerModules.plasma-manager
     ../features/cli
     ../features/nvim

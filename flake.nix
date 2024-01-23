@@ -6,6 +6,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     hardware.url = "github:nixos/nixos-hardware";
     #impermanence.url = "github:nix-community/impermanence";
+    nix-colors.url = "github:misterio77/nix-colors";
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
     nix-software-center.url = "github:snowfallorg/nix-software-center";
 

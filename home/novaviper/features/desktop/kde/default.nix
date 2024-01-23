@@ -59,19 +59,7 @@
 
   programs.plasma = {
     enable = true;
-    workspace = lib.mkMerge [
-      ({
-        #wallpaper = "";
-        clickItemTo = "select";
-      })
-      (lib.mkIf (config.theme != null) {
-        lookAndFeel = "${config.theme.name}";
-        cursorTheme = "${config.theme.cursorTheme.name}";
-        iconTheme = "${config.theme.iconTheme.name}";
-        colorScheme = "DraculaPurple";
-        theme = "default";
-      })
-    ];
+    workspace.clickItemTo = "select";
     kwin.titlebarButtons = {
       left = [ "on-all-desktops" "keep-above-windows" ];
       right = [ "help" "minimize" "maximize" "close" ];
@@ -79,10 +67,6 @@
     shortcuts.yakuake =
       lib.mkIf config.variables.useKonsole { toggle-window-state = "F12"; };
     configFile = {
-      "gtk-3.0/settings.ini"."Settings"."gtk-theme-name" =
-        "${config.theme.name}";
-      "gtk-4.0/settings.ini"."Settings"."gtk-theme-name" =
-        "${config.theme.name}";
       kglobalshortcutsrc.yakuake = lib.mkIf config.variables.useKonsole {
         "_k_friendly_name" = "Yakuake";
       };
