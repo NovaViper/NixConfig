@@ -3,6 +3,7 @@
 [[https://builtwithnix.org][https://img.shields.io/badge/Built_with_Nix-white.svg?style=for-the-badge&logo=nixos&logoColor=white&color=41439a&test.svg]]
 [[https://codeberg.org/NovaViper/NixConfig][https://img.shields.io/badge/Codeberg-white.svg?style=for-the-badge&logo=codeberg&logoColor=white&color=2185D0&test.svg]]
 [[https://github.com/NovaViper/NixConfig][https://img.shields.io/badge/Github-white.svg?style=for-the-badge&logo=github&logoColor=white&color=121011&test.svg]]
+[[https://gitlab.com/NovaViper/NixConfig][https://img.shields.io/badge/GitLab-330F63?style=for-the-badge&logo=gitlab&logoColor=white&test.svg]]
 
 My current NixOS (and constant changing) configuration
 
