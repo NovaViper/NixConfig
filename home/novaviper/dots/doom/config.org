@@ -56,6 +56,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#load-additional-mu4e-commands][Load Additional Mu4e Commands]]
     - [[#main-configurations][Main Configurations]]
     - [[#mail-contexts][Mail Contexts]]
+- [[#tramps-fixes][Tramps Fixes]]
 
 * References
 - [[https://github.com/zzamboni/dot-doom][ZZamboni's doom.org file]] - For primary configuration for Doom Emacs
@@ -454,7 +455,7 @@ Installs several packages I need,
 Declares paths for various functions
 #+begin_src emacs-lisp
 (setq doom_directory "~/.config/doom/")
-(setq mail_directory "~/.cache/")
+(setq mail_directory "~/.local/share")
 #+end_src
 
 ** User Information
@@ -992,4 +993,16 @@ This configures mu and mu4e (mu 4 emacs). These configs are ONLY loaded when ~mu
 Declares mu4e contexts for my accounts
 #+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
 (load (concat doom_directory "mu4e-accounts.el"))
+#+end_src
+* Tramps Fixes
+Testing potential fix with Emacs Tramp 2.6.2.01
+#+begin_src emacs-lisp :tangle (if (not (version< emacs-version "29.2")) "yes" "no")
+(with-eval-after-load 'tramp
+;;(setq tramp-verbose 10)
+;;(setq tramp-debug-to-file t)
+(customize-set-variable 'tramp-otp-password-prompt-regexp
+  (rx bol (* nonl)
+      ;; JumpCloud.
+      (group (| "Verification code" "Enter PIN"))
+      (* nonl) (any ":：៖") (* blank))))
 #+end_src

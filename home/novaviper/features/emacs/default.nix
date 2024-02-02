@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
-
-{
+let
+  pack = if (config.variables.desktop.useWayland) then
+    pkgs.emacs-pgtk
+  else
+    pkgs.emacs-unstable;
+in {
 
   services.emacs = {
     enable = true;
@@ -15,7 +19,8 @@
   programs = {
     emacs = {
       enable = true;
-      #package = pkgs.emacs-gtk;
+      package = pack;
+      extraPackages = epkgs: with epkgs; [ tramp pdf-tools ];
     };
     pyenv.enable = true;
   };
@@ -124,9 +129,6 @@
       nodePackages.vscode-langservers-extracted
       omnisharp-roslyn
       java-language-server
-
-      # :tools pdf
-      #emacsPackages.pdf-tools
 
       # :lang java
       #jdt-language-server

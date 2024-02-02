@@ -3,28 +3,46 @@
   description = "My NixOS Configurations for multiple machines";
 
   inputs = {
+    # Core dependencies
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     hardware.url = "github:nixos/nixos-hardware";
     #impermanence.url = "github:nix-community/impermanence";
-    nix-colors.url = "github:misterio77/nix-colors";
-    nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
-    nix-software-center.url = "github:snowfallorg/nix-software-center";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-stable.follows = "";
     };
 
+    # Extras
+    nix-colors.url = "github:misterio77/nix-colors";
+    nix-software-center.url = "github:snowfallorg/nix-software-center";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
+    nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
+    plasma-manager = {
+      url = "github:pjones/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     wallpapers = {
       url = "github:NovaViper/Wallpapers";
       flake = false;
     };
-
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nh = {
+      url = "github:viperml/nh";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     ## Hyperland
     hyprland = {
       url = "github:hyprwm/hyprland";
@@ -39,28 +57,6 @@
       inputs.hyprland.follows = "hyprland";
     };
     ##
-
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "";
-    };
-
-    nh = {
-      url = "github:viperml/nh";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    firefox-addons = {
-      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    plasma-manager = {
-      url = "github:pjones/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
   };
 
   outputs = { self, nixpkgs, home-manager, plasma-manager, ... }@inputs:
@@ -104,8 +100,6 @@
       # Formatter for your nix files, available through 'nix fmt'
       # Other options beside 'alejandra' include 'nixpkgs-fmt'
       formatter = forEachSystem (pkgs: pkgs.nixpkgs-fmt);
-
-      #wallpapers = import ./home/misterio/wallpapers;
 
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'

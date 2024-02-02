@@ -6,6 +6,7 @@ let
     (oldAttrs: { patches = (oldAttrs.patches or [ ]) ++ patches; });
 in {
   nh = inputs.nh.overlays.default;
+  emacs = inputs.emacs-overlay.overlay;
 
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.system}' or
