@@ -20,8 +20,8 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" "repl-flake" ];
       warn-dirty = false;
-      substituters = lib.mkBefore [ "https://nix-community.cachix.org" ];
-      trusted-public-keys = lib.mkBefore [
+      substituters = lib.mkAfter [ "https://nix-community.cachix.org" ];
+      trusted-public-keys = lib.mkAfter [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       ];
     };
