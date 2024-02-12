@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 let
   pack = if (config.variables.desktop.useWayland) then
-    pkgs.emacs-pgtk
+    pkgs.emacs29-pgtk
   else
-    pkgs.emacs-unstable;
+    pkgs.emacs29;
 in {
 
   services.emacs = {
@@ -20,16 +20,17 @@ in {
     emacs = {
       enable = true;
       package = pack;
-      overrides = final: prev: {
-        tramp = final.melpaBuild {
-          inherit (prev.tramp) pname version src;
-          patches = (prev.tramp.patches or [ ]) ++ [ ./tramp.patch ];
-          commit = "1"; # Dumby value
-          recipe = pkgs.writeText "recipe" ''
-            (tramp :repo "foo/bar" :fetcher github)
-          ''; # Also dumby value
-        };
-      };
+      /* overrides = final: prev: {
+           tramp = final.melpaBuild {
+             inherit (prev.tramp) pname version src;
+             patches = (prev.tramp.patches or [ ]) ++ [ ./tramp.patch ];
+             commit = "1"; # Dumby value
+             recipe = pkgs.writeText "recipe" ''
+               (tramp :repo "foo/bar" :fetcher github)
+             ''; # Also dumby value
+           };
+         };
+      */
       extraPackages = epkgs: with epkgs; [ tramp pdf-tools ];
     };
     pyenv.enable = true;

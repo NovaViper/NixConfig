@@ -23,10 +23,6 @@
     };
 
     configFile = {
-      # Kdiff configurations
-      "kdiff3rc".source = config.lib.file.mkOutOfStoreSymlink
-        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/misc/kdiff3rc";
-
       # Yakuake settings
       "yakuakerc" = lib.mkIf config.variables.useKonsole {
         source = config.lib.file.mkOutOfStoreSymlink

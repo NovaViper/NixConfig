@@ -15,8 +15,8 @@
       fetch.prune = true;
       push.default = "simple";
       credential.useHttpPath = true;
-      difftool.prompt = true;
-      diff.tool = "${pkgs.kdiff3}/bin/kdiff3";
+      difftool.prompt = false;
+      diff.tool = "vimdiff";
     };
   };
 

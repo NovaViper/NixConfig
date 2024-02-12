@@ -28,7 +28,6 @@
       #kate
       ktorrent
       krename
-      kdiff3
       kfind
       qalculate-qt
       plasma-hud

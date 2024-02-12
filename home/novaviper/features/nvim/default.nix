@@ -29,10 +29,15 @@
         END
       '';
     plugins = with pkgs.vimPlugins; [
+      neovim-sensible
       dracula-nvim
       vim-tmux-clipboard
       clipboard-image-nvim
       lualine-nvim
+      neogit
+      telescope-nvim
+      nvim-treesitter
+      nvim-whichkey-setup-lua
     ];
   };
 
