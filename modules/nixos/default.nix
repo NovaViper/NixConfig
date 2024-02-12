@@ -4,6 +4,5 @@
   # List your module files here
   # my-module = import ./my-module.nix;
   user-vars = import ./user-vars.nix;
-  alvr = import ./alvr.nix;
   theme = import ./theme.nix;
 }
