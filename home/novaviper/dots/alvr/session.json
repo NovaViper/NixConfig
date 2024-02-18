@@ -1,5 +1,5 @@
 {
-  "server_version": "20.5.0",
+  "server_version": "20.6.1",
   "drivers_backup": null,
   "openvr_config": {
     "eye_resolution_width": 2144,
@@ -11,6 +11,7 @@
     "aggressive_keyframe_resend": false,
     "adapter_index": 0,
     "codec": 0,
+    "h264_profile": 0,
     "refresh_rate": 72,
     "use_10bit_encoder": false,
     "enable_vbaq": false,
@@ -38,6 +39,7 @@
     "saturation": 0.5,
     "gamma": 1.0,
     "sharpening": 0.5,
+    "linux_async_compute": false,
     "linux_async_reprojection": false,
     "nvenc_quality_preset": 1,
     "nvenc_tuning_preset": 2,
@@ -156,6 +158,9 @@
           "variant": "Cbr"
         },
         "filler_data": false,
+        "h264_profile": {
+          "variant": "High"
+        },
         "entropy_coding": {
           "variant": "Cavlc"
         },
@@ -204,6 +209,7 @@
           "thread_count": 0
         }
       },
+      "force_software_decoder": false,
       "mediacodec_extra_options": {
         "gui_collapsed": true,
         "key": "",
@@ -990,6 +996,19 @@
       "stream_port": 9944,
       "web_server_port": 8082,
       "osc_local_port": 9942,
+      "dscp": {
+        "set": false,
+        "content": {
+          "ClassSelector": 7,
+          "AssuredForwarding": {
+            "class": 4,
+            "drop_probability": {
+              "variant": "Low"
+            }
+          },
+          "variant": "ExpeditedForwarding"
+        }
+      },
       "server_send_buffer_bytes": {
         "Custom": 100000,
         "variant": "Maximum"
@@ -1058,6 +1077,7 @@
     },
     "patches": {
       "gui_collapsed": false,
+      "linux_async_compute": false,
       "linux_async_reprojection": false
     },
     "open_setup_wizard": false

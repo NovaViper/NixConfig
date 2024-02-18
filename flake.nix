@@ -19,7 +19,6 @@
 
     # Extras
     nix-colors.url = "github:misterio77/nix-colors";
-    nix-software-center.url = "github:snowfallorg/nix-software-center";
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
     plasma-manager = {
       url = "github:pjones/plasma-manager";

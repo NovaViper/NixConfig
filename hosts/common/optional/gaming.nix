@@ -6,34 +6,6 @@
       enable = true;
       remotePlay.openFirewall = true;
     };
-
-    gamemode = {
-      enable = true;
-      enableRenice = true;
-      settings = {
-        general = {
-          softrealtime = "off";
-          inhibit_screensaver = 1;
-        };
-        /* gpu = lib.mkMerge [
-             # General
-             ({
-               apply_gpu_optimisations = "accept-responsibility";
-               gpu_device = 0;
-             })
-             # Nvidia
-             (lib.mkIf (config.variables.machine.gpu == "nvidia") {
-                nv_powermizer_mode = 1;
-              })
-           ];
-        */
-        custom = {
-          start = "''${pkgs.libnotify}/bin/notify-send 'GameMode started'";
-          end = "''${pkgs.libnotify}/bin/notify-send 'GameMode ended'";
-        };
-      };
-    };
-
     alvr = {
       enable = config.variables.useVR;
       openFirewall = true;

@@ -19,6 +19,13 @@
         "Enable Dracula theme
         colorscheme dracula
 
+        "File type recongition
+        filetype on
+        filetype plugin on
+        filetype indent on
+
+        let mapleader = ";"
+
         "Configure lualine
         lua << END
         require('lualine').setup {
@@ -37,7 +44,7 @@
       neogit
       telescope-nvim
       nvim-treesitter
-      nvim-whichkey-setup-lua
+      which-key-nvim
     ];
   };
 

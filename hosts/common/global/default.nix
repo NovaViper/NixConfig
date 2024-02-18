@@ -78,7 +78,6 @@
       git-crypt
       smartmontools
       openssl
-      inputs.nix-software-center.packages.${pkgs.system}.nix-software-center
     ];
 
     # Fix for qt6 plugins

@@ -36,8 +36,7 @@
 
   programs.vivaldi = {
     enable = true;
-    package = pkgs.vivaldi;
-    #dictionaries = with pkgs; [ hunspellDictsChromium.en_US ];
+    dictionaries = with pkgs; [ hunspellDictsChromium.en_US ];
     commandLineArgs = [
       "--force-dark-mode"
       "--enable-force-dark"
@@ -62,6 +61,8 @@
       { id = "cimiefiiaegbelhefglklhhakcgmhkai"; } # Plasma Browser Integration
       { id = "fkagelmloambgokoeokbpihmgpkbgbfm"; } # Indie Wiki Buddy
       { id = "clngdbkpkpeebahjckkjfobafhncgmne"; } # Stylus
+      { id = "fkagelmloambgokoeokbpihmgpkbgbfm"; } # Indie Wiki Buddy
+      { id = "nenlahapcbofgnanklpelkaejcehkggg"; } # Save Now
     ];
   };
 }

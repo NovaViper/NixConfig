@@ -1,4 +1,4 @@
-{ inputs, lib, config, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   disabledModules = [ "security/pam.nix" ];
