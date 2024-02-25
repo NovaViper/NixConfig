@@ -36,6 +36,7 @@
       libsForQt5.plasma-welcome # Welcome screen
       libsForQt5.plasma-vault
       libsForQt5.plasma-disks
+      kdiskmark
 
       # Libraries/Utilities
       clinfo # for kinfocenter for OpenCL page
@@ -48,7 +49,6 @@
       wayland-utils
       libsForQt5.qt5.qtimageformats
       libsForQt5.packagekit-qt
-      konsave # Saving KDE customizations
     ];
   };
 

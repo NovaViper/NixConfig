@@ -9,7 +9,7 @@
   ];
 
   home.packages = with pkgs;
-    [ openscad freecad ]
+    [ openscad freecad rpi-imager ]
     ++ lib.optionals (config.variables.desktop.environment == "kde")
     [ libreoffice-qt ]
     ++ lib.optionals (config.variables.desktop.environment == "xfce")

@@ -21,31 +21,35 @@ let
 
 in {
   imports = [
+    ### Device Configs
     inputs.hardware.nixosModules.common-cpu-amd
     inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
     inputs.hardware.nixosModules.common-pc-ssd
-
     ./hardware-configuration.nix
     ./disks.nix
-
+    ### Global Configs
     ../common/global
     ../common/users/novaviper
-
+    ### Hardware
+    ../common/optional/rgb.nix
+    ../common/optional/bluetooth.nix
+    ../common/optional/qmk.nix
     #../common/optional/howdy.nix
+    ### Desktop Environment
     ../common/optional/desktop/kde.nix
-    ../common/optional/syncthing.nix
-    ../common/optional/tailscale.nix
-    ../common/optional/localsend.nix
-    ../common/optional/flatpak.nix
-    ../common/optional/appimage.nix
-    ../common/optional/gaming.nix
+    ### Service
     ../common/optional/theme.nix
     ../common/optional/quietboot.nix
-    ../common/optional/sunshine-server.nix
-    #../common/optional/sunshine-client.nix
-    ../common/optional/rgb.nix
     ../common/optional/libvirt.nix
-    ../common/optional/qmk.nix
+    ../common/optional/sunshine-server.nix
+    ../common/optional/syncthing.nix
+    ../common/optional/tailscale.nix
+    ### Applications
+    ../common/optional/flatpak.nix
+    ../common/optional/appimage.nix
+    ../common/optional/localsend.nix
+    ../common/optional/gaming.nix
+    #../common/optional/sunshine-client.nix
   ];
 
   networking.hostName = "ryzennova"; # Define your hostname.
@@ -80,8 +84,6 @@ in {
   ###
 
   hardware = {
-    # Enable bluetooth
-    bluetooth.enable = true;
     # Configure GPU
     nvidia = {
       powerManagement.enable = true;
