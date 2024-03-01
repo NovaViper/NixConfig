@@ -9,9 +9,7 @@
         "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/zsh/functions";
       recursive = true;
     };
-    "zsh/zsh-styles.sh".source = ../../dots/zsh/zsh-styles.sh;
     "zsh/manpages.zshrc".source = ../../dots/zsh/manpages.zshrc;
-    #"zsh/zsh-functions.sh".source = ../../dots/zsh/zsh-functions.sh;
     "zsh/zsh-syntax-highlighting.sh".source =
       ../../dots/zsh/zsh-syntax-highlighting.sh;
   };
@@ -24,26 +22,18 @@
       (with pkgs; [ xclip xsel xdotool xorg.xwininfo xorg.xprop ]))
   ];
 
-  services.gpg-agent.enableZshIntegration = true;
-
   programs = {
-    # Better shell history search
-    mcfly = {
+    # Complete shell history replacement
+    atuin = {
       enable = true;
-      fuzzySearchFactor = 2;
-      keyScheme = "vim";
-      fzf.enable = true;
+      flags = [ ];
+      settings = {
+        keymap_mode = "auto";
+        enter_accept = true;
+      };
     };
     # Custom colors for ls, grep and more
     dircolors.enable = true;
-    # Better tree command
-    broot = {
-      enable = true;
-      settings = {
-        # Enable vim mode
-        modal = true;
-      };
-    };
     # terminal file manager written in Go
     lf = {
       enable = true;
@@ -55,7 +45,11 @@
     # Command-line fuzzy finder
     fzf = {
       enable = true;
-      #defaultOptions = [ ];
+      changeDirWidgetOptions =
+        [ "--preview '${pkgs.tree}/bin/tree -C {} | head -200'" ];
+      fileWidgetOptions =
+        [ "--bind 'ctrl-/:change-preview-window(down|hidden|)'" ];
+      historyWidgetOptions = [ "--sort" "--exact" ];
     };
 
     # The shell itself
@@ -66,30 +60,23 @@
       syntaxHighlighting.enable = true;
       dotDir = ".config/zsh";
       defaultKeymap = "viins";
-      historySubstringSearch = {
-        enable = true;
-        searchUpKey = [ "$terminfo[kcuu1]" ];
-        searchDownKey = [ "$terminfo[kcud1]" ];
-      };
       autocd = true;
-      zsh-abbr = {
-        enable = true;
-        #abbreviations = { };
-      };
-      history = {
-        expireDuplicatesFirst = true;
-        extended = true;
-        ignoreDups = true;
-        path = "${config.xdg.configHome}/zsh/.zsh_history";
-      };
+      history.path = "${config.xdg.configHome}/zsh/.zsh_history";
       localVariables = {
-        AUTO_NOTIFY_EXPIRE_TIME = 5000; # in miliseconds
-        ZVM_INIT_MODE = "sourcing"; # Make zsh-vi-mode be sourced
-        ZVM_CURSOR_STYLE_ENABLED = false; # Disable zsh-vi-mode's custom cursors
+        # Make ZSH notifications expire, in miliseconds
+        AUTO_NOTIFY_EXPIRE_TIME = 5000;
+        # Make zsh-vi-mode be sourced
+        ZVM_INIT_MODE = "sourcing";
+        # Disable zsh-vi-mode's custom cursors
+        ZVM_CURSOR_STYLE_ENABLED = false;
+        # Prompt message for auto correct
         SPROMPT =
-          "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [nyae] ";
-        HISTTIMEFORMAT = "[%F %T] ";
+          "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [ny] ";
+        # Add more strategies to zsh-autosuggestions
         ZSH_AUTOSUGGEST_STRATEGY = [ "history" "completion" ];
+        # Customize style of zsh-autosuggestions
+        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "underline";
+        # Make manpager use ls with color support``
         MANPAGER = "${pkgs.less}/bin/less -s -M +Gg";
       };
       initExtraFirst = ''
@@ -97,7 +84,7 @@
         [[ $- != *i* ]] && return
 
         ${if config.programs.tmux.enable then ''
-          # Run Tmux on startup for Alacritty
+          # Run Tmux on startup
           if [ -z "$TMUX" ]; then
             ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
             exit
@@ -108,13 +95,12 @@
 
       initExtra = lib.mkAfter ''
         # Append extra variables
-        AUTO_NOTIFY_IGNORE+=("yadm" "emacs" "nix-shell")
+        AUTO_NOTIFY_IGNORE+=("atuin" "yadm" "emacs" "nix-shell")
 
         source "$ZDOTDIR/manpages.zshrc"
         source "$ZDOTDIR/.p10k.zsh"
         source "$ZDOTDIR/zsh-syntax-highlighting.sh"
-        source "$ZDOTDIR/zsh-styles.sh"
-        #source "$ZDOTDIR/zsh-functions.sh"
+
         setopt beep CORRECT # Enable terminal bell and autocorrect
         autoload -U colors && colors # Enable colors
 
@@ -122,6 +108,33 @@
         if command -v pyenv 1>/dev/null 2>&1; then
           eval "$(pyenv init -)"
         fi
+
+        # set descriptions format to enable group support
+        zstyle ':completion:*:descriptions' format '[%d]'
+
+        # set list-colors to enable filename colorizing
+        zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+
+        # disable sorting when completing any command
+        zstyle ':completion:complete:*:options' sort false
+
+        # switch group using `,` and `.`
+        zstyle ':fzf-tab:*' switch-group ',' '.'
+
+        # trigger continuous trigger with space key
+        zstyle ':fzf-tab:*' continuous-trigger 'space'
+
+        # bind tab key to accept event
+        zstyle ':fzf-tab:*' fzf-bindings 'tab:accept'
+
+        # accept and run suggestion with enter key
+        zstyle ':fzf-tab:*' accept-line enter
+
+        # Enable fzf-tab integration with tmux
+        ${if config.programs.tmux.enable then
+          "zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup"
+        else
+          ""}
 
         # Create shell prompt
         if [ $(tput cols) -ge '75' ] || [ $(tput cols) -ge '100' ]; then
@@ -174,6 +187,9 @@
         # Quickly start Minecraft server
         start-minecraft-server = lib.mkIf (config.programs.mangohud.enable)
           "cd ~/Games/MinecraftServer-1.20.1/ && ./run.sh --nogui && cd || cd";
+        # Append HISTFILE before running autin import to make it work properly
+        atuin-import = lib.mkIf (config.programs.atuin.enable)
+          "export HISTFILE && atuin import auto && export -n HISTFILE";
       };
       antidote = {
         enable = true;
@@ -188,6 +204,7 @@
           # Fish-like Plugins
           "mattmc3/zfunctions"
           "Aloxaf/fzf-tab"
+          "Freed-Wu/fzf-tab-source"
           "MichaelAquilina/zsh-auto-notify"
 
           # Sudo escape

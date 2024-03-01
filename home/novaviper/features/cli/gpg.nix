@@ -18,7 +18,6 @@ in {
   services.gpg-agent = {
     enable = true;
     #enableSshSupport = true;
-    enableZshIntegration = true;
     pinentryFlavor = pinentry.name;
     # HACK Without this config file you get "No pinentry program" on 23.05. programs.gnupg.agent.pinentryFlavor doesn't appear to work, and this
     extraConfig = ''

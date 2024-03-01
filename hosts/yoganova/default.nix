@@ -114,6 +114,9 @@ in {
     };
   };
 
+  # Enable powertop analysis tool
+  powerManagement.powertop.enable = true;
+
   # Apply configs
   system.activationScripts.copySysConfigs = ''
     mkdir -p /var/lib/linux-enable-ir-emitter
