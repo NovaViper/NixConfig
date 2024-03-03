@@ -1,4 +1,5 @@
 { config, pkgs, lib, ... }:
+with lib;
 
 {
   xdg.configFile = {
@@ -14,24 +15,15 @@
       ../../dots/zsh/zsh-syntax-highlighting.sh;
   };
 
-  home.packages = lib.mkMerge [
-    (lib.mkIf (config.variables.desktop.useWayland)
+  home.packages = mkMerge [
+    (mkIf (config.variables.desktop.displayManager == "wayland")
       (with pkgs; [ wl-clipboard wl-clipboard-x11 ]))
 
-    (lib.mkIf (!config.variables.desktop.useWayland)
+    (mkIf (config.variables.desktop.displayManager == "x11")
       (with pkgs; [ xclip xsel xdotool xorg.xwininfo xorg.xprop ]))
   ];
 
   programs = {
-    # Complete shell history replacement
-    atuin = {
-      enable = true;
-      flags = [ ];
-      settings = {
-        keymap_mode = "auto";
-        enter_accept = true;
-      };
-    };
     # Custom colors for ls, grep and more
     dircolors.enable = true;
     # terminal file manager written in Go
@@ -41,15 +33,6 @@
         number = true;
         tabstop = 4;
       };
-    };
-    # Command-line fuzzy finder
-    fzf = {
-      enable = true;
-      changeDirWidgetOptions =
-        [ "--preview '${pkgs.tree}/bin/tree -C {} | head -200'" ];
-      fileWidgetOptions =
-        [ "--bind 'ctrl-/:change-preview-window(down|hidden|)'" ];
-      historyWidgetOptions = [ "--sort" "--exact" ];
     };
 
     # The shell itself
@@ -93,9 +76,11 @@
           ""}
       '';
 
-      initExtra = lib.mkAfter ''
+      initExtra = ''
         # Append extra variables
-        AUTO_NOTIFY_IGNORE+=("atuin" "yadm" "emacs" "nix-shell")
+        AUTO_NOTIFY_IGNORE+=(${
+          if config.programs.atuin.enable then ''"atuin" '' else ""
+        }"yadm" "emacs" "nix-shell")
 
         source "$ZDOTDIR/manpages.zshrc"
         source "$ZDOTDIR/.p10k.zsh"
@@ -130,10 +115,11 @@
         # accept and run suggestion with enter key
         zstyle ':fzf-tab:*' accept-line enter
 
-        # Enable fzf-tab integration with tmux
-        ${if config.programs.tmux.enable then
-          "zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup"
-        else
+        ${if config.programs.tmux.enable then ''
+          # Enable fzf-tab integration with tmux
+          zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+          zstyle ':fzf-tab:*' popup-min-size 100 50
+        '' else
           ""}
 
         # Create shell prompt
@@ -185,10 +171,10 @@
         # Make resident ssh keys import from Yubikey
         load-res-keys = "ssh-keygen -K";
         # Quickly start Minecraft server
-        start-minecraft-server = lib.mkIf (config.programs.mangohud.enable)
+        start-minecraft-server = mkIf (config.programs.mangohud.enable)
           "cd ~/Games/MinecraftServer-1.20.1/ && ./run.sh --nogui && cd || cd";
         # Append HISTFILE before running autin import to make it work properly
-        atuin-import = lib.mkIf (config.programs.atuin.enable)
+        atuin-import = mkIf (config.programs.atuin.enable)
           "export HISTFILE && atuin import auto && export -n HISTFILE";
       };
       antidote = {
@@ -212,7 +198,7 @@
           "ohmyzsh/ohmyzsh path:plugins/sudo"
 
           # Tmux integration
-          (lib.mkIf (config.programs.tmux.enable)
+          (mkIf (config.programs.tmux.enable)
             "ohmyzsh/ohmyzsh path:plugins/tmux")
 
           # Nix stuff
@@ -233,21 +219,29 @@
                tags = [ "as:theme" "depth:1" ];
              }
              #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
-             { name = "jeffreytse/zsh-vi-mode"; }
+             {
+               name = "jeffreytse/zsh-vi-mode";
+             }
+             # Fish-like Plugins
              { name = "mattmc3/zfunctions"; }
              { name = "Aloxaf/fzf-tab"; }
+             { name = "Freed-Wu/fzf-tab-source"; }
              {
                name = "MichaelAquilina/zsh-auto-notify";
              }
+
              # Sudo escape
              {
                name = "plugins/sudo";
                tags = [ "from:oh-my-zsh" ];
              }
-             (lib.mkIf (config.programs.tmux.enable) {
+
+             # Tmux integration
+             (mkIf (config.programs.tmux.enable) {
                name = "plugins/tmux";
                tags = [ "from:oh-my-zsh" ];
              })
+
              # Nix stuff
              {
                name = "chisui/zsh-nix-shell";

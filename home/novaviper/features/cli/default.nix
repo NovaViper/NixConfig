@@ -2,17 +2,19 @@
 
 {
   imports = [
+    ./atuin.nix
     ./bat.nix
     ./btop.nix
-    ./eza.nix
-    ./git.nix
-    ./topgrade.nix
-    ./gpg.nix
-    ./ssh.nix
-    ./zsh.nix
-    ./nix-index.nix
-    ./tmux.nix
     ./cava.nix
+    ./eza.nix
+    ./fzf.nix
+    ./git.nix
+    ./gpg.nix
+    ./nix-index.nix
+    ./ssh.nix
+    ./tmux.nix
+    ./topgrade.nix
+    ./zsh.nix
   ];
 
   #programs.command-not-found.enable = true;

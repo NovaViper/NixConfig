@@ -1,4 +1,5 @@
 { config, pkgs, lib, ... }:
+with lib;
 
 {
   imports = [ ../common ];
@@ -8,7 +9,7 @@
   xdg = {
     portal = {
       extraPortals = [ pkgs.xdg-desktop-portal-kde ];
-      configPackages = lib.mkDefault [ pkgs.xdg-desktop-portal-kde ];
+      configPackages = mkDefault [ pkgs.xdg-desktop-portal-kde ];
     };
 
     mimeApps = {
@@ -24,20 +25,20 @@
 
     configFile = {
       # Yakuake settings
-      "yakuakerc" = lib.mkIf config.variables.useKonsole {
+      "yakuakerc" = mkIf config.variables.useKonsole {
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/yakuake/yakuakerc";
       };
     };
 
-    dataFile = lib.mkMerge [
+    dataFile = mkMerge [
       ({
         # Dolphin settings
         "kxmlgui5/dolphin/dolphinui.rc".source =
           config.lib.file.mkOutOfStoreSymlink
           "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
       })
-      (lib.mkIf config.variables.useKonsole {
+      (mkIf config.variables.useKonsole {
         # Konsole settings
         "konsole" = {
           source = config.lib.file.mkOutOfStoreSymlink
@@ -61,11 +62,10 @@
       right = [ "help" "minimize" "maximize" "close" ];
     };
     shortcuts.yakuake =
-      lib.mkIf config.variables.useKonsole { toggle-window-state = "F12"; };
+      mkIf config.variables.useKonsole { toggle-window-state = "F12"; };
     configFile = {
-      kglobalshortcutsrc.yakuake = lib.mkIf config.variables.useKonsole {
-        "_k_friendly_name" = "Yakuake";
-      };
+      kglobalshortcutsrc.yakuake =
+        mkIf config.variables.useKonsole { "_k_friendly_name" = "Yakuake"; };
       kwinrc.NightColor.Active = true;
       kcminputrc.Mouse.cursorSize = config.theme.cursorTheme.size;
       dolphinrc = {

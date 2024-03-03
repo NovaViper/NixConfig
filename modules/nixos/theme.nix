@@ -3,6 +3,7 @@ with lib;
 let
   inherit (lib) mkOption types;
   cfg = config.theme;
+  desktopEnv = config.services.xserver.desktopManager;
   cursorThemeModule = types.submodule {
     options = {
       package = mkOption {
@@ -86,7 +87,7 @@ in {
     # Make the module's console colors equal to the NixOS one
     console.colors = mkIf (cfg.consoleColors != [ ]) cfg.consoleColors;
     services.xserver.displayManager = (mkMerge [
-      (mkIf (config.variables.desktop.environment == "kde") {
+      (mkIf (desktopEnv.plasma5.enable || desktopEnv.plasma6.enable) {
         sddm.settings.Theme = (mkMerge [
           #({ Font = "Noto Sans,10,-1,0,50,0,0,0,0,0"; })
           (mkIf (cfg.cursorTheme != null) {

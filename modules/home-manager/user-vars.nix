@@ -7,6 +7,15 @@ let
   cfgde = config.variables.desktop;
   cfgma = config.variables.machine;
 in {
+  imports = [
+    (mkRemovedOptionModule [ "variables" "desktop" "useWayland" ] ''
+      The corresponding option has been removed in favor of using a string option
+      type instead of boolean. This is for upcoming Wayland integration from many
+      desktop environments. Please use variables.desktop.displayManager to set
+      which display manager your system will use.
+    '')
+  ];
+
   options.variables = {
     useVR = mkOption {
       type = with types; bool;
@@ -33,12 +42,14 @@ in {
           Determines what desktop environment you are using, setting this will make the config enable DE specific options.
         '';
       };
-      useWayland = mkOption {
-        type = with types; bool;
-        default = false;
-        example = "true";
+      displayManager = mkOption {
+        type = with types; nullOr (types.enum [ "wayland" "x11" ]);
+        default = null;
+        example = "wayland";
         description = ''
-          Enable Wayland as the default display manager for the system, option toggles various different tweaks depending on the variables.desktop.environment variable
+          Determines what display manager you are using, setting this will make the config enable display-manager specific options. Also toggles various tweaks depending on the variables.desktop.environment variable
+
+          Available values are wayland and x11
         '';
       };
     };

@@ -15,7 +15,7 @@
   variables.useVR = true;
   variables.useKonsole = false;
   variables.machine.gpu = "nvidia";
-  variables.desktop.useWayland = false;
+  variables.desktop.displayManager = "x11";
   #variables.machine.motherboard = "amd";
   variables.machine.buildType = "desktop";
   #variables.machine.lowSpec = false;

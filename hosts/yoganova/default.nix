@@ -31,9 +31,9 @@ in {
     #../common/optional/rgb.nix
     ../common/optional/bluetooth.nix
     ../common/optional/qmk.nix
-    ../common/optional/howdy.nix
+    #../common/optional/howdy.nix
     ### Desktop Environment
-    ../common/optional/desktop/kde.nix
+    ../common/optional/desktop/kde/plasma5.nix
     ### Service
     ../common/optional/theme.nix
     ../common/optional/quietboot.nix
@@ -73,10 +73,10 @@ in {
   ### Special Variables
   variables.useVR = false;
   variables.useKonsole = false;
-  variables.machine.gpu = "intel";
-  variables.desktop.useWayland = true;
+  variables.desktop.displayManager = "wayland";
   variables.machine.motherboard = "intel";
   variables.machine.buildType = "laptop";
+  variables.machine.gpu = "intel";
   #variables.machine.lowSpec = true;
   ###
 
@@ -96,22 +96,18 @@ in {
     hardware.bolt.enable = true;
 
     # Set IR blaster device
-    linux-enable-ir-emitter.device = "video2";
+    /* linux-enable-ir-emitter.device = "video2";
 
-    # Configure Howdy
-    howdy.settings = {
-      video = {
-        device_path = "/dev/video2";
-        dark_threshold = 90;
-      };
-      # you may not need these
-      core.no_confirmation = true;
-      /* rubberstamps = {
-           enabled = true;
-           stamp_rules = "nod 15s failsafe min_distance=5";
+       # Configure Howdy
+       howdy.settings = {
+         video = {
+           device_path = "/dev/video2";
+           dark_threshold = 90;
          };
-      */
-    };
+         # you may not need these
+         core.no_confirmation = true;
+       };
+    */
   };
 
   # Enable powertop analysis tool

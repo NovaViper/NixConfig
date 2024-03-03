@@ -2,7 +2,7 @@
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma5.nix"
     ../common/global
-    ../common/optional/desktop/kde.nix
+    ../common/optional/desktop/kde/plasma5.nix
   ];
 
   # Make the ISO not have a custom theme

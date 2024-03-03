@@ -19,6 +19,8 @@
       commit.verbose = true;
       credential.useHttpPath = true;
       log.date = "iso";
+      column.ui = "auto";
+      branch.sort = "committerdate";
       difftool.prompt = false;
       diff = {
         tool = "vimdiff";

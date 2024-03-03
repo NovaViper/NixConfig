@@ -36,7 +36,7 @@ in {
     ../common/optional/qmk.nix
     #../common/optional/howdy.nix
     ### Desktop Environment
-    ../common/optional/desktop/kde.nix
+    ../common/optional/desktop/kde/plasma5.nix
     ### Service
     ../common/optional/theme.nix
     ../common/optional/quietboot.nix
@@ -76,10 +76,10 @@ in {
   ### Special Variables
   variables.useVR = true;
   variables.useKonsole = false;
-  variables.machine.gpu = "nvidia";
-  variables.desktop.useWayland = false;
+  variables.desktop.displayManager = "x11";
   variables.machine.motherboard = "amd";
   variables.machine.buildType = "desktop";
+  variables.machine.gpu = "nvidia";
   #variables.machine.lowSpec = false;
   ###
 
