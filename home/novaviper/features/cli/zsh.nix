@@ -177,80 +177,79 @@ with lib;
         atuin-import = mkIf (config.programs.atuin.enable)
           "export HISTFILE && atuin import auto && export -n HISTFILE";
       };
-      antidote = {
-        enable = true;
-        useFriendlyNames = true;
-        plugins = [
-          # Prompts
-          "romkatv/powerlevel10k"
-
-          #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
-          "jeffreytse/zsh-vi-mode"
-
-          # Fish-like Plugins
-          "mattmc3/zfunctions"
-          "Aloxaf/fzf-tab"
-          "Freed-Wu/fzf-tab-source"
-          "MichaelAquilina/zsh-auto-notify"
-
-          # Sudo escape
-          "ohmyzsh/ohmyzsh path:lib"
-          "ohmyzsh/ohmyzsh path:plugins/sudo"
-
-          # Tmux integration
-          (mkIf (config.programs.tmux.enable)
-            "ohmyzsh/ohmyzsh path:plugins/tmux")
-
-          # Nix stuff
-          "chisui/zsh-nix-shell"
-
-          # Make ZLE use system clipboard
-          "kutsan/zsh-system-clipboard"
-        ];
-      };
-
-      /* zplug = {
+      /* antidote = {
            enable = true;
-           zplugHome = "${config.xdg.configHome}/zsh/zplug";
+           useFriendlyNames = true;
            plugins = [
              # Prompts
-             {
-               name = "romkatv/powerlevel10k";
-               tags = [ "as:theme" "depth:1" ];
-             }
+             "romkatv/powerlevel10k"
+
              #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
-             {
-               name = "jeffreytse/zsh-vi-mode";
-             }
+             "jeffreytse/zsh-vi-mode"
+
              # Fish-like Plugins
-             { name = "mattmc3/zfunctions"; }
-             { name = "Aloxaf/fzf-tab"; }
-             { name = "Freed-Wu/fzf-tab-source"; }
-             {
-               name = "MichaelAquilina/zsh-auto-notify";
-             }
+             "mattmc3/zfunctions"
+             "Aloxaf/fzf-tab"
+             "Freed-Wu/fzf-tab-source"
+             "MichaelAquilina/zsh-auto-notify"
 
              # Sudo escape
-             {
-               name = "plugins/sudo";
-               tags = [ "from:oh-my-zsh" ];
-             }
+             "ohmyzsh/ohmyzsh path:lib"
+             "ohmyzsh/ohmyzsh path:plugins/sudo"
 
              # Tmux integration
-             (mkIf (config.programs.tmux.enable) {
-               name = "plugins/tmux";
-               tags = [ "from:oh-my-zsh" ];
-             })
+             (mkIf (config.programs.tmux.enable)
+               "ohmyzsh/ohmyzsh path:plugins/tmux")
 
              # Nix stuff
-             {
-               name = "chisui/zsh-nix-shell";
-             }
+             "chisui/zsh-nix-shell"
+
              # Make ZLE use system clipboard
-             { name = "kutsan/zsh-system-clipboard"; }
+             "kutsan/zsh-system-clipboard"
            ];
          };
       */
+      zplug = {
+        enable = true;
+        zplugHome = "${config.xdg.configHome}/zsh/zplug";
+        plugins = [
+          # Prompts
+          {
+            name = "romkatv/powerlevel10k";
+            tags = [ "as:theme" "depth:1" ];
+          }
+          #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
+          {
+            name = "jeffreytse/zsh-vi-mode";
+          }
+          # Fish-like Plugins
+          { name = "mattmc3/zfunctions"; }
+          { name = "Aloxaf/fzf-tab"; }
+          { name = "Freed-Wu/fzf-tab-source"; }
+          {
+            name = "MichaelAquilina/zsh-auto-notify";
+          }
+
+          # Sudo escape
+          {
+            name = "plugins/sudo";
+            tags = [ "from:oh-my-zsh" ];
+          }
+
+          # Tmux integration
+          (mkIf (config.programs.tmux.enable) {
+            name = "plugins/tmux";
+            tags = [ "from:oh-my-zsh" ];
+          })
+
+          # Nix stuff
+          {
+            name = "chisui/zsh-nix-shell";
+          }
+          # Make ZLE use system clipboard
+          { name = "kutsan/zsh-system-clipboard"; }
+        ];
+      };
     };
   };
 }

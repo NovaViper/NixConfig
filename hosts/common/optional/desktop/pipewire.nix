@@ -7,7 +7,7 @@
   security.rtkit.enable = true;
 
   # Disable PulseAudio
-  hardware.pulseaudio.enable = false;
+  hardware.pulseaudio.enable = lib.mkForce false;
 
   services.pipewire = {
     enable = true;

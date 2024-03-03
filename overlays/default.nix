@@ -5,8 +5,6 @@ let
     pkg.overrideAttrs
     (oldAttrs: { patches = (oldAttrs.patches or [ ]) ++ patches; });
 in {
-  nh = inputs.nh.overlays.default;
-
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.system}' or
   # 'inputs.${flake}.legacyPackages.${pkgs.system}'
@@ -43,6 +41,9 @@ in {
 
     firefox = prev.firefox.override { cfg.nativeMessagingHosts.fxCast = true; };
 
-    discord = prev.discord.override { withOpenASAR = true; };
+    discord = prev.discord.override {
+      withOpenASAR = true;
+      withVencord = true;
+    };
   };
 }

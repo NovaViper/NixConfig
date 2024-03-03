@@ -25,9 +25,11 @@
     cmatrix # Show off the Matrix
     timer # Cooler timer in terminal
     tree
-    inputs.nh.default # nixos-rebuild and home-manager CLI wrapper
     dmidecode
     ventoy-full # bootable USB solution
+    nvd # Differ
+    nix-output-monitor
+    nh # Nice wrapper for NixOS and HM    dmidecode
     nixpkgs-review
   ];
 }
