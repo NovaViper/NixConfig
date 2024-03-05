@@ -7,11 +7,6 @@ with lib;
   variables.desktop.environment = "kde";
 
   xdg = {
-    portal = {
-      extraPortals = [ pkgs.xdg-desktop-portal-kde ];
-      configPackages = mkDefault [ pkgs.xdg-desktop-portal-kde ];
-    };
-
     mimeApps = {
       associations = {
         added = {

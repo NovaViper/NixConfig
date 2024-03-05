@@ -4,7 +4,7 @@
   imports = [
     ./global
     ./features/theming
-    ./features/desktop/kde
+    ./features/desktop/kde/plasma5
     ./features/games
     ./features/emacs
     ./features/productivity
@@ -22,6 +22,4 @@
   ###
 
   home.packages = with pkgs; [ keepassxc krita libsForQt5.tokodon ];
-
-  programs.plasma.workspace.clickItemTo = "select";
 }

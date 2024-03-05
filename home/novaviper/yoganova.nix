@@ -4,7 +4,7 @@
   imports = [
     ./global
     ./features/theming
-    ./features/desktop/kde
+    ./features/desktop/kde/plasma5
     ./features/games
     ./features/emacs
     ./features/productivity
@@ -23,12 +23,5 @@
 
   home.packages = with pkgs; [ keepassxc krita libsForQt5.tokodon ];
 
-  programs.plasma.configFile = {
-    workspace.clickItemTo = "select";
-    kcminputrc."Libinput.1739.52992.SYNACF00:00 06CB:CF00 Touchpad" = {
-      TapToClick = true;
-      TapDragLock = true;
-    };
-    kwinrc.Xwayland.Scale = 1.25;
-  };
+  programs.plasma.configFile.kwinrc.Xwayland.Scale = 1.25;
 }

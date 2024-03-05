@@ -133,12 +133,6 @@
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };
         };
-        # Portal minimum configuration
-        "nixos@live-image" = lib.homeManagerConfiguration {
-          modules = [ ./home/novaviper/generic.nix ];
-          pkgs = pkgsFor.x86_64-linux;
-          extraSpecialArgs = { inherit inputs outputs; };
-        };
       };
     };
 }

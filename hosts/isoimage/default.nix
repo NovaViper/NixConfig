@@ -1,11 +1,13 @@
 { pkgs, modulesPath, lib, config, outputs, inputs, ... }: {
   imports = [
     ../common/global
+    ../common/users/nixos
     ../common/optional/desktop/kde/plasma6.nix
     "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
   ];
 
   ### Special Variables
+  variables.useKonsole = true;
   variables.desktop.displayManager = "wayland";
   # Make the ISO not have a custom theme
   theme = lib.mkForce { };
@@ -25,7 +27,6 @@
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
-    powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
