@@ -1,10 +1,12 @@
 { pkgs, modulesPath, lib, config, outputs, inputs, ... }: {
   imports = [
-    "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma5.nix"
     ../common/global
-    ../common/optional/desktop/kde/plasma5.nix
+    ../common/optional/desktop/kde/plasma6.nix
+    "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
   ];
 
+  ### Special Variables
+  variables.desktop.displayManager = "wayland";
   # Make the ISO not have a custom theme
   theme = lib.mkForce { };
 
@@ -17,8 +19,8 @@
     driSupport32Bit = true;
   };
 
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # Load nvidia and other drivers for Xorg and Wayland
+  services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
 
   hardware.nvidia = {
     modesetting.enable = true;

@@ -112,7 +112,7 @@
           modules = [ ./hosts/yoganova ];
           specialArgs = { inherit inputs outputs; };
         };
-        nixosIso = lib.nixosSystem {
+        live-image = lib.nixosSystem {
           modules = [ ./hosts/isoimage ];
           specialArgs = { inherit inputs outputs; };
         };
@@ -134,7 +134,7 @@
           extraSpecialArgs = { inherit inputs outputs; };
         };
         # Portal minimum configuration
-        "nixos@nixosIso" = lib.homeManagerConfiguration {
+        "nixos@live-image" = lib.homeManagerConfiguration {
           modules = [ ./home/novaviper/generic.nix ];
           pkgs = pkgsFor.x86_64-linux;
           extraSpecialArgs = { inherit inputs outputs; };

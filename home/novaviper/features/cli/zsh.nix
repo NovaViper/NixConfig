@@ -80,7 +80,7 @@ with lib;
         # Append extra variables
         AUTO_NOTIFY_IGNORE+=(${
           if config.programs.atuin.enable then ''"atuin" '' else ""
-        }"yadm" "emacs" "nix-shell")
+        }"yadm" "emacs" "nix-shell" "nix")
 
         source "$ZDOTDIR/manpages.zshrc"
         source "$ZDOTDIR/.p10k.zsh"

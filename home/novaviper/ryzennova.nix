@@ -22,4 +22,6 @@
   ###
 
   home.packages = with pkgs; [ keepassxc krita libsForQt5.tokodon ];
+
+  programs.plasma.workspace.clickItemTo = "select";
 }

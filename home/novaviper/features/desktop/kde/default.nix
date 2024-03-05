@@ -56,7 +56,6 @@ with lib;
 
   programs.plasma = {
     enable = true;
-    workspace.clickItemTo = "select";
     kwin.titlebarButtons = {
       left = [ "on-all-desktops" "keep-above-windows" ];
       right = [ "help" "minimize" "maximize" "close" ];
@@ -68,12 +67,6 @@ with lib;
         mkIf config.variables.useKonsole { "_k_friendly_name" = "Yakuake"; };
       kwinrc.NightColor.Active = true;
       kcminputrc.Mouse.cursorSize = config.theme.cursorTheme.size;
-      dolphinrc = {
-        "KFileDialog Settings" = {
-          "Places Icons Auto-resize" = false;
-          "Places Icons Static Size" = 22;
-        };
-      };
     };
   };
 
