@@ -23,9 +23,4 @@
       "x-scheme-handler/music" = "cider.desktop";
     };
   };
-
-  /* home.persistence = {
-       "/persist/home/novaviper".directories = [ ".config/Cider" ];
-     };
-  */
 }

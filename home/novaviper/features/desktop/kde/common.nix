@@ -27,12 +27,13 @@ with lib;
     };
 
     dataFile = mkMerge [
-      ({
-        # Dolphin settings
-        "kxmlgui5/dolphin/dolphinui.rc".source =
-          config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
-      })
+      /* ({
+           # Dolphin settings
+           "kxmlgui5/dolphin/dolphinui.rc".source =
+             config.lib.file.mkOutOfStoreSymlink
+             "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
+         })
+      */
       (mkIf config.variables.useKonsole {
         # Konsole settings
         "konsole" = {
@@ -51,6 +52,7 @@ with lib;
 
   programs.plasma = {
     enable = true;
+    workspace.clickItemTo = "select";
     kwin.titlebarButtons = {
       left = [ "on-all-desktops" "keep-above-windows" ];
       right = [ "help" "minimize" "maximize" "close" ];
@@ -64,44 +66,4 @@ with lib;
       kcminputrc.Mouse.cursorSize = config.theme.cursorTheme.size;
     };
   };
-
-  /* home.persistence = {
-       "/persist/home/novaviper".directories = [ ".config/kdeconnect" ];
-     };
-  */
-
-  /* xdg.desktopEntries."org.kde.konsole" = {
-       name = "Konsole";
-       genericName = "Terminal";
-       exec = "konsole --layout ${config.xdg.dataHome}/konsole/DefaultSplits.json";
-       icon = "utilities-terminal";
-       comment = "Command line access";
-       type = "Application";
-       terminal = false;
-       categories = [ "Qt" "KDE" "System" "TerminalEmulator" ];
-       mimeType = [ "text/html" "text/xml" ];
-       startupNotify = true;
-       actions = {
-         "NewWindow" = {
-           name = "Open a New Window";
-           icon = "window-new";
-           exec = "konsole";
-         };
-         "NewTab" = {
-           name = "Open a New Tab";
-           icon = "tab-new";
-           exec = "konsole --new-tab";
-         };
-       };
-       settings = {
-         X-DocPath = "konsole/index.html";
-         X-DBUS-StartupType = "Unique";
-         X-KDE-AuthorizeAction = "shell_access";
-         X-KDE-Shortcuts = "Ctrl+Alt+T";
-         StartupWMClass = "konsole";
-         Keywords =
-           "terminal;console;script;run;execute;command;command-line;commandline;cli;bash;sh;shell;zsh;cmd;command prompt";
-       };
-     };
-  */
 }

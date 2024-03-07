@@ -4,7 +4,7 @@
   imports = [
     ./global
     ./features/theming
-    ./features/desktop/kde/plasma5
+    ./features/desktop/kde/plasma6
     ./features/games
     ./features/emacs
     ./features/productivity
@@ -21,7 +21,9 @@
   #variables.machine.lowSpec = true;
   ###
 
-  home.packages = with pkgs; [ keepassxc krita libsForQt5.tokodon ];
+  # Install a couple more packages
+  home.packages = with pkgs; [ keepassxc krita kdePackages.tokodon ];
 
+  # Make the display scaling larger because Hi-DPI screen
   programs.plasma.configFile.kwinrc.Xwayland.Scale = 1.25;
 }

@@ -10,28 +10,26 @@ in {
   users.users.novaviper = {
     isNormalUser = true;
     shell = pkgs.zsh;
-    description = "Nova Leary";
-    extraGroups = [ "networkmanager" "wheel" "video" "audio" ]
-      ++ ifTheyExist [ "libvirtd" "scanner" "i2c" "git" "gamemode" ];
-
-    #openssh.authorizedKeys.keys = [ (builtins.readFile ../../../../home/misterio/ssh.pub) ];
-    #hashedPasswordFile = config.sops.secrets.novaviper-password.path;
+    description = "novaviper";
+    extraGroups = [ "networkmanager" "wheel" ] ++ ifTheyExist [
+      "video"
+      "audio"
+      "libvirtd"
+      "scanner"
+      "i2c"
+      "git"
+      "gamemode"
+    ];
     packages = with pkgs; [ home-manager ];
   };
 
-  /* sops.secrets.novaviper-password = {
-       sopsFile = ../../secrets.yaml;
-       neededForUsers = true;
-     };
-  */
+  # Import Home-Manager config for host
+  home-manager.users.novaviper =
+    import ../../../../home/novaviper/${config.networking.hostName}.nix;
 
   services = {
-    # Set the user allowed to use the syncthing service
-    syncthing = lib.mkIf (config.services.syncthing.enable) {
-      user = lib.mkForce config.variables.username;
-    };
-
     geoclue2 = {
+      enable = true;
       enableDemoAgent = lib.mkForce true;
       submitData = true;
       appConfig.vivaldi = {
@@ -45,10 +43,6 @@ in {
     #localtimed.enable = true;
   };
 
-  # Setup geolocation
-  location.provider = "geoclue2";
-
-  home-manager.users.novaviper =
-    import ../../../../home/novaviper/${config.networking.hostName}.nix;
-
+  # Set your time zone.
+  #time.timeZone = lib.mkDefault "America/Chicago";
 }

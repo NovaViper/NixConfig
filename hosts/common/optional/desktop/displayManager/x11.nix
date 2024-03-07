@@ -19,18 +19,12 @@
       # Remove xterm terminal
       excludePackages = with pkgs; [ xterm ];
     };
-
-    # Replace power-profile-daemon with tlp since it's no longer maintained
-    #power-profiles-daemon.enable = lib.mkForce false;
-    #tlp.enable = lib.mkForce true;
   };
 
   # Install installation
-  environment = {
-    systemPackages = with pkgs; [
-      # X11
-      xorg.xkbutils
-      xorg.xkill
-    ];
-  };
+  environment.systemPackages = with pkgs; [
+    # X11
+    xorg.xkbutils
+    xorg.xkill
+  ];
 }

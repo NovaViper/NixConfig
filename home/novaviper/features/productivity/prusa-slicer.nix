@@ -22,25 +22,21 @@
         recursive = true;
       };
       "PrusaSlicer/print" = {
-        #source = ../../dots/PrusaSlicer/print;
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/PrusaSlicer/print";
         recursive = true;
       };
       "PrusaSlicer/physical_printer" = {
-        #source = ../../dots/PrusaSlicer/physical_printer;
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/PrusaSlicer/physical_printer";
         recursive = true;
       };
       "PrusaSlicer/filament" = {
-        #source = ../../dots/PrusaSlicer/filament;
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/PrusaSlicer/filament";
         recursive = true;
       };
       "PrusaSlicer/bed_models" = {
-        #source = ../../dots/PrusaSlicer/filament;
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/PrusaSlicer/bed_models";
         recursive = true;

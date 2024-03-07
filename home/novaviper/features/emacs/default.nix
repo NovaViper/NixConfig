@@ -9,7 +9,6 @@ in {
   services.emacs = {
     enable = true;
     startWithUserSession = "graphical";
-    #socketActivation.enable = true;
     client = {
       enable = true;
       #arguments = [ ];
@@ -34,11 +33,6 @@ in {
     };
     pyenv.enable = true;
   };
-
-  /* home.persistence = {
-       "/persist/home/novaviper".directories = [ ".config/emacs" ];
-     };
-  */
 
   xdg = {
     configFile = {

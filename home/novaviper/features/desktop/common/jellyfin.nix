@@ -24,9 +24,4 @@
        };
      };
   */
-
-  /* home.persistence = {
-       "/persist/home/novaviper".directories = [ ".config/jellyfin.org" ];
-     };
-  */
 }

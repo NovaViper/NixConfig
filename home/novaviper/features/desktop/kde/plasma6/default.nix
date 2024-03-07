@@ -9,4 +9,8 @@ with lib;
     configPackages = with pkgs.kdePackages;
       mkDefault [ xdg-desktop-portal-kde ];
   };
+
+  # Add Firefox native messaging host support for Plasma Integration
+  programs.firefox.nativeMessagingHosts = with pkgs;
+    [ kdePackages.plasma-browser-integration ];
 }

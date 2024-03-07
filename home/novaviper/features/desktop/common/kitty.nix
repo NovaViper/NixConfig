@@ -25,7 +25,6 @@
 
   programs.kitty = {
     enable = true;
-    theme = "${config.theme.name}";
     environment = {
       COLORTERM = "truecolor";
       WINIT_X11_SCALE_FACTOR = "1";

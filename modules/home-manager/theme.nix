@@ -151,6 +151,10 @@ in {
           "${pkgs.btop}/share/btop/themes/${cfg.nameSymbolic}.theme";
       };
     })
+    # Configure kitty
+    (mkIf (config.programs.kitty.enable) {
+      programs.kitty.theme = "${config.theme.name}";
+    })
     # Configure rio
     (mkIf (cfgapp != null && config.programs.rio.enable) {
       xdg.configFile."rio/themes/${cfgapp.rio.name}.toml".source = fetchGit {
@@ -168,17 +172,6 @@ in {
     (mkIf (cfgapp != null && config.programs.fzf.enable) {
       programs.fzf.colors = cfgapp.fzf.colors;
     })
-    # Configure the cursor theme
-    (mkIf (cfg.cursorTheme != null && config.variables.desktop.environment
-      != null) {
-        home.pointerCursor = {
-          package = cfg.cursorTheme.package;
-          name = cfg.cursorTheme.name;
-          size = cfg.cursorTheme.size;
-          gtk.enable = config.gtk.enable;
-          x11.enable = true;
-        };
-      })
     # Configure gtk theme
     (mkIf (config.gtk.enable) {
       gtk = {

@@ -25,6 +25,4 @@
       };
     };
   };
-
-  #home.persistence = { "/persist/home/novaviper".directories = [ ".ssh" ]; };
 }

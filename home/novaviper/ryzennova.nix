@@ -21,5 +21,6 @@
   #variables.machine.lowSpec = false;
   ###
 
+  # Install a couple more packages
   home.packages = with pkgs; [ keepassxc krita libsForQt5.tokodon ];
 }

@@ -1,8 +1,14 @@
 { config, lib, pkgs, ... }:
 with lib;
-let desktopEnv = config.services.xserver.desktopManager;
+let
+  desktopEnv = config.services.xserver.desktopManager;
+  kdeconnect-pkg = if (desktopEnv.plasma5.enable) then
+    pkgs.plasma5Packages.kdeconnect-kde
+  else
+    pkgs.kdePackages.kdeconnect-kde;
 in {
-  imports = [ ../global.nix ../wayland.nix ../x11.nix ];
+  imports =
+    [ ../common ../displayManager/wayland.nix ../displayManager/x11.nix ];
 
   # Special Variables
   variables.desktop.environment = "kde";
@@ -27,16 +33,15 @@ in {
         # Apps
         krename
         qalculate-qt
-        plasma-hud
         kdiskmark
 
         # Libraries/Utilities
         clinfo # for kinfocenter for OpenCL page
         glxinfo # for kinfocenter for OpenGL EGL and GLX page
         vulkan-tools # for kinfocenter for Vulkan page
+        wayland-utils # for kinfocenter for Wayland page
+        ffmpegthumbnailer # for video thumbnails
         linuxquota # for plasma-disks
-        ffmpegthumbnailer
-        wayland-utils
       ])
 
       (with libsForQt5;
@@ -84,10 +89,7 @@ in {
 
     serviceConfig = {
       #Environment = "PATH=${config.home.profileDirectory}/bin";
-      ExecStart = (if (desktopEnv.plasma6.enable) then
-        "${pkgs.kdePackages.kdeconnect-kde}/libexec/kdeconnectd"
-      else
-        "${pkgs.plasma5Packages.kdeconnect-kde}/libexec/kdeconnectd");
+      ExecStart = "${kdeconnect-pkg}/libexec/kdeconnectd";
       Restart = "on-abort";
     };
   };

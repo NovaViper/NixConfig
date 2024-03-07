@@ -5,7 +5,6 @@
     # Select internationalisation properties.
     defaultLocale = lib.mkDefault "en_US.UTF-8";
     extraLocaleSettings = {
-
       LC_ADDRESS = "en_US.UTF-8";
       LC_IDENTIFICATION = "en_US.UTF-8";
       LC_MEASUREMENT = "en_US.UTF-8";
@@ -19,7 +18,4 @@
 
     supportedLocales = lib.mkDefault [ "en_US.UTF-8/UTF-8" ];
   };
-
-  # Set your time zone.
-  #time.timeZone = lib.mkDefault "America/Chicago";
 }

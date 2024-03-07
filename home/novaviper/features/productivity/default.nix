@@ -14,9 +14,4 @@
     [ libreoffice-qt ]
     ++ lib.optionals (config.variables.desktop.environment == "xfce")
     [ libreoffice-fresh ];
-
-  /* home.persistence = {
-       "/persist/home/novaviper".directories = [ ".config/keepassxc" ];
-     };
-  */
 }

@@ -5,6 +5,9 @@ let
     pkg.overrideAttrs
     (oldAttrs: { patches = (oldAttrs.patches or [ ]) ++ patches; });
 in {
+  # Third party overlays
+  nur = inputs.nur.overlay;
+
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.system}' or
   # 'inputs.${flake}.legacyPackages.${pkgs.system}'
@@ -39,7 +42,7 @@ in {
 
     papirus-icon-theme = prev.papirus-icon-theme.override { color = "violet"; };
 
-    firefox = prev.firefox.override { cfg.nativeMessagingHosts.fxCast = true; };
+    #firefox = prev.firefox.override { cfg.nativeMessagingHosts.fxCast = true; };
 
     discord = prev.discord.override {
       withOpenASAR = true;

@@ -27,16 +27,20 @@ in {
     inputs.hardware.nixosModules.common-pc-ssd
     ./hardware-configuration.nix
     ./disks.nix
+
     ### Global Configs
     ../common/global
     ../common/users/novaviper
+
     ### Hardware
     ../common/optional/rgb.nix
     ../common/optional/bluetooth.nix
     ../common/optional/qmk.nix
     #../common/optional/howdy.nix
+
     ### Desktop Environment
     ../common/optional/desktop/kde/plasma5.nix
+
     ### Service
     ../common/optional/theme.nix
     ../common/optional/quietboot.nix
@@ -44,6 +48,7 @@ in {
     ../common/optional/sunshine-server.nix
     ../common/optional/syncthing.nix
     ../common/optional/tailscale.nix
+
     ### Applications
     ../common/optional/flatpak.nix
     ../common/optional/appimage.nix
@@ -71,7 +76,7 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
   ### Special Variables
   variables.useVR = true;
@@ -99,7 +104,7 @@ in {
 
   environment = {
     #systemPackages = with pkgs; [ gwe ];
-    sessionVariables = { LIBVA_DRIVER_NAME = "nvidia"; };
+    sessionVariables.LIBVA_DRIVER_NAME = "nvidia";
   };
 
   system.activationScripts =

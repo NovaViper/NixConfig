@@ -1,11 +1,11 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 let
-  MAIN_PART = "/dev/disk/by-uuid/50a2687d-17b8-44b9-89e4-8be895207551";
-  BOOT_PART = "/dev/disk/by-uuid/D18D-DB32";
+  MAIN_PART = "/dev/disk/by-uuid/4396870a-b30b-4ead-af0c-09436cbe176a";
+  BOOT_PART = "/dev/disk/by-uuid/7CF1-022D";
   SWAP_PATH = "/swapfile";
   SWAP_SIZE = 16;
-  RESUME_OFFSET = "31424512";
+  RESUME_OFFSET = "111116288";
 in {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
@@ -15,7 +15,6 @@ in {
       systemd-boot = {
         enable = true;
         memtest86.enable = true;
-        netbootxyz.enable = true;
       };
       efi.canTouchEfiVariables = true;
     };

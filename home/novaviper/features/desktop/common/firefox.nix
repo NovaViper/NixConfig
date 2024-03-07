@@ -1,7 +1,4 @@
-{ inputs, config, lib, pkgs, nur, ... }:
-#let addons = pkgs.nur.repos.rycee.firefox-addons;
-let addons = inputs.firefox-addons.packages.${pkgs.system};
-in {
+{ inputs, config, lib, pkgs, ... }: {
   xdg.mimeApps.defaultApplications = {
     "text/html" = [ "firefox.desktop" ];
     "text/xml" = [ "firefox.desktop" ];
@@ -9,30 +6,24 @@ in {
     "x-scheme-handler/https" = [ "firefox.desktop" ];
   };
 
-  home = {
-    sessionVariables.BROWSER = "firefox";
-    /* persistence = {
-         # Not persisting is safer
-         # "/persist/home/misterio".directories = [ ".mozilla/firefox" ];
-       };
-    */
-  };
+  home.sessionVariables.BROWSER = "firefox";
 
   programs.firefox = {
     enable = true;
+    nativeMessagingHosts = with pkgs; [ fx-cast-bridge ];
     profiles.novaviper = {
       bookmarks = { };
-      extensions = with addons; [
+      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
         sponsorblock
         return-youtube-dislikes
         darkreader
         bypass-paywalls-clean
         plasma-integration
-        #keepassxc-browser
-        #enhancer-for-youtube
+        enhancer-for-youtube
         #honey
-        #pay-by-privacy-com
+        #keepassxc-browser
+        #pay-by-privacy
       ];
       bookmarks = { };
       search = {
@@ -53,7 +44,6 @@ in {
                 }
               ];
             }];
-
             icon =
               "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = [ "@np" ];

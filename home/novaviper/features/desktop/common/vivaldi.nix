@@ -29,11 +29,6 @@
       "${pkgs.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";
   };
 
-  /* home.persistence = {
-       "/persist/home/novaviper".directories = [ ".config/vivaldi" ];
-     };
-  */
-
   programs.vivaldi = {
     enable = true;
     dictionaries = with pkgs; [ hunspellDictsChromium.en_US ];

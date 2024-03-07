@@ -16,5 +16,6 @@ with lib;
       "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
   };
 
-  programs.plasma.workspace.clickItemTo = "select";
+  programs.firefox.nativeMessagingHosts = with pkgs;
+    [ plasma5Packages.plasma-browser-integration ];
 }

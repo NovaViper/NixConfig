@@ -158,9 +158,9 @@ in {
         systemPackages = with pkgs;
           (mkMerge [
             # Download Konsole if `useKonsole` is used on a DE that DOESN'T include Konsole (like KDE);
-            # download Yakuake if `useKonsole` is used on a DE that DOES include Konsole (like KDE)
             (mkIf (cfg.useKonsole && cfgde.environment != "kde")
               [ libsForQt5.konsole ])
+            # download Yakuake if `useKonsole` is used on a DE that DOES include Konsole (like KDE); switch between QT6 and QT5 versions of Yakuake depending on KDE Plasma version
             (mkIf (cfg.useKonsole && cfgde.environment == "kde"
               && desktopEnv.plasma5.enable) [ libsForQt5.yakuake ])
             (mkIf (cfg.useKonsole && cfgde.environment == "kde"

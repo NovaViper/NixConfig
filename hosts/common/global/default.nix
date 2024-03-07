@@ -12,13 +12,13 @@
     ./gpg.nix
     ./network.nix
     ./fonts.nix
-    #./sops.nix
-    ./security.nix
-    #./optin-persistence.nix # TODO Maybe later, alot more involved than initally thought
+    #./security.nix
   ] ++ (builtins.attrValues outputs.nixosModules);
 
+  # Add special args for home-manager
   home-manager.extraSpecialArgs = { inherit inputs outputs; };
 
+  # Config Nixpkgs
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
     config = {
@@ -42,10 +42,10 @@
     extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
   };
 
+  # Needed for high-dpi and quiet boot
   console = {
     earlySetup = true;
     useXkbConfig = true;
-    #packages = [];
   };
 
   # Increase open file limit for sudoers
@@ -64,26 +64,18 @@
     }
   ];
 
-  #systemd.services.NetworkManager-wait-online.enable = false;
-
   # Enable firmware updates on Linux
   services.fwupd.enable = true;
 
   # Install more packages
-  environment = {
-    systemPackages = with pkgs; [
-      pciutils
-      usbutils
-      killall
-      git-crypt
-      smartmontools
-      openssl
-    ];
-
-    # Fix for qt6 plugins
-    # TODO: maybe upstream this?
-    profileRelativeSessionVariables = {
-      QT_PLUGIN_PATH = [ "/lib/qt-6/plugins" ];
-    };
-  };
+  environment.systemPackages = with pkgs; [
+    pciutils
+    usbutils
+    killall
+    git
+    git-crypt
+    smartmontools
+    openssl
+    aha
+  ];
 }

@@ -1,4 +1,5 @@
 { config, lib, pkgs, inputs, ... }:
+with lib;
 let inherit (inputs.nix-colors) colorSchemes;
 in {
   colorscheme = colorSchemes.dracula;
@@ -36,11 +37,21 @@ in {
     };
   };
 
+  # Configure the cursor theme
+  home.pointerCursor = mkIf (config.variables.desktop.environment != null) {
+    package = config.theme.cursorTheme.package;
+    name = config.theme.cursorTheme.name;
+    size = config.theme.cursorTheme.size;
+    gtk.enable = config.gtk.enable;
+    x11.enable = true;
+  };
+
   # KDE Theming
-  programs.plasma = lib.mkIf (config.variables.desktop.environment == "kde") {
+  programs.plasma = {
     workspace = {
       #wallpaper = "";
-      lookAndFeel = "${config.theme.name}";
+      #lookAndFeel = "${config.theme.name}";
+      lookAndFeel = "org.kde.breezedark.desktop";
       cursorTheme = "${config.theme.cursorTheme.name}";
       iconTheme = "${config.theme.iconTheme.name}";
       colorScheme = "DraculaPurple";

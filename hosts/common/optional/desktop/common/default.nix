@@ -9,7 +9,8 @@
   # Enable for GTK
   programs.dconf.enable = true;
 
-  #environment.persistence = { "/persist".directories = [ "/etc/NetworkManager" ]; };
+  # Enable color management service
+  services.colord.enable = true;
 
   # Install installation
   environment.systemPackages = with pkgs; [

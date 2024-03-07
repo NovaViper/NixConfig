@@ -21,8 +21,8 @@ My current NixOS (and constant changing) configuration
 - Flexible Home Manager with feature flags
 - Modular configuration
 - Wayland/X11 Setups
-- Multiple fully featured desktop environments (KDE Plasma, Hyprland (still under testing), and XFCE)
-- Live image ISO build with Nvidia drivers and experimental nix features already enabled (and unfree software usage)
+- Multiple fully featured desktop environments (KDE Plasma 5/6 and XFCE)
+- Live image ISO build with Nvidia drivers, experimental nix features already enabled, unfree software usage, and some nice options for cli and neovim
 - Declarative themes with *theme* module
 
 * References
@@ -39,9 +39,9 @@ Here's an overview of the repo's file structure:
     - =global=: Configurations that are globally applied to all my machines.
     - =optional=: Opt-in configurations/feature flags, my machines can use.
     - =users=: Configurations for each system on the machines
-  - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma X11
-  - =yoganova=: Lenovo Yoga 7i - 8GB RAM, Intel i5 1335U | KDE Plasma Wayland
-  - =isoimage=: ISO configuration | Nvidia drivers included | KDE Plasma X11
+  - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6 X11
+  - =yoganova=: Lenovo Yoga 7i - 8GB RAM, Intel i5 1335U | KDE Plasma 6
+  - =live-image=: ISO configuration | Nvidia drivers included | KDE Plasma 6
 - =home=: My Home-manager configuration, accessible via =home-manager --flake=
   - Each directory here is a "feature" each HM configuration can toggle, thus customizing each machine with configurations for the specific user
 - =modules=: Custom modules that aren't available in nixpkgs. Can be NixOS or Home-Manager modules (or both!)
@@ -53,7 +53,7 @@ For installation, check out the installation guide located under [[file:document
 
 * Tooling and Applications I Use
 Main user relevant apps
-- kde plasma with wayland and x11
+- kde plasma 6
 - neovim
 - doom emacs
 - zsh + powerlevel10k

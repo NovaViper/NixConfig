@@ -3,11 +3,12 @@
 {
   # Enable ALSA sound
   sound.enable = true;
-  # Enable the RealtimeKit system service
-  security.rtkit.enable = true;
 
   # Disable PulseAudio
   hardware.pulseaudio.enable = lib.mkForce false;
+
+  # Enable the RealtimeKit system service
+  security.rtkit.enable = true;
 
   services.pipewire = {
     enable = true;
@@ -22,6 +23,6 @@
     #media-session.enable = true;
   };
 
-  # Install installation
+  # Install audio configuration tools (Especially important for VR)
   environment.systemPackages = with pkgs; [ pavucontrol pulseaudio ];
 }

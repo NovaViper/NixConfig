@@ -24,16 +24,20 @@ in {
     inputs.hardware.nixosModules.common-hidpi
     ./hardware-configuration.nix
     ./disks.nix
+
     ### Global Configs
     ../common/global
     ../common/users/novaviper
+
     ### Hardware
     #../common/optional/rgb.nix
     ../common/optional/bluetooth.nix
-    ../common/optional/qmk.nix
+    #../common/optional/qmk.nix
     #../common/optional/howdy.nix
+
     ### Desktop Environment
-    ../common/optional/desktop/kde/plasma5.nix
+    ../common/optional/desktop/kde/plasma6.nix
+
     ### Service
     ../common/optional/theme.nix
     ../common/optional/quietboot.nix
@@ -41,6 +45,7 @@ in {
     #../common/optional/sunshine-server.nix
     ../common/optional/syncthing.nix
     ../common/optional/tailscale.nix
+
     ### Applications
     ../common/optional/flatpak.nix
     ../common/optional/appimage.nix
@@ -68,7 +73,7 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 
   ### Special Variables
   variables.useVR = false;
@@ -80,7 +85,13 @@ in {
   #variables.machine.lowSpec = true;
   ###
 
+  # Enable powertop analysis tool
+  powerManagement.powertop.enable = true;
+
   services = {
+    # Enable Thunderbolt
+    hardware.bolt.enable = true;
+
     # Fingerprint reader: login and unlock with fingerprint (if you add one with `fprintd-enroll`)
     # The driver doesn't work so far
     /* fprintd = {
@@ -91,9 +102,6 @@ in {
          };
        };
     */
-
-    # Enable Thunderbolt
-    hardware.bolt.enable = true;
 
     # Set IR blaster device
     /* linux-enable-ir-emitter.device = "video2";
@@ -109,9 +117,6 @@ in {
        };
     */
   };
-
-  # Enable powertop analysis tool
-  powerManagement.powertop.enable = true;
 
   # Apply configs
   system.activationScripts.copySysConfigs = ''

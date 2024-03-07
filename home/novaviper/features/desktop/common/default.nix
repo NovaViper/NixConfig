@@ -11,7 +11,7 @@
     #./jellyfin.nix
 
     # Browser
-    #./firefox.nix
+    ./firefox.nix
     ./vivaldi.nix
 
     # Backup solutions

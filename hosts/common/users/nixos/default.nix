@@ -3,8 +3,11 @@
 {
   variables.username = "nixos";
 
-  environment.systemPackages = with pkgs; [ kitty ];
+  users.users.nixos = {
+    shell = pkgs.zsh;
+    packages = with pkgs; [ home-manager ];
+  };
 
-  #home-manager.users.nixos = import ../../../../home/nixos/generic.nix;
+  home-manager.users.nixos = import ../../../../home/nixos/image.nix;
 
 }
