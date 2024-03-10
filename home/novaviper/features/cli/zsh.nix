@@ -26,14 +26,6 @@ with lib;
   programs = {
     # Custom colors for ls, grep and more
     dircolors.enable = true;
-    # terminal file manager written in Go
-    lf = {
-      enable = true;
-      settings = {
-        number = true;
-        tabstop = 4;
-      };
-    };
 
     # The shell itself
     zsh = {

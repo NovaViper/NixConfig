@@ -10,7 +10,7 @@ in {
     nameSymbolic = "dracula";
     app = {
       rio.name = config.theme.name;
-      wezterm.name = "Dracula (Offical)";
+      wezterm.name = "Dracula (Official)";
       fzf.colors = {
         fg = "#f8f8f2"; # foreground
         bg = "#282a36"; # background

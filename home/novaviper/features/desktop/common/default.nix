@@ -11,7 +11,7 @@
     #./jellyfin.nix
 
     # Browser
-    ./firefox.nix
+    #./firefox.nix
     ./vivaldi.nix
 
     # Backup solutions
@@ -19,9 +19,9 @@
 
     # Terminals
     #./alacritty.nix
-    #./wezterm.nix
+    ./wezterm.nix
     #./rio.nix
-    ./kitty.nix
+    #./kitty.nix
   ];
 
   fonts.fontconfig.enable = true;

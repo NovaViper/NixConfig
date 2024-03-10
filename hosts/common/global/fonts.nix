@@ -8,7 +8,7 @@
     packages = with pkgs; [
       noto-fonts
       noto-fonts-cjk
-      noto-fonts-emoji
+      noto-fonts-color-emoji
       joypixels
       fira-code
       fira-code-symbols

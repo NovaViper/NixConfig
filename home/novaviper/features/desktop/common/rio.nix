@@ -30,7 +30,7 @@
       #
       # Whenever the key binding `OpenConfigEditor` is triggered it will
       # use the value of the editor along with the rio configuration path.
-      editor = "vi";
+      editor = "neovim";
 
       # Cursor
       #
@@ -45,6 +45,12 @@
       #
       blinking-cursor = true;
 
+      # Hide cursor when typing
+      #
+      # Default is false
+      #
+      hide-cursor-when-typing = false;
+
       # Ignore theme selection foreground color
       #
       # Default is false
@@ -54,10 +60,10 @@
 
       # Padding-x
       #
-      # define x axis padding (default is 10)
+      # define x axis padding (default is 0)
       #
       # Example:
-      # padding-x = 10;
+      # padding-x = 0;
 
       # Option as Alt
       #
@@ -98,6 +104,12 @@
       # Example:
       # use-fork = false;
 
+      # Confirm before quitting
+      #
+      # Require confirmation before quitting (Default: true)
+      #
+      #confirm-before-quit = true;
+
       # Window configuration
       #
       # • width - define the intial window width.
@@ -125,9 +137,9 @@
         height = 800;
         mode = "Windowed";
         foreground-opacity = 1.0;
-        background-opacity = 1.0;
-        blur = false;
-        decorations = "Enabled";
+        background-opacity = 0.6;
+        blur = true;
+        decorations = "Transparent";
       };
 
       # Renderer
@@ -150,19 +162,6 @@
         backend = "Automatic";
         disable-renderer-when-unfocused = false;
       };
-
-      # Keyboard
-      #
-      # use-kitty-keyboard-protocol - Enable Kitty Keyboard protocol
-      #
-      # disable-ctlseqs-alt - Disable ctlseqs with ALT keys
-      #   - For example: Terminal.app does not deal with ctlseqs with ALT keys
-      #
-      # Example:
-      # keyboard = {
-      #   use-kitty-keyboard-protocol = false;
-      #   disable-ctlseqs-alt = false;
-      # };
 
       # Fonts
       #
@@ -211,6 +210,19 @@
         family = "MesloLGS Nerd Font";
       };
 
+      # Keyboard
+      #
+      # use-kitty-keyboard-protocol - Enable Kitty Keyboard protocol
+      #
+      # disable-ctlseqs-alt - Disable ctlseqs with ALT keys
+      #   - For example: Terminal.app does not deal with ctlseqs with ALT keys
+      #
+      # Example:
+      # keyboard = {
+      #   use-kitty-keyboard-protocol = false;
+      #   disable-ctlseqs-alt = false;
+      # };
+
       # Scroll
       #
       # You can change how many lines are scrolled each time by setting this option.
@@ -243,12 +255,14 @@
       # "color-automation" - Set a specific color for the tab whenever a specific program is running, or in a specific directory.
       #
       # Example:
-      navigation = {
-        mode = "BottomTab";
-        clickable = true;
-        use-current-path = true;
-        color-automation = [ ];
-      };
+      /* navigation = {
+           mode = "BottomTab";
+           clickable = true;
+           use-current-path = true;
+           color-automation = [ ];
+         };
+      */
+      navigation.mode = "Plain";
 
       # Shell
       #
@@ -312,20 +326,21 @@
       # More information in: raphamorim.io/rio/docs/custom-key-bindings
       #
       # Example:
-      bindings = {
-        keys = [{
-          key = "q";
-          "with" = "control | shift";
-          action = "Quit";
-        }
-        # Bytes[27 91 53 126] is equivalent to "\x1b[5~"
-        #     {
-        #       key = "home";
-        #       "with" = "super | shift";
-        #       bytes = [ 27 91 53 126 ];
-        #     }
-          ];
-      };
+      /* bindings = {
+           keys = [{
+             key = "q";
+             "with" = "control | shift";
+             action = "Quit";
+           }
+           # Bytes[27 91 53 126] is equivalent to "\x1b[5~"
+           #     {
+           #       key = "home";
+           #       "with" = "super | shift";
+           #       bytes = [ 27 91 53 126 ];
+           #     }
+             ];
+         };
+      */
 
       # Log level
       #
