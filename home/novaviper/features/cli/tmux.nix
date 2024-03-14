@@ -34,6 +34,7 @@ in {
         set -g set-titles on
         set -g set-titles-string "#S / #W / #(pwd)"
         set -g allow-passthrough on
+        set -as terminal-features 'contour:sixel'
 
         # Enable full RGB support
         set -as terminal-features ",*-256color:RGB"

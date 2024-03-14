@@ -39,7 +39,7 @@ in {
     #../common/optional/howdy.nix
 
     ### Desktop Environment
-    ../common/optional/desktop/kde/plasma5.nix
+    ../common/optional/desktop/kde/plasma6.nix
 
     ### Service
     ../common/optional/theme.nix
@@ -81,7 +81,7 @@ in {
   ### Special Variables
   variables.useVR = true;
   variables.useKonsole = false;
-  variables.desktop.displayManager = "x11";
+  variables.desktop.displayManager = "wayland";
   variables.machine.motherboard = "amd";
   variables.machine.buildType = "desktop";
   variables.machine.gpu = "nvidia";
@@ -105,7 +105,7 @@ in {
     };
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
 
   environment = {
     #systemPackages = with pkgs; [ gwe ];

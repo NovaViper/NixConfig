@@ -23,7 +23,6 @@
   programs.rio = {
     enable = true;
     settings = {
-
       # Editor
       #
       # Default editor is "vi".
@@ -133,8 +132,12 @@
       #
       # Example:
       window = {
-        width = 1200;
-        height = 800;
+        width = if (config.variables.machine.buildType == "laptop") then
+          1000
+        else
+          1200;
+        height =
+          if (config.variables.machine.buildType == "laptop") then 600 else 800;
         mode = "Windowed";
         foreground-opacity = 1.0;
         background-opacity = 0.6;

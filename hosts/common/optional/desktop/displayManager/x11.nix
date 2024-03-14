@@ -26,5 +26,6 @@
     # X11
     xorg.xkbutils
     xorg.xkill
+    xorg.libxcb
   ];
 }

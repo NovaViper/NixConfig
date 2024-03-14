@@ -30,7 +30,9 @@
     ventoy-full # bootable USB solution
     nvd # Differ
     nix-output-monitor
-    nh # Nice wrapper for NixOS and HM    dmidecode
+    nh # Nice wrapper for NixOS and HM
     nixpkgs-review
+    tldr # better man pages
+    entr # run commands when files change!
   ];
 }

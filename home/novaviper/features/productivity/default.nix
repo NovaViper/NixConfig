@@ -8,10 +8,14 @@
     ./mpv.nix
   ];
 
-  home.packages = with pkgs;
-    [ openscad freecad rpi-imager blisp ]
-    ++ lib.optionals (config.variables.desktop.environment == "kde")
-    [ libreoffice-qt ]
-    ++ lib.optionals (config.variables.desktop.environment == "xfce")
-    [ libreoffice-fresh ];
+  home = {
+    # Libreoffice-qt fix
+    sessionVariables.SAL_USE_VCLPLUGIN = "kf5";
+    packages = with pkgs;
+      [ openscad freecad rpi-imager blisp ]
+      ++ lib.optionals (config.variables.desktop.environment == "kde")
+      [ libreoffice-qt ]
+      ++ lib.optionals (config.variables.desktop.environment == "xfce")
+      [ libreoffice-fresh ];
+  };
 }

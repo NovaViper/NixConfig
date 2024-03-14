@@ -54,18 +54,18 @@
       }
       require("startup").setup({theme = "dashboard"}) -- put theme name here
     '';
-    plugins = with pkgs.vimPlugins; [
-      dracula-nvim
-      vim-tmux-clipboard
-      clipboard-image-nvim
-      lualine-nvim
-      neogit
-      telescope-nvim
-      telescope-file-browser-nvim
-      nvim-treesitter.withAllGrammars
-      which-key-nvim
-      startup-nvim
-    ];
+    plugins = with pkgs.vimPlugins;
+      [
+        dracula-nvim
+        clipboard-image-nvim
+        lualine-nvim
+        neogit
+        telescope-nvim
+        telescope-file-browser-nvim
+        nvim-treesitter.withAllGrammars
+        which-key-nvim
+        startup-nvim
+      ] ++ lib.optionals (config.programs.tmux.enable) [ vim-tmux-clipboard ];
   };
 
   xdg.desktopEntries = {

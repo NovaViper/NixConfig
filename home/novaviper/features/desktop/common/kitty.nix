@@ -2,9 +2,6 @@
 
 {
   xdg = {
-    #configFile = {
-    #  "kitty/default.conf".source = ../../../dots/kitty/default.conf;
-    #};
     mimeApps = {
       associations = {
         added = {
@@ -44,30 +41,36 @@
 
       # Terminal Bell {{{
       enable_audio_bell = "yes";
-      visual_bell_duration = "0.5";
+      visual_bell_duration = "0.0";
       bell_on_tab = "🔔 ";
-      #command_on_bell = "xkbbell";
+      linux_bell_theme = "__ocean";
+      bell_path =
+        "${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/bell-window-system.oga";
       # }}}
 
       # Cursor {{{
-      cursor_shape = "underline";
-      cursor_blink_interval = "-1";
+      cursor_shape = "block";
+      cursor_blink_interval = "20";
       # }}}
 
       # Scrollback {{{
-      scrollback_lines = 2000;
+      scrollback_lines = 5000;
       # }}}
 
       # Mouse {{{
       show_hyperlink_targets = "yes";
       copy_on_select = "yes";
-      paste_actions = "quote-urls-at-prompt";
+      paste_actions = "quote-urls-at-prompt,confirm-if-large";
       focus_follows_mouse = "yes";
+      mouse_hide_wait = 0;
       # }}}
 
       # Window Layout {{{
-      initial_window_width = 1920;
-      initial_window_height = 1080;
+      remember_window_size = "yes";
+      initial_window_width =
+        if (config.variables.machine.buildType == "laptop") then 1000 else 1920;
+      initial_window_height =
+        if (config.variables.machine.buildType == "laptop") then 700 else 1080;
 
       enabled_layouts = "tall:bias=65;full_size=1;mirrored=false";
       # }}}

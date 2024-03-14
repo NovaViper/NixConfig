@@ -42,6 +42,11 @@ in {
 
     papirus-icon-theme = prev.papirus-icon-theme.override { color = "violet"; };
 
+    tmux = prev.tmux.override {
+      withSixel = true;
+      withSystemd = true;
+    };
+
     #firefox = prev.firefox.override { cfg.nativeMessagingHosts.fxCast = true; };
 
     discord = prev.discord.override {

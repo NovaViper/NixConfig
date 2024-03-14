@@ -60,6 +60,7 @@ in {
           ffmpegthumbs
           qt5.qtimageformats
           packagekit-qt
+          sddm-kcm # Add KCM for sddm
         ])
       (with kdePackages;
         mkIf (desktopEnv.plasma6.enable) [
@@ -77,6 +78,7 @@ in {
           ffmpegthumbs
           qtimageformats
           packagekit-qt
+          sddm-kcm # Add KCM for sddm
         ])
     ]);
 

@@ -19,9 +19,9 @@
 
     # Terminals
     #./alacritty.nix
-    ./wezterm.nix
+    #./wezterm.nix
     #./rio.nix
-    #./kitty.nix
+    ./kitty.nix
   ];
 
   fonts.fontconfig.enable = true;

@@ -27,6 +27,19 @@ with lib;
     # Custom colors for ls, grep and more
     dircolors.enable = true;
 
+    # terminal file manager written in Go
+    yazi = {
+      enable = true;
+      keymap = { };
+      settings = { };
+    };
+
+    # smart cd command, inspired by z and autojump
+    zoxide = {
+      enable = true;
+      options = [ ];
+    };
+
     # The shell itself
     zsh = {
       enable = true;
