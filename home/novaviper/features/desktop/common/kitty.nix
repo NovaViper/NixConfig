@@ -37,6 +37,7 @@
       #shell = "${pkgs.zsh}/bin/zsh --login --interactive";
       #kitty_mod = "ctrl+shift";
       #startup_session = "default.conf";
+      repaint_delay = 0;
       # }}}
 
       # Terminal Bell {{{
@@ -50,7 +51,7 @@
 
       # Cursor {{{
       cursor_shape = "block";
-      cursor_blink_interval = "20";
+      cursor_blink_interval = "0.5";
       # }}}
 
       # Scrollback {{{

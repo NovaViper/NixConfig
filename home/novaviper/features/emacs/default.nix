@@ -97,7 +97,7 @@ in {
       nodePackages.prettier
       html-tidy
       nodePackages.lua-fmt
-      texlive.combined.scheme-full
+      texlive.combined.scheme-medium
       nixfmt
       shfmt
 

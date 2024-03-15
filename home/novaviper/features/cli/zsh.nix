@@ -61,7 +61,7 @@ with lib;
         SPROMPT =
           "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [ny] ";
         # Add more strategies to zsh-autosuggestions
-        ZSH_AUTOSUGGEST_STRATEGY = [ "history" "completion" ];
+        ZSH_AUTOSUGGEST_STRATEGY = [ "completion" ];
         # Customize style of zsh-autosuggestions
         ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "underline";
         # Make manpager use ls with color support``

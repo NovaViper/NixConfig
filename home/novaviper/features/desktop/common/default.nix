@@ -7,8 +7,8 @@
     ./discord.nix
 
     # Music
-    ./cider.nix
-    #./jellyfin.nix
+    #./cider.nix
+    ./jellyfin.nix
 
     # Browser
     #./firefox.nix
@@ -25,6 +25,8 @@
   ];
 
   fonts.fontconfig.enable = true;
+
+  home.packages = with pkgs; [ hardinfo ];
 
   xdg = {
     # Allow modification of app assosications
