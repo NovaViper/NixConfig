@@ -113,7 +113,13 @@ in {
           "You need to enable Steam, since all of the necessary libraries are bundled with Steam";
       }];
     })
-
+    (mkIf (cfgde.displayManager == "x11") {
+      warnings = if (desktopEnv.plasma6.enable) then [''
+        You have enabled the X11 session with KDE Plasma 6; which does not fully support the X11 session
+        This may result in a broken SDDM session and thus booting into text mode!
+      ''] else
+        [ ];
+    })
     ({
       services.xserver = mkMerge [
         # Enable Wacom touch drivers

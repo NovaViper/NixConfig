@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  home.packages = with pkgs; [ jellyfin-media-player ];
+  home.packages = with pkgs; [ nur.repos.lunik1.feishin-appimage ];
 
   /* xdg.mimeApps = {
        associations = {

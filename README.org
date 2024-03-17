@@ -39,7 +39,7 @@ Here's an overview of the repo's file structure:
     - =global=: Configurations that are globally applied to all my machines.
     - =optional=: Opt-in configurations/feature flags, my machines can use.
     - =users=: Configurations for each system on the machines
-  - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6 X11
+  - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6
   - =yoganova=: Lenovo Yoga 7i - 8GB RAM, Intel i5 1335U | KDE Plasma 6
   - =live-image=: ISO configuration | Nvidia drivers included | KDE Plasma 6
 - =home=: My Home-manager configuration, accessible via =home-manager --flake=

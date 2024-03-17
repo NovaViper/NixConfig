@@ -56,7 +56,6 @@
       { id = "cimiefiiaegbelhefglklhhakcgmhkai"; } # Plasma Browser Integration
       { id = "fkagelmloambgokoeokbpihmgpkbgbfm"; } # Indie Wiki Buddy
       { id = "clngdbkpkpeebahjckkjfobafhncgmne"; } # Stylus
-      { id = "fkagelmloambgokoeokbpihmgpkbgbfm"; } # Indie Wiki Buddy
       { id = "nenlahapcbofgnanklpelkaejcehkggg"; } # Save Now
     ];
   };

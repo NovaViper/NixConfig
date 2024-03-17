@@ -94,7 +94,6 @@ in {
       powerManagement.enable = true;
       modesetting.enable = true;
       open = false;
-      #nvidiaSettings = false;
       nvidiaSettings =
         if (config.variables.desktop.displayManager == "x11") then
           true
@@ -105,7 +104,7 @@ in {
     };
   };
 
-  services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   environment = {
     #systemPackages = with pkgs; [ gwe ];

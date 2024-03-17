@@ -7,11 +7,11 @@
     ./discord.nix
 
     # Music
-    #./cider.nix
+    ./cider.nix
     ./jellyfin.nix
 
     # Browser
-    #./firefox.nix
+    ./firefox.nix
     ./vivaldi.nix
 
     # Backup solutions
@@ -25,8 +25,6 @@
   ];
 
   fonts.fontconfig.enable = true;
-
-  home.packages = with pkgs; [ hardinfo ];
 
   xdg = {
     # Allow modification of app assosications
