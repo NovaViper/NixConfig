@@ -4,7 +4,7 @@
 
   inputs = {
     # Core dependencies
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     hardware.url = "github:nixos/nixos-hardware";
     nur.url = "github:nix-community/NUR";
     home-manager = {
