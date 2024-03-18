@@ -1,10 +1,11 @@
 { inputs, outputs, config, lib, pkgs, ... }:
 with lib; {
 
-  imports = [
-    inputs.nix-colors.homeManagerModule
-    inputs.plasma-manager.homeManagerModules.plasma-manager
-  ] ++ (builtins.attrValues outputs.homeManagerModules);
+  imports = with inputs;
+    [
+      nix-colors.homeManagerModule
+      plasma-manager.homeManagerModules.plasma-manager
+    ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;

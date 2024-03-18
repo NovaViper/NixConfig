@@ -15,18 +15,22 @@
     # Extras
     nix-colors.url = "github:misterio77/nix-colors";
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
+    nix-gaming = {
+      url = "github:fufexan/nix-gaming";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     plasma-manager = {
       url = "github:pjones/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    krunner-nix = {
+      url = "github:pluiedev/krunner-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     wallpapers = {
       url = "github:NovaViper/Wallpapers";
       flake = false;
-    };
-    nix-gaming = {
-      url = "github:fufexan/nix-gaming";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
