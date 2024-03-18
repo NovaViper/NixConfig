@@ -11,8 +11,6 @@ with lib;
       recursive = true;
     };
     "zsh/manpages.zshrc".source = ../../dots/zsh/manpages.zshrc;
-    "zsh/zsh-syntax-highlighting.sh".source =
-      ../../dots/zsh/zsh-syntax-highlighting.sh;
   };
 
   home.packages = mkMerge [
@@ -44,7 +42,10 @@ with lib;
     zsh = {
       enable = true;
       enableCompletion = true;
-      enableAutosuggestions = true;
+      autosuggestion = {
+        enable = true;
+        highlight = "underline";
+      };
       syntaxHighlighting.enable = true;
       dotDir = ".config/zsh";
       defaultKeymap = "viins";
@@ -62,8 +63,6 @@ with lib;
           "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [ny] ";
         # Add more strategies to zsh-autosuggestions
         ZSH_AUTOSUGGEST_STRATEGY = [ "completion" ];
-        # Customize style of zsh-autosuggestions
-        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "underline";
         # Make manpager use ls with color support``
         MANPAGER = "${pkgs.less}/bin/less -s -M +Gg";
       };
@@ -89,7 +88,6 @@ with lib;
 
         source "$ZDOTDIR/manpages.zshrc"
         source "$ZDOTDIR/.p10k.zsh"
-        source "$ZDOTDIR/zsh-syntax-highlighting.sh"
 
         setopt beep CORRECT # Enable terminal bell and autocorrect
         autoload -U colors && colors # Enable colors

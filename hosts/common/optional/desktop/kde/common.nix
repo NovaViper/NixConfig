@@ -52,6 +52,7 @@ in {
           kfind
           filelight
           skanpage # Scanner
+          print-manager
           plasma-welcome # Welcome screen
           plasma-vault
           plasma-disks
@@ -70,6 +71,7 @@ in {
           kfind
           filelight
           skanpage # Scanner
+          print-manager
           plasma-welcome # Welcome screen
           plasma-vault
           plasma-disks

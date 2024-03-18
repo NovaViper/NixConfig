@@ -21,7 +21,10 @@ with lib;
     zsh = {
       enable = true;
       enableCompletion = true;
-      enableAutosuggestions = true;
+      autosuggestion = {
+        enable = true;
+        highlight = "underline";
+      };
       syntaxHighlighting.enable = true;
       dotDir = ".config/zsh";
       defaultKeymap = "viins";
@@ -39,8 +42,6 @@ with lib;
           "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [ny] ";
         # Add more strategies to zsh-autosuggestions
         ZSH_AUTOSUGGEST_STRATEGY = [ "history" "completion" ];
-        # Customize style of zsh-autosuggestions
-        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE = "underline";
         # Make manpager use ls with color support``
         MANPAGER = "${pkgs.less}/bin/less -s -M +Gg";
       };

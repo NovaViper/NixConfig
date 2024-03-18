@@ -29,7 +29,7 @@ in {
 
     # Swapfile hibernate
     resumeDevice = "${MAIN_PART}";
-    kernelParams = [ "resume_offset=${RESUME_OFFSET}" ];
+    kernelParams = [ "resume_offset=${RESUME_OFFSET}" "nvidia_drm.fbdev=1" ];
   };
 
   fileSystems = {
