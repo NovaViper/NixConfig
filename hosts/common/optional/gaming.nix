@@ -55,7 +55,7 @@
   };
 
   # Allow Minecraft server ports
-  networking.firewall.allowedTCPPorts = [ 25565 ];
+  networking.firewall.allowedTCPPorts = [ 25565 24454 ];
 
   # Fixes SteamLink/Remote play crashing, add packages necessary for VR
   environment = {
