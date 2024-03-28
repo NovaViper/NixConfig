@@ -60,10 +60,11 @@ with lib;
     shortcuts.yakuake =
       mkIf config.variables.useKonsole { toggle-window-state = "F12"; };
     configFile = {
-      kglobalshortcutsrc.yakuake =
-        mkIf config.variables.useKonsole { "_k_friendly_name" = "Yakuake"; };
-      kwinrc.NightColor.Active = true;
-      kcminputrc.Mouse.cursorSize = config.theme.cursorTheme.size;
+      kglobalshortcutsrc.yakuake = mkIf config.variables.useKonsole {
+        "_k_friendly_name".value = "Yakuake";
+      };
+      kwinrc.NightColor.Active.value = true;
+      kcminputrc.Mouse.cursorSize.value = config.theme.cursorTheme.size;
     };
   };
 }

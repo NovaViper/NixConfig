@@ -25,5 +25,5 @@
   home.packages = with pkgs; [ keepassxc krita kdePackages.tokodon ];
 
   # Make the display scaling larger because Hi-DPI screen
-  programs.plasma.configFile.kwinrc.Xwayland.Scale = 1.25;
+  programs.plasma.configFile.kwinrc.Xwayland.Scale.value = 1.25;
 }

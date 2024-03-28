@@ -59,9 +59,9 @@ in {
         theme = "default";
       };
       configFile = {
-        "gtk-3.0/settings.ini"."Settings"."gtk-theme-name" =
+        "gtk-3.0/settings.ini"."Settings"."gtk-theme-name".value =
           "${config.theme.name}";
-        "gtk-4.0/settings.ini"."Settings"."gtk-theme-name" =
+        "gtk-4.0/settings.ini"."Settings"."gtk-theme-name".value =
           "${config.theme.name}";
       };
     };
