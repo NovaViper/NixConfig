@@ -25,14 +25,17 @@
     cmatrix # Show off the Matrix
     timer # Cooler timer in terminal
     tree
+    tldr # better man pages
+    entr # run commands when files change!
     dmidecode
     perl
     ventoy-full # bootable USB solution
+
+    # Nix Tools
     nvd # Differ
     nix-output-monitor
     nh # Nice wrapper for NixOS and HM
     nixpkgs-review
-    tldr # better man pages
-    entr # run commands when files change!
+    nix-prefetch-github # prefetch tool for Github
   ];
 }

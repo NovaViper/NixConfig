@@ -10,7 +10,6 @@ with lib;
         "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/zsh/functions";
       recursive = true;
     };
-    "zsh/manpages.zshrc".source = ../../dots/zsh/manpages.zshrc;
   };
 
   home.packages = mkMerge [
@@ -64,7 +63,7 @@ with lib;
         # Add more strategies to zsh-autosuggestions
         ZSH_AUTOSUGGEST_STRATEGY = [ "completion" ];
         # Make manpager use ls with color support``
-        MANPAGER = "${pkgs.less}/bin/less -s -M +Gg";
+        MANPAGER = "sh -c 'col -bx | ${pkgs.bat}/bin/bat -l man -p'";
       };
       initExtraFirst = ''
         # If not running interactively, don't do anything
@@ -86,7 +85,6 @@ with lib;
           if config.programs.atuin.enable then ''"atuin" '' else ""
         }"yadm" "emacs" "nix-shell" "nix")
 
-        source "$ZDOTDIR/manpages.zshrc"
         source "$ZDOTDIR/.p10k.zsh"
 
         setopt beep CORRECT # Enable terminal bell and autocorrect
@@ -177,6 +175,8 @@ with lib;
         # Quickly start Minecraft server
         start-minecraft-server = mkIf (config.programs.mangohud.enable)
           "cd ~/Games/MinecraftServer-1.20.1/ && ./run.sh --nogui && cd || cd";
+        start-minecraft-fabric-server = mkIf (config.programs.mangohud.enable)
+          "cd ~/Games/MinecraftFabricServer-1.20.1/ && java -Xmx8G -jar ./fabric-server-mc.1.20.1-loader.0.15.7-launcher.1.0.0.jar nogui && cd || cd";
         # Append HISTFILE before running autin import to make it work properly
         atuin-import = mkIf (config.programs.atuin.enable)
           "export HISTFILE && atuin import auto && export -n HISTFILE";

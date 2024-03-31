@@ -23,13 +23,14 @@ My current NixOS (and constant changing) configuration
 - Wayland/X11 Setups
 - Multiple fully featured desktop environments (KDE Plasma 5/6 and XFCE)
 - Live image ISO build with Nvidia drivers, experimental nix features already enabled, unfree software usage, and some nice options for cli and neovim
-- Declarative themes with *theme* module
+- Declarative themes with *theme* module and [[https://github.com/danth/stylix][stylix]]
 
 * References
 - [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Makes up a large majority of the entire config, primary template used when making the config
 - [[https://github.com/hlissner/dotfiles][Hlissner's dotfiles]] - Security hardening configs
 - [[https://github.com/Baitinq/nixos-config][Baitinq's nixos-config]] - Partitioning scripts
 - [[https://github.com/theopn/dotfiles/tree/main][Theopn's]] and [[https://github.com/yutkat/dotfiles/tree/main][yutkat's dotfiles]] - Wezterm settings
+- [[https://github.com/getchoo/flake][Getchoo's flake]] - Nvidia settings
 
 * Structure
 Here's an overview of the repo's file structure:

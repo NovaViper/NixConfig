@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
-let cfg = config.programs.tmux;
+let
+  cfg = config.programs.tmux;
+  c = config.lib.stylix.colors.withHashtag;
 in {
 
   xdg.configFile = {
@@ -34,6 +36,9 @@ in {
         set -g set-titles on
         set -g set-titles-string "#S / #W / #(pwd)"
         set -g allow-passthrough on
+        set-option -g status-right-length 100
+
+        # Enable sixel support
         set -as terminal-features 'contour:sixel'
 
         # Enable full RGB support
@@ -132,94 +137,62 @@ in {
         open
         fuzzback
         extrakto
-        tmux-fzf
+        (lib.mkIf (config.programs.fzf.enable) tmux-fzf)
         {
-          plugin = dracula;
+          plugin = nova;
           extraConfig = ''
-            # Theme settings
-            # available plugins: battery, cpu-usage, git, gpu-usage, ram-usage, network, network-bandwidth, network-ping, attached-clients, network-vpn, weather, time, spotify-tui, kubernetes-context
-            set -g @dracula-plugins "battery cpu-usage ram-usage git time"
+            # -- statusline -----------------------------------------------------------------
+            set -g @nova-nerdfonts true
+            set -g @nova-nerdfonts-left 
+            set -g @nova-nerdfonts-right 
+            set -g @nova-rows 0
 
-            # Show powerline symbols
-            set -g @dracula-show-powerline true
+            # Colors
+            set -gw window-status-current-style bold
+            set -g "@nova-status-style-bg" "${c.base02}"
+            set -g "@nova-status-style-fg" "${c.base05}"
+            set -g "@nova-status-style-active-bg" "${c.base0D}"
+            set -g "@nova-status-style-active-fg" "${c.base00}"
 
-            # Enable window flags
-            set -g @dracula-show-flags true
+            #set -g "@nova-pane-active-border-style" "${c.base09}"
+            #set -g "@nova-pane-border-style" "${c.base00}"
 
-            # it can accept `hostname` (full hostname), `session`, `shortname` (short name), `smiley`, `window`, or any character.
-            set -g @dracula-show-left-icon window
+            # Declare Status
+            #set -g @nova-segment-prefix "#{?client_prefix,Ω,ω}"
+            # From https://github.com/o0th/tmux-nova/issues/33#issuecomment-1509927098
+            set -g @nova-segment-action-prefix "#{?client_prefix,PREFIX,}#{?#{==:#{pane_mode},copy-mode}, COPY,}#{?#{==:#{pane_mode},view-mode}, VIEW,󰻀}"
+            set -g @nova-segment-action-prefix-colors "${c.base0F} ${c.base00}"
 
-            # Hide empty plugins
-            set -g @dracula-show-empty-plugins false
+            set -g @nova-pane "#I [#W]"
 
-            # time options
-            set -g @dracula-show-timezone false
+            #set -g @nova-segment-whoami "#(whoami)@#h"
+            #set -g @nova-segment-whoami-colors "$light_purple $white"
 
-            # weather options
-            set -g @dracula-show-location false
-            set -g @dracula-border-contrast true
+            set -g @nova-pane "#I#{?pane_in_mode, #{pane_mode},} [#W]"
 
+            # Declare system info
+            set -g @nova-segment-battery "#{battery_icon_status} #{battery_percentage}"
+            set -g @nova-segment-battery-colors "${c.base0E} ${c.base00}"
+            #set -g @batt_icon_status_charging '↑'
+            #set -g @batt_icon_status_discharging '↓'
 
-            # Theme color settings
-            # available colors: white, gray, dark_gray, light_purple, dark_purple, cyan, green, orange, red, pink, yellow
-            # set -g @dracula-[plugin-name]-colors "[background] [foreground]"
-            #set -g @dracula-gpu-usage-colors "red white"
+            set -g @nova-segment-cpu "CPU #{cpu_percentage}"
+            set -g @nova-segment-cpu-colors "${c.base09} ${c.base00}"
+
+            set -g @nova-segment-ram "RAM #{ram_percentage}"
+            set -g @nova-segment-ram-colors "${c.base0F} ${c.base00}"
+
+            set -g @nova-segment-time "#(date +'%a %m/%d ${
+              if cfg.clock24 then "%H:%M" else "%I:%M %p"
+            }') #(date +%Z)"
+            set -g @nova-segment-time-colors "${c.base03} ${c.base05}"
+
+            set -g @nova-segments-0-left "action-prefix"
+            set -g @nova-segments-0-right "battery cpu ram time"
           '';
         }
-        /* {
-                plugin = nova;
-                extraConfig = ''
-                  # -- theme -----------------------------------------------------------------
-                  # Dracula Color Palette
-                  white='#f8f8f2'
-                  gray='#44475a'
-                  dark_gray='#282a36'
-                  light_purple='#bd93f9'
-                  dark_purple='#6272a4'
-                  cyan='#8be9fd'
-                  green='#50fa7b'
-                  orange='#ffb86c'
-                  red='#ff5555'
-                  pink='#ff79c6'
-                  yellow='#f1fa8c'
-
-                  set -g @nova-nerdfonts false
-
-                  # Colors
-                  set -gw window-status-current-style bold
-                  set -g "@nova-status-style-bg" "$gray"
-                  set -g "@nova-status-style-fg" "$white"
-                  set -g "@nova-status-style-active-bg" "$dark_purple"
-                  set -g "@nova-status-style-active-fg" "$white"
-
-                  set -g "@nova-pane-active-border-style" "$orange"
-                  set -g "@nova-pane-border-style" "$gray"
-
-                  # Declare Status
-                  set -g @nova-segment-mode "#{?client_prefix,Ω,ω}"
-                  set -g @nova-segment-mode-colors "$green $dark_gray"
-
-                  set -g @nova-segment-whoami "#(whoami)@#h"
-                  set -g @nova-segment-whoami-colors "$light_purple $white"
-
-                  set -g @nova-pane "#I#{?pane_in_mode,  #{pane_mode},}  #W"
-
-                  # Declare system info
-                  set -g @nova-segment-cpu " #{cpu_percentage} #{ram_percentage}"
-                  set -g @nova-segment-cpu-colors "$pink $dark_gray"
-
-                  set -g @batt_icon_status_charging '↑'
-                  set -g @batt_icon_status_discharging '↓'
-                  set -g @nova-segment-battery "#{battery_icon_status} #{battery_percentage}"
-                  set -g @nova-segment-battery-colors "$red $dark_gray"
-
-                  set -g @nova-rows 0
-                  set -g @nova-segments-0-left "mode"
-                  set -g @nova-segments-0-right "cpu battery whoami"
-                '';
-              }
-           cpu
-        */
+        cpu
+        battery
       ];
     };
   };

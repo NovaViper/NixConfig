@@ -4,33 +4,6 @@ let
   inherit (lib) mkOption types;
   cfg = config.theme;
   cfgapp = cfg.app;
-  cursorThemeModule = types.submodule {
-    options = {
-      package = mkOption {
-        type = with types; nullOr package;
-        default = null;
-        example = literalExpression "pkgs.capitaine-cursors";
-        description = ''
-          Package providing the theme. This package will be installed to your profile. If 'null', then the theme is assumed to be already available in your profile.
-        '';
-      };
-      name = mkOption {
-        type = with types; str;
-        default = "";
-        example = "capitaine-cursors-white";
-        description =
-          "The symbolic name of the theme within the package with no spaces.";
-      };
-      size = mkOption {
-        type = with types; nullOr int;
-        default = null;
-        example = 30;
-        description = ''
-          The size of the cursor.
-        '';
-      };
-    };
-  };
 
   iconThemeModule = types.submodule {
     options = {
@@ -64,33 +37,6 @@ let
           See theme names: https://github.com/raphamorim/rio-terminal-themes/tree/main/themes
         '';
       };
-      fzf.colors = mkOption {
-        type = with types; attrsOf str;
-        default = { };
-        example = literalExpression ''
-          {
-            bg = "#1e1e1e";
-            "bg+" = "#1e1e1e";
-            fg = "#d4d4d4";
-            "fg+" = "#d4d4d4";
-          }
-        '';
-        description = ''
-          Color scheme options added to `FZF_DEFAULT_OPTS`. See
-          <https://github.com/junegunn/fzf/wiki/Color-schemes>
-          for documentation.
-        '';
-      };
-      wezterm.name = mkOption {
-        type = with types; str;
-        default = "";
-        example = "Dracula (Offical)";
-        description = ''
-          The name of the theme within the package to use for Wezterm.
-
-          See theme names: https://wezfurlong.org/wezterm/colorschemes
-        '';
-      };
     };
   };
 
@@ -117,11 +63,6 @@ in {
       description =
         "The symbolic name of the theme within the package without any spaces.";
     };
-    cursorTheme = mkOption {
-      type = types.nullOr cursorThemeModule;
-      default = { };
-      description = "Cursor configuration options.";
-    };
     iconTheme = mkOption {
       type = types.nullOr iconThemeModule;
       default = { };
@@ -135,26 +76,6 @@ in {
   };
 
   config = mkIf (cfg != null) (mkMerge [
-    # Import theme for Alacritty!
-    # See themes at https://github.com/alacritty/alacritty-theme/tree/master/themes
-    (mkIf (config.programs.alacritty.enable) {
-      home.packages = with pkgs; [ alacritty-theme ];
-      programs.alacritty.settings = mkBefore {
-        import = [ "${pkgs.alacritty-theme}/${cfg.nameSymbolic}.yaml" ];
-      };
-    })
-    # Configure btop
-    (mkIf (config.programs.btop.enable) {
-      programs.btop.settings = mkBefore {
-        #* Themes should be placed in "../share/btop/themes" relative to binary or "$HOME/.config/btop/themes"
-        color_theme =
-          "${pkgs.btop}/share/btop/themes/${cfg.nameSymbolic}.theme";
-      };
-    })
-    # Configure kitty
-    (mkIf (config.programs.kitty.enable) {
-      programs.kitty.theme = "${config.theme.name}";
-    })
     # Configure rio
     (mkIf (cfgapp != null && config.programs.rio.enable) {
       xdg.configFile."rio/themes/${cfgapp.rio.name}.toml".source = fetchGit {
@@ -168,46 +89,21 @@ in {
         theme = "${cfgapp.rio.name}";
       };
     })
-    # Configure the colors for fzf
-    (mkIf (cfgapp != null && config.programs.fzf.enable) {
-      programs.fzf.colors = cfgapp.fzf.colors;
-    })
     # Configure gtk theme
     (mkIf (config.gtk.enable) {
       gtk = {
-        theme = {
-          name = cfg.name;
-          package = cfg.package;
-        };
         iconTheme = mkIf (cfg.iconTheme != null) {
           name = cfg.iconTheme.name;
           package = cfg.iconTheme.package;
         };
-      };
-
-      services.xsettingsd.settings = {
-        "Net/ThemeName" = "${cfg.name}";
-        "Net/IconThemeName" = "${cfg.iconTheme.name}";
-        "Gtk/CursorThemeName" = "${cfg.cursorTheme.name}";
-        "Gtk/CursorThemeSize" = cfg.cursorTheme.size;
-      };
-    })
-    # Configure qt theme
-    (mkIf (config.qt.enable && config.qt.platformTheme != "kde") {
-      qt.style = {
-        name = cfg.theme;
-        package = cfg.package;
       };
     })
 
     # Install the packages
     ({
       home.packages = with pkgs;
-        (mkMerge [
-          (mkIf (cfg.package != null) [ cfg.package ])
-          (mkIf (cfg.cursorTheme.package != null) [ cfg.cursorTheme.package ])
-          (mkIf (cfg.iconTheme.package != null) [ cfg.iconTheme.package ])
-        ]);
+        (mkMerge
+          [ (mkIf (cfg.iconTheme.package != null) [ cfg.iconTheme.package ]) ]);
     })
   ]);
 }

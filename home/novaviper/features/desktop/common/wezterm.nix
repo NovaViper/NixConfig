@@ -40,18 +40,11 @@
       -- This table will hold the configuration, provides clearer error messages
       local config = wezterm.config_builder()
 
-      -- Theme set by theme module
-      config.color_scheme = "${config.theme.app.wezterm.name}"
-
       -- Use default shell
       -- default_prog = {  },
 
       -- Updates are handled by NixOS
       config.check_for_updates = false
-
-      -- Setup fallback font
-      config.font = wezterm.font_with_fallback({"MesloLGS Nerd Font"})
-      config.font_size = 12.0
 
       -- Disable tab bar, handled by tmux
       config.enable_tab_bar = false

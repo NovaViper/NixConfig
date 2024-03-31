@@ -2,21 +2,30 @@
 { inputs, outputs, pkgs, config, ... }:
 
 {
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-    ./zsh.nix
-    ./locale.nix
-    ./nix.nix
-    ./filesystem.nix
-    ./openssh.nix
-    ./gpg.nix
-    ./network.nix
-    ./fonts.nix
-    #./security.nix
-  ] ++ (builtins.attrValues outputs.nixosModules);
+  imports = with inputs;
+    [
+      home-manager.nixosModules.home-manager
+      stylix.nixosModules.stylix
+      ./zsh.nix
+      ./locale.nix
+      ./nix.nix
+      ./filesystem.nix
+      ./openssh.nix
+      ./gpg.nix
+      ./network.nix
+      ./fonts.nix
+      #./security.nix
+    ] ++ (builtins.attrValues outputs.nixosModules);
+
+  # Stylix configuration
+  # For Home-Manager standalone
+  stylix.homeManagerIntegration.autoImport = false;
 
   # Add special args for home-manager
-  home-manager.extraSpecialArgs = { inherit inputs outputs; };
+  home-manager = {
+    extraSpecialArgs = { inherit inputs outputs; };
+    backupFileExtension = ".bak";
+  };
 
   # Config Nixpkgs
   nixpkgs = {

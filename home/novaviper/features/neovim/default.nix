@@ -1,100 +1,101 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
-  home.packages = with pkgs; [ tree-sitter gcc ];
+  #home.packages = with pkgs; [ tree-sitter gcc ];
 
-  programs.neovim = {
+  programs.nixvim = {
     enable = true;
-    defaultEditor = true;
     viAlias = true;
     vimAlias = true;
-    vimdiffAlias = true;
-    extraConfig = # vim
-      ''
-        set number                      " Add line numbers
-        set autoindent                  " Indent a new line the same amount as the line just typed
-        set ignorecase                  " Case insensitive
-        set hlsearch                    " Highlight matches when searching
-        "set spell                       " Enable spell check
-        set clipboard=unnamedplus       " Use system clipboard
-        set showmatch                   " Show matching
-        set cursorline                  " highlight current cursorline
-        set mouse=a                     " enable mouse click
-
-        if (has("termguicolors"))
-          set termguicolors
-        endif
-
-        " Enable Dracula theme
-        colorscheme dracula
-
-        " Allow auto-indenting depedning on file type
-        filetype plugin indent on
-
-        " Change the leader key from "\" to ";" ("," is also popular)
-        let mapleader = ","
-
-        " Use ,, for escape
-        " http://vim.wikia.com/wiki/Avoid_the_escape_key
-        inoremap ,, <Esc>
-
-        " Toggle tagbar
-        " nnoremap <silent> <leader>tb :TagbarToggle<CR>
-        " Toggle line numbers
-        nnoremap <silent> <leader>n :set number! number?<CR>
-        " Toggle line wrap
-        nnoremap <silent> <leader>w :set wrap! wrap?<CR>
-      '';
-    extraLuaConfig = ''
-      -- Configure lualine
-      require('lualine').setup {
-        options = {
-          theme = 'dracula-nvim',
-        }
-      }
-      require("startup").setup({theme = "dashboard"}) -- put theme name here
+    extraPackages = with pkgs; [ gcc ];
+    options = {
+      # Enabline line numbers
+      number = true;
+      # Indent a new line the same amount as the line just typed
+      autoindent = true;
+      # Make case insensitive
+      ignorecase = true;
+      # Highlight matches when searching
+      hlsearch = true;
+      # Enable spell check
+      spell = true;
+      # Use system clipboard
+      clipboard = "unnamedplus";
+      # Jump to matching bracket if one is inserted
+      showmatch = true;
+      # Highlight current cursorline
+      cursorline = true;
+      # Enable mouse support for all modes
+      mouse = "a";
+      # Enable better terminal colors
+      termguicolors = true;
+    };
+    extraConfigLua = ''
+      -- Allow auto-indenting depedning on file type
+      -- vim.api.nvim_command('filetype plugin indent on')
     '';
-    plugins = with pkgs.vimPlugins;
-      [
-        dracula-nvim
-        clipboard-image-nvim
-        lualine-nvim
-        neogit
-        telescope-nvim
-        telescope-file-browser-nvim
-        nvim-treesitter.withAllGrammars
-        which-key-nvim
-        startup-nvim
-      ] ++ lib.optionals (config.programs.tmux.enable) [ vim-tmux-clipboard ];
-  };
-
-  xdg.desktopEntries = {
-    nvim = {
-      name = "Neovim";
-      genericName = "Text Editor";
-      comment = "Edit text files";
-      exec = "nvim %F";
-      icon = "nvim";
-      mimeType = [
-        "text/english"
-        "text/plain"
-        "text/x-makefile"
-        "text/x-c++hdr"
-        "text/x-c++src"
-        "text/x-chdr"
-        "text/x-csrc"
-        "text/x-java"
-        "text/x-moc"
-        "text/x-pascal"
-        "text/x-tcl"
-        "text/x-tex"
-        "application/x-shellscript"
-        "text/x-c"
-        "text/x-c++"
-      ];
-      terminal = true;
-      type = "Application";
-      categories = [ "Utility" "TextEditor" ];
+    keymaps = [
+      # Use ,, for escape
+      # http://vim.wikia.com/wiki/Avoid_the_escape_key
+      {
+        action = "<Esc>";
+        key = ",,";
+        mode = [ "i" ];
+      }
+      # Toggle tagbar
+      {
+        action = ":TagbarToggle<CR>";
+        key = "<leader>tb";
+        mode = "n";
+        options.silent = true;
+      }
+      # Toggle line numbers
+      {
+        action = ":set number! number?<CR>";
+        key = "<leader>n";
+        mode = "n";
+        options.silent = true;
+      }
+      #" Toggle line wrap
+      {
+        action = ":set wrap! wrap?<CR>";
+        key = "<leader>w";
+        mode = "n";
+        options.silent = true;
+      }
+    ];
+    plugins = {
+      cmp.enable = true;
+      cmp-tmux.enable = true;
+      cmp-treesitter.enable = true;
+      lualine = {
+        enable = true;
+        extensions = [ "fzf" ];
+      };
+      startup = {
+        enable = true;
+        theme = "dashboard";
+      };
+      clipboard-image = {
+        enable = true;
+        clipboardPackage = pkgs.wl-clipboard;
+      };
+      neogit.enable = true;
+      telescope = {
+        enable = true;
+        extensions = {
+          file_browser.enable = true;
+          fzf-native.enable = true;
+          media_files.enable = true;
+          undo.enable = true;
+        };
+      };
+      treesitter = {
+        enable = true;
+        nixvimInjections = true;
+      };
+      which-key.enable = true;
+      #tmux-navigator.enable = lib.mkIf (config.programs.tmux.enable) true;
     };
   };
 }

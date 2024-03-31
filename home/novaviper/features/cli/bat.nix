@@ -11,10 +11,7 @@
         batpipe
         prettybat
       ];
-      config = {
-        theme = "${config.theme.name}";
-        map-syntax = [ ".ignore:Git Ignore" "*.conf:INI" ];
-      };
+      config = { map-syntax = [ ".ignore:Git Ignore" "*.conf:INI" ]; };
     };
 
     fzf.fileWidgetOptions = lib.mkIf (config.programs.fzf.enable)

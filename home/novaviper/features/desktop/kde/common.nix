@@ -50,21 +50,35 @@ with lib;
     ];
   };
 
-  programs.plasma = {
-    enable = true;
-    workspace.clickItemTo = "select";
-    kwin.titlebarButtons = {
-      left = [ "on-all-desktops" "keep-above-windows" ];
-      right = [ "help" "minimize" "maximize" "close" ];
-    };
-    shortcuts.yakuake =
-      mkIf config.variables.useKonsole { toggle-window-state = "F12"; };
-    configFile = {
-      kglobalshortcutsrc.yakuake = mkIf config.variables.useKonsole {
-        "_k_friendly_name".value = "Yakuake";
+  programs = {
+    /* konsole = {
+         enable = mkIf (config.variables.useKonsole) true;
+         defaultProfile = "DefaultThemed";
+         profiles.DefaultThemed = {
+           name = "DefaultThemed";
+           #colorScheme = "";
+           font = {
+             name = "${config.stylix.fonts.monospace.name}";
+             size = config.stylix.fonts.sizes.terminal;
+           };
+         };
+       };
+    */
+    plasma = {
+      enable = true;
+      workspace.clickItemTo = "select";
+      kwin.titlebarButtons = {
+        left = [ "on-all-desktops" "keep-above-windows" ];
+        right = [ "help" "minimize" "maximize" "close" ];
       };
-      kwinrc.NightColor.Active.value = true;
-      kcminputrc.Mouse.cursorSize.value = config.theme.cursorTheme.size;
+      shortcuts.yakuake =
+        mkIf config.variables.useKonsole { toggle-window-state = "F12"; };
+      configFile = {
+        kglobalshortcutsrc.yakuake = mkIf config.variables.useKonsole {
+          "_k_friendly_name".value = "Yakuake";
+        };
+        kwinrc.NightColor.Active.value = true;
+      };
     };
   };
 }

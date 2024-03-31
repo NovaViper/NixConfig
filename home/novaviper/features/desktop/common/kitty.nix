@@ -26,11 +26,6 @@
       COLORTERM = "truecolor";
       WINIT_X11_SCALE_FACTOR = "1";
     };
-    font = {
-      package = pkgs.meslo-lgs-nf;
-      name = "MesloLGS Nerd Font";
-      #size = "";
-    };
     settings = {
       # Advanced {{{
       term = "xterm-256color";

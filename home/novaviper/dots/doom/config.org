@@ -544,10 +544,10 @@ Show word count on modeline
 *** Beacon
 Enable beacon mode for blinking cursor
 #+begin_src emacs-lisp
-(use-package! beacon
-  :config
-  (beacon-mode 1)
-  (setq beacon-color "#bd93f9"))
+;(use-package! beacon
+;  :config
+;  (beacon-mode 1)
+;  (setq beacon-color "#bd93f9"))
 #+end_src
 
 *** Workspace Emacsclient Fix
@@ -720,13 +720,13 @@ This section contains the basic configuration for ~org-mode~ plus the configurat
         org-image-actual-width '(300)
 
         ;;Sets colors for emphasis characters
-        org-emphasis-alist
-        '(("*" (bold :foreground "#ffb86c")) ;Bold
-          ("/" (italic :foreground "#ff79c6")) ;Italic
-          ("_" (underline :foreground "#f1fa8c")) ;Underline
-          ("=" (:background "#44475a" :foreground "#50fa7b")) ;Verbatim
-          ("~" (:background "#6272a4" :foreground "#8be9fd")) ;Code
-          ("+" (:strike-through t :foreground "#ff5555"))) ;Strikethrough
+        ;org-emphasis-alist
+        ;'(("*" (bold :foreground "#ffb86c")) ;Bold
+        ;  ("/" (italic :foreground "#ff79c6")) ;Italic
+        ;  ("_" (underline :foreground "#f1fa8c")) ;Underline
+        ;  ("=" (:background "#44475a" :foreground "#50fa7b")) ;Verbatim
+        ;  ("~" (:background "#6272a4" :foreground "#8be9fd")) ;Code
+        ;  ("+" (:strike-through t :foreground "#ff5555"))) ;Strikethrough
 
         ;; Custom keywords for different projects
         ;;(org-agenda-prefix-format "%b")

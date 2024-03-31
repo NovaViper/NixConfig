@@ -11,15 +11,7 @@
     blueman.enable = lib.mkDefault config.hardware.bluetooth.enable;
     # Enable the XFCE Desktop Environment.
     xserver = {
-      displayManager.lightdm = {
-        enable = true;
-        #greeters.slick = {
-        #enable = true;
-        #theme.name = "Dracula";
-        #iconTheme.name = "Dracula";
-        #cursorTheme.name = "Dracula";
-        #};
-      };
+      displayManager.lightdm.enable = true;
       desktopManager.xfce.enable = true;
     };
   };

@@ -3,8 +3,9 @@ with lib; {
 
   imports = with inputs;
     [
-      nix-colors.homeManagerModule
+      stylix.homeManagerModules.stylix
       plasma-manager.homeManagerModules.plasma-manager
+      nixvim.homeManagerModules.nixvim
     ] ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {

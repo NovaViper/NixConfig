@@ -1,10 +1,11 @@
 { config, lib, pkgs, ... }:
 let
-  desktop = config.services.xserver.desktopManager;
+  desktopX = config.services.xserver.desktopManager;
+  desktopW = config.services.desktopManager;
 
-  askpass = if (desktop.plasma5.enable) then
+  askpass = if (desktopX.plasma5.enable) then
     "${pkgs.libsForQt5.ksshaskpass}/bin/ksshaskpass"
-  else if (desktop.plasma6.enable) then
+  else if (desktopW.plasma6.enable) then
     "${pkgs.kdePackages.ksshaskpass}/bin/ksshaskpass"
   else
     "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";

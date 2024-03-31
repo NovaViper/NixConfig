@@ -6,7 +6,8 @@ let
   cfg = config.variables;
   cfgde = config.variables.desktop;
   cfgma = config.variables.machine;
-  desktopEnv = config.services.xserver.desktopManager;
+  desktopX = config.services.xserver.desktopManager;
+  desktopW = config.services.desktopManager;
 in {
   imports = [
     (mkRemovedOptionModule [ "variables" "desktop" "useWayland" ] ''
@@ -114,7 +115,7 @@ in {
       }];
     })
     (mkIf (cfgde.displayManager == "x11") {
-      warnings = if (desktopEnv.plasma6.enable) then [''
+      warnings = if (desktopW.plasma6.enable) then [''
         You have enabled the X11 session with KDE Plasma 6; which does not fully support the X11 session
         This may result in a broken SDDM session and thus booting into text mode!
       ''] else
@@ -135,11 +136,11 @@ in {
             })
             # Make the SDDM use Wayland session when on KDE Plasma 5
             (mkIf
-              (desktopEnv.plasma5.enable && cfgde.displayManager == "wayland") {
+              (desktopX.plasma5.enable && cfgde.displayManager == "wayland") {
                 defaultSession = "plasmawayland";
               })
             # Make SDDM use X11 when on KDE Plasma 6
-            (mkIf (desktopEnv.plasma6.enable && cfgde.displayManager == "x11") {
+            (mkIf (desktopW.plasma6.enable && cfgde.displayManager == "x11") {
               defaultSession = "plasmax11";
             })
           ]);
@@ -154,12 +155,12 @@ in {
         # Remove Konsole if `useKonsole` is NOT enabled (only for KDE since it's already included) KDE Plasma 5 version
         plasma5.excludePackages = with pkgs.libsForQt5;
           mkIf (!cfg.useKonsole && cfgde.environment == "kde"
-            && desktopEnv.plasma5.enable) [ konsole ];
+            && desktopX.plasma5.enable) [ konsole ];
 
         # Remove Konsole if `useKonsole` is NOT enabled (only for KDE since it's already included) KDE Plasma 6 version
         plasma6.excludePackages = with pkgs.libsForQt5;
           mkIf (!cfg.useKonsole && cfgde.environment == "kde"
-            && desktopEnv.plasma6.enable) [ konsole ];
+            && desktopW.plasma6.enable) [ konsole ];
 
         systemPackages = with pkgs;
           (mkMerge [
@@ -168,9 +169,9 @@ in {
               [ libsForQt5.konsole ])
             # download Yakuake if `useKonsole` is used on a DE that DOES include Konsole (like KDE); switch between QT6 and QT5 versions of Yakuake depending on KDE Plasma version
             (mkIf (cfg.useKonsole && cfgde.environment == "kde"
-              && desktopEnv.plasma5.enable) [ libsForQt5.yakuake ])
+              && desktopX.plasma5.enable) [ libsForQt5.yakuake ])
             (mkIf (cfg.useKonsole && cfgde.environment == "kde"
-              && desktopEnv.plasma6.enable) [ kdePackages.yakuake ])
+              && desktopW.plasma6.enable) [ kdePackages.yakuake ])
           ]);
       };
     })

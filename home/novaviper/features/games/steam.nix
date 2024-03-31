@@ -122,8 +122,8 @@
       # gpu_power = true;
       # gpu_text = "";
       gpu_load_change = true;
-      gpu_load_value = [ "60" "90" ];
-      gpu_load_color = [ "39F900" "FDFD09" "B22222" ];
+      #gpu_load_value = [ "60" "90" ];
+      #gpu_load_color = [ "39F900" "FDFD09" "B22222" ];
       ## GPU fan in rpm (only works on AMD GPUs)
       # gpu_fan = true;
       # gpu_voltage = true; # (only works on AMD GPUs)
@@ -135,8 +135,8 @@
       # cpu_text = "";
       # cpu_mhz = true;
       cpu_load_change = true;
-      cpu_load_value = [ "60" "90" ];
-      cpu_load_color = [ "39F900" "FDFD09" "B22222" ];
+      #cpu_load_value = [ "60" "90" ];
+      #cpu_load_color = [ "39F900" "FDFD09" "B22222" ];
 
       ### Display the current CPU load & frequency for each core
       # core_load = true;
