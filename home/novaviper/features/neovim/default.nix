@@ -1,6 +1,10 @@
 { config, lib, pkgs, inputs, ... }:
-
-{
+let
+  pack = if (config.variables.desktop.displayManager == "wayland") then
+    pkgs.wl-clipboard
+  else
+    pkgs.xclip;
+in {
   #home.packages = with pkgs; [ tree-sitter gcc ];
 
   programs.nixvim = {
@@ -8,7 +12,7 @@
     viAlias = true;
     vimAlias = true;
     extraPackages = with pkgs; [ gcc ];
-    options = {
+    opts = {
       # Enabline line numbers
       number = true;
       # Indent a new line the same amount as the line just typed
@@ -78,7 +82,7 @@
       };
       clipboard-image = {
         enable = true;
-        clipboardPackage = pkgs.wl-clipboard;
+        clipboardPackage = pack;
       };
       neogit.enable = true;
       telescope = {
