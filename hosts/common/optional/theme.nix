@@ -29,12 +29,12 @@
     cursor = {
       package = pkgs.capitaine-cursors;
       name = "capitaine-cursors-white";
-      size = 32;
+      size = 24;
     };
     fonts = rec {
       sansSerif = {
-        package = pkgs.cantarell-fonts;
-        name = "Cantarell";
+        package = pkgs.noto-fonts;
+        name = "Noto Sans";
       };
       serif = sansSerif;
       monospace = {
