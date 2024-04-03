@@ -10,23 +10,20 @@
 
   programs.firefox = {
     enable = true;
-    nativeMessagingHosts = with pkgs; [ fx-cast-bridge ];
+    nativeMessagingHosts = with pkgs; [ fx-cast-bridge keepassxc ];
     profiles.novaviper = {
-      bookmarks = { };
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
-        sponsorblock
-        return-youtube-dislikes
-        darkreader
+        #sponsorblock
+        #return-youtube-dislikes
+        #darkreader
         bypass-paywalls-clean
-        plasma-integration
-        enhancer-for-youtube
-        honey
-        keepassxc-browser
-        pay-by-privacy
-        indie-wiki-buddy
-        stylus
-        canvasblocker
+        #plasma-integration
+        #enhancer-for-youtube
+        #keepassxc-browser
+        #indie-wiki-buddy
+        #stylus
+        #canvasblocker
       ];
       bookmarks = { };
       search = {
@@ -81,6 +78,7 @@
         };
       };
       settings = {
+        "widget.use-xdg-desktop-portal.file-picker" = 1;
         "browser.disableResetPrompt" = true;
         "browser.download.panel.shown" = true;
         "browser.download.useDownloadDir" = true;

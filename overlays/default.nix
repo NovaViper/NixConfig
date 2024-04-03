@@ -50,8 +50,6 @@ in {
     prismlauncher-qt5 =
       prev.prismlauncher-qt5.override { withWaylandGLFW = true; };
 
-    #firefox = prev.firefox.override { cfg.nativeMessagingHosts.fxCast = true; };
-
     discord = prev.discord.override {
       withOpenASAR = true;
       withVencord = true;
