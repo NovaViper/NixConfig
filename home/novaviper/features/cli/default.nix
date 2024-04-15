@@ -32,10 +32,12 @@
     ventoy-full # bootable USB solution
 
     # Nix Tools
+    alejandra # Nix formatter
     nvd # Differ
     nix-output-monitor
     nh # Nice wrapper for NixOS and HM
     nixpkgs-review
-    nix-prefetch-github # prefetch tool for Github
+    nix-prefetch-github # Prefetch tool for Github
+    nix-init # Automatically create nix packages from URLs
   ];
 }

@@ -40,10 +40,6 @@
   hardware.enableRedistributableFirmware = true;
 
   boot = {
-    # A Fedora recommendation: https://fedoraproject.org/wiki/Changes/IncreaseVmMaxMapCount
-    # Good for Windows games running through Wine or Steam
-    kernel.sysctl."vm.max_map_count" = 2147483642;
-
     # Make NixOS use the latest Linux Kernel
     kernelPackages = pkgs.linuxPackages_latest;
 

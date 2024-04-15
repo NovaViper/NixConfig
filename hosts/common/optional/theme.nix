@@ -33,13 +33,13 @@
     };
     fonts = rec {
       sansSerif = {
-        package = pkgs.noto-fonts;
-        name = "Noto Sans";
+        package = pkgs.nerdfonts;
+        name = "NotoSans Nerd Font";
       };
       serif = sansSerif;
       monospace = {
-        package = pkgs.meslo-lgs-nf;
-        name = "MesloLGS Nerd Font";
+        package = pkgs.nerdfonts;
+        name = "Iosevka Nerd Font";
       };
       emoji = {
         package = pkgs.noto-fonts-emoji;

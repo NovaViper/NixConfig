@@ -1,7 +1,7 @@
 { inputs, outputs, lib, pkgs, config, ... }:
 
 {
-  imports = [ ../../common/global ../features/cli ../features/neovim ];
+  imports = [ ../../common/global ../features/cli ../features/emacs ];
 
   # Enable HTML help page
   manual.html.enable = true;

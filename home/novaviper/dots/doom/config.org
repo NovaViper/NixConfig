@@ -28,7 +28,6 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#doom-theme][Doom Theme]]
     - [[#word-wrap][Word Wrap]]
     - [[#word-count][Word Count]]
-    - [[#beacon][Beacon]]
     - [[#workspace-emacsclient-fix][Workspace Emacsclient Fix]]
     - [[#nerd-fonts-fix-nixos-only][Nerd Fonts Fix (NixOS only)]]
     - [[#rainbow-mode][Rainbow Mode]]
@@ -36,7 +35,6 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#window-splitting][Window Splitting]]
     - [[#global-auto-revert][Global Auto Revert]]
     - [[#enable-auto-save-and-backup][Enable Auto Save and Backup]]
-    - [[#enable-tmux-integration][Enable Tmux Integration]]
     - [[#centaur-tabs][Centaur Tabs]]
   - [[#gpg-encryption-and-password-configuration][GPG Encryption and Password Configuration]]
   - [[#key-bindings][Key Bindings]]
@@ -47,11 +45,12 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#org-super-agenda][Org Super Agenda]]
 - [[#coding-configurations][Coding Configurations]]
   - [[#projectile-configurations][Projectile Configurations]]
+  - [[#set-nix-formatter-to-alejandra][Set Nix Formatter to Alejandra]]
   - [[#black-formatter-configuration][Black Formatter Configuration]]
     - [[#global-config-file][Global Config File]]
   - [[#numpydoc-configuration][Numpydoc Configuration]]
   - [[#dap-mode][Dap-Mode]]
-  - [[#lsp-mode-configurations][LSP Mode Configurations]]
+  - [[#lua-lsp-mode-configurations][Lua LSP Mode Configurations]]
 - [[#mu4e-configuration][MU4E Configuration]]
     - [[#load-additional-mu4e-commands][Load Additional Mu4e Commands]]
     - [[#main-configurations][Main Configurations]]
@@ -238,7 +237,7 @@ This code is written to ~init.el~ to select which modules to load.
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       company           ; the ultimate code completion backend
+       (company +childframe)           ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -251,12 +250,12 @@ This code is written to ~init.el~ to select which modules to load.
        ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       hydra
+       ;;hydra
        indent-guides     ; highlighted indent columns
        ligatures         ; ligatures and symbols to make your code pretty again
        minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
-       ;;nav-flash         ; blink cursor line after big motions
+       nav-flash         ; blink cursor line after big motions
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
@@ -265,7 +264,7 @@ This code is written to ~init.el~ to select which modules to load.
        unicode           ; extended unicode support for various languages
        (vc-gutter +pretty) ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       (window-select +numbers)     ; visually switch windows
+       ;;window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        ;;zen               ; distraction-free coding or writing
 
@@ -278,7 +277,7 @@ This code is written to ~init.el~ to select which modules to load.
        ;;lispy             ; vim for lisp, for people who don't like vim
        multiple-cursors  ; editing in many places at once
        ;;objed             ; text object editing for the innocent
-       parinfer          ; turn lisp into python, sort of
+       ;;parinfer          ; turn lisp into python, sort of
        ;;rotate-text       ; cycle region at point between text candidates
        snippets          ; my elves. They type so I don't have to
        word-wrap         ; soft wrapping with language-aware indent
@@ -286,7 +285,7 @@ This code is written to ~init.el~ to select which modules to load.
        :emacs
        (dired +icons)             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       (ibuffer +icons)         ; interactive buffer management
+       ;;(ibuffer +icons)         ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
@@ -294,7 +293,7 @@ This code is written to ~init.el~ to select which modules to load.
        eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
-       ;;vterm             ; the best terminal emulation in Emacs
+       vterm             ; the best terminal emulation in Emacs
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
@@ -311,8 +310,7 @@ This code is written to ~init.el~ to select which modules to load.
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
-       (lookup +dictionary              ; navigate your code and its documentation
-               +docsets)
+       (lookup +dictionary +docset)              ; navigate your code and its documentation
        (lsp +peek)               ; M-x vscode
        (magit +forge)             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
@@ -320,7 +318,7 @@ This code is written to ~init.el~ to select which modules to load.
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        rgb               ; creating color strings
-       taskrunner        ; taskrunner for all your projects
+       ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        tmux              ; an API for interacting with tmux
        tree-sitter       ; syntax and parsing, sitting in a tree...
@@ -359,7 +357,7 @@ This code is written to ~init.el~ to select which modules to load.
        ;;hy                ; readability of scheme w/ speed of python
        ;;idris             ; a language you can depend on
        (json +lsp)              ; At least it ain't XML
-       (java +lsp)       ; the poster child for carpal tunnel syndrome
+       ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
        ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;;kotlin            ; a better, slicker Java(Script)
@@ -390,15 +388,14 @@ This code is written to ~init.el~ to select which modules to load.
        ;;(rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
-       (sh +fish                ; she sells {ba,z,fi}sh shells on the C xor
-           +lsp)
+       (sh +fish +lsp)                ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
        (web +lsp)               ; the tubes
-       (yaml +lsp              ; JSON, but readable
-             +tree-sitter)
+       (yaml +lsp +tree-sitter)              ; JSON, but readable
+
        ;;zig               ; C, but simpler
 
        :email
@@ -426,26 +423,21 @@ Installs several packages I need,
 - =org-super-agenda=: Makes org-agenda really really fancy
 - =org-wild-notifier=: Customize notifications for org tasks and events
 - =visual-fill-column=: It turns the view on the left into the view on the right, without changing the contents of the file
-- =org-mime=:
 - =exec-path-from-shell=: Ensure environment variables inside Emacs look the same as in the user's shell.
 - =platformio-mode=: Integrates PlatformIO build tools into Emacs
-- =beacon=: Highlights the cursor location when window scrolling
 - =numpydoc=: Automatically insert NumPy style docstrings for Python functions
 - =mixed-pitched=: Enables mixing fixed-pitch (also known as fixed-width or monospace) and variable-pitch (AKA “proportional”) fonts
 - =dap-mode=: Brings rich debugging capabilities to Emacs via the [[https://microsoft.github.io/debug-adapter-protocol/][Debug Adapter Protocol]].
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-tutor)
-(package! command-log-mode)
+;;(package! command-log-mode)
 (package! org-super-agenda)
 (package! org-wild-notifier)
-(package! org-appear)
-;(package! org-mime)
 (package! visual-fill-column)
 (package! exec-path-from-shell)
 (package! platformio-mode)
-(package! beacon)
 (package! numpydoc)
-(package! mixed-pitch)
+;;(package! mixed-pitch)
 (package! dap-mode)
 #+end_src
 
@@ -473,7 +465,7 @@ Fixes infinite loop issue with Emojify downloading not working and going into in
 ** Visual, Session, and Window Settings
 *** Font setup
 Makes my fonts larger, depending on what system it's on. The =fonts.el= file automatically picks the specific font layout for each machine. Use the mixed-pitch package to make monospace fonts appear correctly for code blocks, tables and such in Org mode. The ~nova/org-font-setup~ function configures various text faces to tweak the sizes of headings and makes list hyphens with dots.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (load (concat doom_directory "fonts.el"))
 
 (add-hook! 'org-mode-hook #'mixed-pitch-mode)
@@ -481,35 +473,35 @@ Makes my fonts larger, depending on what system it's on. The =fonts.el= file aut
 (setq mixed-pitch-set-height t)
 (setq mixed-pitch-variable-pitch-cursor nil)
 
-(defun nova/org-font-setup ()
-  ;; Replace list hyphen with dot
-  (font-lock-add-keywords 'org-mode
-                          '(("^ *\\([-]\\) "
-                             (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+;; (defun nova/org-font-setup ()
+;;   ;; Replace list hyphen with dot
+;;   (font-lock-add-keywords 'org-mode
+;;                           '(("^ *\\([-]\\) "
+;;                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
-  ;; Set faces for heading levels
-  (dolist (face '((org-level-1 . 1.2)
-                  (org-level-2 . 1.1)
-                  (org-level-3 . 1.05)
-                  (org-level-4 . 1.0)
-                  (org-level-5 . 1.1)
-                  (org-level-6 . 1.1)
-                  (org-level-7 . 1.1)
-                  (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font org-mode-font :weight 'bold :height (cdr face)))
+;;   ;; Set faces for heading levels
+;;   (dolist (face '((org-level-1 . 1.2)
+;;                   (org-level-2 . 1.1)
+;;                   (org-level-3 . 1.05)
+;;                   (org-level-4 . 1.0)
+;;                   (org-level-5 . 1.1)
+;;                   (org-level-6 . 1.1)
+;;                   (org-level-7 . 1.1)
+;;                   (org-level-8 . 1.1)))
+;;     (set-face-attribute (car face) nil :font org-mode-font :weight 'bold :height (cdr face)))
 
-  ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-  (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
-  (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-  (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-  (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
-  (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
-  (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
+;;   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+;;   (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
+;;   (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
+;;   (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
+;;   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+;;   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+;;   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+;;   (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
+;;   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
+;;   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
 #+end_src
 
 *** Line Number Modes
@@ -539,15 +531,6 @@ Make all text files word warp enabled by default
 Show word count on modeline
 #+begin_src emacs-lisp
 (setq doom-modeline-enable-word-count t)
-#+end_src
-
-*** Beacon
-Enable beacon mode for blinking cursor
-#+begin_src emacs-lisp
-;(use-package! beacon
-;  :config
-;  (beacon-mode 1)
-;  (setq beacon-color "#bd93f9"))
 #+end_src
 
 *** Workspace Emacsclient Fix
@@ -611,29 +594,39 @@ Re-enable auto-save, creation of lock files, and backup files
 (setq make-backup-files t)
 #+end_src
 
-*** Enable Tmux Integration
-#+begin_src emacs-lisp
-(use-package! clipetty
-  :ensure t
-  :hook (after-init . global-clipetty-mode))
-#+end_src
-
 *** Centaur Tabs
 Several changes made to centaur tabs to make it more usable.
-- Set selected style to have an over outline, which also fixes [[https://github.com/doomemacs/doomemacs/issues/6647][issue]] where centaur tabs doesn't work properly when using emacsclient
-- Use slant tab bar style
+- Set selected style to have an under outline
+- Create custom function that forces centaur tabs to reload when running in daemon mode (fixes [[https://github.com/doomemacs/doomemacs/issues/6647][issue]] where centaur tabs doesn't work properly when using emacsclient)
 - Make the tabs larger to be easier to see
-- To gray out icons for the unselected tabs
 - Enable navigation buttons in tab bar
+- Make centaur tabs headline font match
 - Group your tabs by Projectile’s project.
 #+begin_src emacs-lisp
-(after! centaur-tabs
-  (setq centaur-tabs-set-bar 'over
-        centaur-tabs-style "slant"
+; Fix centaur tabs in Emacs daemon mod
+(defun tdr/fix-centaur-tabs ()
+  (centaur-tabs-mode -1)      ; Disable Centaur Tabs globally
+  (centaur-tabs-mode 1)       ; Re-enable Centaur Tabs globally
+  ; Tourn off local instance of centaur tabs (when buffer is either a popup or is the Doom Dashboard)
+  (if (or (+popup-buffer-p (current-buffer)) (+doom-dashboard-p (current-buffer)))
+      (centaur-tabs-local-mode)
+      (doom/reload-theme)))
+
+(use-package! centaur-tabs
+  :demand
+  :init
+  (setq centaur-tabs-style "bar"
         centaur-tabs-height 32
-        centaur-tabs-gray-out-icons 'buffer
-        centaur-tabs-show-navigation-buttons t)
-(centaur-tabs-group-by-projectile-project))
+        centaur-tabs-show-navigation-buttons t
+        centaur-tabs-set-bar 'under
+        ; Make underline bar work properly
+        x-underline-at-descent-line t)
+  (if (daemonp)
+      (add-hook 'server-after-make-frame-hook 'tdr/fix-centaur-tabs)
+    (add-hook 'after-init-hook 'tdr/fix-centaur-tabs))
+  :config
+  (centaur-tabs-headline-match)
+  (centaur-tabs-group-by-projectile-project))
 #+end_src
 
 ** GPG Encryption and Password Configuration
@@ -668,7 +661,7 @@ This section configures the appearance and different mode settings for org.
 - Auto indents text according to outline structure
 - Enables variable-pitch default-face mode
 - Enables visual line mode
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (defun nova/org-mode-setup ()
   (org-indent-mode)
   (variable-pitch-mode 1)
@@ -676,27 +669,27 @@ This section configures the appearance and different mode settings for org.
 #+end_src
 
 Adds hooks for org-mode, Also disables [[https://code.orgmode.org/bzg/org-mode/src/master/etc/ORG-NEWS#L323][electric-mode]], which is now respected by Org and which creates some confusing indentation sometimes.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (add-hook! org-mode (nova/org-mode-setup))
-(add-hook! org-mode (nova/org-font-setup))
+;(add-hook! org-mode (nova/org-font-setup))
 (add-hook! org-mode (electric-indent-local-mode -1))
-(add-hook! org-mode :append #'org-appear-mode)
+;(add-hook! org-mode :append #'org-appear-mode)
 #+end_src
 
 I use [[https://codeberg.org/joostkremers/visual-fill-column][visual-fill-column]] to center ~org-mode~ buffers for a more pleasing writing experience as it centers the contents of the buffer horizontally to seem more like you are editing a document.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 ;; Configure visual fill mode size for Org-mode
 (defun nova/org-mode-visual-fill ()
   (setq visual-fill-column-width 160
         visual-fill-column-center-text t)
   (visual-fill-column-mode 1))
 
-(add-hook! org-mode (nova/org-mode-visual-fill))
+;(add-hook! org-mode (nova/org-mode-visual-fill))
 #+end_src
 
 ** General Org Configuration
 This section contains the basic configuration for ~org-mode~ plus the configuration for Org agendas (and ~org-super-agenda~) and capture templates.
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (after! org
   ;; Enable saving org buffers after refiling them
   (advice-add 'org-refile :after 'org-save-all-org-buffers)
@@ -814,7 +807,7 @@ Configure Org notifications
 
 ** Org Super Agenda
 Setup for ~org-super-agenda~
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
 (use-package! org-super-agenda
   :after org
   :config
@@ -884,6 +877,11 @@ Configures projectile
 (setq projectile-project-search-path '(("~/Documents/Projects" .  4)))
 #+end_src
 
+** Set Nix Formatter to Alejandra
+#+begin_src emacs-lisp
+(set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode))
+#+end_src
+
 ** Black Formatter Configuration
 *** Global Config File
 Creates configuration file for Black formatter. Increases the max line length
@@ -908,8 +906,6 @@ Configures dap mode configurations for different languages
 (setq dap-python-debugger 'debugpy)
 ;(setq lsp-csharp-server-path (executable-find "omnisharp"))
 ;(setq dap-netcore-install-dir "/usr/bin")
-;; Change dap-python debugger terminal
-;(setq dap-python-terminal "kitty +open ")
 
 (use-package! dap-mode
   :after lsp-mode
@@ -922,11 +918,10 @@ Configures dap mode configurations for different languages
 ;(add-hook! 'csharp-mode-hook 'dotnet-mode)
 #+end_src
 
-** LSP Mode Configurations
+** Lua LSP Mode Configurations
+Changes the location of lua-language-server to where the binary location is
 #+begin_src emacs-lisp
-; Change lua-language-server location to where the binary location is
 (setq lsp-clients-lua-language-server-bin (executable-find "lua-language-server"))
-;      lsp-clients-lua-language-server-main-location "/usr/lib/lua-language-server/main.lua")
 #+end_src
 
 * MU4E Configuration
@@ -982,7 +977,7 @@ This configures mu and mu4e (mu 4 emacs). These configs are ONLY loaded when ~mu
         :dyn-target (lambda (target msg) (mu4e-get-refile-folder msg))
         :action (lambda (docid msg target)
                   (let ((maildir (mu4e-message-field msg :maildir)))
-                    (if (string-match-p "Google\\|gmail\\|BRCC\\|brcc" maildir)
+                    (if (string-match-p "Google\\|gmail" maildir)
                         (mu4e~proc-remove docid)
                       (mu4e~proc-move docid (mu4e~mark-check-target target) "+S-u-N"))))))
 (setf (alist-get 'refile mu4e-marks) df/refile-dwim)

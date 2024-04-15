@@ -9,6 +9,7 @@ in {
 
   programs.nixvim = {
     enable = true;
+    defaultEditor = true;
     viAlias = true;
     vimAlias = true;
     extraPackages = with pkgs; [ gcc ];
@@ -72,6 +73,7 @@ in {
       cmp.enable = true;
       cmp-tmux.enable = true;
       cmp-treesitter.enable = true;
+      diffview.enable = true;
       lualine = {
         enable = true;
         extensions = [ "fzf" ];

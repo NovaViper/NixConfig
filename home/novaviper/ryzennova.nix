@@ -6,7 +6,6 @@
     ./features/theme
     ./features/desktop/kde/plasma6
     ./features/games
-    ./features/emacs
     ./features/productivity
     ./features/virt-manager
   ];

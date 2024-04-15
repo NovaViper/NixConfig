@@ -8,6 +8,7 @@ in {
 
   services.emacs = {
     enable = true;
+    defaultEditor = true;
     startWithUserSession = "graphical";
     client = {
       enable = true;
@@ -16,12 +17,12 @@ in {
   };
 
   programs = {
+    pyenv.enable = true;
     emacs = {
       enable = true;
       package = pack;
-      extraPackages = epkgs: with epkgs; [ tramp pdf-tools ];
+      extraPackages = epkgs: with epkgs; [ tramp pdf-tools vterm ];
     };
-    pyenv.enable = true;
   };
 
   xdg = {
@@ -31,13 +32,14 @@ in {
         source = config.lib.file.mkOutOfStoreSymlink
           "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/doom";
         recursive = true;
-        onChange = "${pkgs.writeShellScript "doom-change" ''
-          export DOOM="${config.home.sessionVariables.EMDOTDIR}"
-          if [ ! -d "$DOOM" ]; then
-            ${pkgs.git}/bin/git clone https://github.com/hlissner/doom-emacs.git $DOOM
-            ${pkgs.gnused}/bin/sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" $DOOM/bin/org-tangle
-          fi
-        ''}";
+        /* onChange = "${pkgs.writeShellScript "doom-change" ''
+             export DOOM="${config.home.sessionVariables.EMDOTDIR}"
+             if [ ! -d "$DOOM" ]; then
+               ${pkgs.git}/bin/git clone https://github.com/hlissner/doom-emacs.git $DOOM
+               ${pkgs.gnused}/bin/sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" $DOOM/bin/org-tangle
+             fi
+           ''}";
+        */
       };
       #"doom/yasnippets/.keep".source = builtins.toFile "keep" "";
     };
@@ -55,13 +57,19 @@ in {
   };
 
   home = {
+    activation.installDoomEmacs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      export DOOM="${config.home.sessionVariables.EMDOTDIR}"
+      if [ ! -d "$DOOM" ]; then
+        ${pkgs.git}/bin/git clone https://github.com/hlissner/doom-emacs.git $DOOM
+        ${pkgs.gnused}/bin/sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" $DOOM/bin/org-tangle
+      fi
+    '';
     sessionVariables = {
       EMDOTDIR = "${config.xdg.configHome}/emacs";
       DOOMDIR = "${config.xdg.configHome}/doom";
       PYENV_ROOT = "${config.xdg.dataHome}/pyenv";
       #JDTLS_PATH = "${pkgs.jdt-language-server}/share/java";
     };
-
     sessionPath = [
       "${config.xdg.configHome}/emacs/bin"
       "${config.home.sessionVariables.PYENV_ROOT}/bin"
@@ -88,7 +96,6 @@ in {
       html-tidy
       nodePackages.lua-fmt
       texlive.combined.scheme-medium
-      nixfmt
       shfmt
 
       #: editor parinfer
@@ -121,8 +128,8 @@ in {
       yaml-language-server
       lua-language-server
       nodePackages.vscode-langservers-extracted
-      omnisharp-roslyn
-      java-language-server
+      #omnisharp-roslyn
+      #java-language-server
 
       # :lang java
       #jdt-language-server

@@ -14,8 +14,10 @@
       fira-code-symbols
       hack-font
       nerdfonts
-      meslo-lg
-      meslo-lgs-nf
+      #meslo-lg
+      #meslo-lgs-nf
+
+      # Microsoft Fonts
       corefonts
       vistafonts
     ];
