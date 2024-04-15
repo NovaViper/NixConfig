@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
@@ -10,7 +12,7 @@
       key = "DEAB6E5298F9C516";
       signByDefault = true;
     };
-    aliases = { graph = "log --decorate --online --graph"; };
+    aliases = {graph = "log --decorate --online --graph";};
     extraConfig = {
       init.defaultBranch = "main";
       pull.rebase = true;
@@ -35,7 +37,7 @@
       rerere.enabled = true;
     };
     lfs.enable = true;
-    ignores = [ ".direnv" "result" ];
+    ignores = [".direnv" "result"];
   };
 
   # Enable fancy git changelogs

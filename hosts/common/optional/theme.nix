@@ -1,6 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
   stylix = {
     autoEnable = true;
     homeManagerIntegration.autoImport = false;

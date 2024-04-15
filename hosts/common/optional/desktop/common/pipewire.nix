@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   # Enable ALSA sound
   sound.enable = true;
 
@@ -24,5 +27,5 @@
   };
 
   # Install audio configuration tools (Especially important for VR)
-  environment.systemPackages = with pkgs; [ pavucontrol pulseaudio ];
+  environment.systemPackages = with pkgs; [pavucontrol pulseaudio];
 }

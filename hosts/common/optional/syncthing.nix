@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   services.syncthing = {
     user = lib.mkForce config.variables.username;
     enable = true;
@@ -10,5 +13,5 @@
     openDefaultPorts = true;
   };
 
-  environment.systemPackages = with pkgs; [ syncthingtray-minimal ];
+  environment.systemPackages = with pkgs; [syncthingtray-minimal];
 }

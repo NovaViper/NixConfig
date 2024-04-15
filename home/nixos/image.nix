@@ -1,8 +1,12 @@
-{ inputs, outputs, config, lib, pkgs, ... }:
-
 {
-  imports =
-    [ ../common/global ./features/cli ./features/neovim ./features/theme ];
+  inputs,
+  outputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [../common/global ./features/cli ./features/neovim ./features/theme];
 
   ### Special Variables
   variables.desktop.environment = "kde";
@@ -17,8 +21,8 @@
     username = lib.mkDefault "nixos";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "24.05";
-    sessionPath = [ "$HOME/.local/bin" ];
-    packages = with pkgs; [ kitty ];
+    sessionPath = ["$HOME/.local/bin"];
+    packages = with pkgs; [kitty];
   };
 
   programs.plasma = {
@@ -38,30 +42,33 @@
         force = true;
         engines = {
           "Nix Packages" = {
-            urls = [{
-              template = "https://search.nixos.org/packages";
-              params = [
-                {
-                  name = "type";
-                  value = "packages";
-                }
-                {
-                  name = "query";
-                  value = "{searchTerms}";
-                }
-              ];
-            }];
-            icon =
-              "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
-            definedAliases = [ "@np" ];
+            urls = [
+              {
+                template = "https://search.nixos.org/packages";
+                params = [
+                  {
+                    name = "type";
+                    value = "packages";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
+              }
+            ];
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = ["@np"];
           };
           "NixOS Wiki" = {
-            urls = [{
-              template = "https://nixos.wiki/index.php?search={searchTerms}";
-            }];
+            urls = [
+              {
+                template = "https://nixos.wiki/index.php?search={searchTerms}";
+              }
+            ];
             iconUpdateURL = "https://nixos.wiki/favicon.png";
             updateInterval = 24 * 60 * 60 * 1000; # every day
-            definedAliases = [ "@nw" ];
+            definedAliases = ["@nw"];
           };
         };
       };

@@ -1,13 +1,16 @@
-{ config, pkgs, lib, ... }:
-with lib;
-
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}:
+with lib; {
   home.packages = mkMerge [
     (mkIf (config.variables.desktop.displayManager == "wayland")
-      (with pkgs; [ wl-clipboard wl-clipboard-x11 ]))
+      (with pkgs; [wl-clipboard wl-clipboard-x11]))
 
     (mkIf (config.variables.desktop.displayManager == "x11")
-      (with pkgs; [ xclip xsel xdotool xorg.xwininfo xorg.xprop ]))
+      (with pkgs; [xclip xsel xdotool xorg.xwininfo xorg.xprop]))
   ];
 
   programs = {
@@ -38,10 +41,9 @@ with lib;
         # Disable zsh-vi-mode's custom cursors
         ZVM_CURSOR_STYLE_ENABLED = false;
         # Prompt message for auto correct
-        SPROMPT =
-          "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [ny] ";
+        SPROMPT = "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [ny] ";
         # Add more strategies to zsh-autosuggestions
-        ZSH_AUTOSUGGEST_STRATEGY = [ "history" "completion" ];
+        ZSH_AUTOSUGGEST_STRATEGY = ["history" "completion"];
         # Make manpager use ls with color support``
         MANPAGER = "${pkgs.less}/bin/less -s -M +Gg";
       };
@@ -53,7 +55,9 @@ with lib;
       initExtra = ''
         # Append extra variables
         AUTO_NOTIFY_IGNORE+=(${
-          if config.programs.atuin.enable then ''"atuin" '' else ""
+          if config.programs.atuin.enable
+          then ''"atuin" ''
+          else ""
         }"yadm" "emacs" "nix-shell" "nix")
 
         setopt beep CORRECT # Enable terminal bell and autocorrect
@@ -86,13 +90,11 @@ with lib;
 
       shellAliases = {
         # Make gpg switch Yubikey
-        gpg-switch-yubikey =
-          ''gpg-connect-agent "scd serialno" "learn --force" /bye'';
+        gpg-switch-yubikey = ''gpg-connect-agent "scd serialno" "learn --force" /bye'';
         # Load PKCS11 keys into ssh-agent
         load-pkcs-key = "ssh-add -s ${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
         # Remove PKCS11 keys into ssh-agent
-        remove-pkcs-key =
-          "ssh-add -e ${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
+        remove-pkcs-key = "ssh-add -e ${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
         # Remove all identities
         remove-ssh-keys = "ssh-add -D";
         # List all SSH keys in the agent
@@ -109,9 +111,9 @@ with lib;
             name = "jeffreytse/zsh-vi-mode";
           }
           # Fish-like Plugins
-          { name = "mattmc3/zfunctions"; }
-          { name = "Aloxaf/fzf-tab"; }
-          { name = "Freed-Wu/fzf-tab-source"; }
+          {name = "mattmc3/zfunctions";}
+          {name = "Aloxaf/fzf-tab";}
+          {name = "Freed-Wu/fzf-tab-source";}
           {
             name = "MichaelAquilina/zsh-auto-notify";
           }
@@ -119,7 +121,7 @@ with lib;
           # Sudo escape
           {
             name = "plugins/sudo";
-            tags = [ "from:oh-my-zsh" ];
+            tags = ["from:oh-my-zsh"];
           }
 
           # Nix stuff
@@ -127,7 +129,7 @@ with lib;
             name = "chisui/zsh-nix-shell";
           }
           # Make ZLE use system clipboard
-          { name = "kutsan/zsh-system-clipboard"; }
+          {name = "kutsan/zsh-system-clipboard";}
         ];
       };
     };

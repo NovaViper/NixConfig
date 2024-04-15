@@ -1,5 +1,9 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   ifTheyExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in {
@@ -11,16 +15,18 @@ in {
     isNormalUser = true;
     shell = pkgs.zsh;
     description = "novaviper";
-    extraGroups = [ "networkmanager" "wheel" ] ++ ifTheyExist [
-      "video"
-      "audio"
-      "libvirtd"
-      "scanner"
-      "i2c"
-      "git"
-      "gamemode"
-    ];
-    packages = with pkgs; [ home-manager ];
+    extraGroups =
+      ["networkmanager" "wheel"]
+      ++ ifTheyExist [
+        "video"
+        "audio"
+        "libvirtd"
+        "scanner"
+        "i2c"
+        "git"
+        "gamemode"
+      ];
+    packages = with pkgs; [home-manager];
   };
 
   # Import Home-Manager config for host

@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   programs = {
     steam = {
       enable = true;
@@ -14,17 +17,18 @@
           softrealtime = "off";
           inhibit_screensaver = 1;
         };
-        /* gpu = lib.mkMerge [
-             # General
-             ({
-               apply_gpu_optimisations = "accept-responsibility";
-               gpu_device = 0;
-             })
-             # Nvidia
-             (lib.mkIf (config.variables.machine.gpu == "nvidia") {
-               nv_powermizer_mode = 1;
-             })
-           ];
+        /*
+        gpu = lib.mkMerge [
+          # General
+          ({
+            apply_gpu_optimisations = "accept-responsibility";
+            gpu_device = 0;
+          })
+          # Nvidia
+          (lib.mkIf (config.variables.machine.gpu == "nvidia") {
+            nv_powermizer_mode = 1;
+          })
+        ];
         */
         custom = {
           start = "''${pkgs.libnotify}/bin/notify-send 'GameMode started'";
@@ -48,14 +52,14 @@
       driSupport = true;
       driSupport32Bit = true;
       extraPackages = with pkgs;
-        [ libva-utils vaapiVdpau libvdpau-va-gl ]
+        [libva-utils vaapiVdpau libvdpau-va-gl]
         ++ lib.optionals (config.variables.machine.gpu == "nvidia")
-        [ nvidia-vaapi-driver ];
+        [nvidia-vaapi-driver];
     };
   };
 
   # Allow Minecraft server ports
-  networking.firewall.allowedTCPPorts = [ 25565 24454 ];
+  networking.firewall.allowedTCPPorts = [25565 24454];
 
   # Fixes SteamLink/Remote play crashing, add packages necessary for VR
   environment = {
@@ -63,7 +67,8 @@
     sessionVariables.__GL_THREADED_OPTIMIZATIONS =
       lib.mkIf (config.variables.machine.gpu == "nvidia") "0";
     systemPackages = with pkgs;
-      [ libcanberra protonup-qt ] ++ lib.optionals (config.variables.useVR) [
+      [libcanberra protonup-qt]
+      ++ lib.optionals (config.variables.useVR) [
         android-tools
         android-udev-rules
         sidequest
@@ -74,8 +79,7 @@
 
   # Fixes issue with SteamVR not starting
   system.activationScripts = lib.mkIf (config.variables.useVR) {
-    fixSteamVR =
-      "${pkgs.libcap}/bin/setcap CAP_SYS_NICE+ep /home/${config.variables.username}/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher";
+    fixSteamVR = "${pkgs.libcap}/bin/setcap CAP_SYS_NICE+ep /home/${config.variables.username}/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher";
   };
 
   xdg.mime = {

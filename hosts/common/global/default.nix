@@ -1,7 +1,11 @@
 # This file (and the global directory) holds config that I use on all hosts
-{ inputs, outputs, pkgs, config, ... }:
-
 {
+  inputs,
+  outputs,
+  pkgs,
+  config,
+  ...
+}: {
   imports = with inputs;
     [
       home-manager.nixosModules.home-manager
@@ -15,7 +19,8 @@
       ./network.nix
       ./fonts.nix
       #./security.nix
-    ] ++ (builtins.attrValues outputs.nixosModules);
+    ]
+    ++ (builtins.attrValues outputs.nixosModules);
 
   # Stylix configuration
   # For Home-Manager standalone
@@ -23,7 +28,7 @@
 
   # Add special args for home-manager
   home-manager = {
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = {inherit inputs outputs;};
     backupFileExtension = ".bak";
   };
 
@@ -44,7 +49,7 @@
     kernelPackages = pkgs.linuxPackages_latest;
 
     # Makes OBS Virtual Camera feature function
-    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
+    extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
   };
 
   # Needed for high-dpi and quiet boot

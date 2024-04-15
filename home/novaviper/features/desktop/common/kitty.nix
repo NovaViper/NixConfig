@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   xdg = {
     mimeApps = {
       associations = {
@@ -40,8 +43,7 @@
       visual_bell_duration = "0.0";
       bell_on_tab = "🔔 ";
       linux_bell_theme = "__ocean";
-      bell_path =
-        "${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/bell-window-system.oga";
+      bell_path = "${pkgs.kdePackages.ocean-sound-theme}/share/sounds/ocean/stereo/bell-window-system.oga";
       # }}}
 
       # Cursor {{{
@@ -64,9 +66,13 @@
       # Window Layout {{{
       remember_window_size = "yes";
       initial_window_width =
-        if (config.variables.machine.buildType == "laptop") then 1000 else 1920;
+        if (config.variables.machine.buildType == "laptop")
+        then 1000
+        else 1920;
       initial_window_height =
-        if (config.variables.machine.buildType == "laptop") then 700 else 1080;
+        if (config.variables.machine.buildType == "laptop")
+        then 700
+        else 1080;
 
       enabled_layouts = "tall:bias=65;full_size=1;mirrored=false";
       # }}}
@@ -121,8 +127,7 @@
       #"f2" = "launch --type=tab emacsclient -nw ~/.config/kitty/kitty.conf";
 
       #: Reload kitty.conf
-      "f5" =
-        "combine : load_config_file : launch --type=overlay --hold --allow-remote-control kitty @ send-text 'kitty config reloaded'";
+      "f5" = "combine : load_config_file : launch --type=overlay --hold --allow-remote-control kitty @ send-text 'kitty config reloaded'";
       #"ctrl+r" = "combine : load_config_file : launch --type=overlay --hold --allow-remote-control kitty @ send-text 'kitty config reloaded'";
       #: Debug kitty configuration
       "f6" = "debug_config";

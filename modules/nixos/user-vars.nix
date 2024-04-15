@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
-with lib;
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   inherit (lib) mkOption types;
   cfg = config.variables;
   cfgde = config.variables.desktop;
@@ -10,7 +13,7 @@ let
   desktopW = config.services.desktopManager;
 in {
   imports = [
-    (mkRemovedOptionModule [ "variables" "desktop" "useWayland" ] ''
+    (mkRemovedOptionModule ["variables" "desktop" "useWayland"] ''
       The corresponding option has been removed in favor of using a string option
       type instead of boolean. This is for upcoming Wayland integration from many
       desktop environments. Please use variables.desktop.displayManager to set
@@ -53,7 +56,7 @@ in {
         '';
       };
       displayManager = mkOption {
-        type = with types; nullOr (types.enum [ "wayland" "x11" ]);
+        type = with types; nullOr (types.enum ["wayland" "x11"]);
         default = null;
         example = "wayland";
         description = ''
@@ -65,7 +68,7 @@ in {
     };
     machine = {
       buildType = mkOption {
-        type = with types; nullOr (types.enum [ "desktop" "laptop" "server" ]);
+        type = with types; nullOr (types.enum ["desktop" "laptop" "server"]);
         default = null;
         example = "desktop";
         description = ''
@@ -75,7 +78,7 @@ in {
         '';
       };
       motherboard = mkOption {
-        type = with types; nullOr (types.enum [ "amd" "intel" "arm" ]);
+        type = with types; nullOr (types.enum ["amd" "intel" "arm"]);
         default = null;
         example = "intel";
         description = ''
@@ -85,7 +88,7 @@ in {
         '';
       };
       gpu = mkOption {
-        type = with types; nullOr (enum [ "nvidia" "intel" "amd" ]);
+        type = with types; nullOr (enum ["nvidia" "intel" "amd"]);
         default = null;
         example = "amd";
         description = ''
@@ -97,38 +100,44 @@ in {
     };
   };
 
-  /* options.variables = mkOption {
-       type = with types; attrs;
-       default = { };
-       description = ''
-         Used to store various important variables throughout the flake
-       '';
-     };
+  /*
+  options.variables = mkOption {
+    type = with types; attrs;
+    default = { };
+    description = ''
+      Used to store various important variables throughout the flake
+    '';
+  };
   */
 
   config = mkIf (cfg != null) (mkMerge [
     (mkIf cfg.useVR {
-      assertions = [{
-        assertion = config.programs.steam.enable;
-        message =
-          "You need to enable Steam, since all of the necessary libraries are bundled with Steam";
-      }];
+      assertions = [
+        {
+          assertion = config.programs.steam.enable;
+          message = "You need to enable Steam, since all of the necessary libraries are bundled with Steam";
+        }
+      ];
     })
     (mkIf (cfgde.displayManager == "x11") {
-      warnings = if (desktopW.plasma6.enable) then [''
-        You have enabled the X11 session with KDE Plasma 6; which does not fully support the X11 session
-        This may result in a broken SDDM session and thus booting into text mode!
-      ''] else
-        [ ];
+      warnings =
+        if (desktopW.plasma6.enable)
+        then [
+          ''
+            You have enabled the X11 session with KDE Plasma 6; which does not fully support the X11 session
+            This may result in a broken SDDM session and thus booting into text mode!
+          ''
+        ]
+        else [];
     })
-    ({
+    {
       services.xserver = mkMerge [
         # Enable Wacom touch drivers
         (mkIf (cfgma.buildType == "laptop") {
           wacom.enable = mkDefault config.services.xserver.enable;
         })
 
-        ({
+        {
           displayManager = mkIf (cfgde.environment == "kde") (mkMerge [
             # Make SDDM use Wayland when wanting to run Wayland as the display manager reguardless of which KDE version
             (mkIf (cfgde.displayManager == "wayland") {
@@ -144,36 +153,41 @@ in {
               defaultSession = "plasmax11";
             })
           ]);
-        })
+        }
       ];
 
       # Automatic screen orentiation for laptops
       hardware.sensor.iio.enable =
-        (if (cfgma.buildType == "laptop") then true else false);
+        if (cfgma.buildType == "laptop")
+        then true
+        else false;
 
       environment = {
         # Remove Konsole if `useKonsole` is NOT enabled (only for KDE since it's already included) KDE Plasma 5 version
         plasma5.excludePackages = with pkgs.libsForQt5;
-          mkIf (!cfg.useKonsole && cfgde.environment == "kde"
-            && desktopX.plasma5.enable) [ konsole ];
+          mkIf (!cfg.useKonsole
+            && cfgde.environment == "kde"
+            && desktopX.plasma5.enable) [konsole];
 
         # Remove Konsole if `useKonsole` is NOT enabled (only for KDE since it's already included) KDE Plasma 6 version
         plasma6.excludePackages = with pkgs.libsForQt5;
-          mkIf (!cfg.useKonsole && cfgde.environment == "kde"
-            && desktopW.plasma6.enable) [ konsole ];
+          mkIf (!cfg.useKonsole
+            && cfgde.environment == "kde"
+            && desktopW.plasma6.enable) [konsole];
 
-        systemPackages = with pkgs;
-          (mkMerge [
-            # Download Konsole if `useKonsole` is used on a DE that DOESN'T include Konsole (like KDE);
-            (mkIf (cfg.useKonsole && cfgde.environment != "kde")
-              [ libsForQt5.konsole ])
-            # download Yakuake if `useKonsole` is used on a DE that DOES include Konsole (like KDE); switch between QT6 and QT5 versions of Yakuake depending on KDE Plasma version
-            (mkIf (cfg.useKonsole && cfgde.environment == "kde"
-              && desktopX.plasma5.enable) [ libsForQt5.yakuake ])
-            (mkIf (cfg.useKonsole && cfgde.environment == "kde"
-              && desktopW.plasma6.enable) [ kdePackages.yakuake ])
-          ]);
+        systemPackages = with pkgs; (mkMerge [
+          # Download Konsole if `useKonsole` is used on a DE that DOESN'T include Konsole (like KDE);
+          (mkIf (cfg.useKonsole && cfgde.environment != "kde")
+            [libsForQt5.konsole])
+          # download Yakuake if `useKonsole` is used on a DE that DOES include Konsole (like KDE); switch between QT6 and QT5 versions of Yakuake depending on KDE Plasma version
+          (mkIf (cfg.useKonsole
+            && cfgde.environment == "kde"
+            && desktopX.plasma5.enable) [libsForQt5.yakuake])
+          (mkIf (cfg.useKonsole
+            && cfgde.environment == "kde"
+            && desktopW.plasma6.enable) [kdePackages.yakuake])
+        ]);
       };
-    })
+    }
   ]);
 }

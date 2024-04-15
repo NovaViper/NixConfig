@@ -1,6 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./global
     ./features/theme
@@ -21,5 +25,5 @@
   ###
 
   # Install a couple more packages
-  home.packages = with pkgs; [ keepassxc krita kdePackages.tokodon ];
+  home.packages = with pkgs; [keepassxc krita kdePackages.tokodon];
 }

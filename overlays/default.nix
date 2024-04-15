@@ -1,9 +1,11 @@
 # This file defines overlays
-{ outputs, inputs }:
-let
+{
+  outputs,
+  inputs,
+}: let
   addPatches = pkg: patches:
     pkg.overrideAttrs
-    (oldAttrs: { patches = (oldAttrs.patches or [ ]) ++ patches; });
+    (oldAttrs: {patches = (oldAttrs.patches or []) ++ patches;});
 in {
   # Third party overlays
   nur = inputs.nur.overlay;
@@ -12,19 +14,23 @@ in {
   # 'inputs.${flake}.packages.${pkgs.system}' or
   # 'inputs.${flake}.legacyPackages.${pkgs.system}'
   flake-inputs = final: _: {
-    inputs = builtins.mapAttrs (_: flake:
-      let
-        legacyPackages = ((flake.legacyPackages or { }).${final.system} or { });
-        packages = ((flake.packages or { }).${final.system} or { });
-      in if legacyPackages != { } then legacyPackages else packages) inputs;
+    inputs = builtins.mapAttrs (_: flake: let
+      legacyPackages = (flake.legacyPackages or {}).${final.system} or {};
+      packages = (flake.packages or {}).${final.system} or {};
+    in
+      if legacyPackages != {}
+      then legacyPackages
+      else packages) inputs;
   };
 
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: prev:
-    import ../pkgs { pkgs = final; } // {
+    import ../pkgs {pkgs = final;}
+    // {
       #formats = prev.formats // import ../pkgs/formats { pkgs = final; };
-      tmuxPlugins = prev.tmuxPlugins
-        // final.callPackage ../pkgs/tmux-plugins { };
+      tmuxPlugins =
+        prev.tmuxPlugins
+        // final.callPackage ../pkgs/tmux-plugins {};
     };
 
   # This one contains whatever you want to overlay
@@ -40,7 +46,7 @@ in {
       enableWidevine = true;
     };
 
-    papirus-icon-theme = prev.papirus-icon-theme.override { color = "violet"; };
+    papirus-icon-theme = prev.papirus-icon-theme.override {color = "violet";};
 
     tmux = prev.tmux.override {
       withSixel = true;
@@ -48,7 +54,7 @@ in {
     };
 
     prismlauncher-qt5 =
-      prev.prismlauncher-qt5.override { withWaylandGLFW = true; };
+      prev.prismlauncher-qt5.override {withWaylandGLFW = true;};
 
     discord = prev.discord.override {
       withOpenASAR = true;

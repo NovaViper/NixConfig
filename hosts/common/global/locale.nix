@@ -1,6 +1,4 @@
-{ lib, ... }:
-
-{
+{lib, ...}: {
   i18n = {
     # Select internationalisation properties.
     defaultLocale = lib.mkDefault "en_US.UTF-8";
@@ -16,6 +14,6 @@
       LC_TIME = "en_US.UTF-8";
     };
 
-    supportedLocales = lib.mkDefault [ "en_US.UTF-8/UTF-8" ];
+    supportedLocales = lib.mkDefault ["en_US.UTF-8/UTF-8"];
   };
 }

@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
-
 {
-  home.packages = with pkgs; [ protontricks keyutils goverlay ludusavi ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  home.packages = with pkgs; [protontricks keyutils goverlay ludusavi];
 
   home.sessionVariables.ICED_BACKEND = "tiny-skia";
 
@@ -12,7 +15,8 @@
     };
 
     configFile."alvr/session.json" = lib.mkIf (config.variables.useVR) {
-      source = config.lib.file.mkOutOfStoreSymlink
+      source =
+        config.lib.file.mkOutOfStoreSymlink
         "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/alvr/session.json";
     };
 
@@ -22,10 +26,9 @@
           name = "Beat Saber ModManager";
           genericName = "Game";
           exec = "BeatSaberModManager";
-          icon =
-            "${pkgs.BeatSaberModManager}/lib/BeatSaberModManager/Resources/Icons/Icon.ico";
+          icon = "${pkgs.BeatSaberModManager}/lib/BeatSaberModManager/Resources/Icons/Icon.ico";
           type = "Application";
-          categories = [ "Game" ];
+          categories = ["Game"];
           startupNotify = true;
           comment = "Beat Saber ModManager is a mod manager for Beat Saber";
         };

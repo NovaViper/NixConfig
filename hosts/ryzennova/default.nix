@@ -1,6 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: let
   configFile = pkgs.writeText "OpenRGB.json" ''
     {
       "E131Devices": {
@@ -18,7 +22,6 @@ let
       }
     }
   '';
-
 in {
   imports = [
     ### Device Configs
@@ -95,28 +98,26 @@ in {
       modesetting.enable = true;
       open = false;
       nvidiaSettings =
-        if (config.variables.desktop.displayManager == "x11") then
-          true
-        else
-          false;
+        if (config.variables.desktop.displayManager == "x11")
+        then true
+        else false;
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
       package = config.boot.kernelPackages.nvidiaPackages.latest;
     };
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.videoDrivers = ["nvidia"];
 
   environment = {
     #systemPackages = with pkgs; [ gwe ];
     sessionVariables.LIBVA_DRIVER_NAME = "nvidia";
   };
 
-  system.activationScripts =
-    lib.mkIf (config.services.hardware.openrgb.enable) {
-      makeOpenRGBSettings = ''
-        mkdir -p /var/lib/OpenRGB/plugins/settings/effect-profiles
+  system.activationScripts = lib.mkIf (config.services.hardware.openrgb.enable) {
+    makeOpenRGBSettings = ''
+      mkdir -p /var/lib/OpenRGB/plugins/settings/effect-profiles
 
-        cp ${configFile} /var/lib/OpenRGB/OpenRGB.json
-      '';
-    };
+      cp ${configFile} /var/lib/OpenRGB/OpenRGB.json
+    '';
+  };
 }

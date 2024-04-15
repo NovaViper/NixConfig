@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   boot = {
     # Make /tmp clean itself on remote. /tmp should be volatile storage!
     tmp.cleanOnBoot = true;
@@ -40,6 +43,6 @@
       "net.ipv4.tcp_congestion_control" = "bbr";
       "net.core.default_qdisc" = "cake";
     };
-    kernelModules = [ "tcp_bbr" ];
+    kernelModules = ["tcp_bbr"];
   };
 }

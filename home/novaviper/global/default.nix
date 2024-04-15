@@ -1,7 +1,12 @@
-{ inputs, outputs, lib, pkgs, config, ... }:
-
 {
-  imports = [ ../../common/global ../features/cli ../features/emacs ];
+  inputs,
+  outputs,
+  lib,
+  pkgs,
+  config,
+  ...
+}: {
+  imports = [../../common/global ../features/cli ../features/emacs];
 
   # Enable HTML help page
   manual.html.enable = true;
@@ -11,7 +16,7 @@
     username = lib.mkDefault "novaviper";
     homeDirectory = lib.mkDefault "/home/${config.home.username}";
     stateVersion = lib.mkDefault "24.05";
-    sessionPath = [ "$HOME/.local/bin" ];
+    sessionPath = ["$HOME/.local/bin"];
     sessionVariables = {
       FLAKE = "${config.home.homeDirectory}/Documents/NixConfig";
       #CARGO_HOME = "${config.xdg.dataHome}/cargo";

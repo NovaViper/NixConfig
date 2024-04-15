@@ -1,16 +1,22 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   xdg = {
     configFile = {
-      "wezterm/keybinds.lua".source = config.lib.file.mkOutOfStoreSymlink
+      "wezterm/keybinds.lua".source =
+        config.lib.file.mkOutOfStoreSymlink
         "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/keybinds.lua";
-      "wezterm/on.lua".source = if (config.programs.tmux.enable) then
-        (config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/on-tmux.lua")
-      else
-        (config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/on.lua");
+      "wezterm/on.lua".source =
+        if (config.programs.tmux.enable)
+        then
+          (config.lib.file.mkOutOfStoreSymlink
+            "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/on-tmux.lua")
+        else
+          (config.lib.file.mkOutOfStoreSymlink
+            "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/on.lua");
     };
     mimeApps = {
       associations = {
@@ -51,13 +57,14 @@
 
       -- Make the starting window a good bit larger
       config.initial_cols = ${
-        if (config.variables.machine.buildType == "laptop") then
-          "120"
-        else
-          "160"
+        if (config.variables.machine.buildType == "laptop")
+        then "120"
+        else "160"
       }
       config.initial_rows = ${
-        if (config.variables.machine.buildType == "laptop") then "30" else "40"
+        if (config.variables.machine.buildType == "laptop")
+        then "30"
+        else "40"
       }
 
       -- Enable audible bell
@@ -81,13 +88,17 @@
 
       -- disable most of the keybindings because I want them to use Tmux. Enable the few I want to use
       config.disable_default_key_bindings = true
-      ${if (config.programs.tmux.enable) then ''
-        config.keys = keybinds.minimal_keybindings
-      '' else ''
-        config.leader = { key = "a", mods = "CTRL", timeout_miliseconds = 1000 }
-        config.keys = keybinds.full_keybindings
-        config.key_tables = keybinds.key_tables
-      ''}
+      ${
+        if (config.programs.tmux.enable)
+        then ''
+          config.keys = keybinds.minimal_keybindings
+        ''
+        else ''
+          config.leader = { key = "a", mods = "CTRL", timeout_miliseconds = 1000 }
+          config.keys = keybinds.full_keybindings
+          config.key_tables = keybinds.key_tables
+        ''
+      }
        config.mouse_bindings = keybinds.mouse_bindings
 
       -- and finally, return the configuration to wezterm

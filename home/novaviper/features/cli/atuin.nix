@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   programs.atuin = {
     enable = true;
     settings = {
@@ -13,7 +16,7 @@
         vim_normal = "steady-block";
       };
       enter_accept = true;
-      history_filter = [ "^gpg .*--edit-key=.+" "^gpg .*--recipient.+" ];
+      history_filter = ["^gpg .*--edit-key=.+" "^gpg .*--recipient.+"];
     };
   };
 }

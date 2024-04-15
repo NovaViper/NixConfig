@@ -1,7 +1,11 @@
-{ config, lib, pkgs, inputs, ... }:
-
 {
-  disabledModules = [ "security/pam.nix" ];
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
+  disabledModules = ["security/pam.nix"];
   imports = [
     "${inputs.nixpkgs-howdy}/nixos/modules/security/pam.nix"
     "${inputs.nixpkgs-howdy}/nixos/modules/services/security/howdy"

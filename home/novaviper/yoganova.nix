@@ -1,6 +1,10 @@
-{ config, lib, pkgs, inputs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     ./global
     ./features/theme
@@ -21,7 +25,7 @@
   ###
 
   # Install a couple more packages
-  home.packages = with pkgs; [ keepassxc krita kdePackages.tokodon ];
+  home.packages = with pkgs; [keepassxc krita kdePackages.tokodon];
 
   # Make the display scaling larger because Hi-DPI screen
   programs.plasma.configFile.kwinrc.Xwayland.Scale.value = 1.25;

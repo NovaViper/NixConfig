@@ -1,9 +1,14 @@
-{ config, lib, pkgs, inputs, ... }:
-let
-  pack = if (config.variables.desktop.displayManager == "wayland") then
-    pkgs.wl-clipboard
-  else
-    pkgs.xclip;
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: let
+  pack =
+    if (config.variables.desktop.displayManager == "wayland")
+    then pkgs.wl-clipboard
+    else pkgs.xclip;
 in {
   #home.packages = with pkgs; [ tree-sitter gcc ];
 
@@ -12,7 +17,7 @@ in {
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
-    extraPackages = with pkgs; [ gcc ];
+    extraPackages = with pkgs; [gcc];
     opts = {
       # Enabline line numbers
       number = true;
@@ -45,7 +50,7 @@ in {
       {
         action = "<Esc>";
         key = ",,";
-        mode = [ "i" ];
+        mode = ["i"];
       }
       # Toggle tagbar
       {
@@ -76,7 +81,7 @@ in {
       diffview.enable = true;
       lualine = {
         enable = true;
-        extensions = [ "fzf" ];
+        extensions = ["fzf"];
       };
       startup = {
         enable = true;

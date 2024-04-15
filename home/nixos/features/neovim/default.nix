@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
-
 {
-  home.packages = with pkgs; [ tree-sitter gcc ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  home.packages = with pkgs; [tree-sitter gcc];
 
   programs.neovim = {
     enable = true;
@@ -9,7 +12,8 @@
     viAlias = true;
     vimAlias = true;
     vimdiffAlias = true;
-    extraConfig = # vim
+    extraConfig =
+      # vim
       ''
         set number                      " Add line numbers
         set autoindent                  " Indent a new line the same amount as the line just typed
@@ -84,7 +88,7 @@
       ];
       terminal = true;
       type = "Application";
-      categories = [ "Utility" "TextEditor" ];
+      categories = ["Utility" "TextEditor"];
     };
   };
 }

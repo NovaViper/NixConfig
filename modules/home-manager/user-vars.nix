@@ -1,14 +1,17 @@
-{ config, lib, pkgs, ... }:
-with lib;
-
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   inherit (lib) mkOption types;
   cfg = config.variables;
   cfgde = config.variables.desktop;
   cfgma = config.variables.machine;
 in {
   imports = [
-    (mkRemovedOptionModule [ "variables" "desktop" "useWayland" ] ''
+    (mkRemovedOptionModule ["variables" "desktop" "useWayland"] ''
       The corresponding option has been removed in favor of using a string option
       type instead of boolean. This is for upcoming Wayland integration from many
       desktop environments. Please use variables.desktop.displayManager to set
@@ -43,7 +46,7 @@ in {
         '';
       };
       displayManager = mkOption {
-        type = with types; nullOr (types.enum [ "wayland" "x11" ]);
+        type = with types; nullOr (types.enum ["wayland" "x11"]);
         default = null;
         example = "wayland";
         description = ''
@@ -55,7 +58,7 @@ in {
     };
     machine = {
       buildType = mkOption {
-        type = with types; nullOr (enum [ "desktop" "laptop" "server" ]);
+        type = with types; nullOr (enum ["desktop" "laptop" "server"]);
         default = null;
         example = "desktop";
         description = ''
@@ -65,7 +68,7 @@ in {
         '';
       };
       gpu = mkOption {
-        type = with types; nullOr (enum [ "nvidia" "intel" "amd" ]);
+        type = with types; nullOr (enum ["nvidia" "intel" "amd"]);
         default = null;
         example = "amd";
         description = ''
@@ -78,14 +81,15 @@ in {
   };
 
   config = mkMerge [
-    (mkIf (cfg.useKonsole) { home.sessionVariables.TERMINAL = "konsole"; })
-    /* (mkIf (cfg.machine.buildType == "desktop") {
-         # KDE specific stuff
-       })
+    (mkIf (cfg.useKonsole) {home.sessionVariables.TERMINAL = "konsole";})
+    /*
+    (mkIf (cfg.machine.buildType == "desktop") {
+      # KDE specific stuff
+    })
 
-       (mkIf (cfg.machine.buildType == "laptop") {
-         # Specifc stuff
-       })
+    (mkIf (cfg.machine.buildType == "laptop") {
+      # Specifc stuff
+    })
     */
   ];
 }

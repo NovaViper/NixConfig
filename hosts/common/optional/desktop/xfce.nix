@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
-
 {
-  imports = [ ./common ./displayManager/x11.nix ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  imports = [./common ./displayManager/x11.nix];
 
   # Special Variables
   variables.desktop.environment = "xfce";

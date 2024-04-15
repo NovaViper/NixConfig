@@ -1,7 +1,13 @@
-{ config, lib, pkgs, inputs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: let
   # This is needed for the IR emitter driver!
-  ir-config = pkgs.writeText
+  ir-config =
+    pkgs.writeText
     "pci-0000:00:14.0-usb-0:6:1.2-video-index0_emitter0.driver" ''
       device=/dev/v4l/by-path/pci-0000:00:14.0-usb-0:6:1.2-video-index0
       unit=7
@@ -95,13 +101,14 @@ in {
 
     # Fingerprint reader: login and unlock with fingerprint (if you add one with `fprintd-enroll`)
     # The driver doesn't work so far
-    /* fprintd = {
-         enable = true;
-         tod = {
-           enable = true;
-           driver = pkgs.libfprint-2-tod1-goodix;
-         };
-       };
+    /*
+    fprintd = {
+      enable = true;
+      tod = {
+        enable = true;
+        driver = pkgs.libfprint-2-tod1-goodix;
+      };
+    };
     */
 
     # Set IR blaster device
@@ -119,7 +126,6 @@ in {
         ignore_closed_lid = true;
       };
     };
-
   };
 
   # Apply configs

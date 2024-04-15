@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
-
 {
-  home.packages = with pkgs; [ cider ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  home.packages = with pkgs; [cider];
 
   xdg.mimeApps = {
     associations = {

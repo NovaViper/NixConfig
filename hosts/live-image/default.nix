@@ -1,4 +1,12 @@
-{ pkgs, modulesPath, lib, config, outputs, inputs, ... }: {
+{
+  pkgs,
+  modulesPath,
+  lib,
+  config,
+  outputs,
+  inputs,
+  ...
+}: {
   imports = [
     ../common/global
     ../common/users/nixos
@@ -12,8 +20,7 @@
 
   # Theming with Stylix
   stylix = {
-    image =
-      "${pkgs.kdePackages.breeze}/share/wallpapers/Next/contents/images/1920x1200.png";
+    image = "${pkgs.kdePackages.breeze}/share/wallpapers/Next/contents/images/1920x1200.png";
     polarity = "dark";
     cursor = {
       name = "breeze_cursors";
@@ -53,7 +60,7 @@
   };
 
   # Load nvidia and other drivers for Xorg and Wayland
-  services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
+  services.xserver.videoDrivers = ["nvidia" "modesetting" "fbdev"];
 
   hardware.nvidia = {
     modesetting.enable = true;

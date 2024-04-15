@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   services = {
     # Enable the X11 windowing system.
     xserver = {
@@ -17,7 +20,7 @@
       libinput.enable = true;
 
       # Remove xterm terminal
-      excludePackages = with pkgs; [ xterm ];
+      excludePackages = with pkgs; [xterm];
     };
   };
 

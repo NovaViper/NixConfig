@@ -1,10 +1,12 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   # Theming with Stylix
   stylix = {
-    image =
-      "${pkgs.kdePackages.breeze}/share/wallpapers/Next/contents/images/1920x1200.png";
+    image = "${pkgs.kdePackages.breeze}/share/wallpapers/Next/contents/images/1920x1200.png";
     polarity = "dark";
     cursor = {
       name = "breeze_cursors";

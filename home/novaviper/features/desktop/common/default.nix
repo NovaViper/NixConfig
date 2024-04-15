@@ -1,6 +1,10 @@
-{ lib, pkgs, outputs, config, ... }:
-
 {
+  lib,
+  pkgs,
+  outputs,
+  config,
+  ...
+}: {
   imports = [
     ./gtk.nix
     ./qt.nix

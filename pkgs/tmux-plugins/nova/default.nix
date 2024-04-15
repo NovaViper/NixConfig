@@ -1,5 +1,7 @@
-{ tmuxPlugins, fetchFromGitHub }:
-
+{
+  tmuxPlugins,
+  fetchFromGitHub,
+}:
 tmuxPlugins.mkTmuxPlugin {
   pluginName = "tmux-nova";
   rtpFilePath = "nova.tmux";

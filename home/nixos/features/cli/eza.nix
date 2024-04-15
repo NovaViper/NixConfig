@@ -1,10 +1,13 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   programs.eza = {
     enable = true;
     git = true;
     icons = true;
-    extraOptions = [ "--color=always" ];
+    extraOptions = ["--color=always"];
   };
 }

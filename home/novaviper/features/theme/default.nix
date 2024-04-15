@@ -1,8 +1,13 @@
-{ config, lib, pkgs, inputs, ... }:
-with lib;
-let c = config.lib.stylix.colors.withHashtag;
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+with lib; let
+  c = config.lib.stylix.colors.withHashtag;
 in {
-
   stylix = {
     autoEnable = true;
     image = "${inputs.wallpapers}/purple-mountains-ai.png";
@@ -73,23 +78,24 @@ in {
 
   # KDE Theming
   programs = {
-    /* plasma = {
-         workspace = {
-           #wallpaper = "";
-           #lookAndFeel = "${config.theme.name}";
-           lookAndFeel = "org.kde.breezedark.desktop";
-           cursorTheme = "${config.theme.cursorTheme.name}";
-           iconTheme = "${config.theme.iconTheme.name}";
-           colorScheme = "DraculaPurple";
-           theme = "default";
-         };
-         configFile = {
-           "gtk-3.0/settings.ini"."Settings"."gtk-theme-name".value =
-             "${config.theme.name}";
-           "gtk-4.0/settings.ini"."Settings"."gtk-theme-name".value =
-             "${config.theme.name}";
-         };
-       };
+    /*
+    plasma = {
+      workspace = {
+        #wallpaper = "";
+        #lookAndFeel = "${config.theme.name}";
+        lookAndFeel = "org.kde.breezedark.desktop";
+        cursorTheme = "${config.theme.cursorTheme.name}";
+        iconTheme = "${config.theme.iconTheme.name}";
+        colorScheme = "DraculaPurple";
+        theme = "default";
+      };
+      configFile = {
+        "gtk-3.0/settings.ini"."Settings"."gtk-theme-name".value =
+          "${config.theme.name}";
+        "gtk-4.0/settings.ini"."Settings"."gtk-theme-name".value =
+          "${config.theme.name}";
+      };
+    };
     */
     zsh.syntaxHighlighting.styles = {
       ## General

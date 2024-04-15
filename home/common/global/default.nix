@@ -1,12 +1,19 @@
-{ inputs, outputs, config, lib, pkgs, ... }:
+{
+  inputs,
+  outputs,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib; {
-
   imports = with inputs;
     [
       stylix.homeManagerModules.stylix
       plasma-manager.homeManagerModules.plasma-manager
       nixvim.homeManagerModules.nixvim
-    ] ++ (builtins.attrValues outputs.homeManagerModules);
+    ]
+    ++ (builtins.attrValues outputs.homeManagerModules);
 
   nixpkgs = {
     overlays = builtins.attrValues outputs.overlays;
@@ -16,7 +23,7 @@ with lib; {
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
-      experimental-features = [ "nix-command" "flakes" "repl-flake" ];
+      experimental-features = ["nix-command" "flakes" "repl-flake"];
       warn-dirty = false;
     };
   };

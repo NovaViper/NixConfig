@@ -1,7 +1,10 @@
-{ config, lib, pkgs, ... }:
-
 {
-  environment.systemPackages = with pkgs; [ appimage-run ];
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  environment.systemPackages = with pkgs; [appimage-run];
 
   # Register AppImage files as a binary type to binfmt_misc, allowing them to be invoked directly
   boot.binfmt.registrations.appimage = {

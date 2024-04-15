@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   # Enable dconf (System Management Tool)
   #programs.dconf.enable = true;
 
@@ -24,7 +27,7 @@
         swtpm.enable = true;
         ovmf = {
           enable = true;
-          packages = with pkgs; [ OVMFFull.fd ];
+          packages = with pkgs; [OVMFFull.fd];
         };
       };
     };

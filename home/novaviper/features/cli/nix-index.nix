@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   programs.nix-index.enable = true;
 
   systemd.user.services.nix-index-database-sync = {
@@ -7,7 +12,7 @@
       Type = "oneshot";
       ExecStart = lib.getExe (pkgs.writeShellApplication {
         name = "fetch-nix-index-database";
-        runtimeInputs = with pkgs; [ wget coreutils ];
+        runtimeInputs = with pkgs; [wget coreutils];
         text = ''
           mkdir -p ~/.cache/nix-index
           cd ~/.cache/nix-index
@@ -26,6 +31,6 @@
       OnBootSec = "10m";
       OnUnitActiveSec = "24h";
     };
-    Install.WantedBy = [ "timers.target" ];
+    Install.WantedBy = ["timers.target"];
   };
 }

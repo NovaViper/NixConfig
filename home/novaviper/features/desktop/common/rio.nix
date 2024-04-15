@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   xdg = {
     mimeApps = {
       associations = {
@@ -132,12 +135,14 @@
       #
       # Example:
       window = {
-        width = if (config.variables.machine.buildType == "laptop") then
-          1000
-        else
-          1200;
+        width =
+          if (config.variables.machine.buildType == "laptop")
+          then 1000
+          else 1200;
         height =
-          if (config.variables.machine.buildType == "laptop") then 600 else 800;
+          if (config.variables.machine.buildType == "laptop")
+          then 600
+          else 800;
         mode = "Windowed";
         foreground-opacity = 1.0;
         background-opacity = 0.6;
@@ -258,12 +263,13 @@
       # "color-automation" - Set a specific color for the tab whenever a specific program is running, or in a specific directory.
       #
       # Example:
-      /* navigation = {
-           mode = "BottomTab";
-           clickable = true;
-           use-current-path = true;
-           color-automation = [ ];
-         };
+      /*
+      navigation = {
+        mode = "BottomTab";
+        clickable = true;
+        use-current-path = true;
+        color-automation = [ ];
+      };
       */
       navigation.mode = "Plain";
 
@@ -329,20 +335,21 @@
       # More information in: raphamorim.io/rio/docs/custom-key-bindings
       #
       # Example:
-      /* bindings = {
-           keys = [{
-             key = "q";
-             "with" = "control | shift";
-             action = "Quit";
-           }
-           # Bytes[27 91 53 126] is equivalent to "\x1b[5~"
-           #     {
-           #       key = "home";
-           #       "with" = "super | shift";
-           #       bytes = [ 27 91 53 126 ];
-           #     }
-             ];
-         };
+      /*
+      bindings = {
+        keys = [{
+          key = "q";
+          "with" = "control | shift";
+          action = "Quit";
+        }
+        # Bytes[27 91 53 126] is equivalent to "\x1b[5~"
+        #     {
+        #       key = "home";
+        #       "with" = "super | shift";
+        #       bytes = [ 27 91 53 126 ];
+        #     }
+          ];
+      };
       */
 
       # Log level

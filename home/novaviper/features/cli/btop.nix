@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   programs.btop = {
     enable = true;
     settings = {
@@ -22,8 +25,7 @@
       #* Format: "box_name:P:G,box_name:P:G" P=(0 or 1) for alternate positions, G=graph symbol to use for box.
       #* Use whitespace " " as separator between different presets.
       #* Example: "cpu:0:default,mem:0:tty,proc:1:default cpu:0:braille,proc:0:tty"
-      presets =
-        "cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default cpu:0:block,net:0:tty";
+      presets = "cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default cpu:0:block,net:0:tty";
 
       #* Set to True to enable "h,j,k,l,g,G" keys for directional control in lists.
       #* Conflicting keys for h:"help" and k:"kill" is accessible while holding shift.
@@ -215,7 +217,6 @@
       #* Set loglevel for "~/.config/btop/btop.log" levels are: "ERROR" "WARNING" "INFO" "DEBUG".
       #* The level set includes all lower levels, i.e. "DEBUG" will show all logging info.
       log_level = "WARNING ";
-
     };
   };
 }

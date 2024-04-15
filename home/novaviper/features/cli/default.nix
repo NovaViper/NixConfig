@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   imports = [
     ./atuin.nix
     ./bat.nix
@@ -33,6 +36,7 @@
 
     # Nix Tools
     alejandra # Nix formatter
+    nixfmt
     nvd # Differ
     nix-output-monitor
     nh # Nice wrapper for NixOS and HM

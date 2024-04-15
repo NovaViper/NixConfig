@@ -1,5 +1,3 @@
-{ pkgs, ... }:
-
-{
-  nova = pkgs.callPackage ./nova { };
+{pkgs, ...}: {
+  nova = pkgs.callPackage ./nova {};
 }

@@ -1,6 +1,10 @@
-{ config, lib, pkgs, ... }:
-with lib;
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
   inherit (lib) mkOption types;
   cfg = config.theme;
   cfgapp = cfg.app;
@@ -19,8 +23,7 @@ let
         type = with types; str;
         default = "";
         example = "Papirus-Dark";
-        description =
-          "The symbolic name of the theme within the package without any spaces.";
+        description = "The symbolic name of the theme within the package without any spaces.";
       };
     };
   };
@@ -39,7 +42,6 @@ let
       };
     };
   };
-
 in {
   options.theme = {
     package = mkOption {
@@ -60,17 +62,16 @@ in {
       type = with types; str;
       default = "";
       example = "dracula";
-      description =
-        "The symbolic name of the theme within the package without any spaces.";
+      description = "The symbolic name of the theme within the package without any spaces.";
     };
     iconTheme = mkOption {
       type = types.nullOr iconThemeModule;
-      default = { };
+      default = {};
       description = "Icon configuration options.";
     };
     app = mkOption {
       type = types.nullOr appModule;
-      default = { };
+      default = {};
       description = "App theme configuration options.";
     };
   };
@@ -78,10 +79,12 @@ in {
   config = mkIf (cfg != null) (mkMerge [
     # Configure rio
     (mkIf (cfgapp != null && config.programs.rio.enable) {
-      xdg.configFile."rio/themes/${cfgapp.rio.name}.toml".source = fetchGit {
-        url = "https://github.com/raphamorim/rio-terminal-themes";
-        rev = "9d76eb416c1cc46f959f236fdfa5479a19c0a070";
-      } + "/themes/${cfgapp.rio.name}.toml";
+      xdg.configFile."rio/themes/${cfgapp.rio.name}.toml".source =
+        fetchGit {
+          url = "https://github.com/raphamorim/rio-terminal-themes";
+          rev = "9d76eb416c1cc46f959f236fdfa5479a19c0a070";
+        }
+        + "/themes/${cfgapp.rio.name}.toml";
       programs.rio.settings = mkBefore {
         # It makes Rio look for the specified theme in the themes folder
         # (macos and linux: ~/.config/rio/themes/dracula.toml)
@@ -100,10 +103,9 @@ in {
     })
 
     # Install the packages
-    ({
-      home.packages = with pkgs;
-        (mkMerge
-          [ (mkIf (cfg.iconTheme.package != null) [ cfg.iconTheme.package ]) ]);
-    })
+    {
+      home.packages = with pkgs; (mkMerge
+        [(mkIf (cfg.iconTheme.package != null) [cfg.iconTheme.package])]);
+    }
   ]);
 }

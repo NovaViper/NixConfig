@@ -1,17 +1,24 @@
-{ inputs, config, pkgs, ... }:
-let
+{
+  inputs,
+  config,
+  pkgs,
+  ...
+}: let
   desktop = config.variables.desktop.environment;
 
-  pinentry = if (desktop == "kde") then {
-    pkg = pkgs.pinentry-qt;
-  } else if (desktop == "xfce") then {
-    pkg = pkgs.pinentry-gnome;
-  } else {
-    pkg = pkgs.pinentry-curses;
-  };
-
+  pinentry =
+    if (desktop == "kde")
+    then {
+      pkg = pkgs.pinentry-qt;
+    }
+    else if (desktop == "xfce")
+    then {
+      pkg = pkgs.pinentry-gnome;
+    }
+    else {
+      pkg = pkgs.pinentry-curses;
+    };
 in {
-
   # Make gpg use pinentry
   services.gpg-agent = {
     enable = true;

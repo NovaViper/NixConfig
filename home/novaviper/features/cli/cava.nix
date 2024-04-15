@@ -1,5 +1,10 @@
-{ config, lib, pkgs, ... }:
-let c = config.lib.stylix.colors.withHashtag;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
+  c = config.lib.stylix.colors.withHashtag;
 in {
   programs.cava = {
     enable = true;

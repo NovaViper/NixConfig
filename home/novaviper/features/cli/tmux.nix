@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: let
   cfg = config.programs.tmux;
   c = config.lib.stylix.colors.withHashtag;
 in {
-
   xdg.configFile = {
     "tmuxp/session.yaml".source = ../../dots/tmuxp/session.yaml;
   };
@@ -112,14 +115,18 @@ in {
         bind -N "Toggle between current and previous session" C-Space switch-client -l
         bind -N "Jump to marked session" \` switch-client -t'{marked}'
         unbind &
-        ${if cfg.disableConfirmationPrompt then ''
-          bind -N "Kill the active pane" x kill-pane
-          bind -N "Kill the current window" X kill-window
-          bind -N "Kill the current session" C-x kill-session
-        '' else ''
-          bind -N "Kill the current window" X confirm-before -p "kill-window #W? (y/n)" kill-window
-          bind -N "Kill the current session" C-x confirm-before -p "kill-session #W? (y/n)" kill-session
-        ''}
+        ${
+          if cfg.disableConfirmationPrompt
+          then ''
+            bind -N "Kill the active pane" x kill-pane
+            bind -N "Kill the current window" X kill-window
+            bind -N "Kill the current session" C-x kill-session
+          ''
+          else ''
+            bind -N "Kill the current window" X confirm-before -p "kill-window #W? (y/n)" kill-window
+            bind -N "Kill the current session" C-x confirm-before -p "kill-session #W? (y/n)" kill-session
+          ''
+        }
 
         #Example
         #bind -N "Example note" h split-window -h "vim ~/scratch/notes.md"
@@ -183,7 +190,9 @@ in {
             set -g @nova-segment-ram-colors "${c.base0F} ${c.base00}"
 
             set -g @nova-segment-time "#(date +'%a %m/%d ${
-              if cfg.clock24 then "%H:%M" else "%I:%M %p"
+              if cfg.clock24
+              then "%H:%M"
+              else "%I:%M %p"
             }') #(date +%Z)"
             set -g @nova-segment-time-colors "${c.base03} ${c.base05}"
 

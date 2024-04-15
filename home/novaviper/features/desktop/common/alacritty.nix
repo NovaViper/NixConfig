@@ -1,6 +1,8 @@
-{ config, pkgs, ... }:
-
 {
+  config,
+  pkgs,
+  ...
+}: {
   xdg = {
     mimeApps = {
       associations = {
@@ -221,15 +223,16 @@
       # Live config reload (changes require restart)
       live_config_reload = true;
 
-      /* shell = {
-           #program = "${pkgs.zsh}/bin/zsh";
-           args = [
-             "--login"
-             #"-c"
-             #"${pkgs.tmux}/bin/tmux attach || ${pkgs.tmuxp}/bin/tmuxp load ~/.config/tmuxp/session.yaml"
-             #"tmux attach || tmux"
-           ];
-         };
+      /*
+      shell = {
+        #program = "${pkgs.zsh}/bin/zsh";
+        args = [
+          "--login"
+          #"-c"
+          #"${pkgs.tmux}/bin/tmux attach || ${pkgs.tmuxp}/bin/tmuxp load ~/.config/tmuxp/session.yaml"
+          #"tmux attach || tmux"
+        ];
+      };
       */
 
       # Startup directory

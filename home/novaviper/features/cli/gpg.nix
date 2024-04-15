@@ -1,17 +1,24 @@
-{ inputs, config, pkgs, ... }:
-let
+{
+  inputs,
+  config,
+  pkgs,
+  ...
+}: let
   desktop = config.variables.desktop.environment;
 
-  pinentry = if (desktop == "kde") then {
-    pkg = pkgs.pinentry-qt;
-  } else if (desktop == "xfce") then {
-    pkg = pkgs.pinentry-gnome;
-  } else {
-    pkg = pkgs.pinentry-curses;
-  };
-
+  pinentry =
+    if (desktop == "kde")
+    then {
+      pkg = pkgs.pinentry-qt;
+    }
+    else if (desktop == "xfce")
+    then {
+      pkg = pkgs.pinentry-gnome;
+    }
+    else {
+      pkg = pkgs.pinentry-curses;
+    };
 in {
-
   # Make gpg use pinentry
   services.gpg-agent = {
     enable = true;
@@ -37,20 +44,21 @@ in {
     };
   };
 
-  /* systemd.user.services = {
-       # Link /run/user/$UID/gnupg to ~/.gnupg-sockets
-       # So that SSH config does not have to know the UID
-       link-gnupg-sockets = {
-         Unit = { Description = "link gnupg sockets from /run to /home"; };
-         Service = {
-           Type = "oneshot";
-           ExecStart =
-             "${pkgs.coreutils}/bin/ln -Tfs /run/user/%U/gnupg %h/.gnupg-sockets";
-           ExecStop = "${pkgs.coreutils}/bin/rm $HOME/.gnupg-sockets";
-           RemainAfterExit = true;
-         };
-         Install.WantedBy = [ "default.target" ];
-       };
-     };
+  /*
+  systemd.user.services = {
+    # Link /run/user/$UID/gnupg to ~/.gnupg-sockets
+    # So that SSH config does not have to know the UID
+    link-gnupg-sockets = {
+      Unit = { Description = "link gnupg sockets from /run to /home"; };
+      Service = {
+        Type = "oneshot";
+        ExecStart =
+          "${pkgs.coreutils}/bin/ln -Tfs /run/user/%U/gnupg %h/.gnupg-sockets";
+        ExecStop = "${pkgs.coreutils}/bin/rm $HOME/.gnupg-sockets";
+        RemainAfterExit = true;
+      };
+      Install.WantedBy = [ "default.target" ];
+    };
+  };
   */
 }

@@ -1,5 +1,10 @@
-{ config, lib, inputs, pkgs, ... }:
-let
+{
+  config,
+  lib,
+  inputs,
+  pkgs,
+  ...
+}: let
   DISK = "/dev/disk/by-id/nvme-WD_PC_SN740_SDDPMQD-512G-1101_22452M447518";
   SWAP_PATH = "/swapfile";
   SWAP_SIZE = "16";
@@ -37,7 +42,6 @@ let
     echo BOOT_PART = ''${DISKID[1]}
   '';
 in {
-
   config.environment.systemPackages = [
     config.disks-create
     config.disks-format
@@ -52,8 +56,7 @@ in {
       default = with pkgs;
         symlinkJoin {
           name = "disks-create";
-          paths =
-            [ (writeScriptBin default.name partitionsCreateScript) gptfdisk ];
+          paths = [(writeScriptBin default.name partitionsCreateScript) gptfdisk];
         };
     };
 
@@ -94,7 +97,7 @@ in {
       default = with pkgs;
         symlinkJoin {
           name = "disks-retrieve";
-          paths = [ (writeScriptBin default.name retrieveDiskID) ];
+          paths = [(writeScriptBin default.name retrieveDiskID)];
         };
     };
 
@@ -104,8 +107,7 @@ in {
       default = with pkgs;
         symlinkJoin {
           name = "create-swapfile";
-          paths =
-            [ (writeScriptBin default.name swapfileCreateScript) e2fsprogs ];
+          paths = [(writeScriptBin default.name swapfileCreateScript) e2fsprogs];
         };
     };
 }
