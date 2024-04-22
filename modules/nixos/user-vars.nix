@@ -131,12 +131,11 @@ in {
         else [];
     })
     {
-      services.xserver = mkMerge [
+      services = mkMerge [
         # Enable Wacom touch drivers
         (mkIf (cfgma.buildType == "laptop") {
-          wacom.enable = mkDefault config.services.xserver.enable;
+          xserver.wacom.enable = mkDefault config.services.xserver.enable;
         })
-
         {
           displayManager = mkIf (cfgde.environment == "kde") (mkMerge [
             # Make SDDM use Wayland when wanting to run Wayland as the display manager reguardless of which KDE version

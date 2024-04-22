@@ -84,7 +84,7 @@ in {
 
   ### Special Variables
   variables.useVR = false;
-  variables.useKonsole = false;
+  variables.useKonsole = true;
   variables.desktop.displayManager = "wayland";
   variables.machine.motherboard = "intel";
   variables.machine.buildType = "laptop";

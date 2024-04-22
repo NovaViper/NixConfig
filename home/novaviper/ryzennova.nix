@@ -16,7 +16,7 @@
 
   ### Special Variables
   variables.useVR = true;
-  variables.useKonsole = false;
+  variables.useKonsole = true;
   variables.machine.gpu = "nvidia";
   variables.desktop.displayManager = "wayland";
   #variables.machine.motherboard = "amd";

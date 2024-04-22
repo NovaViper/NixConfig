@@ -4,15 +4,13 @@
   lib,
   ...
 }:
-with lib; {
+with lib; let
+  utils = import ../../../lib/utils.nix {inherit config pkgs;};
+in {
   xdg.configFile = {
-    "zsh/.p10k.zsh".source =
-      config.lib.file.mkOutOfStoreSymlink
-      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/zsh/.p10k.zsh";
+    "zsh/.p10k.zsh".source = utils.linkDots "zsh/.p10k.zsh";
     "zsh/functions" = {
-      source =
-        config.lib.file.mkOutOfStoreSymlink
-        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/zsh/functions";
+      source = utils.linkDots "zsh/functions";
       recursive = true;
     };
   };

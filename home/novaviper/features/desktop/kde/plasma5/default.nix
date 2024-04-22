@@ -4,7 +4,9 @@
   pkgs,
   ...
 }:
-with lib; {
+with lib; let
+  utils = import ../../../../../lib/utils.nix {inherit config pkgs;};
+in {
   imports = [../common.nix];
 
   xdg = {
@@ -14,10 +16,10 @@ with lib; {
         mkDefault [libsForQt5.xdg-desktop-portal-kde];
     };
     # Dolphin settings
-    dataFile."kxmlgui5/dolphin/dolphinui.rc".source =
-      config.lib.file.mkOutOfStoreSymlink
-      "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
+    dataFile."kxmlgui5/dolphin/dolphinui.rc".source = utils.linkDots "dolphin/dolphinui.rc";
   };
+
+  services.kdeconnect.package = pkgs.libsForQt5.kdeconnect-kde;
 
   programs.firefox.nativeMessagingHosts = with pkgs; [plasma5Packages.plasma-browser-integration];
 }

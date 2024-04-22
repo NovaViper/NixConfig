@@ -16,7 +16,7 @@
 
     # Browser
     ./firefox.nix
-    ./vivaldi.nix
+    #./vivaldi.nix
 
     # Backup solutions
     ./backup.nix
@@ -25,7 +25,7 @@
     #./alacritty.nix
     #./wezterm.nix
     #./rio.nix
-    ./kitty.nix
+    #./kitty.nix
   ];
 
   fonts.fontconfig.enable = true;

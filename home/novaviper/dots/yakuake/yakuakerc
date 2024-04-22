@@ -6,4 +6,5 @@ TerminalHighlightOnManualActivation=true
 FirstRun=false
 
 [Window]
+KeepOpen=false
 ToggleToFocus=true

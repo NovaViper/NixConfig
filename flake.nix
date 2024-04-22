@@ -76,7 +76,7 @@
     devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs;});
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forEachSystem (pkgs: pkgs.nixpkgs-fmt);
+    formatter = forEachSystem (pkgs: pkgs.alejandra);
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
@@ -91,6 +91,7 @@
         modules = [./hosts/yoganova];
         specialArgs = {inherit inputs outputs;};
       };
+      # Live image
       live-image = lib.nixosSystem {
         modules = [./hosts/live-image];
         specialArgs = {inherit inputs outputs;};

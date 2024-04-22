@@ -4,10 +4,23 @@
   pkgs,
   ...
 }: let
+  utils = import ../../../lib/utils.nix {inherit config pkgs;};
   pack =
     if (config.variables.desktop.displayManager == "wayland")
     then pkgs.emacs29-pgtk
     else pkgs.emacs29;
+  emacsOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.applications * 100));
+  f = config.stylix.fonts;
+  fSize =
+    if (config.variables.machine.buildType == "desktop")
+    then {
+      standard = 14;
+      big = 16;
+    }
+    else {
+      standard = 16;
+      big = 24;
+    };
 in {
   services.emacs = {
     enable = true;
@@ -31,22 +44,37 @@ in {
   xdg = {
     configFile = {
       # Doom Emacs
-      "doom" = {
-        source =
-          config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/doom";
-        recursive = true;
-        /*
-        onChange = "${pkgs.writeShellScript "doom-change" ''
-          export DOOM="${config.home.sessionVariables.EMDOTDIR}"
-          if [ ! -d "$DOOM" ]; then
-            ${pkgs.git}/bin/git clone https://github.com/hlissner/doom-emacs.git $DOOM
-            ${pkgs.gnused}/bin/sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" $DOOM/bin/org-tangle
-          fi
-        ''}";
-        */
+      "doom/system-vars.el".text = ''
+        ;;; ~/.config/emacs/config.el -*- lexical-binding: t; -*-
+
+        ;; Import relevant variables from flake into emacs
+
+        (setq user-emacs-directory "${config.home.sessionVariables.EMDOTDIR}" ; Path to emacs config folder
+              user-full-name "Nova Leary" ; Name
+              user-username "${config.home.username}" ; username
+              user-mail-address "coder.nova99@mailbox.org'" ; email
+              mail_directory "${config.xdg.dataHome}" ; Path to mail directory (for mu4e)
+
+              ; Setup Fonts from Stylix
+              doom-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 3)})
+              doom-variable-pitch-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 3)})
+              doom-big-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 5)})
+              doom-symbol-font (font-spec :family "${f.emoji.name}")
+        )
+
+        ;; set opacity from stylix
+        (set-frame-parameter nil 'alpha-background ${emacsOpacity})
+        (add-to-list 'default-frame-alist '(alpha-background . ${emacsOpacity}))
+      '';
+      "doom/themes/doom-stylix-theme.el".source = config.lib.stylix.colors {
+        template = builtins.readFile ./doom-stylix-theme.el.mustache;
+        extension = ".el";
       };
-      #"doom/yasnippets/.keep".source = builtins.toFile "keep" "";
+      "doom/config.org".source = utils.linkDots "doom/config.org";
+      "doom/config.el".source = utils.linkDots "doom/config.el";
+      "doom/packages.el".source = utils.linkDots "doom/packages.el";
+      "doom/init.el".source = utils.linkDots "doom/init.el";
+      "doom/snippets/.keep".source = builtins.toFile "keep" "";
     };
 
     mimeApps = {
@@ -87,14 +115,14 @@ in {
       gnutls
       emacs-all-the-icons-fonts
 
-      #Optional
+      # Optional
       fd
       imagemagick
       pinentry-emacs
       zstd
       coreutils
 
-      #Modules
+      # Modules
       # :editor format
       clang-tools
       nodePackages.prettier
@@ -103,8 +131,12 @@ in {
       texlive.combined.scheme-medium
       shfmt
 
-      #: editor parinfer
-      parinfer-rust
+      # :editor parinfer
+      #parinfer-rust
+
+      # :term vterm
+      cmake
+      gnumake
 
       # :checkers spell
       (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
@@ -146,6 +178,9 @@ in {
       proselint
       pandoc
       grip
+
+      # :lang nix
+      nil
 
       # :lang org
       maim

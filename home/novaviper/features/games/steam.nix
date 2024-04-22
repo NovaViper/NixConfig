@@ -3,7 +3,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  utils = import ../../../lib/utils.nix {inherit config pkgs;};
+in {
   home.packages = with pkgs; [protontricks keyutils goverlay ludusavi];
 
   home.sessionVariables.ICED_BACKEND = "tiny-skia";
@@ -15,9 +17,7 @@
     };
 
     configFile."alvr/session.json" = lib.mkIf (config.variables.useVR) {
-      source =
-        config.lib.file.mkOutOfStoreSymlink
-        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/alvr/session.json";
+      source = utils.linkDots "alvr/session.json";
     };
 
     desktopEntries = lib.mkMerge [

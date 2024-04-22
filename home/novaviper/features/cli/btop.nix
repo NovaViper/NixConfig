@@ -12,7 +12,7 @@
       #* Name of a btop++/bpytop/bashtop formatted ".theme" file, "Default" and "TTY" for builtin themes.
 
       #* If the theme set background should be shown, set to False if you want terminal background transparency.
-      theme_background = true;
+      #theme_background = true;
 
       #* Sets if 24-bit truecolor should be used, will convert 24-bit colors to 256 color (6x6x6 color cube) if false.
       truecolor = true;

@@ -20,7 +20,8 @@ in {
     in
       if legacyPackages != {}
       then legacyPackages
-      else packages) inputs;
+      else packages)
+    inputs;
   };
 
   # This one brings our custom packages from the 'pkgs' directory

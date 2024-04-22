@@ -40,19 +40,6 @@ in {
         "4" = 1;
         "5" = 1;
       };
-
-      color = {
-        gradient = 1;
-        gradient_count = 8;
-        gradient_color_1 = "'${c.base0C}'";
-        gradient_color_2 = "'${c.base0D}'";
-        gradient_color_3 = "'${c.base07}'";
-        gradient_color_4 = "'${c.base0D}'";
-        gradient_color_5 = "'${c.base0E}'";
-        gradient_color_6 = "'${c.base0F}'";
-        gradient_color_7 = "'${c.base0F}'";
-        gradient_color_8 = "'${c.base08}'";
-      };
     };
   };
 }

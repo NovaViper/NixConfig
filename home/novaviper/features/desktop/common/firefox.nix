@@ -16,7 +16,7 @@
 
   programs.firefox = {
     enable = true;
-    nativeMessagingHosts = with pkgs; [fx-cast-bridge keepassxc];
+    nativeMessagingHosts = with pkgs; [fx-cast-bridge];
     profiles.novaviper = {
       extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin

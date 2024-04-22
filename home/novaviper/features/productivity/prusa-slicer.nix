@@ -3,7 +3,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  utils = import ../../../lib/utils.nix {inherit config pkgs;};
+in {
   xdg = {
     mimeApps = {
       associations = {
@@ -20,33 +22,23 @@
 
     configFile = {
       "PrusaSlicer/printer" = {
-        source =
-          config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/PrusaSlicer/printer";
+        source = utils.linkDots "PrusaSlicer/printer";
         recursive = true;
       };
       "PrusaSlicer/print" = {
-        source =
-          config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/PrusaSlicer/print";
+        source = utils.linkDots "PrusaSlicer/print";
         recursive = true;
       };
       "PrusaSlicer/physical_printer" = {
-        source =
-          config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/PrusaSlicer/physical_printer";
+        source = utils.linkDots "PrusaSlicer/physical_printer";
         recursive = true;
       };
       "PrusaSlicer/filament" = {
-        source =
-          config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/PrusaSlicer/filament";
+        source = utils.linkDots "PrusaSlicer/filament";
         recursive = true;
       };
       "PrusaSlicer/bed_models" = {
-        source =
-          config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/PrusaSlicer/bed_models";
+        source = utils.linkDots "PrusaSlicer/bed_models";
         recursive = true;
       };
     };

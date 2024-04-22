@@ -3,20 +3,16 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  utils = import ../../../lib/utils.nix {inherit config pkgs;};
+in {
   xdg = {
     configFile = {
-      "wezterm/keybinds.lua".source =
-        config.lib.file.mkOutOfStoreSymlink
-        "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/keybinds.lua";
+      "wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";
       "wezterm/on.lua".source =
         if (config.programs.tmux.enable)
-        then
-          (config.lib.file.mkOutOfStoreSymlink
-            "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/on-tmux.lua")
-        else
-          (config.lib.file.mkOutOfStoreSymlink
-            "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/wezterm/on.lua");
+        then (utils.linkDots "wezterm/on-tmux.lua")
+        else (utils.linkDots "wezterm/on.lua");
     };
     mimeApps = {
       associations = {

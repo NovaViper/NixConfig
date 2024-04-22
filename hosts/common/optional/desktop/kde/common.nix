@@ -10,10 +10,6 @@ with lib; let
   f = config.stylix.fonts;
   desktopX = config.services.xserver.desktopManager;
   desktopW = config.services.desktopManager;
-  kdeconnect-pkg =
-    if (desktopX.plasma5.enable)
-    then pkgs.plasma5Packages.kdeconnect-kde
-    else pkgs.kdePackages.kdeconnect-kde;
 in {
   imports = [../common ../displayManager/wayland.nix ../displayManager/x11.nix];
 
@@ -21,23 +17,21 @@ in {
   variables.desktop.environment = "kde";
 
   # Enable the KDE's SDDM.
-  services.xserver = {
-    displayManager.sddm = {
-      enable = true;
-      autoNumlock = true;
-      settings = {
-        General.background =
-          mkIf (config.stylix.image != null) "${config.stylix.image}";
-        Theme = {
-          CursorSize = config.stylix.cursor.size;
-          CursorTheme =
-            if (config.stylix.cursor != null)
-            then config.stylix.cursor.name
-            else "breeze_cursors";
-          Font = "${f.sansSerif.name},${
-            toString f.sizes.applications
-          },-1,0,50,0,0,0,0,0";
-        };
+  services.displayManager.sddm = {
+    enable = true;
+    autoNumlock = true;
+    settings = {
+      General.background =
+        mkIf (config.stylix.image != null) "${config.stylix.image}";
+      Theme = {
+        CursorSize = config.stylix.cursor.size;
+        CursorTheme =
+          if (config.stylix.cursor != null)
+          then config.stylix.cursor.name
+          else "breeze_cursors";
+        Font = "${f.sansSerif.name},${
+          toString f.sizes.applications
+        },-1,0,50,0,0,0,0,0";
       };
     };
   };
@@ -65,6 +59,7 @@ in {
       ffmpegthumbnailer # for video thumbnails
       linuxquota # for plasma-disks
       inputs.krunner-nix.packages.${pkgs.system}.default # Nix package search for KRunner
+      gnuplot # for krunner to display graphs
     ]
 
     (with libsForQt5;
@@ -106,18 +101,4 @@ in {
         sddm-kcm # Add KCM for sddm
       ])
   ]);
-
-  # Create system services for KDE connect
-  systemd.user.services.kdeconnect = {
-    description = "Adds communication between your desktop and your smartphone";
-    after = ["graphical-session-pre.target"];
-    partOf = ["graphical-session.target"];
-    wantedBy = ["graphical-session.target"];
-
-    serviceConfig = {
-      #Environment = "PATH=${config.home.profileDirectory}/bin";
-      ExecStart = "${kdeconnect-pkg}/libexec/kdeconnectd";
-      Restart = "on-abort";
-    };
-  };
 }

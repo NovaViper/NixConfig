@@ -18,6 +18,7 @@
     ./tmux.nix
     ./topgrade.nix
     ./zsh.nix
+    ./wrappers.nix
   ];
 
   #programs.command-not-found.enable = true;
@@ -37,9 +38,9 @@
     # Nix Tools
     alejandra # Nix formatter
     nvd # Differ
-    nix-output-monitor
+    nix-output-monitor # Monitor Nix compilation
     nh # Nice wrapper for NixOS and HM
-    nixpkgs-review
+    nixpkgs-review # Review nixpkgs
     nix-prefetch-github # Prefetch tool for Github
     nix-init # Automatically create nix packages from URLs
     nix-inspect # View nix configurations

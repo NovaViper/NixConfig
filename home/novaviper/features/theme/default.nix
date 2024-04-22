@@ -45,7 +45,7 @@ in {
       serif = sansSerif;
       monospace = {
         package = pkgs.nerdfonts;
-        name = "Iosevka Nerd Font";
+        name = "0xProto Nerd Font Mono";
       };
       emoji = {
         package = pkgs.noto-fonts-emoji;
@@ -58,10 +58,14 @@ in {
         terminal = 11;
       };
     };
+    opacity = {
+      applications = 1.0;
+      desktop = 1.0;
+      popups = 1.0;
+      terminal = 1.0;
+    };
     targets = {
       kitty.variant256Colors = true;
-      # Not needed because using Doom Emacs
-      emacs.enable = false;
     };
   };
 
@@ -74,6 +78,19 @@ in {
       package = pkgs.papirus-icon-theme;
       name = "Papirus-Dark";
     };
+  };
+
+  programs.cava.settings.color = {
+    gradient = 1;
+    gradient_count = 8;
+    gradient_color_1 = "'#8BE9FD'";
+    gradient_color_2 = "'#9AEDFE'";
+    gradient_color_3 = "'#CAA9FA'";
+    gradient_color_4 = "'#BD93F9'";
+    gradient_color_5 = "'#FF92D0'";
+    gradient_color_6 = "'#FF79C6'";
+    gradient_color_7 = "'#FF6E67'";
+    gradient_color_8 = "'#FF5555'";
   };
 
   # KDE Theming

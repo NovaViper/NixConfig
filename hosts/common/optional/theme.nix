@@ -43,7 +43,7 @@
       serif = sansSerif;
       monospace = {
         package = pkgs.nerdfonts;
-        name = "Iosevka Nerd Font";
+        name = "0xProto Nerd Font Mono";
       };
       emoji = {
         package = pkgs.noto-fonts-emoji;
@@ -55,6 +55,12 @@
         popups = 10;
         terminal = 11;
       };
+    };
+    opacity = {
+      applications = 1.0;
+      desktop = 1.0;
+      popups = 1.0;
+      terminal = 1.0;
     };
   };
 }

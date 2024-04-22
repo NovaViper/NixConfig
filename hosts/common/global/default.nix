@@ -87,5 +87,6 @@
     smartmontools
     openssl
     aha
+    p7zip # For opening 7-zip files
   ];
 }

@@ -3,7 +3,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  utils = import ../../../lib/utils.nix {inherit config pkgs;};
+in {
   programs.topgrade = {
     enable = true;
     settings = {
@@ -16,8 +18,8 @@
         disable = ["nix"]; # Not needed for NixOS
       };
       linux = {
-        nix_arguments = "--flake ${config.home.sessionVariables.FLAKE}";
-        home_manager_arguments = ["--flake" "${config.home.sessionVariables.FLAKE}"];
+        nix_arguments = "--flake ${utils.flakePath}";
+        home_manager_arguments = ["--flake" "${utils.flakePath}"];
       };
       pre_commands = lib.mkIf (config.programs.emacs.enable) {
         "Discard org-bable changes for upgrade" = "git -C ~/.config/emacs reset --hard";

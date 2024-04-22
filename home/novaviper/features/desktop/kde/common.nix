@@ -4,7 +4,9 @@
   lib,
   ...
 }:
-with lib; {
+with lib; let
+  utils = import ../../../../lib/utils.nix {inherit config pkgs;};
+in {
   imports = [../common];
 
   variables.desktop.environment = "kde";
@@ -24,29 +26,21 @@ with lib; {
     configFile = {
       # Yakuake settings
       "yakuakerc" = mkIf config.variables.useKonsole {
-        source =
-          config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/yakuake/yakuakerc";
+        source = utils.linkDots "yakuake/yakuakerc";
       };
     };
 
     dataFile = mkMerge [
-      /*
-      ({
-        # Dolphin settings
-        "kxmlgui5/dolphin/dolphinui.rc".source =
-          config.lib.file.mkOutOfStoreSymlink
-          "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/dolphin/dolphinui.rc";
-      })
-      */
       (mkIf config.variables.useKonsole {
         # Konsole settings
-        "konsole" = {
-          source =
-            config.lib.file.mkOutOfStoreSymlink
-            "${config.home.sessionVariables.FLAKE}/home/novaviper/dots/konsole";
-          recursive = true;
-        };
+        "konsole/DefaultThemed.profile".source = utils.linkDots "konsole/DefaultThemed.profile";
+        "konsole/Dracula.colorscheme".source =
+          fetchGit {
+            url = "https://github.com/dracula/konsole";
+            rev = "030486c75f12853e9d922b59eb37c25aea4f66f4";
+          }
+          + "/Dracula.colorscheme";
+
         # Yakuake settings
         "yakuake/skins/Dracula".source = fetchGit {
           url = "https://github.com/dracula/yakuake";
@@ -56,21 +50,23 @@ with lib; {
     ];
   };
 
+  services.kdeconnect.enable = true;
+
   programs = {
-    /*
     konsole = {
       enable = mkIf (config.variables.useKonsole) true;
       defaultProfile = "DefaultThemed";
-      profiles.DefaultThemed = {
+      /*
+        profiles.DefaultThemed = {
         name = "DefaultThemed";
-        #colorScheme = "";
+        colorScheme = "Dracula";
         font = {
           name = "${config.stylix.fonts.monospace.name}";
           size = config.stylix.fonts.sizes.terminal;
         };
       };
+      */
     };
-    */
     plasma = {
       enable = true;
       workspace.clickItemTo = "select";
