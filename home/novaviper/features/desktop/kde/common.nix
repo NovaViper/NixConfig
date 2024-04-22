@@ -34,18 +34,6 @@ in {
       (mkIf config.variables.useKonsole {
         # Konsole settings
         "konsole/DefaultThemed.profile".source = utils.linkDots "konsole/DefaultThemed.profile";
-        "konsole/Dracula.colorscheme".source =
-          fetchGit {
-            url = "https://github.com/dracula/konsole";
-            rev = "030486c75f12853e9d922b59eb37c25aea4f66f4";
-          }
-          + "/Dracula.colorscheme";
-
-        # Yakuake settings
-        "yakuake/skins/Dracula".source = fetchGit {
-          url = "https://github.com/dracula/yakuake";
-          rev = "591a705898763167dd5aca2289d170f91a85aa56";
-        };
       })
     ];
   };

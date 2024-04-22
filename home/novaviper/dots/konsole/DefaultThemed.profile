@@ -1,7 +1,7 @@
 [Appearance]
-ColorScheme=Dracula
+ColorScheme=Stylix
 EmojiFont=Noto Color Emoji,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
-Font=0xProto Nerd Font,11
+Font=0xProto Nerd Font Mono,11,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 LineSpacing=0
 
 [Cursor Options]
