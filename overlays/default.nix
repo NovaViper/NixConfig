@@ -28,10 +28,8 @@ in {
   additions = final: prev:
     import ../pkgs {pkgs = final;}
     // {
-      #formats = prev.formats // import ../pkgs/formats { pkgs = final; };
-      tmuxPlugins =
-        prev.tmuxPlugins
-        // final.callPackage ../pkgs/tmux-plugins {};
+      #formats = (prev.formats or {}) // import ../pkgs/formats {pkgs = final;};
+      tmuxPlugins = (prev.tmuxPlugins or {}) // import ../pkgs/tmux-plugins {pkgs = final;};
     };
 
   # This one contains whatever you want to overlay
