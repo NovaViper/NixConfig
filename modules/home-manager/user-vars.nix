@@ -81,7 +81,6 @@ in {
   };
 
   config = mkMerge [
-    (mkIf (cfg.useKonsole) {home.sessionVariables.TERMINAL = "konsole";})
     /*
     (mkIf (cfg.machine.buildType == "desktop") {
       # KDE specific stuff

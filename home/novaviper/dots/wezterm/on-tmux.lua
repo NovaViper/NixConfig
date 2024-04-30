@@ -1,6 +1,6 @@
-local wezterm = require("wezterm")
-local mux = wezterm.mux
-local act = wezterm.action
+--local wezterm = require("wezterm")
+--local mux = wezterm.mux
+--local act = wezterm.action
 
 -- Startup
 --[[

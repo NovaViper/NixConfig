@@ -333,7 +333,7 @@ This code is written to ~init.el~ to select which modules to load.
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
-       eshell            ; the elisp shell that works everywhere
+       ;;eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
        vterm             ; the best terminal emulation in Emacs
@@ -344,7 +344,7 @@ This code is written to ~init.el~ to select which modules to load.
        grammar           ; tasing grammar mistake every you make
 
        :tools
-       ;;ansible
+       ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
        (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
@@ -713,13 +713,6 @@ This section contains several important variables for various parts of =org-mode
         org-pretty-entities t
         org-startup-with-inline-images t
         org-image-actual-width '(300)
-        org-emphasis-alist
-                '(("*" (bold :foreground "#ffb86c")) ;Bold
-                  ("/" (italic :foreground "#ff79c6")) ;Italic
-                  ("_" (underline :foreground "#f1fa8c")) ;Underline
-                  ("=" (:background "#44475a" :foreground "#50fa7b")) ;Verbatim
-                  ("~" (:background "#6272a4" :foreground "#8be9fd")) ;Code
-                  ("+" (:strike-through t :foreground "#ff5555"))) ;Strikethrough
 ))
 #+end_src
 *** Disable Electric Mode in Org
@@ -751,47 +744,6 @@ Adds several configurations to customize the fonts and visual appearance of org-
         visual-fill-column-width '(60)))
 ;(setq +zen-window-divider-size 4
 ;      +zen-text-scale 2)
-#+end_src
-
-Makes my fonts larger, depending on what system it's on. The =fonts.el= file automatically picks the specific font layout for each machine. Use the mixed-pitch package to make monospace fonts appear correctly for code blocks, tables and such in Org mode. The ~nova/org-font-setup~ function configures various text faces to tweak the sizes of headings and makes list hyphens with dots.
-#+begin_src emacs-lisp :tangle no
-(add-hook! 'org-mode-hook #'mixed-pitch-mode)
-;(add-hook! 'org-mode-hook #'solaire-mode)
-;(setq mixed-pitch-set-height t)
-
-;; (defun nova/org-font-setup ()
-;;   ;; Replace list hyphen with dot
-;;   (font-lock-add-keywords 'org-mode
-;;                           '(("^ *\\([-]\\) "
-;;                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
-
-;;   ;; Set faces for heading levels
-;;   (dolist (face '((org-level-1 . 1.2)
-;;                   (org-level-2 . 1.1)
-;;                   (org-level-3 . 1.05)
-;;                   (org-level-4 . 1.0)
-;;                   (org-level-5 . 1.1)
-;;                   (org-level-6 . 1.1)
-;;                   (org-level-7 . 1.1)
-;;                   (org-level-8 . 1.1)))
-;;     (set-face-attribute (car face) nil :font org-mode-font :weight 'bold :height (cdr face)))
-
-;;   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
-;;   (set-face-attribute 'org-block nil    :foreground nil :inherit 'fixed-pitch)
-;;   (set-face-attribute 'org-table nil    :inherit 'fixed-pitch)
-;;   (set-face-attribute 'org-formula nil  :inherit 'fixed-pitch)
-;;   (set-face-attribute 'org-code nil     :inherit '(shadow fixed-pitch))
-;;   (set-face-attribute 'org-table nil    :inherit '(shadow fixed-pitch))
-;;   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
-;;   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
-;;   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
-;;   (set-face-attribute 'org-checkbox nil  :inherit 'fixed-pitch)
-;;   (set-face-attribute 'line-number nil :inherit 'fixed-pitch)
-;;   (set-face-attribute 'line-number-current-line nil :inherit 'fixed-pitch))
-
-
-;Configure fonts for org mode
-;(add-hook! org-mode (nova/org-font-setup))
 #+end_src
 
 ** Tasks and Agenda
@@ -980,7 +932,7 @@ Adds some nicer default values for org-roam and notetaking
 #+end_src
 **** Advice for Refiling
 Add advice to save org buffers after refiling them (useful for college agenda)
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (advice-add 'org-refile :after 'org-save-all-org-buffers)
 #+end_src
 
@@ -998,7 +950,7 @@ Refile target locations for school planner
 
 **** Org-Capture Templates
 Custom org-capture templates for creating new entries
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp
 (after! org
   (setq org-capture-templates
         `(("t" "Tasks")

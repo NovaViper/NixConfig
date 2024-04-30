@@ -1,7 +1,6 @@
 {
   inputs,
   outputs,
-  config,
   lib,
   pkgs,
   ...
@@ -23,8 +22,12 @@ with lib; {
   nix = {
     package = lib.mkDefault pkgs.nix;
     settings = {
+      # Make sure flakes is enabled
       experimental-features = ["nix-command" "flakes" "repl-flake"];
+      # Don't spam about the git repo being dirty
       warn-dirty = false;
+      # Optimize storage
+      auto-optimise-store = true;
     };
   };
 

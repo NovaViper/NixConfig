@@ -65,7 +65,10 @@ in {
       terminal = 1.0;
     };
     targets = {
+      # Enable 256 colors for kitty
       kitty.variant256Colors = true;
+      # Causes some mismatched colors with Dracula-tmux theme
+      tmux.enable = false;
     };
   };
 

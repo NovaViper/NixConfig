@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  utils = import ../../../lib/utils.nix {inherit config pkgs;};
+  utils = import ../../../../lib/utils.nix {inherit config pkgs;};
 in {
   xdg = {
     configFile = {
@@ -48,8 +48,14 @@ in {
       -- Updates are handled by NixOS
       config.check_for_updates = false
 
-      -- Disable tab bar, handled by tmux
-      config.enable_tab_bar = false
+      ${
+        if (config.programs.tmux.enable)
+        then ''
+          -- Disable tab bar, handled by tmux
+          config.enable_tab_bar = false
+        ''
+        else ""
+      }
 
       -- Make the starting window a good bit larger
       config.initial_cols = ${
@@ -70,7 +76,6 @@ in {
       config.animation_fps = 60
       config.cursor_blink_rate = 800
       config.default_cursor_style = "BlinkingBlock"
-      config.window_background_opacity = 0.9
 
       config.enable_kitty_keyboard = false
       config.enable_scroll_bar = false

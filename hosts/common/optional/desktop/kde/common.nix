@@ -21,8 +21,10 @@ in {
     enable = true;
     autoNumlock = true;
     settings = {
-      General.background =
-        mkIf (config.stylix.image != null) "${config.stylix.image}";
+      General = mkIf (config.stylix.image != null) {
+        background = "${config.stylix.image}";
+        type = "image";
+      };
       Theme = {
         CursorSize = config.stylix.cursor.size;
         CursorTheme =

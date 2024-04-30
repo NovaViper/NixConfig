@@ -5,17 +5,31 @@
 }: {
   nix = {
     settings = {
+      # Make sure the root user and users in the wheel group are trusted
       trusted-users = ["root" "@wheel"];
+
+      # Make sure flakes is enabled
       experimental-features = ["nix-command" "flakes" "repl-flake"];
+
+      # Don't spam about the git repo being dirty
       warn-dirty = false;
+
+      # Optimize storage
+      auto-optimise-store = true;
+
+      # Enable more system features
       #system-features = [ "kvm" "big-parallel" "nixos-test" ];
-      flake-registry = ""; # Disable global flake registry
+
+      # Disable global flake registry
+      flake-registry = "";
     };
+
+    # Perform garbage collection weekly to maintain low disk usage
     gc = {
       automatic = true;
       dates = "weekly";
-      # Keep the last 3 generations
-      options = "--delete-older-than +3";
+      # Keep the last 5 generations
+      options = "--delete-older-than +5";
     };
 
     # Add each flake input as a registry
