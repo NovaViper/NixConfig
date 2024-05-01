@@ -26,8 +26,7 @@ in {
   imports = [
     ### Device Configs
     inputs.hardware.nixosModules.common-cpu-intel
-    inputs.hardware.nixosModules.common-gpu-intel
-    inputs.hardware.nixosModules.common-pc-ssd
+    inputs.hardware.nixosModules.common-pc-laptop-ssd
     inputs.hardware.nixosModules.common-hidpi
     ./hardware-configuration.nix
     ./disks.nix

@@ -5,6 +5,9 @@
   ...
 }: {
   services = {
+    # Enable touchpad support
+    libinput.enable = true;
+
     # Enable the X11 windowing system.
     xserver = {
       enable = true;
@@ -15,9 +18,6 @@
         variant = "";
         options = "terminate:ctrl_alt_bksp,caps:ctrl_modifier";
       };
-
-      # Enable touchpad support
-      libinput.enable = true;
 
       # Remove xterm terminal
       excludePackages = with pkgs; [xterm];
