@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [nur.repos.lunik1.feishin-appimage];
+  home.packages = with pkgs; [feishin];
 
   /*
   xdg.mimeApps = {

@@ -18,7 +18,8 @@
     enable = true;
     nativeMessagingHosts = with pkgs; [fx-cast-bridge];
     profiles.novaviper = {
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      /*
+        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
         ublock-origin
         #sponsorblock
         #return-youtube-dislikes
@@ -31,6 +32,7 @@
         #stylus
         #canvasblocker
       ];
+      */
       bookmarks = {};
       search = {
         force = true;

@@ -15,8 +15,10 @@
         vim_insert = "blink-bar";
         vim_normal = "steady-block";
       };
+      show_preview = true;
       enter_accept = true;
       history_filter = ["^gpg .*--edit-key=.+" "^gpg .*--recipient.+"];
+      sync.records = true;
     };
   };
 }

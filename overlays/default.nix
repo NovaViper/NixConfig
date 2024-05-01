@@ -52,8 +52,8 @@ in {
       withSystemd = true;
     };
 
-    prismlauncher-qt5 =
-      prev.prismlauncher-qt5.override {withWaylandGLFW = true;};
+    prismlauncher =
+      prev.prismlauncher.override {withWaylandGLFW = true;};
 
     discord = prev.discord.override {
       withOpenASAR = true;
