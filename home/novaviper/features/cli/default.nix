@@ -10,6 +10,7 @@
     ./btop.nix
     ./cava.nix
     ./eza.nix
+    ./fd.nix
     ./fzf.nix
     ./git.nix
     ./gpg.nix
@@ -24,25 +25,26 @@
   #programs.command-not-found.enable = true;
 
   home.packages = with pkgs; [
+    # Terminal Decorations
     toilet # Display fancy text in terminal
     dwt1-shell-color-scripts # Display cool graphics in terminal
-    cmatrix # Show off the Matrix
+
+    # Fancy utilities
     timer # Cooler timer in terminal
-    tree
     tldr # better man pages
     entr # run commands when files change!
-    dmidecode
-    perl
+    procs # Better ps
     ventoy-full # bootable USB solution
 
     # Nix Tools
-    alejandra # Nix formatter
-    nvd # Differ
-    nix-output-monitor # Monitor Nix compilation
     nh # Nice wrapper for NixOS and HM
+    alejandra # Nix formatter
+    nix-output-monitor # Monitor Nix compilation
     nixpkgs-review # Review nixpkgs
     nix-prefetch-github # Prefetch tool for Github
     nix-init # Automatically create nix packages from URLs
     nix-inspect # View nix configurations
+    nil # Nix LSP
+    nixd # Another Nix LSP
   ];
 }

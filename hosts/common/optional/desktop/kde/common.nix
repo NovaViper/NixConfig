@@ -4,8 +4,8 @@
   pkgs,
   inputs,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkIf mkMerge;
   c = config.lib.stylix.colors.withHashtag;
   f = config.stylix.fonts;
   desktopX = config.services.xserver.desktopManager;

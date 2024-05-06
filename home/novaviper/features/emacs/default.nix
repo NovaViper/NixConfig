@@ -116,7 +116,6 @@ in {
       emacs-all-the-icons-fonts
 
       # Optional
-      fd
       imagemagick
       pinentry-emacs
       zstd
@@ -178,9 +177,6 @@ in {
       proselint
       pandoc
       grip
-
-      # :lang nix
-      nil
 
       # :lang org
       maim

@@ -1,6 +1,7 @@
 {
   inputs,
   lib,
+  config,
   ...
 }: let
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
@@ -24,6 +25,9 @@ in {
 
       # Disable global flake registry
       flake-registry = "";
+
+      # Workaround for https://github.com/NixOS/nix/issues/9574
+      nix-path = config.nix.nixPath;
     };
 
     # Perform garbage collection weekly to maintain low disk usage

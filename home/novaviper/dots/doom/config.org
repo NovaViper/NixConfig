@@ -40,6 +40,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#key-bindings][Key Bindings]]
     - [[#org-capture-shortcut][Org Capture Shortcut]]
     - [[#vivim-emulation-for-centaur-tabs][Vi/Vim emulation for Centaur Tabs]]
+    - [[#zoxide-integration][Zoxide Integration]]
 - [[#org-mode][Org Mode]]
   - [[#basic-configuration][Basic Configuration]]
     - [[#disable-electric-mode-in-org][Disable Electric Mode in Org]]
@@ -328,7 +329,7 @@ This code is written to ~init.el~ to select which modules to load.
        :emacs
        (dired +icons)             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       ;;ibuffer         ; interactive buffer management
+       (ibuffer +icons)         ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
@@ -482,6 +483,7 @@ Installs several packages I need,
 - =mixed-pitch=: Enables mixing fixed-pitch (also known as fixed-width or monospace) and variable-pitch (AKA “proportional”) fonts
 - =all-the-icons=: Add fancy icons into Emacs
 - =beacon=: Highlights the cursor location when window scrolling
+- =zoxide=: Fancy find-file command, companion for [[https://github.com/ajeetdsouza/zoxide][zoxide]]
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-tutor)
 ;;(package! command-log-mode)
@@ -494,6 +496,7 @@ Installs several packages I need,
 (package! mixed-pitch)
 (package! all-the-icons)
 (package! beacon)
+(package! zoxide)
 #+end_src
 
 * Editor Configuration
@@ -693,6 +696,22 @@ Enable Vim like tab changing motion for Centaur Tabs
 #+begin_src emacs-lisp
 (define-key evil-normal-state-map (kbd "g t") 'centaur-tabs-forward)
 (define-key evil-normal-state-map (kbd "g T") 'centaur-tabs-backward)
+#+end_src
+
+*** Zoxide Integration
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("z" . "zoxide/fzf")
+        :desc "zoxide-add"                    "a" #'zoxide-add
+        :desc "zoxide-cd"                     "c" #'zoxide-cd
+        :desc "zoxide-find-file"              "f" #'zoxide-find-file
+        :desc "zoxide-travel"                 "t" #'zoxide-travel
+        :desc "zoxide-remove"                 "x" #'zoxide-remove
+        :desc "zoxide-add-with-query"         "A" #'zoxide-add-with-query
+        :desc "zoxide-cd-with-query"          "C" #'zoxide-cd-with-query
+        :desc "zoxide-find-file-with-query"   "F" #'zoxide-find-file-with-query
+        :desc "zoxide-travel-with-query"      "T" #'zoxide-travel-with-query
+))
 #+end_src
 * Org Mode
 ** Basic Configuration
@@ -1010,7 +1029,9 @@ Forces nix-mode to use alejandra. The =nix-nixfmt-bin= specifically utilizes the
   (set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode)))
 
 (use-package! lsp-nix
-  :custom (lsp-nix-nil-formatter ["alejandra" "--quiet"]))
+  :custom
+  (lsp-nix-nil-formatter ["alejandra" "--quiet"])
+  (lsp-nix-nil-max-mem 20000))
 #+end_src
 
 ** Black Formatter Configuration

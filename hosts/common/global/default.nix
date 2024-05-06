@@ -28,6 +28,7 @@
 
   # Add special args for home-manager
   home-manager = {
+    useGlobalPkgs = true;
     extraSpecialArgs = {inherit inputs outputs;};
     backupFileExtension = ".bak";
   };
@@ -88,5 +89,7 @@
     openssl
     aha
     p7zip # For opening 7-zip files
+    dmidecode # Get hardware information
+    perl
   ];
 }

@@ -3,8 +3,8 @@
   pkgs,
   lib,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkIf mkMerge;
   utils = import ../../../lib/utils.nix {inherit config pkgs;};
 in {
   xdg.configFile = {
@@ -30,15 +30,12 @@ in {
     # terminal file manager written in Go
     yazi = {
       enable = true;
-      keymap = {};
-      settings = {};
+      #keymap = {};
+      #settings = {};
     };
 
     # smart cd command, inspired by z and autojump
-    zoxide = {
-      enable = true;
-      options = [];
-    };
+    zoxide.enable = true;
 
     # The shell itself
     zsh = {
@@ -46,7 +43,7 @@ in {
       enableCompletion = true;
       autosuggestion = {
         enable = true;
-        highlight = "underline";
+        #highlight = "underline";
       };
       syntaxHighlighting.enable = true;
       dotDir = ".config/zsh";

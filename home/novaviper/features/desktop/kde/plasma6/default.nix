@@ -3,8 +3,9 @@
   lib,
   pkgs,
   ...
-}:
-with lib; {
+}: let
+  inherit (lib) mkDefault;
+in {
   imports = [../common.nix];
 
   xdg.portal = {

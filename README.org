@@ -55,10 +55,9 @@ For installation, check out the installation guide located under [[file:document
 * Tooling and Applications I Use
 Main user relevant apps
 - kde plasma 6
-- neovim
 - doom emacs
 - zsh + powerlevel10k
-- vivaldi
+- firefox
 - keepassxc
 - gpg + ssh-agent + yubikey
 - tailscale
@@ -67,7 +66,7 @@ Main user relevant apps
 - libreoffice
 - bat
 - cider
-- kitty+tmux
+- wezterm+tmux
 - and quite a bit more...
 
 Nix stuff

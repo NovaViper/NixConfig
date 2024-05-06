@@ -3,9 +3,11 @@
   outputs,
   lib,
   pkgs,
+  config,
   ...
-}:
-with lib; {
+}: let
+  inherit (lib) mkDefault;
+in {
   imports = with inputs;
     [
       stylix.homeManagerModules.stylix
@@ -13,11 +15,6 @@ with lib; {
       nixvim.homeManagerModules.nixvim
     ]
     ++ (builtins.attrValues outputs.homeManagerModules);
-
-  nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
-    config = import ./nixpkgs-config.nix;
-  };
 
   nix = {
     package = lib.mkDefault pkgs.nix;
@@ -33,7 +30,6 @@ with lib; {
 
   xdg = {
     enable = true;
-
     # Import nixpkgs config into default path for nix shell commands
     configFile."nixpkgs/config.nix".source = ./nixpkgs-config.nix;
   };
@@ -46,4 +42,11 @@ with lib; {
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
+
+  # Global variables for HomeManager
+  home = {
+    homeDirectory = mkDefault "/home/${config.home.username}";
+    stateVersion = mkDefault "24.05";
+    sessionPath = ["$HOME/.local/bin"];
+  };
 }

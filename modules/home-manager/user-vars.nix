@@ -3,9 +3,8 @@
   lib,
   pkgs,
   ...
-}:
-with lib; let
-  inherit (lib) mkOption types;
+}: let
+  inherit (lib) mkIf mkOption mkRemovedOptionModule mkMerge types;
   cfg = config.variables;
   cfgde = config.variables.desktop;
   cfgma = config.variables.machine;
@@ -21,7 +20,7 @@ in {
 
   options.variables = {
     useVR = mkOption {
-      type = with types; bool;
+      type = types.bool;
       default = false;
       example = "true";
       description = ''
@@ -29,7 +28,7 @@ in {
       '';
     };
     useKonsole = mkOption {
-      type = with types; bool;
+      type = types.bool;
       default = false;
       example = "true";
       description = ''
@@ -38,7 +37,7 @@ in {
     };
     desktop = {
       environment = mkOption {
-        type = with types; str;
+        type = types.str;
         default = "";
         example = "kde";
         description = ''
@@ -46,7 +45,7 @@ in {
         '';
       };
       displayManager = mkOption {
-        type = with types; nullOr (types.enum ["wayland" "x11"]);
+        type = types.nullOr (types.enum ["wayland" "x11"]);
         default = null;
         example = "wayland";
         description = ''
@@ -58,7 +57,7 @@ in {
     };
     machine = {
       buildType = mkOption {
-        type = with types; nullOr (enum ["desktop" "laptop" "server"]);
+        type = types.nullOr (types.enum ["desktop" "laptop" "server"]);
         default = null;
         example = "desktop";
         description = ''
@@ -68,7 +67,7 @@ in {
         '';
       };
       gpu = mkOption {
-        type = with types; nullOr (enum ["nvidia" "intel" "amd"]);
+        type = types.nullOr (types.enum ["nvidia" "intel" "amd"]);
         default = null;
         example = "amd";
         description = ''

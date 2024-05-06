@@ -3,8 +3,9 @@
   pkgs,
   lib,
   ...
-}:
-with lib; {
+}: let
+  inherit (lib) mkIf mkMerge;
+in {
   home.packages = mkMerge [
     (mkIf (config.variables.desktop.displayManager == "wayland")
       (with pkgs; [wl-clipboard wl-clipboard-x11]))

@@ -3,9 +3,9 @@
   lib,
   pkgs,
   ...
-}:
-with lib; let
-  inherit (lib) mkOption types;
+}: let
+  inherit (lib) mkOption mkRemovedOptionModule mkMerge mkIf mkDefault optionals types;
+  inherit (pkgs) libsForQt5 kdePackages;
   cfg = config.variables;
   cfgde = config.variables.desktop;
   cfgma = config.variables.machine;
@@ -23,7 +23,7 @@ in {
 
   options.variables = {
     username = mkOption {
-      type = with types; str;
+      type = types.str;
       default = "";
       example = "johndoe";
       description = ''
@@ -31,7 +31,7 @@ in {
       '';
     };
     useVR = mkOption {
-      type = with types; bool;
+      type = types.bool;
       default = false;
       example = "true";
       description = ''
@@ -39,7 +39,7 @@ in {
       '';
     };
     useKonsole = mkOption {
-      type = with types; bool;
+      type = types.bool;
       default = false;
       example = "true";
       description = ''
@@ -48,7 +48,7 @@ in {
     };
     desktop = {
       environment = mkOption {
-        type = with types; str;
+        type = types.str;
         default = "";
         example = "kde";
         description = ''
@@ -56,7 +56,7 @@ in {
         '';
       };
       displayManager = mkOption {
-        type = with types; nullOr (types.enum ["wayland" "x11"]);
+        type = types.nullOr (types.enum ["wayland" "x11"]);
         default = null;
         example = "wayland";
         description = ''
@@ -68,7 +68,7 @@ in {
     };
     machine = {
       buildType = mkOption {
-        type = with types; nullOr (types.enum ["desktop" "laptop" "server"]);
+        type = types.nullOr (types.enum ["desktop" "laptop" "server"]);
         default = null;
         example = "desktop";
         description = ''
@@ -78,7 +78,7 @@ in {
         '';
       };
       motherboard = mkOption {
-        type = with types; nullOr (types.enum ["amd" "intel" "arm"]);
+        type = types.nullOr (types.enum ["amd" "intel" "arm"]);
         default = null;
         example = "intel";
         description = ''
@@ -88,7 +88,7 @@ in {
         '';
       };
       gpu = mkOption {
-        type = with types; nullOr (enum ["nvidia" "intel" "amd"]);
+        type = types.nullOr (types.enum ["nvidia" "intel" "amd"]);
         default = null;
         example = "amd";
         description = ''
@@ -102,7 +102,7 @@ in {
 
   /*
   options.variables = mkOption {
-    type = with types; attrs;
+    type = types.attrs;
     default = { };
     description = ''
       Used to store various important variables throughout the flake
@@ -163,21 +163,15 @@ in {
 
       environment = {
         # Remove Konsole if `useKonsole` is NOT enabled (only for KDE since it's already included) KDE Plasma 5 version
-        plasma5.excludePackages = with pkgs.libsForQt5;
-          mkIf (!cfg.useKonsole
-            && cfgde.environment == "kde"
-            && desktopX.plasma5.enable) [konsole];
+        plasma5.excludePackages = [] ++ optionals (!cfg.useKonsole && cfgde.environment == "kde" && desktopX.plasma5.enable) [libsForQt5.konsole];
 
         # Remove Konsole if `useKonsole` is NOT enabled (only for KDE since it's already included) KDE Plasma 6 version
-        plasma6.excludePackages = with pkgs.libsForQt5;
-          mkIf (!cfg.useKonsole
-            && cfgde.environment == "kde"
-            && desktopW.plasma6.enable) [konsole];
+        plasma6.excludePackages = [] ++ optionals (!cfg.useKonsole && cfgde.environment == "kde" && desktopW.plasma6.enable) [kdePackages.konsole];
 
-        systemPackages = with pkgs; (mkMerge [
+        systemPackages = mkMerge [
           # Download Konsole if `useKonsole` is used on a DE that DOESN'T include Konsole (like KDE);
           (mkIf (cfg.useKonsole && cfgde.environment != "kde")
-            [libsForQt5.konsole])
+            [kdePackages.konsole])
           # download Yakuake if `useKonsole` is used on a DE that DOES include Konsole (like KDE); switch between QT6 and QT5 versions of Yakuake depending on KDE Plasma version
           (mkIf (cfg.useKonsole
             && cfgde.environment == "kde"
@@ -185,7 +179,7 @@ in {
           (mkIf (cfg.useKonsole
             && cfgde.environment == "kde"
             && desktopW.plasma6.enable) [kdePackages.yakuake])
-        ]);
+        ];
       };
     }
   ]);

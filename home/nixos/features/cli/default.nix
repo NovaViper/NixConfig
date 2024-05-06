@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
     ./atuin.nix
     ./bat.nix
@@ -21,11 +16,9 @@
   home.packages = with pkgs; [
     fastfetch
     tree
-    dmidecode
     nvd # Differ
     nix-output-monitor
     nh # Nice wrapper for NixOS and HM
     nixpkgs-review
-    perl
   ];
 }

@@ -2,6 +2,7 @@
 {
   outputs,
   inputs,
+  ...
 }: let
   addPatches = pkg: patches:
     pkg.overrideAttrs
@@ -58,6 +59,11 @@ in {
     discord = prev.discord.override {
       withOpenASAR = true;
       withVencord = true;
+    };
+
+    btop = prev.btop.override {
+      cudaSupport = true;
+      rocmSupport = true;
     };
   };
 }

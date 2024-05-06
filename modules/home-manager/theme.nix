@@ -3,16 +3,15 @@
   lib,
   pkgs,
   ...
-}:
-with lib; let
-  inherit (lib) mkOption types;
+}: let
+  inherit (lib) mkIf mkOption mkRemovedOptionModule mkMerge mkBefore literalExpression types;
   cfg = config.theme;
   cfgapp = cfg.app;
 
   iconThemeModule = types.submodule {
     options = {
       package = mkOption {
-        type = with types; nullOr package;
+        type = types.nullOr types.package;
         default = null;
         example = literalExpression "pkgs.papirus-icon-theme";
         description = ''
@@ -20,7 +19,7 @@ with lib; let
         '';
       };
       name = mkOption {
-        type = with types; str;
+        type = types.str;
         default = "";
         example = "Papirus-Dark";
         description = "The symbolic name of the theme within the package without any spaces.";
@@ -31,7 +30,7 @@ with lib; let
   appModule = types.submodule {
     options = {
       rio.name = mkOption {
-        type = with types; str;
+        type = types.str;
         default = "";
         example = "3024 Night";
         description = ''
@@ -45,7 +44,7 @@ with lib; let
 in {
   options.theme = {
     package = mkOption {
-      type = with types; nullOr package;
+      type = types.nullOr types.package;
       default = null;
       example = literalExpression "pkgs.dracula-theme";
       description = ''
@@ -53,13 +52,13 @@ in {
       '';
     };
     name = mkOption {
-      type = with types; str;
+      type = types.str;
       default = "";
       example = "Dracula";
       description = "The name of the theme within the package.";
     };
     nameSymbolic = mkOption {
-      type = with types; str;
+      type = types.str;
       default = "";
       example = "dracula";
       description = "The symbolic name of the theme within the package without any spaces.";

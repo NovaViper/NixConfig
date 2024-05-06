@@ -4,16 +4,16 @@
   pkgs,
   ...
 }: let
+  inherit (lib) mkIf mkMerge;
   utils = import ../../../../lib/utils.nix {inherit config pkgs;};
 in {
   xdg = {
-    configFile = {
-      "wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";
-      "wezterm/on.lua".source =
-        if (config.programs.tmux.enable)
-        then (utils.linkDots "wezterm/on-tmux.lua")
-        else (utils.linkDots "wezterm/on.lua");
-    };
+    configFile = mkMerge [
+      {"wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";}
+      (mkIf (!config.programs.tmux.enable) {
+        "wezterm/on.lua".source = utils.linkDots "wezterm/on.lua";
+      })
+    ];
     mimeApps = {
       associations = {
         added = {
@@ -37,7 +37,11 @@ in {
     enableZshIntegration = true;
     extraConfig = ''
       local keybinds = require("keybinds")
-      require("on")
+      ${
+        if (config.programs.tmux.enable)
+        then ""
+        else ''require("on")''
+      }
 
       -- This table will hold the configuration, provides clearer error messages
       local config = wezterm.config_builder()

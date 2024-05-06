@@ -4,8 +4,8 @@
   pkgs,
   ...
 }: let
+  inherit (lib) mkIf;
   cfg = config.programs.tmux;
-  c = config.lib.stylix.colors.withHashtag;
 in {
   xdg.configFile = {
     "tmuxp/session.yaml".source = ../../dots/tmuxp/session.yaml;
@@ -13,11 +13,11 @@ in {
 
   programs = {
     # Fixes issue where cava can't run under tmux
-    zsh.shellAliases = lib.mkIf (config.programs.cava.enable) {
+    zsh.shellAliases = mkIf (config.programs.cava.enable) {
       cava = "TERM=xterm-256color cava";
     };
     fzf.tmux.enableShellIntegration =
-      lib.mkIf (config.programs.fzf.enable) true;
+      mkIf (config.programs.fzf.enable) true;
     tmux = {
       enable = true;
       aggressiveResize = true;
@@ -104,14 +104,16 @@ in {
         # Split pane bindings
         unbind '"'
         unbind %
-        bind-key -N "Split panes horizontally" "\\" split-window -h -c "#{pane_current_path}"
-        bind-key -N "Split panes horizontally, full window length" "|" split-window -fh -c "#{pane_current_path}"
-        bind-key -N "Split panes vertically" "-" split-window -v -c "#{pane_current_path}"
-        bind-key -N "Split panes vertically, full window length" "_" split-window -fv -c "#{pane_current_path}"
+        unbind n
+        unbind p
+        bind -N "Split panes horizontally" \\ split-window -h -c "#{pane_current_path}"
+        bind -N "Split panes horizontally, full window length" | split-window -fh -c "#{pane_current_path}"
+        bind -N "Split panes vertically" - split-window -v -c "#{pane_current_path}"
+        bind -N "Split panes vertically, full window length" _ split-window -fv -c "#{pane_current_path}"
 
         # Manage Session/Window
-        bind -N "Switch to next window" -r ">" swap-window -d -t +1
-        bind -N "Switch to previous window" -r "<" swap-window -d -t -1
+        bind -N "Switch to next window" > next-window
+        bind -N "Switch to previous window" < previous-window
         bind -N "Create new window" c new-window -c "#{pane_current_path}"
         bind -N "Create new session" C-c new-session
         bind -N "Toggle between windows" Space last-window
@@ -147,7 +149,7 @@ in {
         open
         fuzzback
         extrakto
-        (lib.mkIf (config.programs.fzf.enable) tmux-fzf)
+        (mkIf (config.programs.fzf.enable) tmux-fzf)
         {
           plugin = dracula;
           extraConfig = ''

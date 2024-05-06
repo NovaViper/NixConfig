@@ -103,13 +103,13 @@
     homeConfigurations = {
       # Desktops
       "novaviper@ryzennova" = lib.homeManagerConfiguration {
-        modules = [./home/novaviper/ryzennova.nix];
+        modules = [./home/common/global/nixpkgs.nix ./home/novaviper/ryzennova.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
       # Laptops
       "novaviper@yoganova" = lib.homeManagerConfiguration {
-        modules = [./home/novaviper/yoganova.nix];
+        modules = [./home/common/global/nixpkgs.nix ./home/novaviper/yoganova.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };

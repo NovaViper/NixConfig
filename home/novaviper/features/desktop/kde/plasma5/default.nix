@@ -3,8 +3,8 @@
   lib,
   pkgs,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) mkDefault;
   utils = import ../../../../../lib/utils.nix {inherit config pkgs;};
 in {
   imports = [../common.nix];
