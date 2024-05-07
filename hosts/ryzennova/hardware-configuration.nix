@@ -5,8 +5,8 @@
   modulesPath,
   ...
 }: let
-  MAIN_PART = "/dev/disk/by-uuid/9c14bcb5-de2f-48be-a278-da1669410530";
-  BOOT_PART = "/dev/disk/by-uuid/9524-29A2";
+  MAIN_PART = "/dev/disk/by-uuid/071a697a-92a4-4555-bbcc-03e1c5bce784";
+  BOOT_PART = "/dev/disk/by-uuid/E842-BEDB";
   SWAP_PATH = "/swapfile";
   SWAP_SIZE = 32;
   RESUME_OFFSET = "244056064";

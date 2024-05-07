@@ -192,7 +192,7 @@ in {
           mkIf (config.programs.atuin.enable)
           "export HISTFILE && atuin import auto && export -n HISTFILE";
       };
-      /*
+
       antidote = {
         enable = true;
         useFriendlyNames = true;
@@ -207,7 +207,7 @@ in {
           "mattmc3/zfunctions"
           "Aloxaf/fzf-tab"
           "Freed-Wu/fzf-tab-source"
-          "MichaelAquilina/zsh-auto-notify"
+          #"MichaelAquilina/zsh-auto-notify"
 
           # Sudo escape
           "ohmyzsh/ohmyzsh path:lib"
@@ -224,8 +224,9 @@ in {
           "kutsan/zsh-system-clipboard"
         ];
       };
-      */
-      zplug = {
+
+      /*
+        zplug = {
         enable = true;
         zplugHome = "${config.xdg.configHome}/zsh/zplug";
         plugins = [
@@ -242,9 +243,9 @@ in {
           {name = "mattmc3/zfunctions";}
           {name = "Aloxaf/fzf-tab";}
           {name = "Freed-Wu/fzf-tab-source";}
-          {
-            name = "MichaelAquilina/zsh-auto-notify";
-          }
+          #{
+          #  name = "MichaelAquilina/zsh-auto-notify";
+          #}
 
           # Sudo escape
           {
@@ -266,6 +267,7 @@ in {
           {name = "kutsan/zsh-system-clipboard";}
         ];
       };
+      */
     };
   };
 }
