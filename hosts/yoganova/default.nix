@@ -39,7 +39,7 @@ in {
     #../common/optional/rgb.nix
     ../common/optional/bluetooth.nix
     #../common/optional/qmk.nix
-    ../common/optional/howdy.nix
+    #../common/optional/howdy.nix
 
     ### Desktop Environment
     ../common/optional/desktop/kde/plasma6.nix
@@ -111,7 +111,8 @@ in {
     */
 
     # Set IR blaster device
-    linux-enable-ir-emitter.device = "video2";
+    /*
+      linux-enable-ir-emitter.device = "video2";
 
     # Configure Howdy
     howdy.settings = {
@@ -125,6 +126,7 @@ in {
         ignore_closed_lid = true;
       };
     };
+    */
   };
 
   # Apply configs
