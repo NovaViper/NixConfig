@@ -6,6 +6,7 @@
     # Core dependencies
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
     hardware.url = "github:nixos/nixos-hardware";
+    systems.url = "github:nix-systems/default-linux";
     nur.url = "github:nix-community/NUR";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -13,11 +14,16 @@
     };
 
     # Extras
-    stylix.url = "github:danth/stylix";
+    stylix = {
+      url = "github:danth/stylix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
@@ -42,19 +48,22 @@
     self,
     nixpkgs,
     home-manager,
+    systems,
     ...
   } @ inputs: let
     inherit (self) outputs;
     lib = nixpkgs.lib // home-manager.lib;
-    # Supported systems for your flake packages, shell, etc.
-    systems = ["x86_64-linux" "aarch64-linux"];
-    # This is a function that generates an attribute by calling a function you pass to it, with each system as an argument
-    forEachSystem = f: lib.genAttrs systems (system: f pkgsFor.${system});
-    pkgsFor = lib.genAttrs systems (system:
-      import nixpkgs {
-        inherit system;
-        config.allowUnfree = true;
-      });
+
+    # Supported systems for your flake packages, shell, etc are determined by the systems input.
+    # This is a function that generates an attribute by calling function you pass to it, with each system as an argument
+    forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
+    pkgsFor = lib.genAttrs (import systems) (
+      system:
+        import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+        }
+    );
   in {
     inherit lib;
     # Reusable nixos modules you might want to export
@@ -63,7 +72,6 @@
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
     homeManagerModules = import ./modules/home-manager;
-    #templates = import ./templates;
 
     # Your custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs outputs;};
