@@ -2,17 +2,17 @@
   "server_version": "20.6.1",
   "drivers_backup": null,
   "openvr_config": {
-    "eye_resolution_width": 2144,
-    "eye_resolution_height": 2336,
-    "target_eye_resolution_width": 2144,
-    "target_eye_resolution_height": 2336,
+    "eye_resolution_width": 800,
+    "eye_resolution_height": 900,
+    "target_eye_resolution_width": 800,
+    "target_eye_resolution_height": 900,
     "tracking_ref_only": false,
     "enable_vive_tracker_proxy": false,
     "aggressive_keyframe_resend": false,
     "adapter_index": 0,
     "codec": 0,
     "h264_profile": 0,
-    "refresh_rate": 72,
+    "refresh_rate": 60,
     "use_10bit_encoder": false,
     "enable_vbaq": false,
     "use_preproc": false,
@@ -64,9 +64,9 @@
     "_controller_profile": 1
   },
   "client_connections": {
-    "9251.client.alvr": {
+    "6822.client.alvr": {
       "display_name": "Quest",
-      "current_ip": "192.168.1.77",
+      "current_ip": null,
       "manual_ips": [],
       "trusted": true,
       "connection_state": "Disconnected",
@@ -109,7 +109,7 @@
           "ConstantMbps": 30,
           "Adaptive": {
             "gui_collapsed": true,
-            "saturation_multiplier": 1.0,
+            "saturation_multiplier": 0.95,
             "max_bitrate_mbps": {
               "enabled": false,
               "content": 100
@@ -323,7 +323,7 @@
         }
       },
       "microphone": {
-        "enabled": true,
+        "enabled": false,
         "content": {
           "gui_collapsed": true,
           "devices": {
@@ -593,7 +593,7 @@
       "tracking_ref_only": false,
       "enable_vive_tracker_proxy": false,
       "face_tracking": {
-        "enabled": true,
+        "enabled": false,
         "content": {
           "gui_collapsed": true,
           "sources": {

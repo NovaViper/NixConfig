@@ -91,5 +91,6 @@
     p7zip # For opening 7-zip files
     dmidecode # Get hardware information
     perl
+    tree
   ];
 }
