@@ -3,19 +3,21 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  printers = with pkgs; [hplipWithPlugin cnijfilter2];
+in {
   # Printer Setup
   services.printing = {
     enable = true;
-    drivers = with pkgs; [hplipWithPlugin];
+    drivers = printers;
   };
 
   # Scanner Setup
   hardware.sane = {
     enable = true;
-    extraBackends = with pkgs; [sane-airscan hplipWithPlugin];
+    extraBackends = with pkgs; [sane-airscan] ++ printers;
   };
 
   # Install installation
-  environment.systemPackages = with pkgs; [hplipWithPlugin];
+  environment.systemPackages = printers;
 }
