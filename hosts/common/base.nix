@@ -10,15 +10,14 @@
     [
       home-manager.nixosModules.home-manager
       stylix.nixosModules.stylix
-      ./zsh.nix
-      ./locale.nix
-      ./nix.nix
       ./filesystem.nix
-      ./openssh.nix
-      ./gpg.nix
-      ./network.nix
       ./fonts.nix
-      #./security.nix
+      ./locale.nix
+      ./networking.nix
+      ./nix.nix
+      ./packages.nix
+      ./security.nix
+      ./shell.nix
     ]
     ++ (builtins.attrValues outputs.nixosModules);
 
@@ -42,21 +41,12 @@
     };
   };
 
-  # Enable use of firmware that allows redistribution
-  hardware.enableRedistributableFirmware = true;
-
   boot = {
     # Make NixOS use the latest Linux Kernel
     kernelPackages = pkgs.linuxPackages_latest;
 
     # Makes OBS Virtual Camera feature function
     extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
-  };
-
-  # Needed for high-dpi and quiet boot
-  console = {
-    earlySetup = true;
-    useXkbConfig = true;
   };
 
   # Increase open file limit for sudoers
@@ -77,20 +67,4 @@
 
   # Enable firmware updates on Linux
   services.fwupd.enable = true;
-
-  # Install more packages
-  environment.systemPackages = with pkgs; [
-    pciutils
-    usbutils
-    killall
-    git
-    git-crypt
-    smartmontools
-    openssl
-    aha
-    p7zip # For opening 7-zip files
-    dmidecode # Get hardware information
-    perl
-    tree
-  ];
 }

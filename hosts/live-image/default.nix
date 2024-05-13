@@ -8,9 +8,17 @@
   ...
 }: {
   imports = [
-    ../common/global
+    ../common/base.nix
+
+    ### Credentials
+    ../common/credentials/gpg.nix
+    ../common/credentials/ssh.nix
+
+    ### Desktop Environment
+    ../common/graphical/kde/plasma6.nix
+
+    ### Users
     ../common/users/nixos
-    ../common/optional/desktop/kde/plasma6.nix
     "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
   ];
 

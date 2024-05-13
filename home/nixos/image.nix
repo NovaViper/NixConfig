@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: {
-  imports = [../common/global ./features/cli ./features/neovim ./features/theme];
+  imports = [../common ./features/cli ./features/neovim ./features/theme];
 
   ### Special Variables
   variables.desktop.environment = "kde";

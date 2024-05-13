@@ -4,60 +4,39 @@
   pkgs,
   inputs,
   ...
-}: let
-  configFile = pkgs.writeText "OpenRGB.json" ''
-    {
-      "E131Devices": {
-        "devices": [
-          {
-            "ip": "192.168.1.164",
-            "name": "Desklight",
-            "num_leds": 38,
-            "rgb_order": 2,
-            "start_channel": 1,
-            "start_universe": 1,
-            "type": 1
-          }
-        ]
-      }
-    }
-  '';
-in {
+}: {
   imports = [
     ### Device Configs
-    inputs.hardware.nixosModules.common-cpu-amd
-    inputs.hardware.nixosModules.common-gpu-nvidia-nonprime
-    inputs.hardware.nixosModules.common-pc-ssd
-    ./hardware-configuration.nix
-    ./disks.nix
+    ./hardware
 
-    ### Global Configs
-    ../common/global
-    ../common/users/novaviper
+    ### Base Configs
+    ../common/base.nix
+    ../common/boot/efi.nix
+    ../common/boot/quietboot.nix
 
-    ### Hardware
-    ../common/optional/rgb.nix
-    ../common/optional/bluetooth.nix
-    ../common/optional/qmk.nix
-    #../common/optional/howdy.nix
+    ### Credentials
+    ../common/credentials/gpg.nix
+    ../common/credentials/ssh.nix
 
     ### Desktop Environment
-    ../common/optional/desktop/kde/plasma6.nix
+    ../common/graphical/kde/plasma6.nix
 
     ### Service
-    ../common/optional/theme.nix
-    ../common/optional/quietboot.nix
-    ../common/optional/libvirt.nix
-    ../common/optional/sunshine-server.nix
-    ../common/optional/syncthing.nix
-    ../common/optional/tailscale.nix
+    ../common/services/theme.nix
+    ../common/services/sunshine.nix
+    ../common/services/syncthing.nix
+    ../common/services/tailscale.nix
+    ../common/services/flatpak.nix
+    ../common/services/printing.nix
 
     ### Applications
-    ../common/optional/flatpak.nix
-    ../common/optional/appimage.nix
-    ../common/optional/localsend.nix
-    ../common/optional/gaming.nix
-    #../common/optional/sunshine-client.nix
+    ../common/programs/libvirt.nix
+    ../common/programs/appimage.nix
+    ../common/programs/localsend.nix
+    ../common/programs/gaming.nix
+
+    ### Users
+    ../common/users/novaviper
   ];
 
   networking.hostName = "ryzennova"; # Define your hostname.
@@ -90,34 +69,4 @@ in {
   variables.machine.gpu = "nvidia";
   #variables.machine.lowSpec = false;
   ###
-
-  hardware = {
-    # Configure GPU
-    nvidia = {
-      powerManagement.enable = true;
-      modesetting.enable = true;
-      open = false;
-      nvidiaSettings =
-        if (config.variables.desktop.displayManager == "x11")
-        then true
-        else false;
-      # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
-    };
-  };
-
-  services.xserver.videoDrivers = ["nvidia"];
-
-  environment = {
-    #systemPackages = with pkgs; [ gwe ];
-    sessionVariables.LIBVA_DRIVER_NAME = "nvidia";
-  };
-
-  system.activationScripts = lib.mkIf (config.services.hardware.openrgb.enable) {
-    makeOpenRGBSettings = ''
-      mkdir -p /var/lib/OpenRGB/plugins/settings/effect-profiles
-
-      cp ${configFile} /var/lib/OpenRGB/OpenRGB.json
-    '';
-  };
 }

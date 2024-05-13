@@ -5,10 +5,11 @@
   ...
 }: let
   inherit (lib) mkIf;
+  utils = import ../../../lib/utils.nix {inherit config pkgs;};
   cfg = config.programs.tmux;
 in {
   xdg.configFile = {
-    "tmuxp/session.yaml".source = ../../dots/tmuxp/session.yaml;
+    "tmuxp/session.yaml".source = utils.linkDots "tmuxp/session.yaml";
   };
 
   programs = {

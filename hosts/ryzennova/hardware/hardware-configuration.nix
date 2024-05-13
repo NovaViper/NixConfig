@@ -14,17 +14,6 @@ in {
   imports = [(modulesPath + "/installer/scan/not-detected.nix")];
 
   boot = {
-    # Bootloader
-    loader = {
-      systemd-boot = {
-        enable = true;
-        memtest86.enable = true;
-        # Limit the number of generations to keep
-        configurationLimit = 10;
-      };
-      efi.canTouchEfiVariables = true;
-    };
-
     initrd = {
       availableKernelModules = ["xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" "sr_mod"];
       kernelModules = [];

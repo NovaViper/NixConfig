@@ -11,4 +11,10 @@
     initrd.verbose = false;
     kernelParams = ["quiet"];
   };
+
+  # Needed for quiet boot
+  console = {
+    earlySetup = true;
+    useXkbConfig = false;
+  };
 }

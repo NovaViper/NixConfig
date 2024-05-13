@@ -31,14 +31,79 @@ My current NixOS (and constant changing) configuration
 - [[https://github.com/Baitinq/nixos-config][Baitinq's nixos-config]] - Partitioning scripts
 - [[https://github.com/theopn/dotfiles/tree/main][Theopn's]] and [[https://github.com/yutkat/dotfiles/tree/main][yutkat's dotfiles]] - Wezterm settings
 - [[https://github.com/getchoo/flake][Getchoo's flake]] - Nvidia settings
+- [[https://github.com/sagikazarmark/nix-config][sagikazarmark's nix-config]] - Structure of host configurations
+- [[https://github.com/archer-65/nix-dotfiles][archer-65's nix-dotfiles]] - Structure of host configurations
 
 * Structure
 Here's an overview of the repo's file structure:
+```
+.
+├── documentation/
+├── home/
+│  ├── common/
+│  ├── lib/
+│  ├── nixos/
+│  │  ├── features/
+│  │  └── image.nix
+│  └── novaviper/
+│     ├── dotfiles/
+│     ├── features/
+│     ├── global/
+│     ├── ryzennova.nix
+│     └── yoganova.nix*
+├── hosts/
+│  ├── common/
+│  │  ├── boot/
+│  │  ├── credentials/
+│  │  ├── desktop/
+│  │  │  ├── common/
+│  │  │  ├── displayManager/
+│  │  │  ├── kde/
+│  │  │  └── xfce.nix
+│  │  ├── hardware/
+│  │  ├── programs/
+│  │  ├── services/
+│  │  ├── users/
+│  │  │  ├── nixos/
+│  │  │  └── novaviper/
+│  │  ├── base.nix
+│  │  ├── filesystem.nix
+│  │  ├── fonts.nix
+│  │  ├── locale.nix
+│  │  ├── networking.nix
+│  │  ├── nix.nix
+│  │  ├── packages.nix
+│  │  ├── security.nix
+│  │  └── shell.nix
+│  ├── live-image/
+│  ├── ryzennova/
+│  └── yoganova/
+│     ├── hardware/
+│     │  ├── default.nix
+│     │  ├── disks.nix
+│     │  └── hardware-configuration.nix
+│     └── default.nix
+├── modules/
+│  ├── home-manager/
+│  └── nixos/
+├── overlays/
+├── pkgs/
+├── flake.lock
+├── flake.nix
+├── README.org
+└── shell.nix
+```
+
 - =flake.nix=: Entrypoint for host and home configurations. Also exposes a devshell for boostrapping the system (=nix develop= or =nix shell=).
 - =hosts=: NixOS Configurations, accessible via =nixos-rebuild --flake=.
   - =common=: Shared configurations consumed by the machine-specific ones.
-    - =global=: Configurations that are globally applied to all my machines.
-    - =optional=: Opt-in configurations/feature flags, my machines can use.
+    - =base.nix=: Imports configurations that are applied to all of the hosts
+    - =boot=: Configurations related to the bootloader
+    - =credentials=: Configurations related to authentication protocols (i.e. ssh and gpg)
+    - =services=: Configurations related to applications that run in the background (i.e. tailscale and syncthing)
+    - =programs=: Configurations related to general applications (i.e. steam)
+    - =hardware=: Configurations related to device hardware such as bluetooth
+    - =graphical=: Configurations related to graphical environments
     - =users=: Configurations for each system on the machines
   - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6
   - =yoganova=: Lenovo Yoga 7i - 8GB RAM, Intel i5 1335U | KDE Plasma 6

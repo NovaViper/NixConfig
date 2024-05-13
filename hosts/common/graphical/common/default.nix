@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  imports = [./pipewire.nix ./printing.nix ./xdg.nix];
+  imports = [./audio.nix ./xdg.nix];
 
   # Enable networking
   networking.networkmanager.enable = true;

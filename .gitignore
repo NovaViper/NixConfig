@@ -6,9 +6,13 @@ result*
 
 # ignore temporary files
 .#.*
+\#*#
+\#*\#
+.\#*
+*.bak
 
 # Ignore Doom Emacs generated files
-**/dots/doom/config.el
-**/dots/doom/init.el
-**/dots/doom/packages.el
-**/dots/doom/mu4e-accounts.el
+**/dotfiles/doom/config.el
+**/dotfiles/doom/init.el
+**/dotfiles/doom/packages.el
+**/dotfiles/doom/mu4e-accounts.el

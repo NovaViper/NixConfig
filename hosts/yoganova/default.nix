@@ -4,60 +4,38 @@
   pkgs,
   inputs,
   ...
-}: let
-  # This is needed for the IR emitter driver!
-  ir-config =
-    pkgs.writeText
-    "pci-0000:00:14.0-usb-0:6:1.2-video-index0_emitter0.driver" ''
-      device=/dev/v4l/by-path/pci-0000:00:14.0-usb-0:6:1.2-video-index0
-      unit=7
-      selector=6
-      control0=1
-      control1=3
-      control2=2
-      control3=0
-      control4=0
-      control5=0
-      control6=0
-      control7=0
-      control8=0
-    '';
-in {
+}: {
   imports = [
     ### Device Configs
-    inputs.hardware.nixosModules.common-cpu-intel
-    inputs.hardware.nixosModules.common-pc-laptop-ssd
-    inputs.hardware.nixosModules.common-hidpi
-    ./hardware-configuration.nix
-    ./disks.nix
+    ./hardware
 
-    ### Global Configs
-    ../common/global
-    ../common/users/novaviper
+    ### Base Configs
+    ../common/base.nix
+    ../common/boot/efi.nix
+    ../common/boot/quietboot.nix
 
-    ### Hardware
-    #../common/optional/rgb.nix
-    ../common/optional/bluetooth.nix
-    #../common/optional/qmk.nix
-    #../common/optional/howdy.nix
+    ### Credentials
+    ../common/credentials/gpg.nix
+    ../common/credentials/ssh.nix
 
     ### Desktop Environment
-    ../common/optional/desktop/kde/plasma6.nix
+    ../common/graphical/kde/plasma6.nix
 
     ### Service
-    ../common/optional/theme.nix
-    ../common/optional/quietboot.nix
-    #../common/optional/libvirt.nix
-    #../common/optional/sunshine-server.nix
-    ../common/optional/syncthing.nix
-    ../common/optional/tailscale.nix
+    ../common/services/theme.nix
+    ../common/services/syncthing.nix
+    ../common/services/tailscale.nix
+    ../common/services/flatpak.nix
+    ../common/services/printing.nix
 
     ### Applications
-    ../common/optional/flatpak.nix
-    ../common/optional/appimage.nix
-    ../common/optional/localsend.nix
-    ../common/optional/gaming.nix
-    ../common/optional/sunshine-client.nix
+    ../common/programs/appimage.nix
+    ../common/programs/localsend.nix
+    ../common/programs/gaming.nix
+    ../common/programs/sunshine.nix
+
+    ### Users
+    ../common/users/novaviper
   ];
 
   networking.hostName = "yoganova"; # Define your hostname.
@@ -90,51 +68,4 @@ in {
   variables.machine.gpu = "intel";
   #variables.machine.lowSpec = true;
   ###
-
-  # Enable powertop analysis tool
-  powerManagement.powertop.enable = true;
-
-  services = {
-    # Enable Thunderbolt
-    hardware.bolt.enable = true;
-
-    # Fingerprint reader: login and unlock with fingerprint (if you add one with `fprintd-enroll`)
-    # The driver doesn't work so far
-    /*
-    fprintd = {
-      enable = true;
-      tod = {
-        enable = true;
-        driver = pkgs.libfprint-2-tod1-goodix;
-      };
-    };
-    */
-
-    # Set IR blaster device
-    /*
-      linux-enable-ir-emitter.device = "video2";
-
-    # Configure Howdy
-    howdy.settings = {
-      video = {
-        device_path = "/dev/video2";
-        dark_threshold = 90;
-      };
-      # you may not need these
-      core = {
-        no_confirmation = true;
-        ignore_closed_lid = true;
-      };
-    };
-    */
-  };
-
-  # Apply configs
-  system.activationScripts.copySysConfigs = ''
-    mkdir -p /var/lib/linux-enable-ir-emitter
-
-    if [ -z "$(ls -A /var/lib/linux-enable-ir-emitter)" ]; then
-       cp ${ir-config} /var/lib/linux-enable-ir-emitter/pci-0000:00:14.0-usb-0:6:1.2-video-index0_emitter0.driver
-    fi
-  '';
 }

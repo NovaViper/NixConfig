@@ -12,7 +12,7 @@ Home-manager is configured in [[https://nix-community.github.io/home-manager/ind
    - =nix-shell= is available on any version of nix. However, in order to use =nix develop=, you must have nix v2.4+, git, and have enabled the =flakes= and =nix-command= experimental features. If you are using the custom ISO as stated previously, you can use =nix develop= without having to do anything additional as the configs already have the needed configurations and dependencies
 5. Follow the instructions over in the [[file:partitioning.org][Partitioning]] file!
 6. Run =nixos-generate-config --show-hardware-config --root /mnt= to create a base configuration file that the installer provides.
-7. Add any of the additional kernel modules as exactly as they appear into the =hosts/HOSTNAME/hardware-configuration= file.
+7. Add any of the additional kernel modules as exactly as they appear into the =hosts/HOSTNAME/hardware/hardware-configuration= file.
 8. Change the =FLAKE= variable located under =home/USERNAME/global/default.nix=. Some dotfiles are sym-links that aren't located on nix store and not having the repo in the location that the variable specifies will cause the links to break. This would in turn result in some apps malfunctioning or not have your settings.
 9. Run =nixos-install --flake .#HOSTNAME --root /mnt= to install NixOS with the configuration
 10. If you did not set a user password, make sure you use =nixos-enter= to set a password for the user!

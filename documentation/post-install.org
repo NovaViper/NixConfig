@@ -26,4 +26,11 @@ The first command fixes a [[https://github.com/doomemacs/doomemacs/issues/6267][
 #+begin_src shell
 setcap CAP_SYS_NICE+ep ~/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher
 #+end_src
-This command is also included within the activation script under =hosts/common/optional/gaming.nix=. So all that would need to be ran is =home-manager switch --flake $FLAKE= (if using my config directly). This activation script may need to be ran again upon after installation since activation scripts do not function on installation.
+This command is also included within the activation script under =hosts/common/programs/gaming.nix=. So all that would need to be ran is =home-manager switch --flake $FLAKE= (if using my config directly). This activation script may need to be ran again upon after installation since activation scripts do not function on installation.
+
+** Flatpak
+NOTE: My flatpak feature flag in =hosts/common= includes symlink that downloads the Flatpak repository into the =/etc= folder, thus making sure the repo is already included upon booting up NixOS!
+- Just enabling =services.flatpak.enable= isn't enough to fully enable Flatpak support. You will need to run the following command in order to install the flatpak repository:
+#+begin_src shell
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+#+end_src
