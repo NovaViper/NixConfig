@@ -1022,7 +1022,7 @@ Configures projectile
 #+end_src
 
 ** Set Nix Formatter to Alejandra
-Forces nix-mode to use alejandra. The =nix-nixfmt-bin= specifically utilizes the wrapper =alejandra-quiet= (which is declared by my NixOS flake) that has alejandra prefixed with the =--quiet= option
+Forces nix-mode to use alejandra. The =nix-nixfmt-bin= specifically utilizes the wrapper =alejandra-quiet= (which is declared by my NixOS flake) that has alejandra prefixed with the =--quiet= option. Also disable nil's auto-eval-inputs since I have some really large inputs that ends up making my computers lock up.
 #+begin_src emacs-lisp
 (after! nix-mode
   (setq nix-nixfmt-bin "alejandra-quiet" )
@@ -1031,7 +1031,7 @@ Forces nix-mode to use alejandra. The =nix-nixfmt-bin= specifically utilizes the
 (use-package! lsp-nix
   :custom
   (lsp-nix-nil-formatter ["alejandra" "--quiet"])
-  (lsp-nix-nil-max-mem 20000))
+  (lsp-nix-nil-auto-eval-inputs nil))
 #+end_src
 
 ** Black Formatter Configuration

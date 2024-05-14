@@ -33,21 +33,10 @@ in {
   home-manager.users.novaviper =
     import ../../../../home/novaviper/${config.networking.hostName}.nix;
 
-  services = {
-    geoclue2 = {
-      enable = true;
-      enableDemoAgent = lib.mkForce true;
-      submitData = true;
-      appConfig.vivaldi = {
-        isAllowed = true;
-        isSystem = false;
-      };
-    };
-
-    # Setup automatic timezone detection
-    automatic-timezoned.enable = true;
-    #localtimed.enable = true;
-  };
+  time.hardwareClockInLocalTime = lib.mkDefault true;
+  # Setup automatic timezone detection
+  services.automatic-timezoned.enable = true;
+  location.provider = "geoclue2";
 
   # Set your time zone.
   #time.timeZone = lib.mkDefault "America/Chicago";

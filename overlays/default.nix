@@ -70,5 +70,7 @@ in {
       cudaSupport = true;
       rocmSupport = true;
     };
+
+    vesktop = prev.vesktop.override {withSystemVencord = false;};
   };
 }

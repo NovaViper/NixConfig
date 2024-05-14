@@ -5,8 +5,11 @@
   ...
 }: {
   hardware.bluetooth = {
-    # Enable bluetooth
     enable = true;
-    input.General.ClassicBondedOnly = false; # Fix controller compatibility
+    # Fix controller compatibility
+    input.General = {
+      ClassicBondedOnly = false;
+      UserspaceHID = false;
+    };
   };
 }
