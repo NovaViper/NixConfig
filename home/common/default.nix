@@ -20,7 +20,7 @@ in {
     package = lib.mkDefault pkgs.nix;
     settings = {
       # Make sure flakes is enabled
-      experimental-features = ["nix-command" "flakes" "repl-flake"];
+      experimental-features = ["nix-command" "flakes"];
       # Don't spam about the git repo being dirty
       warn-dirty = false;
       # Optimize storage

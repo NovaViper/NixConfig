@@ -2,17 +2,19 @@
   inputs,
   lib,
   config,
+  pkgs,
   ...
 }: let
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
 in {
   nix = {
+    package = pkgs.inputs.nix.nix;
     settings = {
       # Make sure the root user and users in the wheel group are trusted
       trusted-users = ["root" "@wheel"];
 
       # Make sure flakes is enabled
-      experimental-features = ["nix-command" "flakes" "repl-flake"];
+      experimental-features = ["nix-command" "flakes"];
 
       # Don't spam about the git repo being dirty
       warn-dirty = false;
