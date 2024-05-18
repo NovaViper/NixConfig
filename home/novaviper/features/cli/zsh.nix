@@ -132,8 +132,8 @@ in {
 
         # Create shell prompt
         if [ $(tput cols) -ge '75' ] || [ $(tput cols) -ge '100' ]; then
-          ${pkgs.dwt1-shell-color-scripts}/bin/colorscript exec square
           ${pkgs.toilet}/bin/toilet -f pagga "FOSS AND BEAUTIFUL" --metal
+          ${pkgs.fastfetch}/bin/fastfetch
         fi
       '';
 

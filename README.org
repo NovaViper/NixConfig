@@ -36,7 +36,7 @@ My current NixOS (and constant changing) configuration
 
 * Structure
 Here's an overview of the repo's file structure:
-```
+#+begin_src
 .
 ├── documentation/
 ├── home/
@@ -92,7 +92,8 @@ Here's an overview of the repo's file structure:
 ├── flake.nix
 ├── README.org
 └── shell.nix
-```
+#+end_src
+
 
 - =flake.nix=: Entrypoint for host and home configurations. Also exposes a devshell for boostrapping the system (=nix develop= or =nix shell=).
 - =hosts=: NixOS Configurations, accessible via =nixos-rebuild --flake=.
