@@ -53,11 +53,6 @@ in {
 
     papirus-icon-theme = prev.papirus-icon-theme.override {color = "violet";};
 
-    tmux = prev.tmux.override {
-      withSixel = true;
-      withSystemd = true;
-    };
-
     prismlauncher =
       prev.prismlauncher.override {withWaylandGLFW = true;};
 
@@ -71,6 +66,6 @@ in {
       rocmSupport = true;
     };
 
-    vesktop = prev.vesktop.override {withSystemVencord = false;};
+    sunshine = prev.sunshine.override {cudaSupport = true;};
   };
 }

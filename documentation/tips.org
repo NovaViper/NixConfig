@@ -13,6 +13,10 @@ Anytime I mention the =$FLAKE= variable, I mean the variable that is set in  the
 4. Locate the *result* folder located in the directory, and the iso will be in *result/iso*.
 
 * Rebuilding NixOS+Home-Manager
-In order to commit new changes that you made to the flake, run the command =nixos-rebuild switch --flake $FLAKE --accept-flake-config= to rebuild and switch to the new profile. The =--accept-flake-config= parameter makes nix accept the substituter options specified in the flake.
+In order to commit new changes that you made to the flake, run the command =nixos-rebuild switch --flake $FLAKE= to rebuild and switch to the new profile. Optionally, you can add the =--accept-flake-config= parameter in order to skip the prompt asking you to accept the all of the values that =nixConfig= inside the flake.nix file specifies (it will automatically accept the proposed values).
+
 * Update the flake's lock file
-Simply run  =nix flake update --flake $FLAKE=, it will update the lock file. If you want to save the update message and have it committed to the repo's git history, then run =nix flake update --commit-lock-file --flake $FLAKE=.
+The nix dependencies/flake inputs (such as =nixpkgs=) used by the flake will strictly follow the =flake.lock= file, using the commits written into it when you (re)generate the profiles. Simply run =nix flake update --flake $FLAKE= to update the flake inputs. If you want to save the update message and have it committed to the repo's git history, then run =nix flake update --commit-lock-file --flake $FLAKE=. Keeping this updated is key to obtain the latest packages and modules
+
+* Flakes and Trusted Config Values
+Nix will ask you to accept the =extra-substituter= and =extra-trusted-public-key= values that the flake adds (for retrieving packages from extra binary caches like [[https://nix-community.cachix.org]] and [[https://nix-gaming.cachix.org]]); this is for speeding up evaluation time. Make sure to read through the prompts and hit 'Y' if you want to allow those changes. Otherwise, if you want to come back later and make the values trusted, you can modify the =~/.local/share/nix/trusted-settings.json= or just delete it and restart the nix daemon via =systemctl restart nix-daemon.service=.

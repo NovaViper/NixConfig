@@ -3,4 +3,4 @@
   lib,
   pkgs,
   ...
-}: {home.packages = with pkgs; [discord vesktop];}
+}: {home.packages = with pkgs; [vesktop];}
