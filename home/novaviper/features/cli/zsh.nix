@@ -138,55 +138,8 @@ in {
       '';
 
       shellAliases = {
-        # Easy access to accessing Doom cli
-        doom =
-          mkIf (config.programs.emacs.enable)
-          "${config.home.sessionVariables.EMDOTDIR}/bin/doom";
-        # Refresh Doom configurations and Reload Doom Emacs
-        doom-config-reload =
-          mkIf (config.programs.emacs.enable)
-          "${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle ${config.home.sessionVariables.DOOMDIR}/config.org && ${config.home.sessionVariables.EMDOTDIR}/bin/doom sync && systemctl --user restart emacs";
-        # Substitute Doom upgrade command to account for fixing the issue of org-tangle not working
-        doom-upgrade = mkIf (config.programs.emacs.enable) ''
-          ${config.home.sessionVariables.EMDOTDIR}/bin/doom upgrade --force && sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle
-        '';
-        # Download Doom Emacs frameworks
-        doom-download = mkIf (config.programs.emacs.enable) ''
-          git clone https://github.com/hlissner/doom-emacs.git ${config.home.sessionVariables.EMDOTDIR}
-        '';
-        # Run fix to make org-tangle module work again
-        doom-fix = mkIf (config.programs.emacs.enable) ''
-          sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle
-        '';
-        # Create Emacs config.el from my Doom config.org
-        doom-org-tangle =
-          mkIf (config.programs.emacs.enable)
-          "${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle ${config.home.sessionVariables.DOOMDIR}/config.org";
         # Easy Weather
         weather = "curl 'wttr.in/Baton+Rouge?u?format=3'";
-        # Make gpg switch Yubikey
-        gpg-switch-yubikey = ''gpg-connect-agent "scd serialno" "learn --force" /bye'';
-
-        # Make gpg smartcard functionality work again
-        #fix-gpg-smartcard =
-        #"pkill gpg-agent && sudo systemctl restart pcscd.service && sudo systemctl restart pcscd.socket && gpg-connect-agent /bye";
-        # Load PKCS11 keys into ssh-agent
-        load-pkcs-key = "ssh-add -s ${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
-        # Remove PKCS11 keys into ssh-agent
-        remove-pkcs-key = "ssh-add -e ${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
-        # Remove all identities
-        remove-ssh-keys = "ssh-add -D";
-        # List all SSH keys in the agent
-        list-ssh-key = "ssh-add -L";
-        # Make resident ssh keys import from Yubikey
-        load-res-keys = "ssh-keygen -K";
-        # Quickly start Minecraft server
-        start-minecraft-server =
-          mkIf (config.programs.mangohud.enable)
-          "cd ~/Games/MinecraftServer-1.20.1/ && ./run.sh --nogui && cd || cd";
-        start-minecraft-fabric-server =
-          mkIf (config.programs.mangohud.enable)
-          "cd ~/Games/MinecraftFabricServer-1.20.1/ && java -Xmx8G -jar ./fabric-server-mc.1.20.1-loader.0.15.7-launcher.1.0.0.jar nogui && cd || cd";
         # Append HISTFILE before running autin import to make it work properly
         atuin-import =
           mkIf (config.programs.atuin.enable)

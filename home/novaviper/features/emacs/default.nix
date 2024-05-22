@@ -90,6 +90,27 @@ in {
   };
 
   home = {
+    shellAliases = {
+      # Easy access to accessing Doom cli
+      doom = "${config.home.sessionVariables.EMDOTDIR}/bin/doom";
+      # Refresh Doom configurations and Reload Doom Emacs
+      doom-config-reload = "${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle ${config.home.sessionVariables.DOOMDIR}/config.org && ${config.home.sessionVariables.EMDOTDIR}/bin/doom sync && systemctl --user restart emacs";
+      # Substitute Doom upgrade command to account for fixing the issue of org-tangle not working
+      doom-upgrade = ''
+        ${config.home.sessionVariables.EMDOTDIR}/bin/doom upgrade --force && sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle
+      '';
+      # Download Doom Emacs frameworks
+      doom-download = ''
+        git clone https://github.com/hlissner/doom-emacs.git ${config.home.sessionVariables.EMDOTDIR}
+      '';
+      # Run fix to make org-tangle module work again
+      doom-fix = ''
+        sed -i -e "/'org-babel-tangle-collect-blocks/,+1d" ${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle
+      '';
+      # Create Emacs config.el from my Doom config.org
+      doom-org-tangle = "${config.home.sessionVariables.EMDOTDIR}/bin/org-tangle ${config.home.sessionVariables.DOOMDIR}/config.org";
+    };
+
     activation.installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
       export DOOM="${config.home.sessionVariables.EMDOTDIR}"
       if [ ! -d "$DOOM" ]; then
@@ -195,10 +216,6 @@ in {
       # :lang web
       stylelint
       jsbeautifier
-
-      # :apps mu
-      #mu
-      #isync
     ];
   };
 }
