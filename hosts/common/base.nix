@@ -43,7 +43,7 @@
 
   boot = {
     # Make NixOS use the latest Linux Kernel
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
 
     # Makes OBS Virtual Camera feature function
     extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
