@@ -143,6 +143,9 @@ in {
       coreutils
 
       # Modules
+      # : editor everywhere
+      kdotool
+
       # :editor format
       clang-tools
       nodePackages.prettier
