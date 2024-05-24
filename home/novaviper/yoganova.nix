@@ -11,6 +11,7 @@
     ./features/desktop/kde/plasma6
     ./features/games
     ./features/productivity
+    ./features/pass
     #./features/virt-manager
   ];
 

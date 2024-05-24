@@ -27,6 +27,7 @@
         "^echo"
         "-----BEGIN PGP PRIVATE KEY BLOCK-----"
         "^rm -rf"
+        "^pass"
       ];
       sync.records = true;
     };
