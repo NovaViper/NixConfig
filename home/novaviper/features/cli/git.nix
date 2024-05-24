@@ -8,7 +8,13 @@
     package = pkgs.gitAndTools.gitFull;
     userName = "NovaViper";
     userEmail = "coder.nova99@mailbox.org";
-    aliases = {graph = "log --decorate --online --graph";};
+    aliases = {
+      p = "pull --ff-only";
+      ff = "merge --ff-only";
+      graph = "log --decorate --oneline --graph";
+      pushall = "!git remote | xargs -L1 git push --all";
+      add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
+    };
     signing = {
       key = "DEAB6E5298F9C516";
       signByDefault = true;

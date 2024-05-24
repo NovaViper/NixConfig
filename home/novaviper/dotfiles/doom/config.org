@@ -484,6 +484,7 @@ Installs several packages I need,
 - =all-the-icons=: Add fancy icons into Emacs
 - =beacon=: Highlights the cursor location when window scrolling
 - =zoxide=: Fancy find-file command, companion for [[https://github.com/ajeetdsouza/zoxide][zoxide]]
+- =mu4easy=: Minor mode that defines a fully functioning setup for mu4e and mbsync.
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-tutor)
 ;;(package! command-log-mode)
@@ -497,6 +498,7 @@ Installs several packages I need,
 (package! all-the-icons)
 (package! beacon)
 (package! zoxide)
+(package! mu4easy)
 #+end_src
 
 * Editor Configuration
@@ -1087,14 +1089,13 @@ This configures mu and mu4e (mu 4 emacs). These configs are ONLY loaded when ~mu
 *** Main Configurations
 #+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
 (use-package! mu4e
-:defer t
-:config
+:init
 ;; This is set to 't' to avoid mail syncing issues when using mbsync
 (setq mu4e-change-filenames-when-moving t
 
       ;; Refresh mail using isync every 10 minutes
-      mu4e-get-mail-command "mbsync -a"
-      mu4e-update-interval  (* 10 60)
+      ;;mu4e-get-mail-command "mbsync -a"
+      ;;mu4e-update-interval  (* 10 60)
       mu4e-maildir (concat mail_directory "mail")
 
       ;; Make sure plain text mails flow correctly for recipients
@@ -1106,32 +1107,6 @@ This configures mu and mu4e (mu 4 emacs). These configs are ONLY loaded when ~mu
       mu4e-compose-context-policy 'always-ask
       mu4e-headers-date-format "%d-%m-%Y %H:%M"
       mu4e-alert-email-notification-types '(count)))
-
-;;Make Mu4e trash without the trashed flag
-(setf (alist-get 'trash mu4e-marks)
-      '(:char ("d" . "▼")
-              :prompt "dtrash"
-              :dyn-target (lambda (target msg) (mu4e-get-trash-folder msg))
-              ;; Here's the main difference to the regular trash mark, no +T
-              ;; before -N so the message is not marked as IMAP-deleted:
-              :action (lambda (docid msg target)
-                        (mu4e~proc-move docid
-                                        (mu4e~mark-check-target target) "+S-u-N"))))
-
-;;Make Mu4e refile based on provider
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; Refile-dwim       depends on provider
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-(setq df/refile-dwim
-      '(:char ("r" . "▶")
-        :prompt "refile"
-        :dyn-target (lambda (target msg) (mu4e-get-refile-folder msg))
-        :action (lambda (docid msg target)
-                  (let ((maildir (mu4e-message-field msg :maildir)))
-                    (if (string-match-p "Google\\|gmail" maildir)
-                        (mu4e~proc-remove docid)
-                      (mu4e~proc-move docid (mu4e~mark-check-target target) "+S-u-N"))))))
-(setf (alist-get 'refile mu4e-marks) df/refile-dwim)
 #+end_src
 
 *** Mail Contexts

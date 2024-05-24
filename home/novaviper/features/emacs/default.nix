@@ -22,6 +22,8 @@
       big = 24;
     };
 in {
+  imports = [./mu4e.nix];
+
   services.emacs = {
     enable = true;
     defaultEditor = true;

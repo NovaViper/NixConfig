@@ -13,7 +13,9 @@
 
   refDots = path: ../${dotsPath}/${path};
 
+  esecrets = builtins.fromJSON (builtins.readFile ../${dotsPath}/secrets/eval-secrets.json);
+
   filesIn = path: builtins.attrNames (builtins.readDir path);
 in {
-  inherit flakePath linkDots refDots filesIn;
+  inherit flakePath linkDots refDots esecrets filesIn;
 }

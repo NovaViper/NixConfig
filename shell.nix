@@ -12,6 +12,7 @@
       gnupg
       openssh
       git-credential-oauth
+      git-crypt
     ];
   };
 }

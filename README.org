@@ -18,12 +18,13 @@ My current NixOS (and constant changing) configuration
 * Highlights
 - Multiple NixOS configurations, including laptop and desktop
 - Install and partitioning scripts
-- Flexible Home Manager with feature flags
+- Flexible Home Manager with *feature flags*
 - Modular configuration
 - Wayland/X11 Setups
 - Multiple fully featured desktop environments (KDE Plasma 5/6 and XFCE)
 - Live image ISO build with Nvidia drivers, experimental nix features already enabled, unfree software usage, and some nice options for cli and neovim
 - Declarative themes with *theme* module and [[https://github.com/danth/stylix][stylix]]
+- Deployment secrets using *sops-nix* and evaluation secrets with *git-crypt*
 
 * References
 - [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Makes up a large majority of the entire config, primary template used when making the config
@@ -33,6 +34,7 @@ My current NixOS (and constant changing) configuration
 - [[https://github.com/getchoo/flake][Getchoo's flake]] - Nvidia settings
 - [[https://github.com/sagikazarmark/nix-config][sagikazarmark's nix-config]] - Structure of host configurations
 - [[https://github.com/archer-65/nix-dotfiles][archer-65's nix-dotfiles]] - Structure of host configurations
+- [[https://lgug2z.com/articles/handling-secrets-in-nixos-an-overview/#managing-your-own-physical-machines][lgug2z Handling Secrets in NixOS Blogpost]] - Git-crypt implementation for secrets required during flake evaluation
 
 * Structure
 Here's an overview of the repo's file structure:
