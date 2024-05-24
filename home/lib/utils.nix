@@ -7,9 +7,13 @@
 
   flakePath = "${config.home.sessionVariables.FLAKE}";
 
-  linkDots = path: ooss "${flakePath}/home/${config.home.username}/dotfiles/${path}";
+  dotsPath = "${config.home.username}/dotfiles";
+
+  linkDots = path: ooss "${flakePath}/home/${dotsPath}/${path}";
+
+  refDots = path: ../${dotsPath}/${path};
 
   filesIn = path: builtins.attrNames (builtins.readDir path);
 in {
-  inherit flakePath linkDots filesIn;
+  inherit flakePath linkDots refDots filesIn;
 }
