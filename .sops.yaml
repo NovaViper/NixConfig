@@ -1,0 +1,6 @@
+keys:
+  - &novaviper 80FE1FBD9F0B65368FA15791DEAB6E5298F9C516
+creation_rules:
+  - key_groups:
+      - pgp:
+          - *novaviper

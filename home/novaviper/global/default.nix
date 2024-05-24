@@ -6,7 +6,7 @@
   config,
   ...
 }: {
-  imports = [../../common ../features/cli ../features/emacs];
+  imports = [../../common ../features/cli ../features/emacs ../features/sops];
 
   # Enable HTML help page
   manual.html.enable = true;

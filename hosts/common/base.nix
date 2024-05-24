@@ -18,6 +18,7 @@
       ./packages.nix
       ./security.nix
       ./shell.nix
+      ./credentials/sops.nix
     ]
     ++ (builtins.attrValues outputs.nixosModules);
 
