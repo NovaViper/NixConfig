@@ -13,6 +13,7 @@ in {
       stylix.homeManagerModules.stylix
       plasma-manager.homeManagerModules.plasma-manager
       nixvim.homeManagerModules.nixvim
+      nur.hmModules.nur
     ]
     ++ (builtins.attrValues outputs.homeManagerModules);
 

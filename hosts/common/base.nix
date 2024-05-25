@@ -10,6 +10,7 @@
     [
       home-manager.nixosModules.home-manager
       stylix.nixosModules.stylix
+      nur.nixosModules.nur
       ./filesystem.nix
       ./fonts.nix
       ./locale.nix
