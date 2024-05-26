@@ -22,8 +22,10 @@
       history_filter = [
         "^gpg --key-edit"
         "^gpg --list-secret-keys"
+        "^gpg --list-keys"
         "^gpg --recipient"
         "^gpg --card-edit"
+        "^git-crypt add-gpg-user"
         "^echo"
         "-----BEGIN PGP PRIVATE KEY BLOCK-----"
         "^rm -rf"

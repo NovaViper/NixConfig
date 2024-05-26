@@ -104,7 +104,7 @@ in {
           config.key_tables = keybinds.key_tables
         ''
       }
-       config.mouse_bindings = keybinds.mouse_bindings
+       --config.mouse_bindings = keybinds.mouse_bindings
 
       -- and finally, return the configuration to wezterm
       return config
