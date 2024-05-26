@@ -47,7 +47,7 @@ in {
   # Global variables for HomeManager
   home = {
     homeDirectory = mkDefault "/home/${config.home.username}";
-    stateVersion = mkDefault "24.05";
+    stateVersion = mkDefault "24.11";
     sessionPath = ["$HOME/.local/bin"];
   };
 }
