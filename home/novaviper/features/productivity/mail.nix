@@ -75,5 +75,10 @@ in {
     postExec = "${config.programs.mu.package}/bin/mu index";
   };
 
+  # Add check to ensure to only run mbsync when my hardware key is inserted
+  systemd.user.services.mbsync.Service.ExecCondition = let
+    gpgCmds = import ../cli/gpg-commands.nix {inherit pkgs;};
+  in ''/bin/sh -c "${gpgCmds.isUnlocked}"'';
+
   home.packages = with pkgs; [qtpass];
 }

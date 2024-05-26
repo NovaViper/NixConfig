@@ -10,7 +10,7 @@
     ./discord.nix
 
     # Music
-    ./cider.nix
+    #./cider.nix
     ./jellyfin.nix
 
     # Browser

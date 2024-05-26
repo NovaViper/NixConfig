@@ -81,6 +81,7 @@ in {
         qt5.qtimageformats
         packagekit-qt
         sddm-kcm # Add KCM for sddm
+        qt5.qtbase
       ])
     (with kdePackages;
       mkIf (desktopW.plasma6.enable) [
@@ -100,6 +101,7 @@ in {
         qtimageformats
         packagekit-qt
         sddm-kcm # Add KCM for sddm
+        qtbase
       ])
   ]);
 }

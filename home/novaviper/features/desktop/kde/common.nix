@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  inherit (lib) mkIf mkMerge;
+  inherit (lib) mkIf mkMerge mkDefault;
   utils = import ../../../../lib/utils.nix {inherit config pkgs;};
 in {
   imports = [../common];
@@ -57,7 +57,8 @@ in {
     };
     plasma = {
       enable = true;
-      workspace.clickItemTo = "select";
+      overrideConfig = true;
+      workspace.clickItemTo = mkDefault "select";
       kwin.titlebarButtons = {
         left = ["on-all-desktops" "keep-above-windows"];
         right = ["help" "minimize" "maximize" "close"];
