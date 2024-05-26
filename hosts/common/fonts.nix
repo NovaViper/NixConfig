@@ -13,12 +13,7 @@
       noto-fonts-cjk
       noto-fonts-color-emoji
       joypixels
-      fira-code
-      fira-code-symbols
-      hack-font
       nerdfonts
-      #meslo-lg
-      #meslo-lgs-nf
 
       # Microsoft Fonts
       corefonts

@@ -46,8 +46,8 @@
         name = "0xProto Nerd Font Mono";
       };
       emoji = {
-        package = pkgs.noto-fonts-emoji;
-        name = "Noto Color Emoji";
+        package = pkgs.nerdfonts;
+        name = "0xProto Nerd Font Mono";
       };
       sizes = {
         applications = 10;

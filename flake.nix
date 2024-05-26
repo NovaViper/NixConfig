@@ -55,10 +55,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    krunner-nix = {
-      url = "github:pluiedev/krunner-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     wallpapers = {
       url = "github:NovaViper/Wallpapers";
       flake = false;

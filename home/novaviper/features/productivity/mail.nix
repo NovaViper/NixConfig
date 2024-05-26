@@ -6,23 +6,25 @@
 }: let
   inherit (lib) mkIf mkMerge;
   utils = import ../../../lib/utils.nix {inherit config pkgs;};
+  mail-secrets = utils.esecrets.mail;
+  pass = "${config.programs.password-store.package}/bin/pass";
 in {
   accounts.email = {
     maildirBasePath = "${config.xdg.cacheHome}/mail";
     accounts = {
       personal-1 = rec {
         primary = true;
-        address = "${utils.esecrets.mail.personal-1-address}";
+        address = "${mail-secrets.personal-1.address}";
         userName = address;
         realName = "Nova Leary";
+        aliases = ["code.nova99@mailbox.org" "${mail-secrets.personal-1.alias-work}" "${mail-secrets.personal-1.alias-school}" "${mail-secrets.personal-1.alias-shop}"];
         mu.enable = true;
         smtp.host = "smtp.mailbox.org";
         imap = {
           host = "imap.mailbox.org";
           tls.useStartTls = true;
         };
-        # Use gpg authinfo file
-        passwordCommand = "gpg -q --for-your-eyes-only --no-tty -d ~/.authinfo.gpg | awk '/machine ${smtp.host} login ${address}/ {print $NF}'";
+        passwordCommand = "${pass} Mail/${smtp.host}/${address}";
         mbsync = {
           enable = true;
           create = "both";
@@ -38,14 +40,14 @@ in {
       };
 
       personal-2 = rec {
-        address = "${utils.esecrets.mail.personal-2-address}";
+        address = "${mail-secrets.personal-2-address}";
         userName = address;
         realName = "Nova Leary";
         mu.enable = true;
         # Declaring ports for Gmail breaks it!!
         smtp.host = "smtp.gmail.com";
         imap.host = "imap.gmail.com";
-        passwordCommand = "gpg -q --for-your-eyes-only --no-tty -d ~/.authinfo.gpg | awk '/machine ${smtp.host} login ${address}/ {print $NF}'";
+        passwordCommand = "${pass} Mail/${smtp.host}/${address}";
         mbsync = {
           enable = true;
           create = "both";
@@ -67,7 +69,11 @@ in {
     mbsync.enable = true;
   };
 
-  services.mbsync.enable = true;
+  services.mbsync = {
+    enable = true;
+    frequency = "*:0/10";
+    postExec = "${config.programs.mu.package}/bin/mu index";
+  };
 
-  home.file.".authinfo.gpg".source = utils.refDots "secrets/.authinfo.gpg";
+  home.packages = with pkgs; [qtpass];
 }

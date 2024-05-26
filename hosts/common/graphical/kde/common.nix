@@ -60,7 +60,6 @@ in {
       wayland-utils # for kinfocenter for Wayland page
       ffmpegthumbnailer # for video thumbnails
       linuxquota # for plasma-disks
-      inputs.krunner-nix.packages.${pkgs.system}.default # Nix package search for KRunner
       gnuplot # for krunner to display graphs
     ]
 

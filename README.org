@@ -127,7 +127,7 @@ Main user relevant apps
 - zsh + powerlevel10k
 - firefox
 - keepassxc
-- gpg + ssh-agent + yubikey
+- gpg + ssh-agent + yubikey + pass
 - tailscale
 - kdeconnect
 - krita

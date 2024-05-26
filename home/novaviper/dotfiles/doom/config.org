@@ -32,6 +32,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#gpg-encryption-and-password-configuration][GPG Encryption and Password Configuration]]
   - [[#visual-session-and-window-settings][Visual, Session, and Window Settings]]
     - [[#doom-theme][Doom Theme]]
+    - [[#doom-dashboard][Doom Dashboard]]
     - [[#rainbow-mode][Rainbow Mode]]
     - [[#disable-mixed-pitch-for-cursor][Disable Mixed Pitch for Cursor]]
     - [[#modeline][Modeline]]
@@ -60,8 +61,8 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#dap-mode][Dap-Mode]]
   - [[#lua-lsp-mode-configurations][Lua LSP Mode Configurations]]
 - [[#mu4e-configuration][MU4E Configuration]]
-    - [[#load-additional-mu4e-commands][Load Additional Mu4e Commands]]
     - [[#main-configurations][Main Configurations]]
+    - [[#utility-function][Utility Function]]
     - [[#mail-contexts][Mail Contexts]]
 
 * References
@@ -345,7 +346,7 @@ This code is written to ~init.el~ to select which modules to load.
        grammar           ; tasing grammar mistake every you make
 
        :tools
-       ansible
+       ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
        (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
@@ -360,7 +361,7 @@ This code is written to ~init.el~ to select which modules to load.
        (lsp +peek)               ; M-x vscode
        (magit +forge)             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
-       ;;pass              ; password manager for nerds
+       (:if (executable-find "pass") (pass +auth))              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        rgb               ; creating color strings
@@ -481,10 +482,8 @@ Installs several packages I need,
 - =platformio-mode=: Integrates PlatformIO build tools into Emacs
 - =numpydoc=: Automatically insert NumPy style docstrings for Python functions
 - =mixed-pitch=: Enables mixing fixed-pitch (also known as fixed-width or monospace) and variable-pitch (AKA “proportional”) fonts
-- =all-the-icons=: Add fancy icons into Emacs
 - =beacon=: Highlights the cursor location when window scrolling
 - =zoxide=: Fancy find-file command, companion for [[https://github.com/ajeetdsouza/zoxide][zoxide]]
-- =mu4easy=: Minor mode that defines a fully functioning setup for mu4e and mbsync.
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-tutor)
 ;;(package! command-log-mode)
@@ -495,10 +494,8 @@ Installs several packages I need,
 (package! platformio-mode)
 (package! numpydoc)
 (package! mixed-pitch)
-(package! all-the-icons)
 (package! beacon)
 (package! zoxide)
-(package! mu4easy)
 #+end_src
 
 * Editor Configuration
@@ -574,11 +571,8 @@ This fixes =doom doctor= when it says that NerdFonts aren't installed on NixOS. 
 #+end_src
 
 *** GPG Encryption and Password Configuration
-This tells emacs where I've placed my =.authinfo.gpg= file and sets up password look up for mu4e. For Yubikey usage, the passphrase Emacs prompts for is the yubikey pin!
+This sets up password look up for mu4e and other gpg operations. For Yubikey usage, the passphrase Emacs prompts for is the yubikey pin!
 #+begin_src emacs-lisp
-(setq auth-sources '("~/.authinfo.gpg")
-      auth-source-cache-expiry 7200) ; default is 7200 (2h)
-
 (after! epa-file
   (setq epa-file-encrypt-to '("coder.nova99@mailbox.org")
         epa-file-select-keys t
@@ -590,6 +584,16 @@ This tells emacs where I've placed my =.authinfo.gpg= file and sets up password 
 Set the theme for Doom Emacs to Dracula theme
 #+begin_src emacs-lisp
 (setq doom-theme 'doom-dracula)
+#+end_src
+
+*** Doom Dashboard
+Add more entries to Doom Dashboard
+#+begin_src emacs-lisp
+(add-to-list '+doom-dashboard-menu-sections
+             '("Open mu4e client"
+               :icon (nerd-icons-octicon "nf-oct-mail" :face 'doom-dashboard-menu-title)
+               :when (modulep! :email mu4e)
+               :action =mu4e))
 #+end_src
 
 *** Rainbow Mode
@@ -900,11 +904,10 @@ Custom styles for the agenda
 **** Category Icons
 Define icons for different org agenda categories. This allows TODO items that have categories associated with them to display a fancy icon next to them in the agenda
 #+begin_src emacs-lisp
-(require 'all-the-icons)
 (setq org-agenda-category-icon-alist
-      `(("personal" ,(list (all-the-icons-material "person" :height 0.9)) nil nil :ascent center)
-        ("school" ,(list (all-the-icons-material "school" :height 0.9)) nil nil :ascent center)
-        ("coding" ,(list (all-the-icons-faicon "code-fork" :height 0.9)) nil nil :ascent center)
+      `(("personal" ,(list (nerd-icons-codicon "nf-cod-person" :height 0.9)) nil nil :ascent center)
+        ("school" ,(list (nerd-icons-mdicon "nf-md-school" :height 0.9)) nil nil :ascent center)
+        ("coding" ,(list (nerd-icons-faicon "nf-fa-code_fork" :height 0.9)) nil nil :ascent center)
 ))
 #+end_src
 
@@ -1079,24 +1082,18 @@ Changes the location of lua-language-server to where the binary location is
 
 * MU4E Configuration
 This configures mu and mu4e (mu 4 emacs). These configs are ONLY loaded when ~mu~ is installed on the system (useful for NixOS config)
-*** Load Additional Mu4e Commands
-#+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
-;(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
-;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-(load (concat doom-user-dir "mu4e-contrib.el"))
-#+end_src
-
 *** Main Configurations
 #+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
 (use-package! mu4e
 :init
+(require 'mu4e-contrib)
 ;; This is set to 't' to avoid mail syncing issues when using mbsync
 (setq mu4e-change-filenames-when-moving t
 
       ;; Refresh mail using isync every 10 minutes
       ;;mu4e-get-mail-command "mbsync -a"
       ;;mu4e-update-interval  (* 10 60)
-      mu4e-maildir (concat mail_directory "mail")
+      mu4e-maildir (concat mail_directory "/mail")
 
       ;; Make sure plain text mails flow correctly for recipients
       mu4e-compose-format-flowed t
@@ -1107,6 +1104,73 @@ This configures mu and mu4e (mu 4 emacs). These configs are ONLY loaded when ~mu
       mu4e-compose-context-policy 'always-ask
       mu4e-headers-date-format "%d-%m-%Y %H:%M"
       mu4e-alert-email-notification-types '(count)))
+#+end_src
+
+*** Utility Function
+Functions pulled from mu4easy that I found useful
+#+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
+(cl-defmacro dmu4e-context (&key c-name maildir mail smtp
+                                 (smtp-mail mail)
+                                 (smtp-port 587)
+                                 (smtp-type 'starttls)
+                                 (sent-action 'sent)
+                                 (name user-full-name)
+                                 (sig ""))
+  "Main macro for creating email accounts (contexts).
+See examples in the README file.
+
+C-NAME context name, used in mu4e UI; first letter is going to be
+    used as a shortcut.
+MAILDIR mail dir under path/Mail/...
+MAIL email address or alias.
+SMTP address.
+SMTP-MAIL email address for this account (not alias).
+SMTP-TYPE default `starttls'.
+SMTP-PORT default 587.
+SENT-ACTION what to do after sending an email (copy to `sent' or delete);
+    see README.
+NAME name can be set per account.
+SIG signature string; supports org formatting thanks to org-msg."
+  (let
+      ((inbox  (concat "/" maildir "/Inbox"))
+       (sent   (concat "/" maildir "/Sent"))
+       (trash  (concat "/" maildir "/Trash"))
+       (refile (concat "/" maildir "/Archive"))
+       (draft  (concat "/" maildir "/Drafts"))
+       (spam   (concat "/" maildir "/Spam")))
+
+    `(make-mu4e-context
+      :name ,c-name
+      :match-func (lambda (msg)
+                    (when msg
+                      (string-match-p (concat "^/" ,maildir "/")
+                                      (mu4e-message-field msg :maildir))))
+      :vars '((user-mail-address . ,mail)
+              (user-full-name . ,name)
+              (mu4e-sent-folder . ,sent)
+              (mu4e-drafts-folder . ,draft)
+              (mu4e-trash-folder . ,trash)
+              (mu4e-refile-folder . ,refile)
+              (mu4e-compose-signature . (concat ,sig))
+              (mu4e-compose-format-flowed . t)
+              (mu4e-sent-messages-behavior . ,sent-action)
+              (smtpmail-smtp-user . ,smtp-mail)
+              (smtpmail-starttls-credentials . ((,smtp ,smtp-port nil nil)))
+              (smtpmail-auth-credentials . '((,smtp ,smtp-port ,smtp-mail nil)))
+              (smtpmail-default-smtp-server . ,smtp)
+              (smtpmail-smtp-server . ,smtp)
+              (smtpmail-stream-type . ,smtp-type)
+              (smtpmail-smtp-service . ,smtp-port)
+              (smtpmail-debug-info . t)
+              (smtpmail-debug-verbose . t)
+              (org-msg-signature . ,sig)
+              (mu4e-maildir-shortcuts .
+               ((,inbox   . ?i)
+                (,sent    . ?s)
+                (,trash   . ?t)
+                (,refile  . ?a)
+                (,draft   . ?d)
+                (,spam    . ?g)))))))
 #+end_src
 
 *** Mail Contexts

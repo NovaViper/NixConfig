@@ -39,7 +39,7 @@ in {
     emacs = {
       enable = true;
       package = pack;
-      extraPackages = epkgs: with epkgs; [tramp pdf-tools vterm];
+      extraPackages = epkgs: with epkgs; [tramp pdf-tools vterm] ++ lib.optionals (config.programs.mu.enable) [mu4e];
     };
   };
 

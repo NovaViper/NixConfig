@@ -26,7 +26,6 @@
         bypass-paywalls-clean
         plasma-integration
         enhancer-for-youtube
-        #keepassxc-browser
         indie-wiki-buddy
         stylus
         canvasblocker

@@ -27,6 +27,8 @@
     #./kitty.nix
   ];
 
+  programs.browserpass.enable = config.programs.password-store.enable;
+
   fonts.fontconfig.enable = true;
 
   xdg = {
