@@ -138,8 +138,13 @@ in {
       '';
 
       shellAliases = {
-        # Easy Weather
-        weather = "curl 'wttr.in/Baton+Rouge?u?format=3'";
+        # ZSH globbing interferes with flake notation for all nix commands
+        nix = "noglob nix";
+        nom = "noglob nom";
+        nixos-remote = "noglob nixos-remote";
+        nixos-rebuild = "noglob sudo nixos-rebuild";
+        nh = "noglob nh";
+
         # Append HISTFILE before running autin import to make it work properly
         atuin-import =
           mkIf (config.programs.atuin.enable)

@@ -126,15 +126,15 @@ Main user relevant apps
 - doom emacs
 - zsh + powerlevel10k
 - firefox
-- keepassxc
-- gpg + ssh-agent + yubikey + pass
+- pass
+- gpg + ssh-agent + yubikey
 - tailscale
 - kdeconnect
 - krita
 - libreoffice
 - bat
-- cider
-- wezterm+tmux
+- jellyfin (feishin)
+- konsole+tmux
 - and quite a bit more...
 
 Nix stuff

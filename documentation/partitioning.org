@@ -3,6 +3,19 @@
 My configuration has extra helper scripts for partitioning and mounting the system.
 
 These scripts live in [hosts/HOSTNAME/disks.nix] (which must customized to fit your specific configuration).
+
+* Table of Contents :TOC:
+- [[#preflight-checks][Preflight Checks]]
+  - [[#variables-to-check][Variables to Check]]
+- [[#partitioning-steps][Partitioning Steps]]
+  - [[#1-creating-the-partitions][1. Creating the Partitions]]
+  - [[#2-formatting-the-partitions][2. Formatting the Partitions]]
+  - [[#3-mounting-the-partitions][3. Mounting the Partitions]]
+  - [[#4-retrieving-partition-ids][4. Retrieving Partition IDs]]
+- [[#optional-steps][Optional Steps]]
+  - [[#creating-swapfiles-and-obtaining-resume-offset-for-hibernation][Creating Swapfiles and Obtaining Resume Offset for Hibernation]]
+- [[#final-notes][Final Notes]]
+
 * Preflight Checks
 ** Variables to Check
 Make sure you check the *capitalized variables* located within the =let= block in your device's =hosts/HOSTNAME/hardware/hardware-configuration.nix= and =hosts/HOSTNAME/hardware/disks.nix= files! These values are crucial to the scripts you'll run in the next steps as well as for how NixOS configures itself to read your partitions.
@@ -31,4 +44,4 @@ Only do these if you're using a setup that includes what my setup uses (like swa
 ** Creating Swapfiles and Obtaining Resume Offset for Hibernation
 Execute =nix run .#nixosConfigurations.$HOSTNAME.config.create-swapfile= to create the swapfile aswell as calculate what the =resume-offset= value should be for the current system. This is required since I'm using swapfiles and want to enable hibernation. Since there is no swap partition, the system needs to know where the swap header is on the system's disk (aka, it needs to know on which disk block sector the swapfile is located). Once it's ran, the resume offset value is echoed into the console; then you must take this value and put it in the =hosts/HOSTNAME/hardware/hardware-configuration.nix= file under the =RESUME_OFFSET= variable.
 * Final Notes
-- Once you finish all of these steps, move on to the next steps of the [[file:installation.org][Installation]] guide file!
+- Once you finish all of these steps, move on to the next steps of [[file:installation.org][Installation]]!

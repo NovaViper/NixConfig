@@ -1,4 +1,15 @@
 #+title: Tips
+
+This file lists some notable information that helps further explain the rather odd complexities this flake contains. Additionally, this also serves as good reference page for day-to-day use of the flake.
+
+* Table of Contents :TOC:
+- [[#notable-hints][Notable Hints]]
+- [[#building-a-nixos-iso-with-the-iso-config][Building a NixOS ISO with the ISO config]]
+- [[#rebuilding-nixoshome-manager][Rebuilding NixOS+Home-Manager]]
+- [[#update-the-flakes-lock-file][Update the flake's lock file]]
+- [[#flakes-and-trusted-config-values][Flakes and Trusted Config Values]]
+- [[#evaluation-secrets][Evaluation Secrets]]
+
 * Notable Hints
 Peppered throughout my configuration, I have a set of *special variables from the user-vars module [[file:../modules/nixos/user-vars.nix][(nixos)]] [[file:../modules/home-manager/user-vars.nix][(home-manager)]]* that all of my configs include. These variables used throughout the flake to switch between different settings per config and allows for more fine control over what settings your system will have in the resultant builds.
 
@@ -20,3 +31,8 @@ The nix dependencies/flake inputs (such as =nixpkgs=) used by the flake will str
 
 * Flakes and Trusted Config Values
 Nix will ask you to accept the =extra-substituter= and =extra-trusted-public-key= values that the flake adds (for retrieving packages from extra binary caches like [[https://nix-community.cachix.org]] and [[https://nix-gaming.cachix.org]]); this is for speeding up evaluation time. Make sure to read through the prompts and hit 'Y' if you want to allow those changes. Otherwise, if you want to come back later and make the values trusted, you can modify the =~/.local/share/nix/trusted-settings.json= or just delete it and restart the nix daemon via =systemctl restart nix-daemon.service=.
+
+* Evaluation Secrets
+Any secret that starts with the =esecrets= function from the =utils.nix= module are secrets that are evaluation while the flake is being built. These secrets in particular are for hiding sensitive information that are in the nix module files. These are particularly useful for when you want to share your configs without directly revealing the secrets in places that are require the secrets as soon as nix evaluates the flake. These secrets are placed in the =eval-secrets.json= file under =home/$USERNAME/dotfiles/secrets/=.
+
+These secrets are encrypted with [[https://www.agwa.name/projects/git-crypt][git-crypt]], which when you clone the repo, you will need to either delete the secerets or decrypt them with the GPG key that was used to encrypt them.
