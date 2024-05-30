@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: {
-  imports = [../common ./features/cli ./features/neovim ./features/theme];
+  imports = [../common ./features/cli ./features/neovim];
 
   ### Special Variables
   variables.desktop.environment = "kde";
@@ -24,6 +24,7 @@
 
   programs.plasma = {
     enable = true;
+    overrideConfig = true;
     workspace.lookAndFeel = "org.kde.breezedark.desktop";
   };
 

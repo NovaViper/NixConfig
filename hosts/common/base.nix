@@ -9,7 +9,6 @@
   imports = with inputs;
     [
       home-manager.nixosModules.home-manager
-      stylix.nixosModules.stylix
       nur.nixosModules.nur
       ./filesystem.nix
       ./fonts.nix
@@ -22,10 +21,6 @@
       ./credentials/sops.nix
     ]
     ++ (builtins.attrValues outputs.nixosModules);
-
-  # Stylix configuration
-  # For Home-Manager standalone
-  stylix.homeManagerIntegration.autoImport = false;
 
   # Add special args for home-manager
   home-manager = {

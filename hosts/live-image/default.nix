@@ -8,6 +8,8 @@
   ...
 }: {
   imports = [
+    "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
+    "${modulesPath}/installer/cd-dvd/channel.nix"
     ../common/base.nix
 
     ### Credentials
@@ -19,64 +21,48 @@
 
     ### Users
     ../common/users/nixos
-    "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
   ];
 
   ### Special Variables
   variables.useKonsole = true;
   variables.desktop.displayManager = "wayland";
 
-  # Theming with Stylix
-  stylix = {
-    image = "${pkgs.kdePackages.breeze}/share/wallpapers/Next/contents/images/1920x1200.png";
-    polarity = "dark";
-    cursor = {
-      name = "breeze_cursors";
-      size = 32;
-    };
-    fonts = rec {
-      sansSerif = {
-        package = pkgs.noto-fonts;
-        name = "Noto Sans";
-      };
-      serif = sansSerif;
-      monospace = {
-        package = pkgs.hack-font;
-        name = "Hack";
-      };
-      emoji = {
-        package = pkgs.noto-fonts-emoji;
-        name = "Noto Color Emoji";
-      };
-      sizes = {
-        applications = 10;
-        desktop = 10;
-        popups = 10;
-        terminal = 11;
-      };
-    };
-  };
-
   services.openssh.settings.PermitRootLogin = lib.mkForce "yes";
   boot.supportedFilesystems.zfs = lib.mkForce false;
 
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
+  hardware = {
+    # Enable OpenGL
+    bluetooth.enable = true;
+    opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = true;
+    };
+    # Enable Nvidia drivers for desktop
+    nvidia = {
+      modesetting.enable = true;
+      powerManagement.enable = false;
+      open = false;
+      nvidiaSettings = false;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+  };
+
+  # kde power settings do not turn off screen
+  systemd = {
+    services.sshd.wantedBy = pkgs.lib.mkForce ["multi-user.target"];
+    targets = {
+      sleep.enable = false;
+      suspend.enable = false;
+      hibernate.enable = false;
+      hybrid-sleep.enable = false;
+    };
   };
 
   # Load nvidia and other drivers for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia" "modesetting" "fbdev"];
 
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    open = false;
-    nvidiaSettings = false;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-  };
+  system.stateVersion = lib.mkForce "unstable";
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 }

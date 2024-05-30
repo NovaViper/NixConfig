@@ -10,7 +10,6 @@
 in {
   imports = with inputs;
     [
-      stylix.homeManagerModules.stylix
       plasma-manager.homeManagerModules.plasma-manager
       nixvim.homeManagerModules.nixvim
       nur.hmModules.nur

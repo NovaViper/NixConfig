@@ -23,7 +23,7 @@
         sponsorblock
         return-youtube-dislikes
         darkreader
-        bypass-paywalls-clean
+        #bypass-paywalls-clean
         plasma-integration
         enhancer-for-youtube
         indie-wiki-buddy

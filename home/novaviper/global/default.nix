@@ -6,7 +6,13 @@
   config,
   ...
 }: {
-  imports = [../../common ../features/cli ../features/emacs ../features/sops];
+  imports = with inputs; [
+    stylix.homeManagerModules.stylix
+    ../../common
+    ../features/cli
+    ../features/emacs
+    ../features/sops
+  ];
 
   # Enable HTML help page
   manual.html.enable = true;
