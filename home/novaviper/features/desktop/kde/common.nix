@@ -57,65 +57,11 @@ in {
     };
     plasma = {
       enable = true;
-      overrideConfig = true;
       workspace.clickItemTo = mkDefault "select";
       kwin.titlebarButtons = {
         left = ["on-all-desktops" "keep-above-windows"];
         right = ["help" "minimize" "maximize" "close"];
       };
-      panels = [
-        # Windows like panel at the bottom
-        {
-          location = "bottom";
-          height = 46;
-          floating = false;
-          widgets = [
-            {
-              name = "org.kde.plasma.kickoff";
-              config = {
-                General.icon = "nix-snowflake-white";
-              };
-            }
-            "org.kde.plasma.pager"
-            "org.kde.plasma.marginsseperator"
-            {
-              name = "org.kde.plasma.icontasks";
-              /*
-                config = {
-                Genera.launchers = [
-                  ""
-                ];
-              };
-              */
-            }
-            "org.kde.plasma.marginsseperator"
-            "org.kde.plasma.showdesktop"
-          ];
-        }
-        {
-          location = "top";
-          height = 26;
-          widgets = [
-            "org.kde.plasma.appmenu"
-            {
-              digitalClock = {
-                calendar.firstDayOfWeek = "sunday";
-                date = {
-                  enable = true;
-                  position = "besideTime";
-                };
-                time.showSeconds = "always";
-              };
-            }
-            {
-              systemTray = {
-                icons.scaleToFit = true;
-                items.configs.battery.showPercentage = true;
-              };
-            }
-          ];
-        }
-      ];
       shortcuts.yakuake =
         mkIf config.variables.useKonsole {toggle-window-state = "F12";};
       configFile = {

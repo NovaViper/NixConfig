@@ -5,11 +5,11 @@
   modulesPath,
   ...
 }: let
-  MAIN_PART = "/dev/disk/by-uuid/4396870a-b30b-4ead-af0c-09436cbe176a";
-  BOOT_PART = "/dev/disk/by-uuid/7CF1-022D";
+  MAIN_PART = "/dev/disk/by-uuid/b2248de3-d040-40eb-981d-06d9c9f11510";
+  BOOT_PART = "/dev/disk/by-uuid/B298-585F";
   SWAP_PATH = "/swapfile";
   SWAP_SIZE = 16;
-  RESUME_OFFSET = "111116288";
+  RESUME_OFFSET = "89620480";
 in {
   imports = [(modulesPath + "/installer/scan/not-detected.nix")];
 
