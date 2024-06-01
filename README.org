@@ -35,6 +35,7 @@ My current NixOS (and constant changing) configuration
 - [[https://github.com/sagikazarmark/nix-config][sagikazarmark's nix-config]] - Structure of host configurations
 - [[https://github.com/archer-65/nix-dotfiles][archer-65's nix-dotfiles]] - Structure of host configurations
 - [[https://lgug2z.com/articles/handling-secrets-in-nixos-an-overview/#managing-your-own-physical-machines][lgug2z Handling Secrets in NixOS Blogpost]] - Git-crypt implementation for secrets required during flake evaluation
+- [[https://github.com/Lillian-Violet/NixOS-Configuration][Lillian-Violet's NixOS-Configuration]] - some ISO/live-image settings
 
 * Structure
 Here's an overview of the repo's file structure:
