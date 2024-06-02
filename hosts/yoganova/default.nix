@@ -33,6 +33,7 @@
     ../common/programs/gaming.nix
     ../common/programs/sunshine.nix
     ../common/programs/stylix.nix
+    ../common/programs/waydroid.nix
 
     ### Users
     ../common/users/novaviper

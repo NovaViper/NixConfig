@@ -19,11 +19,8 @@ in {
       # Don't spam about the git repo being dirty
       warn-dirty = false;
 
-      # Optimize storage
-      auto-optimise-store = true;
-
       # Enable more system features
-      #system-features = [ "kvm" "big-parallel" "nixos-test" ];
+      system-features = ["kvm" "big-parallel" "nixos-test"];
 
       # Disable global flake registry
       flake-registry = "";
@@ -32,12 +29,18 @@ in {
       nix-path = config.nix.nixPath;
     };
 
+    # Perform nix store optimisation weekly to maintain low disk usage
+    optimise = {
+      automatic = true;
+      dates = ["weekly"]; # Optional; allows customizing optimisation schedule
+    };
+
     # Perform garbage collection weekly to maintain low disk usage
     gc = {
       automatic = true;
       dates = "weekly";
-      # Keep the last 5 generations
-      options = "--delete-older-than +5";
+      # Delete generations that are more than 14 days old
+      options = "--delete-older-than 14d";
     };
 
     # Add each flake input as a registry and nix_path
