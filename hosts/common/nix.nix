@@ -8,7 +8,7 @@
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
 in {
   nix = {
-    package = pkgs.inputs.nix.nix;
+    package = pkgs.nixVersions.nix_2_22;
     settings = {
       # Make sure the root user and users in the wheel group are trusted
       trusted-users = ["root" "@wheel"];
