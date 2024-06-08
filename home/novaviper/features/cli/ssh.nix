@@ -28,4 +28,11 @@
       };
     };
   };
+
+  home.shellAliases = {
+    # Remove all identities
+    remove-ssh-keys = "ssh-add -D";
+    # List all SSH keys in the agent
+    list-ssh-key = "ssh-add -L";
+  };
 }

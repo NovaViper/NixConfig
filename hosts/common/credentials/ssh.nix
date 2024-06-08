@@ -28,8 +28,6 @@ in {
 
   programs.ssh = {
     startAgent = true;
-    # Allows PKCS11 Keys on Yubikey to be used for ssh authentication
-    agentPKCS11Whitelist = "${pkgs.opensc}/lib/opensc-pkcs11.so";
     askPassword = "${askpass}";
   };
 

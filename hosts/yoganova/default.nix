@@ -15,6 +15,7 @@
     ../common/boot/quietboot.nix
 
     ### Credentials
+    ../common/credentials/hardware-key.nix
     ../common/credentials/gpg.nix
     ../common/credentials/ssh.nix
 

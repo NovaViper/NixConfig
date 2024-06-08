@@ -13,6 +13,7 @@
     ./fastfetch.nix
     ./fd.nix
     ./fzf.nix
+    ./hardware-key.nix
     ./git.nix
     ./gpg.nix
     ./navi.nix
