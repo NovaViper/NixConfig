@@ -28,7 +28,10 @@
   variables.useKonsole = true;
   variables.desktop.displayManager = "wayland";
 
+  # Allow root login for SSH
   services.openssh.settings.PermitRootLogin = lib.mkForce "yes";
+
+  # Forcibly disable zfs for latest Linux firmware
   boot.supportedFilesystems.zfs = lib.mkForce false;
 
   hardware = {
