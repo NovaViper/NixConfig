@@ -57,7 +57,6 @@ in {
     };
     plasma = {
       enable = true;
-      workspace.clickItemTo = mkDefault "select";
       kwin.titlebarButtons = {
         left = ["on-all-desktops" "keep-above-windows"];
         right = ["help" "minimize" "maximize" "close"];

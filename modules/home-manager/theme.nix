@@ -42,13 +42,19 @@
     };
   };
 in {
+  imports = [
+    (mkRemovedOptionModule ["theme" "package"] ''
+      Renamed option to packages and it now takes a list of packages rather than just a single package.
+    '')
+  ];
+
   options.theme = {
-    package = mkOption {
-      type = types.nullOr types.package;
+    packages = mkOption {
+      type = types.listOf types.package;
       default = null;
-      example = literalExpression "pkgs.dracula-theme";
+      example = literalExpression "with pkgs; [ dracula-theme ]";
       description = ''
-        Package providing the theme. This package will be installed to your profile. If 'null', then the theme is assumed to be already available in your profile.
+        Packages providing the theme. The list of packages will be installed to your profile. If empty, then the theme is assumed to be already available in your profile.
       '';
     };
     name = mkOption {
@@ -104,7 +110,10 @@ in {
     # Install the packages
     {
       home.packages = with pkgs; (mkMerge
-        [(mkIf (cfg.iconTheme.package != null) [cfg.iconTheme.package])]);
+        [
+          (mkIf (cfg.packages != []) cfg.packages)
+          (mkIf (cfg.iconTheme.package != null) [cfg.iconTheme.package])
+        ]);
     }
   ]);
 }

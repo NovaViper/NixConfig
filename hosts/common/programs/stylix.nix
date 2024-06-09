@@ -18,10 +18,6 @@ in {
     [config.stylix.cursor.package];
 
   services.displayManager.sddm.settings = lib.mkIf (config.services.displayManager.sddm.enable) {
-    General = mkIf (config.stylix.image != null) {
-      background = "${config.stylix.image}";
-      type = "image";
-    };
     Theme = {
       CursorSize = config.stylix.cursor.size;
       CursorTheme =

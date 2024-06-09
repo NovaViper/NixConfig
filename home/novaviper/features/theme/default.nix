@@ -73,12 +73,14 @@ in {
   };
 
   theme = {
-    package = pkgs.dracula-theme;
+    packages = with pkgs; [dracula-theme];
     name = "Dracula";
     nameSymbolic = "dracula";
     app.rio.name = config.theme.name;
     iconTheme = {
-      package = pkgs.papirus-icon-theme;
+      package = pkgs.papirus-icon-theme.override {
+        color = "violet";
+      };
       name = "Papirus-Dark";
     };
   };
@@ -101,9 +103,8 @@ in {
   programs = {
     plasma.workspace = {
       #wallpaper = "";
-      #lookAndFeel = "${config.theme.name}";
       #lookAndFeel = "org.kde.breezedark.desktop";
-      #cursorTheme = "${config.theme.cursorTheme.name}";
+      colorScheme = "DraculaPurple";
       iconTheme = "${config.theme.iconTheme.name}";
     };
     cava.settings.color = {

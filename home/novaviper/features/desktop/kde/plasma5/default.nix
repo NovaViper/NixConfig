@@ -21,5 +21,8 @@ in {
 
   services.kdeconnect.package = pkgs.libsForQt5.kdeconnect-kde;
 
-  programs.firefox.nativeMessagingHosts = with pkgs; [plasma5Packages.plasma-browser-integration];
+  programs = {
+    plasma.workspace.clickItemTo = mkDefault "select";
+    firefox.nativeMessagingHosts = with pkgs; [plasma5Packages.plasma-browser-integration];
+  };
 }

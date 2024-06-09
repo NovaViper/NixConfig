@@ -51,8 +51,6 @@ in {
       enableWidevine = true;
     };
 
-    papirus-icon-theme = prev.papirus-icon-theme.override {color = "violet";};
-
     prismlauncher =
       prev.prismlauncher.override {withWaylandGLFW = true;};
 

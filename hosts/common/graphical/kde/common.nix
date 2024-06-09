@@ -18,6 +18,7 @@ in {
   services.displayManager.sddm = {
     enable = true;
     autoNumlock = true;
+    enableHidpi = true;
   };
 
   # Enable KDE partition manager
