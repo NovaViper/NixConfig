@@ -14,6 +14,7 @@ in {
     #base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/dracula.yaml";
     override = {
+      scheme = "BetterDracula";
       base00 = "282A36"; # Previously: "282936"
       #base01 = "3A3C4E"; # Unchanged
       base02 = "44475A"; # Previously: "4d4f68"

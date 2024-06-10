@@ -57,6 +57,16 @@ in {
     };
     plasma = {
       enable = true;
+      files.kdeglobals = let
+        # Auto switch terminal application desktop file
+        terminal =
+          if builtins.hasAttr "TERMINAL" config.home.sessionVariables
+          then "${config.home.sessionVariables.TERMINAL}"
+          else "org.kde.konsole";
+      in {
+        General.TerminalApplication = "${terminal}.destop";
+        General.TerminalService = "${terminal}.desktop";
+      };
       kwin.titlebarButtons = {
         left = ["on-all-desktops" "keep-above-windows"];
         right = ["help" "minimize" "maximize" "close"];
