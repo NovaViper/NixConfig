@@ -51,7 +51,7 @@ in {
   options.theme = {
     packages = mkOption {
       type = types.listOf types.package;
-      default = null;
+      default = [];
       example = literalExpression "with pkgs; [ dracula-theme ]";
       description = ''
         Packages providing the theme. The list of packages will be installed to your profile. If empty, then the theme is assumed to be already available in your profile.

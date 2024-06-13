@@ -15,6 +15,7 @@
       home = "/home/${config.variables.username}/.gnupg";
       sshKeyPaths = [];
     };
+    age.sshKeyPaths = [];
   };
 
   # sops-nix will launch an scdaemon instance on boot, which will stay
