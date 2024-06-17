@@ -31,9 +31,9 @@ in {
     ./disks.nix
 
     ### Hardware
-    ../../common/hardware/rgb.nix
-    ../../common/hardware/bluetooth.nix
-    ../../common/hardware/qmk.nix
+    ../../common/optional/hardware/rgb.nix
+    ../../common/optional/hardware/bluetooth.nix
+    ../../common/optional/hardware/qmk.nix
   ];
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

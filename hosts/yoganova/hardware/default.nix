@@ -32,8 +32,8 @@ in {
     ./disks.nix
 
     ### Hardware
-    ../../common/hardware/bluetooth.nix
-    #../../common/hardware/howdy.nix
+    ../../common/optional/hardware/bluetooth.nix
+    #../../common/optional/hardware/howdy.nix
   ];
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

@@ -10,31 +10,29 @@
     ./hardware
 
     ### Base Configs
-    ../common/base.nix
-    ../common/boot/efi.nix
-    ../common/boot/quietboot.nix
+    ../common/core
+    ../common/optional/boot/efi.nix
+    ../common/optional/boot/quietboot.nix
 
     ### Credentials
-    ../common/credentials/hardware-key.nix
-    ../common/credentials/gpg.nix
-    ../common/credentials/ssh.nix
+    ../common/optional/hardware-key.nix
 
     ### Desktop Environment
-    ../common/graphical/kde/plasma6.nix
+    ../common/optional/graphical/kde/plasma6.nix
 
     ### Service
-    ../common/services/syncthing.nix
-    ../common/services/tailscale.nix
-    ../common/services/flatpak.nix
-    ../common/services/printing.nix
+    ../common/optional/services/syncthing.nix
+    ../common/optional/services/tailscale.nix
+    ../common/optional/services/flatpak.nix
+    ../common/optional/services/printing.nix
 
     ### Applications
-    ../common/programs/appimage.nix
-    ../common/programs/localsend.nix
-    ../common/programs/gaming.nix
-    ../common/programs/sunshine.nix
-    ../common/programs/stylix.nix
-    ../common/programs/waydroid.nix
+    ../common/optional/appimage.nix
+    ../common/optional/localsend.nix
+    ../common/optional/gaming.nix
+    ../common/optional/stylix.nix
+    ../common/optional/sunshineclient.nix
+    ../common/optional/waydroid.nix
 
     ### Users
     ../common/users/novaviper

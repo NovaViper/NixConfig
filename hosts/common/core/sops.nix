@@ -4,18 +4,21 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  isEd25519 = k: k.type == "ed25519";
+  getKeyPath = k: k.path;
+  keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
+in {
   imports = [inputs.sops-nix.nixosModules.sops];
 
   environment.systemPackages = with pkgs; [sops];
 
-  # sudo cp -r ~/.gnupg /var/lib/sops
   sops = {
     gnupg = {
       home = "/home/${config.variables.username}/.gnupg";
       sshKeyPaths = [];
     };
-    age.sshKeyPaths = [];
+    age.sshKeyPaths = map getKeyPath keys;
   };
 
   # sops-nix will launch an scdaemon instance on boot, which will stay

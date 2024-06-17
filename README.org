@@ -56,28 +56,11 @@ Here's an overview of the repo's file structure:
 │     └── yoganova.nix*
 ├── hosts/
 │  ├── common/
-│  │  ├── boot/
-│  │  ├── credentials/
-│  │  ├── desktop/
-│  │  │  ├── common/
-│  │  │  ├── displayManager/
-│  │  │  ├── kde/
-│  │  │  └── xfce.nix
-│  │  ├── hardware/
-│  │  ├── programs/
-│  │  ├── services/
+│  │  ├── core/
+│  │  ├── optional/
 │  │  ├── users/
 │  │  │  ├── nixos/
 │  │  │  └── novaviper/
-│  │  ├── base.nix
-│  │  ├── filesystem.nix
-│  │  ├── fonts.nix
-│  │  ├── locale.nix
-│  │  ├── networking.nix
-│  │  ├── nix.nix
-│  │  ├── packages.nix
-│  │  ├── security.nix
-│  │  └── shell.nix
 │  ├── live-image/
 │  ├── ryzennova/
 │  └── yoganova/
@@ -101,13 +84,8 @@ Here's an overview of the repo's file structure:
 - =flake.nix=: Entrypoint for host and home configurations. Also exposes a devshell for boostrapping the system (=nix develop= or =nix shell=).
 - =hosts=: NixOS Configurations, accessible via =nixos-rebuild --flake=.
   - =common=: Shared configurations consumed by the machine-specific ones.
-    - =base.nix=: Imports configurations that are applied to all of the hosts
-    - =boot=: Configurations related to the bootloader
-    - =credentials=: Configurations related to authentication protocols (i.e. ssh and gpg)
-    - =services=: Configurations related to applications that run in the background (i.e. tailscale and syncthing)
-    - =programs=: Configurations related to general applications (i.e. steam)
-    - =hardware=: Configurations related to device hardware such as bluetooth
-    - =graphical=: Configurations related to graphical environments
+    - =core=: Configurations applied across all hosts
+    - =optional=: Opt-in configurations/feature flags that one or more host can use
     - =users=: Configurations for each system on the machines
   - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6
   - =yoganova=: Lenovo Yoga 7i - 8GB RAM, Intel i5 1335U | KDE Plasma 6

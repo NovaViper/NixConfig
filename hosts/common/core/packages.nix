@@ -17,5 +17,6 @@
     dmidecode # Get hardware information
     perl
     tree
+    just
   ];
 }

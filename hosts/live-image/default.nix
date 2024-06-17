@@ -10,15 +10,13 @@
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
     "${modulesPath}/installer/cd-dvd/channel.nix"
-    ../common/base.nix
+    ../common/core
 
     ### Credentials
-    ../common/credentials/hardware-key.nix
-    ../common/credentials/gpg.nix
-    ../common/credentials/ssh.nix
+    ../common/optional/hardware-key.nix
 
     ### Desktop Environment
-    ../common/graphical/kde/plasma6.nix
+    ../common/optional/graphical/kde/plasma6.nix
 
     ### Users
     ../common/users/nixos

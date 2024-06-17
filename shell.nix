@@ -9,7 +9,10 @@
       home-manager
       git
       sops
+      ssh-to-age
       gnupg
+      rage
+      just
       openssh
       git-credential-oauth
       git-crypt

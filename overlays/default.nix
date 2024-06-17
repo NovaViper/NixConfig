@@ -46,24 +46,23 @@ in {
     # ...
     # });
 
+    # Enable DRM support in Vivaldi
     vivaldi = prev.vivaldi.override {
       proprietaryCodecs = true;
       enableWidevine = true;
     };
 
+    # TODO: Remove when https://github.com/NixOS/nixpkgs/pull/310073 is merged
     prismlauncher =
       prev.prismlauncher.override {withWaylandGLFW = true;};
 
-    discord = prev.discord.override {
-      withOpenASAR = true;
-      withVencord = true;
-    };
-
+    # Make btop compile with GPU support (Nvidia and AMD)
     btop = prev.btop.override {
       cudaSupport = true;
       rocmSupport = true;
     };
 
+    # For Nvidia GPUs
     sunshine = prev.sunshine.override {cudaSupport = true;};
   };
 }

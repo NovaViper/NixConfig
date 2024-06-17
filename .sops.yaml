@@ -1,6 +1,16 @@
 keys:
-  - &novaviper 80FE1FBD9F0B65368FA15791DEAB6E5298F9C516
+  - &users:
+    - &novaviper 80FE1FBD9F0B65368FA15791DEAB6E5298F9C516
+  - &hosts:
+    - &yoganova age10l7w95eqmkgvr8r49jkd5yy73f4gugpeeyual7mnqd5sftce8qtq8nr98t
 creation_rules:
-  - key_groups:
+  - path_regex: home/novaviper/dotfiles/secrets/*
+    key_groups:
       - pgp:
           - *novaviper
+  - path_regex: hosts/common/secrets.ya?ml$
+    key_groups:
+      - pgp:
+          - *novaviper
+      - age:
+          - *yoganova
