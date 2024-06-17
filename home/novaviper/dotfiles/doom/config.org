@@ -496,6 +496,8 @@ Installs several packages I need,
 (package! mixed-pitch)
 (package! beacon)
 (package! zoxide)
+(package! justl)
+(package! just-mode)
 #+end_src
 
 * Editor Configuration

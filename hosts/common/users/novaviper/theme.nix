@@ -6,6 +6,7 @@
   ...
 }: {
   stylix = {
+    enable = true;
     autoEnable = true;
     homeManagerIntegration.autoImport = false;
     image = "${inputs.wallpapers}/purple-mountains-ai.png";
