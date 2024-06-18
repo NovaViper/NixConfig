@@ -121,19 +121,15 @@
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations = {
+    /*
+      homeConfigurations = {
       # Desktops
       "novaviper@ryzennova" = lib.homeManagerConfiguration {
         modules = [./home/common/nixpkgs.nix ./home/novaviper/ryzennova.nix];
         pkgs = pkgsFor.x86_64-linux;
         extraSpecialArgs = {inherit inputs outputs;};
       };
-      # Laptops
-      "novaviper@yoganova" = lib.homeManagerConfiguration {
-        modules = [./home/common/nixpkgs.nix ./home/novaviper/yoganova.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-      };
     };
+    */
   };
 }

@@ -66,4 +66,6 @@
 
   # Enable firmware updates on Linux
   services.fwupd.enable = true;
+
+  environment.pathsToLink = ["/share/xdg-desktop-portal" "/share/applications"];
 }

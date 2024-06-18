@@ -7,7 +7,6 @@
   ...
 }: {
   imports = with inputs; [
-    stylix.homeManagerModules.stylix
     ../../common
     ../features/cli
     ../features/emacs

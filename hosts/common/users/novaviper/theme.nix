@@ -8,7 +8,6 @@
   stylix = {
     enable = true;
     autoEnable = true;
-    homeManagerIntegration.autoImport = false;
     image = "${inputs.wallpapers}/purple-mountains-ai.png";
     #base16Scheme = "${pkgs.base16-schemes}/share/themes/catppuccin-mocha.yaml";
     base16Scheme = "${pkgs.base16-schemes}/share/themes/dracula.yaml";

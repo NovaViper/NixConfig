@@ -7,7 +7,22 @@
   inherit (lib) mkIf mkMerge;
   utils = import ../../../../lib/utils.nix {inherit config pkgs;};
 in {
-  home.packages = with pkgs; [vorta];
+  home.packages = with pkgs; [borgbackup vorta];
+
+  systemd.user.services = {
+    vorta = {
+      Unit = {
+        Description = "Vorta";
+      };
+      Service = {
+        ExecStart = "${pkgs.vorta}/bin/vorta --daemonise";
+        Restart = "on-failure";
+      };
+      Install = {
+        WantedBy = ["default.target"];
+      };
+    };
+  };
 
   sops.secrets."borg_token" = {
     format = "binary";
