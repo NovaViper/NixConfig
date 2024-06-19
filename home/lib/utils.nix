@@ -9,13 +9,19 @@
 
   dotsPath = "${config.home.username}/dotfiles";
 
+  agePath = ../../secrets;
+
   linkDots = path: ooss "${flakePath}/home/${dotsPath}/${path}";
 
   refDots = path: ../${dotsPath}/${path};
 
-  esecrets = builtins.fromJSON (builtins.readFile ../${dotsPath}/secrets/eval-secrets.json);
+  refUserAge = path: "${agePath}/${config.home.username}/${path}";
+
+  refAgeID = path: "${agePath}/identities/${path}";
+
+  esecrets = builtins.fromJSON (builtins.readFile (refUserAge "eval-secrets.json"));
 
   filesIn = path: builtins.attrNames (builtins.readDir path);
 in {
-  inherit flakePath linkDots refDots esecrets filesIn;
+  inherit flakePath linkDots refDots esecrets refUserAge refAgeID filesIn;
 }

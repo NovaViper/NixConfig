@@ -56,6 +56,7 @@ in {
               user-username "${config.home.username}" ; username
               user-mail-address "coder.nova99@mailbox.org'" ; email
               mail_directory "${config.xdg.dataHome}" ; Path to mail directory (for mu4e)
+              flake-directory "${config.home.sessionVariables.FLAKE}" ; Path to NixOS Flake
 
               ; Setup Fonts from Stylix
               doom-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 3)})

@@ -26,14 +26,11 @@ in {
         "git"
         "gamemode"
       ];
-    hashedPasswordFile = config.sops.secrets.novaviper-password.path;
+    hashedPasswordFile = config.age.secrets.novaviper-password.path;
     packages = with pkgs; [home-manager];
   };
 
-  sops.secrets.novaviper-password = {
-    sopsFile = ../../secrets.yaml;
-    neededForUsers = true;
-  };
+  age.secrets.novaviper-password.file = ../../../../secrets/novaviper/pass.age;
 
   # Import Home-Manager config for host
   home-manager.users.novaviper =

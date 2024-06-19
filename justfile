@@ -14,8 +14,55 @@ gen-iso:
     rm -rf result
     nix build .\#nixosConfigurations.live-image.config.system.build.isoImage
 
-rekey FILE:
-    sops updatekeys {{FILE}}
+[doc('Rekey FILE age-key secret that is under secrets/USER using the specified IDENTITY file')]
+rekey USER FILE IDENTITY:
+    #!/usr/bin/env bash
+    # Enter into the folder for the specific user we chose
+    cd secrets/{{USER}}
+
+    # Create a temp folder to move all other secrets into and copy
+    # all but the specified secret file (make sure to ignore the
+    # eval-secrets.json as that doesn't get touched by agenix)
+    [ -d temp ] || mkdir temp
+    mv $(ls | grep -v -e {{FILE}}.age -e eval-secrets.json -e temp) temp/
+
+    # Go back to main secrets directory and finally run the rekey command
+    cd ..
+    agenix -r -i {{IDENTITY}}
+
+    # Make sure to go back into the specified user folder and move all
+    # other secrets back into it and delete the temp folder
+    cd {{USER}}
+    mv temp/* .
+    rm -d temp/
+
+[doc('Rekey FILE age-key secret that is under secrets/USER using the SSH Host ED25519 Key')]
+rekey-host USER FILE:
+    #!/usr/bin/env bash
+    # Enter into the folder for the specific user we chose
+    cd secrets/{{USER}}
+
+    # Create a temp folder to move all other secrets into and copy
+    # all but the specified secret file (make sure to ignore the
+    # eval-secrets.json as that doesn't get touched by agenix)
+    [ -d temp ] || mkdir temp
+    mv $(ls | grep -v -e {{FILE}}.age -e eval-secrets.json -e temp) temp/
+
+    # Go back to main secrets directory and finally run the rekey command
+    cd ..
+    sudo agenix -r -i /etc/ssh/ssh_host_ed25519_key
+
+    # Make sure to go back into the specified user folder and move all
+    # other secrets back into it and delete the temp folder
+    cd {{USER}}
+    mv temp/* .
+    rm -d temp/
+
+[doc('Rekey FILE age-key secret that is under secrets/USER using the SSH Host ED25519 Key aswell as the specified IDENTITY file')]
+rekey-multikey USER FILE IDENTITY:
+    just rekey-host {{USER}} {{FILE}}
+    echo "Done rekeying with ssh_host_ed25519 key, now rekeying with {{IDENTITY}}"
+    just rekey {{USER}} {{FILE}} {{IDENTITY}}
 
 show-hardware-config:
     nixos-generate-config --show-hardware-config --root /mnt

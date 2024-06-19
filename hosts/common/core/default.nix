@@ -20,7 +20,7 @@
       ./shell.nix
       ./ssh.nix
       ./gpg.nix
-      ./sops.nix
+      ./age.nix
     ]
     ++ (builtins.attrValues outputs.nixosModules);
 

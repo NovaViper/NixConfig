@@ -24,9 +24,8 @@ in {
     };
   };
 
-  sops.secrets."borg_token" = {
-    format = "binary";
-    sopsFile = utils.refDots "secrets/borg/srv_dev_disk_by_uuid_5aaed6a3_d2c7_4623_b121_5ebb8d37d930_Backups";
+  age.secrets."borg_token" = {
+    file = utils.refUserAge "borg.age";
     path = "${config.xdg.configHome}/borg/keys/srv_dev_disk_by_uuid_5aaed6a3_d2c7_4623_b121_5ebb8d37d930_Backups";
   };
 }

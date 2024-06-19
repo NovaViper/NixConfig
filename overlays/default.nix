@@ -10,6 +10,7 @@
 in {
   # Third party overlays
   nur = inputs.nur.overlay;
+  agenix-overlay = inputs.agenix.overlays.default;
 
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.system}' or

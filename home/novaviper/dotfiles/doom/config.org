@@ -42,6 +42,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#org-capture-shortcut][Org Capture Shortcut]]
     - [[#vivim-emulation-for-centaur-tabs][Vi/Vim emulation for Centaur Tabs]]
     - [[#zoxide-integration][Zoxide Integration]]
+    - [[#justljust-mode-integration][Justl/Just-mode Integration]]
 - [[#org-mode][Org Mode]]
   - [[#basic-configuration][Basic Configuration]]
     - [[#disable-electric-mode-in-org][Disable Electric Mode in Org]]
@@ -59,6 +60,8 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#global-config-file][Global Config File]]
   - [[#numpydoc-configuration][Numpydoc Configuration]]
   - [[#dap-mode][Dap-Mode]]
+  - [[#lsp-mode-nerd-icon-fix][Lsp-mode Nerd Icon Fix]]
+  - [[#agenix-integration][Agenix Integration]]
   - [[#lua-lsp-mode-configurations][Lua LSP Mode Configurations]]
 - [[#mu4e-configuration][MU4E Configuration]]
     - [[#main-configurations][Main Configurations]]
@@ -72,7 +75,8 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
 - [[https://jherrlin.github.io/posts/emacs-mu4e/][jherrlin's mu4e tutorial]] - For the new mu4e `pass` functions and improvements
 - [[https://github.com/hlissner/doom-emacs-private/blob/master/config.el#L80-L85][Hlissner's Doom Config]] - Advanced configurations for Emacs everywhere, indents and more
 - [[https://github.com/danielfleischer/mu4easy][danielfleischer's mu4e configuration]] - Mu4e context and Gmail refile macros, mbsyncrc configuration
-- [[https://github.com/librephoenix/nixos-config/tree/main/user/app/doom-emacs][librephoenix's nixos flake: doom.org file]] flake - Org-mode agenda configurations
+- [[https://github.com/librephoenix/nixos-config/tree/main/user/app/doom-emacs][librephoenix's nixos flake: doom.org file]] - Org-mode agenda configurations
+- [[https://github.com/mcordell/dotfiles][mcordell's dotfiles]] - just-mode configs
 * Doom Config File Overview
 Doom Emacs uses three config files:
 - [[file:init.el][init.el]] defines which of the existing Doom [[https://github.com/hlissner/doom-emacs/blob/develop/docs/getting_started.org#modules][modules]] are loaded. A Doom module is a bundle of packages, configuration and commands, organized into a unit that can be toggled easily from this file.
@@ -484,6 +488,9 @@ Installs several packages I need,
 - =mixed-pitch=: Enables mixing fixed-pitch (also known as fixed-width or monospace) and variable-pitch (AKA “proportional”) fonts
 - =beacon=: Highlights the cursor location when window scrolling
 - =zoxide=: Fancy find-file command, companion for [[https://github.com/ajeetdsouza/zoxide][zoxide]]
+- =justl=: Major mode for driving justfiles
+- =just-mode=: Emacs mode for justfiles
+- =agenix=: Transparent editing for [[https://github.com/ryantm/agenix][agenix]] secrets inside Emacs
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-tutor)
 ;;(package! command-log-mode)
@@ -498,6 +505,7 @@ Installs several packages I need,
 (package! zoxide)
 (package! justl)
 (package! just-mode)
+(package! agenix)
 #+end_src
 
 * Editor Configuration
@@ -720,6 +728,12 @@ Enable Vim like tab changing motion for Centaur Tabs
         :desc "zoxide-find-file-with-query"   "F" #'zoxide-find-file-with-query
         :desc "zoxide-travel-with-query"      "T" #'zoxide-travel-with-query
 ))
+#+end_src
+*** Justl/Just-mode Integration
+#+begin_src emacs-lisp
+(use-package! justl
+  :config
+  (map! :n "e" 'justl-exec-recipe))
 #+end_src
 * Org Mode
 ** Basic Configuration
@@ -1074,6 +1088,19 @@ Configures dap mode configurations for different languages
   ;(require 'dap-netcore))
 
 ;(add-hook! 'csharp-mode-hook 'dotnet-mode)
+#+end_src
+
+** Lsp-mode Nerd Icon Fix
+#+begin_src emacs-lisp
+(setq lsp-modeline-code-action-fallback-icon "󰌵"
+      lsp-progress-prefix "")
+#+end_src
+
+** Agenix Integration
+Integrate agenix for editing secrets for NixOS inside of Emacs
+#+begin_src emacs-lisp
+;(add-hook 'agenix-pre-mode-hook #'envrc-mode)
+(setq agenix-key-files (append `,(doom-files-in (concat flake-directory "/secrets/identities")) `("~/.ssh/id_ed25519" "~/.ssh/id_rsa")))
 #+end_src
 
 ** Lua LSP Mode Configurations

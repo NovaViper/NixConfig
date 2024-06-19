@@ -10,7 +10,7 @@
     ../../common
     ../features/cli
     ../features/emacs
-    ../features/sops
+    ../features/age
   ];
 
   # Enable HTML help page
