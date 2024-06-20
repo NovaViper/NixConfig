@@ -2,17 +2,20 @@ default:
     @just --list
 
 update:
-    nix flake update --refresh
+    nix flake update --refresh |& nom
 
 update-upload:
-    nix flake update --commit-lock-file
+    nix flake update --commit-lock-file |& nom
 
 diff:
     git diff ':!flake.lock'
 
 gen-iso:
     rm -rf result
-    nix build .\#nixosConfigurations.live-image.config.system.build.isoImage
+    nix build .\#nixosConfigurations.live-image.config.system.build.isoImage |& nom
+
+nixos-install HOST:
+    sudo nixos-install --flake '.#{{HOST}}' --root /mnt --option accept-flake-config true |& nom
 
 [doc('Rekey FILE age-key secret that is under secrets/USER using the specified IDENTITY file')]
 rekey USER FILE IDENTITY:

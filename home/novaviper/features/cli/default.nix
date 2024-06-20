@@ -16,7 +16,6 @@
     ./hardware-key.nix
     ./git.nix
     ./gpg.nix
-    ./navi.nix
     ./nix-index.nix
     ./ssh.nix
     ./tmux.nix

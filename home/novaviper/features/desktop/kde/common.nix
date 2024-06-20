@@ -111,10 +111,6 @@ in {
             "SortingChoice" = "CaseInsensitiveSorting";
             "UseTabForSwitchingSplitView" = true;
           };
-          "KFileDialog Settings" = {
-            "Places Icons Auto-resize" = false;
-            "Places Icons Static Size" = 22;
-          };
           PreviewSettings.Plugins = "appimagethumbnail,audiothumbnail,blenderthumbnail,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,directorythumbnail,fontthumbnail,imagethumbnail,jpegthumbnail,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,mobithumbnail,opendocumentthumbnail,gsthumbnail,rawthumbnail,svgthumbnail,ffmpegthumbs";
         };
       };

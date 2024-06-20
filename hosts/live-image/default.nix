@@ -46,18 +46,7 @@
       powerManagement.enable = false;
       open = false;
       nvidiaSettings = false;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-    };
-  };
-
-  # kde power settings do not turn off screen
-  systemd = {
-    services.sshd.wantedBy = pkgs.lib.mkForce ["multi-user.target"];
-    targets = {
-      sleep.enable = false;
-      suspend.enable = false;
-      hibernate.enable = false;
-      hybrid-sleep.enable = false;
+      package = config.boot.kernelPackages.nvidiaPackages.production;
     };
   };
 

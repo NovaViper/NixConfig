@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  options,
   ...
 }: let
   agePath = path: ../../../secrets/${path};
@@ -13,10 +14,11 @@ in {
 
   age = {
     ageBin = "PATH=$PATH:${lib.makeBinPath [pkgs.age-plugin-yubikey]} ${pkgs.age}/bin/age";
-    identityPaths = [
-      (agePath "identities/age-yubikey-identity-a38cb00a-usba.txt")
-      #(agePath "identities/age-yubikey-identity-ID-INTERFACE.txt")
-      "/etc/ssh/ssh_host_ed25519_key"
-    ];
+    identityPaths =
+      [
+        (agePath "identities/age-yubikey-identity-a38cb00a-usba.txt")
+        #(agePath "identities/age-yubikey-identity-ID-INTERFACE.txt")
+      ]
+      ++ options.age.identityPaths.default;
   };
 }
