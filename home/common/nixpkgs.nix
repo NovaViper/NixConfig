@@ -9,7 +9,6 @@
 in {
   nix = {
     settings = {
-      trusted-public-keys = ["cache.m7.rs:kszZ/NSwE/TjhOcPPQ16IuUiuRSisdiIwhKZCxguaWg="];
       experimental-features = ["nix-command" "flakes"];
       warn-dirty = false;
       flake-registry = ""; # Disable global flake registry
