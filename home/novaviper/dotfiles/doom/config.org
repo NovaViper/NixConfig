@@ -354,9 +354,9 @@ This code is written to ~init.el~ to select which modules to load.
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
        (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
-       ;;direnv
+       direnv
        ;;docker
-       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        (lookup +dictionary              ; navigate your code and its documentation
@@ -1099,8 +1099,8 @@ Configures dap mode configurations for different languages
 ** Agenix Integration
 Integrate agenix for editing secrets for NixOS inside of Emacs
 #+begin_src emacs-lisp
-;(add-hook 'agenix-pre-mode-hook #'envrc-mode)
 (setq agenix-key-files (append `,(doom-files-in (concat flake-directory "/secrets/identities")) `("~/.ssh/id_ed25519" "~/.ssh/id_rsa")))
+(add-hook 'agenix-pre-mode-hook #'envrc-mode)
 #+end_src
 
 ** Lua LSP Mode Configurations
