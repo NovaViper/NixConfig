@@ -6,7 +6,7 @@
   pkgs,
   ...
 }: {
-  imports = [../common ./features/cli ./features/neovim];
+  imports = [../common ./features/cli];
 
   ### Special Variables
   variables.desktop.environment = "kde";
@@ -17,10 +17,7 @@
   manual.html.enable = true;
 
   # Setup Home-Manager
-  home = {
-    username = lib.mkDefault "nixos";
-    packages = with pkgs; [kitty];
-  };
+  home.username = lib.mkDefault "nixos";
 
   programs.plasma = {
     enable = true;
@@ -30,7 +27,6 @@
   programs.firefox = {
     enable = true;
     nativeMessagingHosts = with pkgs; [
-      fx-cast-bridge
       kdePackages.plasma-browser-integration
     ];
     profiles.default = {
@@ -57,13 +53,28 @@
             icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
             definedAliases = ["@np"];
           };
-          "NixOS Wiki" = {
+          "NixOS Options" = {
             urls = [
               {
-                template = "https://nixos.wiki/index.php?search={searchTerms}";
+                template = "https://search.nixos.org/options";
+                params = [
+                  {
+                    name = "type";
+                    value = "packages";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
+                ];
               }
             ];
-            iconUpdateURL = "https://nixos.wiki/favicon.png";
+            icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+            definedAliases = ["@no"];
+          };
+          "NixOS Wiki" = {
+            urls = [{template = "https://wiki.nixos.org/w/index.php?search={searchTerms}";}];
+            iconUpdateURL = "https://wiki.nixos.org/favicon.png";
             updateInterval = 24 * 60 * 60 * 1000; # every day
             definedAliases = ["@nw"];
           };

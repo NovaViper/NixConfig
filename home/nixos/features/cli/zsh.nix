@@ -44,7 +44,7 @@ in {
         # Prompt message for auto correct
         SPROMPT = "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [ny] ";
         # Add more strategies to zsh-autosuggestions
-        ZSH_AUTOSUGGEST_STRATEGY = ["history" "completion"];
+        ZSH_AUTOSUGGEST_STRATEGY = ["completion"];
         # Make manpager use ls with color support``
         MANPAGER = "${pkgs.less}/bin/less -s -M +Gg";
       };
@@ -84,9 +84,6 @@ in {
 
         # accept and run suggestion with enter key
         zstyle ':fzf-tab:*' accept-line enter
-
-        # Create shell prompt
-        fastfetch
       '';
 
       shellAliases = {
@@ -111,20 +108,11 @@ in {
           {
             name = "jeffreytse/zsh-vi-mode";
           }
-          # Fish-like Plugins
-          {name = "mattmc3/zfunctions";}
           {name = "Aloxaf/fzf-tab";}
           {name = "Freed-Wu/fzf-tab-source";}
           {
             name = "MichaelAquilina/zsh-auto-notify";
           }
-
-          # Sudo escape
-          {
-            name = "plugins/sudo";
-            tags = ["from:oh-my-zsh"];
-          }
-
           # Nix stuff
           {
             name = "chisui/zsh-nix-shell";
