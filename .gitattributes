@@ -8,4 +8,4 @@ flake.lock -diff
 *.png filter=lfs diff=lfs merge=lfs -text
 
 # Make sure eval-secrets is encrypted
-eval-secrets.json filter=git-crypt diff=git-cryptc
+eval-secrets.json filter=git-crypt diff=git-crypt

@@ -23,8 +23,8 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    #Notifications
     libnotify
+    clamtk
   ];
 
   ### Special Variables
@@ -36,6 +36,13 @@
 
   # Forcibly disable zfs for latest Linux firmware
   boot.supportedFilesystems.zfs = lib.mkForce false;
+
+  # Enable Anti-virus
+  services.clamav = {
+    scanner.enable = true;
+    updater.enable = true;
+    fangfrisch.enable = true;
+  };
 
   hardware.bluetooth.enable = true;
 

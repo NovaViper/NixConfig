@@ -2,13 +2,18 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }: let
+  ageSecretsPath = path: "${inputs.self}/secrets/${path}";
   ifTheyExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
 in {
   # Special Variables
   variables.username = "novaviper";
+
+  # Secrets
+  age.secrets.novaviper-password.file = ageSecretsPath "novaviper/pass.age";
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.novaviper = {
@@ -30,17 +35,13 @@ in {
     packages = with pkgs; [home-manager];
   };
 
-  age.secrets.novaviper-password.file = ../../../../secrets/novaviper/pass.age;
-
   # Import Home-Manager config for host
   home-manager.users.novaviper =
     import ../../../../home/novaviper/${config.networking.hostName}.nix;
 
-  time.hardwareClockInLocalTime = lib.mkDefault true;
-  # Setup automatic timezone detection
-  services.automatic-timezoned.enable = true;
-  location.provider = "geoclue2";
-
-  # Set your time zone.
-  #time.timeZone = lib.mkDefault "America/Chicago";
+  # Make hardware clock use localtime.
+  time = {
+    hardwareClockInLocalTime = lib.mkDefault true;
+    timeZone = lib.mkDefault "America/Chicago";
+  };
 }

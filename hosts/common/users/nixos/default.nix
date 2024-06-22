@@ -15,4 +15,14 @@
   };
 
   home-manager.users.nixos = import ../../../../home/nixos/image.nix;
+
+  # Make hardware clock use localtime.
+  time.timeZone = lib.mkDefault "UTC";
+
+  # Setup automatic timezone detection
+  services.automatic-timezoned.enable = true;
+  services.geoclue2 = {
+    enable = true;
+    enableDemoAgent = true;
+  };
 }
