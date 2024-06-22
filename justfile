@@ -17,6 +17,14 @@ gen-iso:
 nixos-install HOST:
     sudo nixos-install --flake '.#{{HOST}}' --root /mnt --option accept-flake-config true |& nom
 
+#disko-install DRIVE:
+#    sudo nix run 'github:nix-community/disko#disko-install' -- --write-efi-boot-entries --flake '' --disk /nvme0n1 /dev/sda
+
+disko HOST:
+    sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
+    --mode disko \
+    hosts/{{HOST}}/hardware/disks.nix |&nom
+
 [doc('Rekey FILE age-key secret that is under secrets/USER using the specified IDENTITY file')]
 rekey USER FILE IDENTITY:
     #!/usr/bin/env bash

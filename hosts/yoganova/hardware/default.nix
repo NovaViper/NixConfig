@@ -28,6 +28,7 @@ in {
     inputs.hardware.nixosModules.common-cpu-intel
     inputs.hardware.nixosModules.common-pc-laptop-ssd
     inputs.hardware.nixosModules.common-hidpi
+    inputs.disko.nixosModules.disko
     ./hardware-configuration.nix
     ./disks.nix
 
