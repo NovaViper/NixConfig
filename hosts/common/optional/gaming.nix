@@ -47,10 +47,9 @@
     steam-hardware.enable = true;
 
     # Enable OpenGL
-    opengl = {
+    graphics = {
       enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
       extraPackages = with pkgs;
         [libva-utils vaapiVdpau libvdpau-va-gl]
         ++ lib.optionals (config.variables.machine.gpu == "nvidia")
