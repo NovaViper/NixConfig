@@ -148,7 +148,7 @@ in {
         # Append HISTFILE before running autin import to make it work properly
         atuin-import =
           mkIf (config.programs.atuin.enable)
-          "export HISTFILE && atuin import auto && export -n HISTFILE";
+          "export HISTFILE && atuin import auto && unset HISTFILE";
       };
       zplug = {
         enable = true;

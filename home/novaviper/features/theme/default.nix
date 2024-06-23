@@ -49,10 +49,10 @@ in {
 
   programs = {
     plasma.workspace = {
-      #wallpaper = "";
       #lookAndFeel = "org.kde.breezedark.desktop";
       colorScheme = "DraculaPurple";
       iconTheme = "${config.theme.iconTheme.name}";
+      #splashScreen = "";
     };
     cava.settings.color = {
       gradient = 1;

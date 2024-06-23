@@ -5,7 +5,6 @@
   ...
 }: {
   imports = [
-    ./gtk.nix
     ./qt.nix
     ./discord.nix
 
@@ -37,8 +36,5 @@
 
     # Make mimeapps.list be overriden by default
     configFile."mimeapps.list".force = true;
-
-    # Enable desktop portal
-    portal.enable = true;
   };
 }

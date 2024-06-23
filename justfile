@@ -77,18 +77,3 @@ rekey-multikey USER FILE IDENTITY:
 
 show-hardware-config:
     nixos-generate-config --show-hardware-config --root /mnt
-
-setup-partitions HOST:
-    echo "Configuring disk partitions for {{HOST}}"
-    echo "Erasing existing disks and creating new ones"
-    nix run .\#nixosConfigurations.{{HOST}}.config.disks-create
-    echo "Formatting the newly created partitions for {{HOST}}"
-    nix run .\#nixosConfigurations.{{HOST}}.config.disks-format
-    echo "Mounting disks"
-    nix run .\#nixosConfigurations.{{HOST}}.config.disks-mount
-    echo "Outputting values for hardware-configuration.nix"
-    nix run .\#nixosConfigurations.{{HOST}}.config.disks-retrieve
-
-setup-swap HOST:
-    echo "Creating swapfile for {{HOST}}"
-    nix run .\#nixosConfigurations.{{HOST}}.config.create-swapfile

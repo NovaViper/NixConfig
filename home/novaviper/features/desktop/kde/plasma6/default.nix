@@ -8,12 +8,6 @@
 in {
   imports = [../common.nix];
 
-  xdg.portal = {
-    extraPortals = with pkgs.kdePackages; [xdg-desktop-portal-kde];
-    configPackages = with pkgs.kdePackages;
-      mkDefault [xdg-desktop-portal-kde];
-  };
-
   services.kdeconnect.package = pkgs.kdePackages.kdeconnect-kde;
 
   home.packages = with pkgs; [

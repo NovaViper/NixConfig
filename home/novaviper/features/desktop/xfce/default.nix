@@ -6,8 +6,6 @@
 }: {
   imports = [../common];
 
-  xdg.portal.configPackages = lib.mkDefault [pkgs.xfce.xfce4-session];
-
   variables.desktop.environment = "xfce";
 
   #xfconf.settings = {};
