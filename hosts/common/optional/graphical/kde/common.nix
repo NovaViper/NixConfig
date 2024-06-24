@@ -21,9 +21,6 @@ in {
     enableHidpi = true;
   };
 
-  # TODO: Fix for NixOS/nixpkgs/issues/293964; this is here until NixOS/nixpkgs/pull/321944 is in nixos-unstable
-  security.pam.services.kde.allowNullPassword = lib.mkForce true;
-
   # Enable KDE partition manager
   programs = {
     partition-manager.enable = true;
