@@ -65,5 +65,7 @@ in {
 
     # For Nvidia GPUs
     sunshine = prev.sunshine.override {cudaSupport = true;};
+
+    vorta = addPatches prev.vorta [./vorta-extract.diff];
   };
 }

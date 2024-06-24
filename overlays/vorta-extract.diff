@@ -1,0 +1,13 @@
+diff --git a/src/vorta/borg/extract.py b/src/vorta/borg/extract.py
+index 4110872..48be98e 100644
+--- a/src/vorta/borg/extract.py
++++ b/src/vorta/borg/extract.py
+@@ -42,7 +42,7 @@ def prepare(cls, profile, archive_name, model: ExtractTree, destination_folder):
+         # dialog.
+         # Unselected (and excluded) parent folders will be restored by borg
+         # but without the metadata stored in the archive.
+-        pattern_file = tempfile.NamedTemporaryFile('w', delete=True)
++        pattern_file = tempfile.NamedTemporaryFile('w+', delete=True)
+         pattern_file.write("P pf\n")
+
+         indexes = [QModelIndex()]
