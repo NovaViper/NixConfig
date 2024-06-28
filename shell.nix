@@ -10,8 +10,7 @@
       sha256 = lock.narHash;
     };
   in
-    import nixpkgs {overlays = [];},
-  self,
+    import nixpkgs {},
   ...
 }: {
   default = pkgs.mkShell {
@@ -25,7 +24,7 @@
       gnupg
       age
       age-plugin-yubikey
-      self.inputs.agenix.packages.${pkgs.system}.agenix
+      agenix
       just
       openssh
       git-credential-oauth
