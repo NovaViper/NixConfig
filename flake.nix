@@ -62,6 +62,7 @@
     };
   };
 
+  # These are all just outputs for the flake
   outputs = {
     self,
     nixpkgs,
@@ -69,19 +70,40 @@
     systems,
     ...
   } @ inputs: let
-    inherit (self) outputs;
     lib = nixpkgs.lib // home-manager.lib;
 
     # Supported systems for your flake packages, shell, etc are determined by the systems input.
+    sys = import systems;
     # This is a function that generates an attribute by calling function you pass to it, with each system as an argument
-    forEachSystem = f: lib.genAttrs (import systems) (system: f pkgsFor.${system});
-    pkgsFor = lib.genAttrs (import systems) (
+    forAllSystems = function:
+      lib.genAttrs sys (system: function pkgsFor.${system});
+    # Supply nixpkgs for the forAllSystems function, applies overrides from the flake and allow unfree packages globally
+    pkgsFor = lib.genAttrs sys (
       system:
         import nixpkgs {
           inherit system;
+          overlays = builtins.attrValues self.overlays;
           config.allowUnfree = true;
         }
     );
+    mkNixos = host: system:
+      lib.nixosSystem {
+        inherit system;
+        specialArgs = {inherit inputs self;};
+        modules = [
+          ./hosts/${host}
+        ];
+      };
+
+    mkHome = host: user: system:
+      lib.homeManagerConfiguration {
+        pkgs = pkgsFor.${system};
+        extraSpecialArgs = {inherit inputs self;};
+        modules = [
+          ./home/common/nixpkgs.nix
+          ./home/${user}/${host}.nix
+        ];
+      };
   in {
     inherit lib;
     # Reusable nixos modules you might want to export
@@ -91,37 +113,28 @@
     # These are usually stuff you would upstream into home-manager
     homeManagerModules = import ./modules/home-manager;
 
-    # Your custom packages and modifications, exported as overlays
-    overlays = import ./overlays {inherit inputs outputs;};
+    # Your custom packages and modifications, exported as overlays output
+    overlays = import ./overlays {inherit self;};
 
     # Your custom packages
     # Acessible through 'nix build', 'nix shell', etc
-    packages = forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    packages = forAllSystems (pkgs: import ./pkgs {inherit pkgs;});
     # Devshell for bootstrapping
     # Acessible through 'nix develop' or 'nix-shell' (legacy)
-    devShells = forEachSystem (pkgs: import ./shell.nix {inherit pkgs inputs;});
+    devShells = forAllSystems (pkgs: import ./shell.nix {inherit pkgs self;});
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forEachSystem (pkgs: pkgs.alejandra);
+    formatter = forAllSystems (pkgs: pkgs.alejandra);
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       # Main desktop
-      ryzennova = lib.nixosSystem {
-        modules = [./hosts/ryzennova];
-        specialArgs = {inherit inputs outputs;};
-      };
+      ryzennova = mkNixos "ryzennova" "x86_64-linux";
       # Personal laptop
-      yoganova = lib.nixosSystem {
-        modules = [./hosts/yoganova];
-        specialArgs = {inherit inputs outputs;};
-      };
+      yoganova = mkNixos "yoganova" "x86_64-linux";
       # Live image
-      live-image = lib.nixosSystem {
-        modules = [./hosts/live-image];
-        specialArgs = {inherit inputs outputs;};
-      };
+      live-image = mkNixos "live-image" "x86_64-linux";
     };
 
     # Standalone home-manager configuration entrypoint
@@ -129,11 +142,7 @@
     /*
       homeConfigurations = {
       # Desktops
-      "novaviper@ryzennova" = lib.homeManagerConfiguration {
-        modules = [./home/common/nixpkgs.nix ./home/novaviper/ryzennova.nix];
-        pkgs = pkgsFor.x86_64-linux;
-        extraSpecialArgs = {inherit inputs outputs;};
-      };
+      "novaviper@ryzennova" = mkHome "ryzennova" "novaviper" "x86_64-linux";
     };
     */
   };

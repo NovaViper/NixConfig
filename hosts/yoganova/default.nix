@@ -15,7 +15,7 @@
     ../common/optional/boot/quietboot.nix
 
     ### Credentials
-    ../common/optional/hardware-key.nix
+    ../common/optional/hardware/yubikey.nix
 
     ### Desktop Environment
     ../common/optional/graphical/kde/plasma6.nix

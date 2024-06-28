@@ -2,9 +2,6 @@
   pkgs,
   modulesPath,
   lib,
-  config,
-  outputs,
-  inputs,
   ...
 }: {
   imports = [
@@ -13,7 +10,7 @@
     ../common/iso
 
     ### Credentials
-    ../common/optional/hardware-key.nix
+    ../common/optional/hardware/yubikey.nix
 
     ### Desktop Environment
     ../common/optional/graphical/kde/plasma6.nix

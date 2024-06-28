@@ -58,7 +58,16 @@ in {
 
   environment = {
     #systemPackages = with pkgs; [ gwe ];
-    sessionVariables.LIBVA_DRIVER_NAME = "nvidia";
+    sessionVariables = {
+      # Make libva use Nvidia
+      LIBVA_DRIVER_NAME = "nvidia";
+      # Force VK to use Nvidia driver instead of NVK
+      VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+      # Enable hardware acceleration for Nvidia
+      VDPAU_DRIVER = "nvidia";
+      # Enable new direct backend for NVIDIA-VAAPI-Driver
+      NVD_BACKEND = "direct";
+    };
   };
 
   system.activationScripts = lib.mkIf (config.services.hardware.openrgb.enable) {

@@ -1,7 +1,4 @@
 {
-  inputs,
-  outputs,
-  config,
   lib,
   pkgs,
   ...

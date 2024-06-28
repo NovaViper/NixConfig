@@ -1,8 +1,8 @@
 # This file (and the iso directory) holds configs that I use across all ISO generations, uses some functionality from the core directory
 {
   inputs,
-  outputs,
   pkgs,
+  self,
   ...
 }: {
   imports = with inputs;
@@ -17,17 +17,17 @@
       ../core/gpg.nix
       ../core/age.nix
     ]
-    ++ (builtins.attrValues outputs.nixosModules);
+    ++ (builtins.attrValues self.nixosModules);
   # Add special args for home-manager
   home-manager = {
     useGlobalPkgs = true;
-    extraSpecialArgs = {inherit inputs outputs;};
+    extraSpecialArgs = {inherit inputs self;};
     backupFileExtension = ".bak";
   };
 
   # Config Nixpkgs
   nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
+    overlays = builtins.attrValues self.overlays;
     config = {
       allowUnfree = true;
       joypixels.acceptLicense = true;

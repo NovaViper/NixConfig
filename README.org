@@ -39,6 +39,8 @@ My current NixOS (and constant changing) configuration
 - [[https://github.com/EmergentMind/nix-config/][EmergentMind's nix-config]] - just file integration and helpful secret tips
 - [[https://github.com/x0ba/dotfiles][x0ba's dotfiles]] - Agenix NixOS/Home-Manager setup with Yubikey-support
 - [[https://github.com/Kranzes/nix-config][Kranzes' nix-config]] - Agenix formatting
+- [[https://github.com/babeuh/nix-config][Babeuh's nix-config]] - Yubikey secrets setup with age (most importantly, pcsd service startup during boot process)
+- [[https://github.com/sickle-phin/dots-nix/][sickle-phin's dots-nix]] - Extra Nvidia environment variables
 
 * Structure
 Here's an overview of the repo's file structure:

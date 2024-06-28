@@ -1,9 +1,9 @@
 {
   inputs,
-  outputs,
   lib,
   pkgs,
   config,
+  self,
   ...
 }: let
   inherit (lib) mkDefault;
@@ -14,7 +14,7 @@ in {
       nixvim.homeManagerModules.nixvim
       nur.hmModules.nur
     ]
-    ++ (builtins.attrValues outputs.homeManagerModules);
+    ++ (builtins.attrValues self.homeManagerModules);
 
   nix = {
     package = lib.mkDefault pkgs.nix;

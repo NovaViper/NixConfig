@@ -1,16 +1,12 @@
 # This file defines overlays
-{
-  outputs,
-  inputs,
-  ...
-}: let
+{self, ...}: let
   addPatches = pkg: patches:
     pkg.overrideAttrs
     (oldAttrs: {patches = (oldAttrs.patches or []) ++ patches;});
 in {
   # Third party overlays
-  nur = inputs.nur.overlay;
-  agenix-overlay = inputs.agenix.overlays.default;
+  nur = self.inputs.nur.overlay;
+  agenix-overlay = self.inputs.agenix.overlays.default;
 
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.system}' or
@@ -23,12 +19,12 @@ in {
       if legacyPackages != {}
       then legacyPackages
       else packages)
-    inputs;
+    self.inputs;
   };
 
   # Adds pkgs.stable == inputs.nixpkgs-stable.legacyPackages.${pkgs.system}
   stable = final: _: {
-    stable = inputs.nixpkgs-stable.legacyPackages.${final.system};
+    stable = self.inputs.nixpkgs-stable.legacyPackages.${final.system};
   };
 
   # This one brings our custom packages from the 'pkgs' directory

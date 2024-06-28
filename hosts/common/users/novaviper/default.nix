@@ -3,15 +3,23 @@
   lib,
   pkgs,
   inputs,
+  self,
   ...
 }: let
-  ageSecretsPath = path: "${inputs.self}/secrets/${path}";
+  ageSecretsPath = path: "${self}/secrets/${path}";
   ifTheyExist = groups:
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
-  agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${config.variables.username}-password".path;
+  agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."novaviper-password".path;
 in {
   # Special Variables
   variables.username = "novaviper";
+
+  # Secrets
+  age.secrets."novaviper-password" = {
+    file = ageSecretsPath "novaviper/passwd.age";
+    owner = "novaviper";
+    group = "users";
+  };
 
   users.mutableUsers = false;
   users.users.novaviper = {
@@ -29,12 +37,11 @@ in {
         "git"
         "gamemode"
       ];
+    # Use if agenix isn't working
+    password = "nixos";
     hashedPasswordFile = agenixHashedPasswordFile;
     packages = with pkgs; [home-manager];
   };
-
-  # Secrets
-  age.secrets."${config.variables.username}-password".file = ageSecretsPath "${config.variables.username}/passwd.age";
 
   # Import Home-Manager config for host
   home-manager.users.novaviper =

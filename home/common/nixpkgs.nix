@@ -1,8 +1,8 @@
 # This file should be included when using hm standalone
 {
-  outputs,
   lib,
   inputs,
+  self,
   ...
 }: let
   flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
@@ -21,7 +21,7 @@ in {
   };
 
   nixpkgs = {
-    overlays = builtins.attrValues outputs.overlays;
+    overlays = builtins.attrValues self.overlays;
     config = import ./nixpkgs-config.nix;
   };
 }

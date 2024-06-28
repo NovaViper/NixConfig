@@ -1,8 +1,17 @@
 # Shell for bootstrapping flake-enabled nix and other tooling
 # You can enter it through 'nix develop' or (legacy) 'nix-shell'
 {
-  pkgs ? import <nixpkgs> {},
-  inputs,
+  pkgs ?
+  # If pkgs is not defined, instantiate nixpkgs from locked commit
+  let
+    lock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
+    nixpkgs = fetchTarball {
+      url = "https://github.com/nixos/nixpkgs/archive/${lock.rev}.tar.gz";
+      sha256 = lock.narHash;
+    };
+  in
+    import nixpkgs {overlays = [];},
+  self,
   ...
 }: {
   default = pkgs.mkShell {
@@ -16,7 +25,7 @@
       gnupg
       age
       age-plugin-yubikey
-      inputs.agenix.packages.${pkgs.system}.agenix
+      self.inputs.agenix.packages.${pkgs.system}.agenix
       just
       openssh
       git-credential-oauth
