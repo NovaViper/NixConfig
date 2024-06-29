@@ -9,3 +9,4 @@ flake.lock -diff
 
 # Make sure eval-secrets is encrypted
 eval-secrets.json filter=git-crypt diff=git-crypt
+.gitattributes !filter !diff

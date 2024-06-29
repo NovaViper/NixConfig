@@ -10,15 +10,16 @@ update-upload:
 diff:
     git diff ':!flake.lock'
 
-gen-iso:
+[doc('Check if secrets have been loaded (sops-nix or agenix)')]
+check-secrets:
+    scripts/check-secrets.sh
+
+iso:
     rm -rf result
     nix build .\#nixosConfigurations.live-image.config.system.build.isoImage |& nom
 
 nixos-install HOST:
     sudo nixos-install --flake '.#{{HOST}}' --root /mnt --option accept-flake-config true |& nom
-
-#disko-install DRIVE:
-#    sudo nix run 'github:nix-community/disko#disko-install' -- --write-efi-boot-entries --flake '' --disk /nvme0n1 /dev/sda
 
 disko HOST:
     sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
@@ -27,47 +28,11 @@ disko HOST:
 
 [doc('Rekey FILE age-key secret that is under secrets/USER using the specified IDENTITY file')]
 rekey USER FILE IDENTITY:
-    #!/usr/bin/env bash
-    # Enter into the folder for the specific user we chose
-    cd secrets/{{USER}}
-
-    # Create a temp folder to move all other secrets into and copy
-    # all but the specified secret file (make sure to ignore the
-    # eval-secrets.json as that doesn't get touched by agenix)
-    [ -d temp ] || mkdir temp
-    mv $(ls | grep -v -e {{FILE}}.age -e eval-secrets.json -e temp) temp/
-
-    # Go back to main secrets directory and finally run the rekey command
-    cd ..
-    agenix -r -i {{IDENTITY}}
-
-    # Make sure to go back into the specified user folder and move all
-    # other secrets back into it and delete the temp folder
-    cd {{USER}}
-    mv temp/* .
-    rm -d temp/
+    scripts/agenix-rekey.sh {{USER}} {{FILE}} {{IDENTITY}} 0
 
 [doc('Rekey FILE age-key secret that is under secrets/USER using the SSH Host ED25519 Key')]
 rekey-host USER FILE:
-    #!/usr/bin/env bash
-    # Enter into the folder for the specific user we chose
-    cd secrets/{{USER}}
-
-    # Create a temp folder to move all other secrets into and copy
-    # all but the specified secret file (make sure to ignore the
-    # eval-secrets.json as that doesn't get touched by agenix)
-    [ -d temp ] || mkdir temp
-    mv $(ls | grep -v -e {{FILE}}.age -e eval-secrets.json -e temp) temp/
-
-    # Go back to main secrets directory and finally run the rekey command
-    cd ..
-    sudo agenix -r -i /etc/ssh/ssh_host_ed25519_key
-
-    # Make sure to go back into the specified user folder and move all
-    # other secrets back into it and delete the temp folder
-    cd {{USER}}
-    mv temp/* .
-    rm -d temp/
+    scripts/agenix-rekey.sh {{USER}} {{FILE}} /etc/ssh/ssh_host_ed25519_key 1
 
 [doc('Rekey FILE age-key secret that is under secrets/USER using the SSH Host ED25519 Key aswell as the specified IDENTITY file')]
 rekey-multikey USER FILE IDENTITY:

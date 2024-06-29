@@ -1,0 +1,65 @@
+ci:
+  autoupdate_schedule: monthly
+  autofix_commit_msg: "style: auto fixes from pre-commit.ci hooks"
+  autofix_prs: false
+  autoupdate_commit_msg: "chore(deps): pre-commit.ci autoupdate"
+
+repos:
+  - repo: https://github.com/Lucas-C/pre-commit-hooks
+    rev: v1.5.5
+    hooks:
+      - id: forbid-crlf
+        exclude: .*/dotfiles/.*
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+        exclude: |
+          (?x)^(
+              .*/zsh/functions/.*|
+              .+\.nix|
+              .+\.org|
+              flake.lock|
+              .gitignore
+          )$
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+        exclude: .nix
+      - id: destroyed-symlinks
+      - id: detect-private-key
+        exclude: atuin.nix
+      - id: fix-byte-order-marker
+      - id: forbid-submodules
+      - id: mixed-line-ending
+      - id: trailing-whitespace
+        files: .*/doom/.*
+        exclude: |
+          (?x)^(
+              .*/dotfiles/PrusaSlicer/.*|
+              .*/dotfiles/alvr/.*|
+              .*/dotfiles/zsh/.*
+          )$
+  - repo: https://github.com/kamadorueda/alejandra
+    rev: 3.0.0
+    # depending on what pre-requisites you have:
+    hooks:
+      # No prerequisites
+      - id: alejandra-system
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.8.0-1
+    hooks:
+      - id: shfmt
+  # Purposefully at the end to avoid circuluar edits
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: end-of-file-fixer
+        exclude: .*/dotfiles/.*
+  - repo: local
+    hooks:
+      - id: check-git-crypt
+        name: check-git-crypt
+        entry: ./scripts/check-git-crypt.sh
+        language: script

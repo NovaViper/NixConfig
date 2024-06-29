@@ -18,5 +18,6 @@
     perl
     tree
     just
+    pre-commit
   ];
 }

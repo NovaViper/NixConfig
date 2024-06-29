@@ -29,6 +29,7 @@
       openssh
       git-credential-oauth
       git-crypt
+      pre-commit
     ];
     shellHook = ''
       export EDITOR=vim
