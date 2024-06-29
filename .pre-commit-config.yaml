@@ -56,7 +56,11 @@ repos:
     rev: v4.6.0
     hooks:
       - id: end-of-file-fixer
-        exclude: .*/dotfiles/.*
+        exclude: |
+          (?x)^(
+              .*/dotfiles/.*|
+              secrets/.*|
+          )$
   - repo: local
     hooks:
       - id: check-git-crypt
