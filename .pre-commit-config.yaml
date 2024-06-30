@@ -40,6 +40,7 @@ repos:
               .*/dotfiles/PrusaSlicer/.*|
               .*/dotfiles/alvr/.*|
               .*/dotfiles/zsh/.*
+              flake.lock
           )$
   - repo: https://github.com/kamadorueda/alejandra
     rev: 3.0.0
@@ -60,6 +61,7 @@ repos:
           (?x)^(
               .*/dotfiles/.*|
               secrets/.*|
+              flake.lock
           )$
   - repo: local
     hooks:
