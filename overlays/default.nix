@@ -62,6 +62,7 @@ in {
     # For Nvidia GPUs
     sunshine = prev.sunshine.override {cudaSupport = true;};
 
+    # Fixes upstream bug borgbase/vorta/issues/2025
     vorta = addPatches prev.vorta [./vorta-extract.diff];
   };
 }
