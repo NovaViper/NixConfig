@@ -66,7 +66,10 @@
   ];
 
   # Enable firmware updates on Linux
-  services.fwupd.enable = true;
+  services.fwupd = {
+    enable = true;
+    extraRemotes = ["lvfs-testing"];
+  };
 
   environment.pathsToLink = ["/share/xdg-desktop-portal" "/share/applications"];
 }
