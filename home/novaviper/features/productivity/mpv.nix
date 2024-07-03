@@ -12,16 +12,25 @@
       vr-reversal
       sponsorblock
       uosc
+      reload
+      videoclip
       thumbfast
       quality-menu
       webtorrent-mpv-hook
       visualizer
+      mpv-cheatsheet
     ];
     config = {
       # Video format/quality that is directly passed to youtube-dl
       ytdl-format = "bestvideo+bestaudio";
       # Controls which type of graphics APIs will be accepted
-      gpu-api = "auto";
+      gpu-api = "vulkan";
+      # The value auto (the default) selects the GPU context
+      gpu-context = "auto";
+      # Specify the hardware video decoding API that should be used if possible
+      hwdec = "auto-copy";
+      # Video output drivers are interfaces to different video output facilities.
+      vo = "gpu";
       # Keep the player open
       keep-open = "yes";
       # Determines wether the window is auto-resized to fit the video

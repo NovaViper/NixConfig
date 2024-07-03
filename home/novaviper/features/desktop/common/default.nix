@@ -13,8 +13,8 @@
     ./jellyfin.nix
 
     # Browser
-    ./firefox.nix
-    #./vivaldi.nix
+    #./firefox.nix
+    ./vivaldi.nix
 
     # Backup solutions
     ./backup.nix
@@ -25,8 +25,6 @@
     #./rio.nix
     #./kitty.nix
   ];
-
-  programs.browserpass.enable = config.programs.password-store.enable;
 
   fonts.fontconfig.enable = true;
 

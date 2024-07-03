@@ -45,36 +45,21 @@
   hardware = {
     # Enable Steam hardware compatibility
     steam-hardware.enable = true;
-
-    # Enable OpenGL
-    graphics = {
-      enable = true;
-      enable32Bit = true;
-      extraPackages = with pkgs;
-        [libva-utils vaapiVdpau libvdpau-va-gl]
-        ++ lib.optionals (config.variables.machine.gpu == "nvidia")
-        [nvidia-vaapi-driver];
-    };
   };
 
   # Allow Minecraft server ports
   networking.firewall.allowedTCPPorts = [25565 24454];
 
   # Fixes SteamLink/Remote play crashing, add packages necessary for VR
-  environment = {
-    # Necessary to make Minecraft Wayland GLFW work with Wayland+Nvidia
-    sessionVariables.__GL_THREADED_OPTIMIZATIONS =
-      lib.mkIf (config.variables.machine.gpu == "nvidia") "0";
-    systemPackages = with pkgs;
-      [libcanberra protonup-qt]
-      ++ lib.optionals (config.variables.useVR) [
-        android-tools
-        android-udev-rules
-        sidequest
-        BeatSaberModManager
-        helvum
-      ];
-  };
+  environment.systemPackages = with pkgs;
+    [libcanberra protonup-qt]
+    ++ lib.optionals (config.variables.useVR) [
+      android-tools
+      android-udev-rules
+      sidequest
+      BeatSaberModManager
+      helvum
+    ];
 
   # Fixes issue with SteamVR not starting
   system.activationScripts = lib.mkIf (config.variables.useVR) {

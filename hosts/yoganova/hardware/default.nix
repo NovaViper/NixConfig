@@ -35,6 +35,7 @@ in {
     ### Hardware
     ../../common/optional/hardware/bluetooth.nix
     #../../common/optional/hardware/howdy.nix
+    ../../common/optional/hardware/hardware-acceleration.nix
   ];
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;

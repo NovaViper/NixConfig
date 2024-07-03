@@ -14,6 +14,7 @@
     };
     kernelModules = ["kvm-amd"];
     extraModulePackages = [];
+    blacklistedKernelModules = ["i915" "amdgpu"];
 
     kernelParams = ["nvidia_drm.fbdev=1"];
   };

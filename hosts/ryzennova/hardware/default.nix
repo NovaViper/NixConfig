@@ -35,6 +35,7 @@ in {
     ../../common/optional/hardware/rgb.nix
     ../../common/optional/hardware/bluetooth.nix
     ../../common/optional/hardware/qmk.nix
+    ../../common/optional/hardware/hardware-acceleration.nix
   ];
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
@@ -50,14 +51,12 @@ in {
         then true
         else false;
       # Optionally, you may need to select the appropriate driver version for your specific GPU.
-      package = config.boot.kernelPackages.nvidiaPackages.production;
+      package = config.boot.kernelPackages.nvidiaPackages.latest;
     };
   };
 
-  services.xserver.videoDrivers = ["nvidia"];
-
   environment = {
-    #systemPackages = with pkgs; [ gwe ];
+    systemPackages = with pkgs; [nvitop];
     sessionVariables = {
       # Make libva use Nvidia
       LIBVA_DRIVER_NAME = "nvidia";
@@ -67,6 +66,10 @@ in {
       VDPAU_DRIVER = "nvidia";
       # Enable new direct backend for NVIDIA-VAAPI-Driver
       NVD_BACKEND = "direct";
+      # Force GLX to use Nvidia
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      # Necessary to make Minecraft Wayland GLFW work with Wayland+Nvidia
+      __GL_THREADED_OPTIMIZATIONS = "0";
     };
   };
 

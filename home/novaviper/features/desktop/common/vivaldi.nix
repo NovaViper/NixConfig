@@ -40,11 +40,6 @@
       "--enable-features=WebUIDarkMode"
     ];
     extensions = [
-      # Bypass Paywalls Clean
-      {
-        id = "lkbebcjgcmobigpeffafkodonchffocl";
-        updateUrl = "https://gitlab.com/magnolia1234/bypass-paywalls-chrome-clean/-/raw/master/updates.xml";
-      }
       {id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";} # UBlock Origin
       {id = "gebbhagfogifgggkldgodflihgfeippi";} # Return Dislikes
       {id = "mnjggcdmjocbbbhaepdhchncahnbgone";} # Sponsor Block
