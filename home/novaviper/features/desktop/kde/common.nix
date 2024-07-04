@@ -58,8 +58,8 @@ in {
     plasma = {
       enable = true;
       kwin.titlebarButtons = {
-        left = ["on-all-desktops" "keep-above-windows"];
-        right = ["help" "minimize" "maximize" "close"];
+        left = ["close" "maximize" "minimize"];
+        right = ["keep-above-windows" "on-all-desktops"];
       };
       shortcuts.yakuake =
         mkIf config.variables.useKonsole {toggle-window-state = "F12";};
