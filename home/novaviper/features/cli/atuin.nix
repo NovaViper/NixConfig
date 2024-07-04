@@ -4,6 +4,7 @@
   pkgs,
   ...
 }: {
+  # The much better shell history database
   programs.atuin = {
     enable = true;
     settings = {

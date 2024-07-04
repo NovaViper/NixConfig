@@ -8,17 +8,25 @@ Home-manager is configured in [[https://nix-community.github.io/home-manager/ind
 1. Download a NixOS ISO or create custom one with nix experimental features and Nvidia drivers installed by following the instructions over under [[file:tips.org][Tips]]; then boot into the ISO's live image environment
 2. Download the repo onto the live image copy of NixOS.
 3. Open the terminal and enter the repo directory.
-4. *IMPORTANT*: For modules that include =evaluation secrets= (secrets that used during the flake's evaluation; which *DOES NOT* include the secrets from =sops-nix=), you will not be able to directly use said modules without removing them along with git-crypt and change them to be your own. See more under  [[file:tips.org][Tips]]. For your own version of the repo, you simply transfer the GPG private key used to encrypt the secrets onto the machine you are installing to and run the command =git-crypt unlock=.
-5. Run =nix-shell= or =nix develop= to enter environment with all necessary packages to build the config properly
-   - =nix-shell= is available on any version of nix. However, in order to use =nix develop=, you must have nix v2.4+, git, and have enabled the =flakes= and =nix-command= experimental features. If you are using the custom ISO as stated previously, you can use =nix develop= without having to do anything additional as the configs already have the needed configurations and dependencies
-6. Follow the instructions over in [[file:partitioning.org][Partitioning]]!
-7. Run =nixos-generate-config --show-hardware-config --root /mnt= to create a base configuration file that the installer provides.
+4. Run =nix-shell= or =nix develop= to enter environment with all necessary packages to build the config properly
+   - =nix-shell= is available on any version of nix. However, in order to use =nix develop=, you must have nix v2.4+, git, and have enabled the =flakes= and =nix-command= experimental features. If you are using the custom ISO as stated previously, you can use =nix develop= without having to do anything additional as the configs already have the needed configurations and dependencies.
+   - JUNE 2024: =nix develop= is the recommended way to utilize the devshell, as it directly pulls the flake's overlays into itself without errors along with its other inputs, =nix-shell= **DOES NOT** important any of the flake's inputs thus causing errors when loading into it.
+5. Drag pre-configured or your own disko config into =hosts/HOSTNAME/hardware= named as =disks.nix= and import into your hardware default nix file.
+   - Make sure the =hosts/HOSTNAME/hardware/disks.nix= file to your designed partition configurations (see [[https://github.com/nix-community/disko/blob/master/docs/quickstart.md][disko's getting started guide]] for more!)
+   - Most importantly, make sure to edit the =disk= and =swapSize= variables at the top of the file to point to your drive's id (using =sudo blkid=).
+6. Run =just disko #HOSTNAME= to automatically partition the system's disks according to your =disks.nix= for the host you specified
+7. Run =nixos-generate-config --show-hardware-config --no-filesystems --root /mnt= to create a base configuration file that the installer provides.
+   - It is important to include =--no-filesystems= in the command, as since disko handles the filesystem configurations for you (including them along with disko will cause conflicts which will make the install fail).
 8. Add any of the additional kernel modules as exactly as they appear into the =hosts/HOSTNAME/hardware/hardware-configuration= file.
 9. Change the =FLAKE= variable located under =home/USERNAME/global/default.nix=. Some dotfiles are sym-links that aren't located on nix store and not having the repo in the location that the variable specifies will cause the links to break. This would in turn result in some apps malfunctioning or not have your settings.
-10. Run =nixos-install --flake .#HOSTNAME --root /mnt= to install NixOS with the configuration
-11. If you did not set a user password, make sure you use =nixos-enter= to set a password for the user!
-12. Move repo into the folder located on /mnt that matches your =FLAKE= environment variable
-13. Restart and the system will boot up into NixOS!
+10. *IMPORTANT*: Make sure to be aware of the following caveats:
+    - For modules that include =evaluation secrets= (secrets that used during the flake's evaluation; which *DOES NOT* include the secrets from =sops-nix= or =agenix=), you will not be able to directly use said modules without removing them along with git-crypt and change them to be your own. For your own version of the repo, you simply transfer the GPG private key used to encrypt the secrets onto the machine you are installing to and run the command =git-crypt unlock=.
+    - For modules that include secrets from =sops-nix= or =agenix=, you will also need to change out those secrets (aswell as generate keys for each new host).
+    - See more under [[file:tips.org][Tips]] for more information regarding these caveats
+11. Run =nixos-install --flake .#HOSTNAME --root /mnt= to install NixOS with the configuration (or run =just nixos-install HOSTNAME=)
+12. If you did not set a user password in the flake, make sure you use =nixos-enter= to set a password for the user!
+13. Move repo into the folder located on /mnt that matches your =FLAKE= environment variable
+14. Restart and the system will boot up into NixOS!
 
 * Post Install
 Once your system boots, check out [[file:post-install.org][Post Install]] for instructions for system and application setup steps that can only be done once the system is installed and booted.

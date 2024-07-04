@@ -38,6 +38,7 @@
     entr # run commands when files change!
     procs # Better ps
     ventoy-full # bootable USB solution
+    dust # Better du and df
 
     # Nix Tools
     nh # Nice wrapper for NixOS and HM

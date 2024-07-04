@@ -3,7 +3,9 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+# Wrappers for various uses
+let
   alejandra-quiet = pkgs.writeShellScriptBin "alejandra-quiet" ''
     alejandra --quiet "$@"
   '';

@@ -17,7 +17,8 @@ My current NixOS (and constant changing) configuration
 
 * Highlights
 - Multiple NixOS configurations, including laptop and desktop
-- Install and partitioning scripts
+- Install and partitioning commands via [[https://github.com/casey/just][just]]
+- Declarative partitioning with [[https://github.com/nix-community/disko][disko]].
 - Flexible Home Manager with *feature flags*
 - Modular configuration
 - Wayland/X11 Setups
@@ -25,6 +26,7 @@ My current NixOS (and constant changing) configuration
 - Live image ISO build with Nvidia drivers, experimental nix features already enabled, unfree software usage, and some nice options for cli and neovim
 - Declarative themes with *theme* module and [[https://github.com/danth/stylix][stylix]]
 - Deployment of secrets using *agenix (with yubikey)* and evaluation secrets with *git-crypt*
+- Includes [[https://github.com/pre-commit/pre-commit][pre-commit]] scripts to make sure flake is correctly setup and ready to be published to a git repository
 
 * References
 - [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Makes up a large majority of the entire config, primary template used when making the config
@@ -43,7 +45,7 @@ My current NixOS (and constant changing) configuration
 - [[https://github.com/sickle-phin/dots-nix/][sickle-phin's dots-nix]] - Extra Nvidia environment variables
 
 * Structure
-Here's an overview of the repo's file structure:
+Here's an overview of the repo's file structure (Generated with =eza --icons=never --tree=):
 #+begin_src
 .
 ├── documentation/
@@ -58,10 +60,11 @@ Here's an overview of the repo's file structure:
 │     ├── features/
 │     ├── global/
 │     ├── ryzennova.nix
-│     └── yoganova.nix*
+│     └── yoganova.nix
 ├── hosts/
 │  ├── common/
 │  │  ├── core/
+│  │  ├── iso/
 │  │  ├── optional/
 │  │  ├── users/
 │  │  │  ├── nixos/
@@ -79,9 +82,11 @@ Here's an overview of the repo's file structure:
 │  └── nixos/
 ├── overlays/
 ├── pkgs/
+├── scripts/
 ├── secrets/
 ├── flake.lock
 ├── flake.nix
+├── justfile
 ├── README.org
 └── shell.nix
 #+end_src
@@ -91,17 +96,21 @@ Here's an overview of the repo's file structure:
 - =hosts=: NixOS Configurations, accessible via =nixos-rebuild --flake=.
   - =common=: Shared configurations consumed by the machine-specific ones.
     - =core=: Configurations applied across all hosts
+    - =iso=: Configurations applied ONLY to live-image/VM builds, trimmed down version of =core=
     - =optional=: Opt-in configurations/feature flags that one or more host can use
     - =users=: Configurations for each system on the machines
   - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6
-  - =yoganova=: Lenovo Yoga 7i - 8GB RAM, Intel i5 1335U | KDE Plasma 6
+  - =yoganova=: Lenovo Yoga 7i 16IRL8 (Type 82YN) - 8GB RAM, Intel i5 1335U | KDE Plasma 6
   - =live-image=: ISO configuration | Nvidia drivers included | KDE Plasma 6
-- =home=: My Home-manager configuration, accessible via =home-manager --flake=
+- =home=: My Home-manager configuration, accessible via =home-manager --flake= when standalone, or =nixos-rebuild --flake= when NixOS module
   - Each directory here is a "feature" each HM configuration can toggle, thus customizing each machine with configurations for the specific user
 - =modules=: Custom modules that aren't available in nixpkgs. Can be NixOS or Home-Manager modules (or both!)
 - =overlay=: Patches and version overrides for some packages. Accessible via =nix build=.
 - =pkgs=: Custom nix packages defined similarly to nixpkg ones. Also accessible via =nix build=. You can compose these into your own configuration by using my flake's overlay, or consume them through NUR.
 - =secrets=: All user/host age secrets are located here
+- =scripts=: Bash/Posix scripts needed for various =precommit= and =just= commands
+- =justfile=: Command recipe file for =just=, contains various helpful commands for the flake
+- =shell.nix=: Declaration of nix-shell, used for =nix-shell= and =nix develop=
 
 * Installation/Usage
 For installation, check out the installation guide located under [[file:documentation/installation.org][documentation/installation.org]]! Check out [[file:documentation/tips.org][documentation/tips.org]] for some tips and important information regarding how the entire flake works.
@@ -111,8 +120,8 @@ Main user relevant apps
 - kde plasma 6
 - doom emacs
 - zsh + powerlevel10k
-- firefox
-- pass
+- vivaldi
+- keepassxc/pass
 - gpg + ssh-agent + yubikey
 - tailscale
 - kdeconnect

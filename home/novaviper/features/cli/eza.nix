@@ -4,6 +4,7 @@
   pkgs,
   ...
 }: {
+  # Much better ls replacement
   programs.eza = {
     enable = true;
     git = true;

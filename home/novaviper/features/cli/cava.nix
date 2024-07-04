@@ -6,6 +6,7 @@
 }: let
   c = config.lib.stylix.colors.withHashtag;
 in {
+  # CLI audio visualizer
   programs.cava = {
     enable = true;
     settings = {

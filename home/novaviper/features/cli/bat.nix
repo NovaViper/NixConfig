@@ -4,6 +4,7 @@
   pkgs,
   ...
 }: {
+  # Fancy 'cat' replacement
   programs = {
     bat = {
       enable = true;

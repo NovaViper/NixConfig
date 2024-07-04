@@ -4,6 +4,7 @@
   pkgs,
   ...
 }: {
+  # Fancy resource monitor for CLI, replaces top
   programs.btop = {
     enable = true;
     settings = {
