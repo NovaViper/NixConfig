@@ -62,6 +62,7 @@ in {
           widgets = [
             {
               applicationTitleBar = {
+                layout.elements = [];
                 windowControlButtons = {
                   iconSource = "Breeze";
                   buttonsAspectRatio = 95;
@@ -75,6 +76,11 @@ in {
                     left = 5;
                     right = 5;
                   };
+                };
+                overrideForMaximized = {
+                  enable = true;
+                  elements = ["windowCloseButton" "windowMaximizeButton" "windowMinimizeButton" "windowIcon" "windowTitle"];
+                  source = "AppName";
                 };
               };
             }

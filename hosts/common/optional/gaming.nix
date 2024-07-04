@@ -56,7 +56,6 @@
     ++ lib.optionals (config.variables.useVR) [
       android-tools
       android-udev-rules
-      sidequest
       BeatSaberModManager
       helvum
     ];
