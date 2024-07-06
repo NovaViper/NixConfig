@@ -1,6 +1,8 @@
 default:
     @just --list
 
+# Flake/Nix Managemnt tools
+
 update:
     nix flake update --refresh |& nom
 
@@ -10,13 +12,18 @@ update-upload:
 diff:
     git diff ':!flake.lock'
 
+iso:
+    rm -rf result
+    nix build .\#nixosConfigurations.live-image.config.system.build.isoImage |& nom
+
+eval-package HOST PACKAGE:
+    nix eval --raw .\#nixosConfigurations.{{HOST}}.pkgs.{{PACKAGE}}
+
 [doc('Check if secrets have been loaded (sops-nix or agenix)')]
 check-secrets:
     scripts/check-secrets.sh
 
-iso:
-    rm -rf result
-    nix build .\#nixosConfigurations.live-image.config.system.build.isoImage |& nom
+# NixOS Installation tools
 
 nixos-install HOST:
     sudo nixos-install --flake '.#{{HOST}}' --root /mnt --option accept-flake-config true |& nom

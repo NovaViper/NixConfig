@@ -53,6 +53,7 @@
       {id = "fkagelmloambgokoeokbpihmgpkbgbfm";} # Indie Wiki Buddy
       {id = "clngdbkpkpeebahjckkjfobafhncgmne";} # Stylus
       {id = "nenlahapcbofgnanklpelkaejcehkggg";} # Save Now
+      {id = "jinjaccalgkegednnccohejagnlnfdag";} # Violetmonkey
     ];
   };
 }
