@@ -64,12 +64,12 @@ in {
               applicationTitleBar = {
                 layout.elements = [];
                 windowControlButtons = {
-                  iconSource = "Breeze";
+                  iconSource = "breeze";
                   buttonsAspectRatio = 95;
                   buttonsMargin = 0;
                 };
                 windowTitle = {
-                  source = "AppName";
+                  source = "appName";
                   hideEmptyTitle = true;
                   undefinedWindowTitle = "";
                   margins = {
@@ -80,7 +80,7 @@ in {
                 overrideForMaximized = {
                   enable = true;
                   elements = ["windowCloseButton" "windowMaximizeButton" "windowMinimizeButton" "windowIcon" "windowTitle"];
-                  source = "AppName";
+                  source = "appName";
                 };
               };
             }
