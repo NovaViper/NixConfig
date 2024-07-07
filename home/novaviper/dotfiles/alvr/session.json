@@ -1,5 +1,5 @@
 {
-  "server_version": "20.6.1",
+  "server_version": "20.8.1",
   "drivers_backup": null,
   "openvr_config": {
     "eye_resolution_width": 2144,
@@ -14,7 +14,14 @@
     "h264_profile": 0,
     "refresh_rate": 72,
     "use_10bit_encoder": false,
+    "use_full_range_encoding": true,
+    "encoding_gamma": 1.0,
+    "enable_hdr": false,
+    "force_hdr_srgb_correction": false,
+    "clamp_hdr_extended_range": false,
+    "enable_pre_analysis": false,
     "enable_vbaq": false,
+    "enable_hmqb": false,
     "use_preproc": false,
     "preproc_sigma": 4,
     "preproc_tor": 7,
@@ -26,6 +33,8 @@
     "sw_thread_count": 0,
     "controller_is_tracker": false,
     "controllers_enabled": true,
+    "body_tracking_vive_enabled": false,
+    "body_tracking_has_legs": false,
     "enable_foveated_encoding": true,
     "foveation_center_size_x": 0.45,
     "foveation_center_size_y": 0.4,
@@ -41,7 +50,7 @@
     "sharpening": 0.5,
     "linux_async_compute": false,
     "linux_async_reprojection": false,
-    "nvenc_quality_preset": 1,
+    "nvenc_quality_preset": 2,
     "nvenc_tuning_preset": 2,
     "nvenc_multi_pass": 1,
     "nvenc_adaptive_quantization_mode": 1,
@@ -64,8 +73,8 @@
     "_controller_profile": 1
   },
   "client_connections": {
-    "2838.client.alvr": {
-      "display_name": "Quest",
+    "4784.client": {
+      "display_name": "Quest 2",
       "current_ip": "192.168.1.77",
       "manual_ips": [],
       "trusted": true,
@@ -75,7 +84,6 @@
   },
   "session_settings": {
     "video": {
-      "gui_collapsed": false,
       "adapter_index": 0,
       "transcoding_view_resolution": {
         "Scale": 1.0,
@@ -153,7 +161,7 @@
         "variant": "H264"
       },
       "encoder_config": {
-        "gui_collapsed": true,
+        "gui_collapsed": false,
         "rate_control_mode": {
           "variant": "Cbr"
         },
@@ -165,10 +173,15 @@
           "variant": "Cavlc"
         },
         "use_10bit": false,
+        "use_full_range": true,
+        "encoding_gamma": 1.0,
+        "enable_hdr": false,
+        "force_hdr_srgb_correction": false,
+        "clamp_hdr_extended_range": false,
         "nvenc": {
-          "gui_collapsed": true,
+          "gui_collapsed": false,
           "quality_preset": {
-            "variant": "P1"
+            "variant": "P2"
           },
           "tuning_preset": {
             "variant": "LowLatency"
@@ -200,9 +213,11 @@
             "variant": "Speed"
           },
           "enable_vbaq": false,
+          "enable_hmqb": false,
           "use_preproc": false,
           "preproc_sigma": 4,
-          "preproc_tor": 7
+          "preproc_tor": 7,
+          "enable_pre_analysis": false
         },
         "software": {
           "force_software_encoding": false,
@@ -257,6 +272,7 @@
         "enabled": true,
         "content": {
           "gui_collapsed": true,
+          "force_enable": false,
           "center_size_x": 0.45,
           "center_size_y": 0.4,
           "center_shift_x": 0.4,
@@ -298,7 +314,6 @@
       }
     },
     "audio": {
-      "gui_collapsed": false,
       "linux_backend": {
         "variant": "Alsa"
       },
@@ -323,7 +338,7 @@
         }
       },
       "microphone": {
-        "enabled": false,
+        "enabled": true,
         "content": {
           "gui_collapsed": true,
           "devices": {
@@ -350,7 +365,6 @@
       }
     },
     "headset": {
-      "gui_collapsed": false,
       "emulation_mode": {
         "Custom": {
           "serial_number": "Unknown"
@@ -609,6 +623,28 @@
             },
             "variant": "VrchatEyeOsc"
           }
+        }
+      },
+      "body_tracking": {
+        "enabled": false,
+        "content": {
+          "gui_collapsed": true,
+          "sources": {
+            "body_tracking_full_body_meta": {
+              "enabled": true,
+              "content": {
+                "gui_collapsed": true,
+                "enable_full_body": true
+              }
+            }
+          },
+          "sink": {
+            "VrchatBodyOsc": {
+              "port": 9000
+            },
+            "variant": "FakeViveTracker"
+          },
+          "tracked": true
         }
       },
       "controllers": {
@@ -983,14 +1019,13 @@
       }
     },
     "connection": {
-      "gui_collapsed": false,
       "stream_protocol": {
         "variant": "Udp"
       },
       "client_discovery": {
         "enabled": true,
         "content": {
-          "auto_trust_clients": false
+          "auto_trust_clients": true
         }
       },
       "stream_port": 9944,
@@ -1033,53 +1068,55 @@
       "packet_size": 1400,
       "statistics_history_size": 256
     },
-    "logging": {
-      "gui_collapsed": false,
-      "client_log_report_level": {
-        "enabled": true,
-        "content": {
-          "variant": "Error"
-        }
+    "extra": {
+      "logging": {
+        "gui_collapsed": false,
+        "client_log_report_level": {
+          "enabled": true,
+          "content": {
+            "variant": "Error"
+          }
+        },
+        "log_to_disk": false,
+        "log_tracking": false,
+        "log_button_presses": false,
+        "log_haptics": false,
+        "notification_level": {
+          "variant": "Warning"
+        },
+        "show_raw_events": {
+          "enabled": false,
+          "content": {
+            "hide_spammy_events": false
+          }
+        },
+        "prefer_backtrace": false,
+        "show_notification_tip": true
       },
-      "log_to_disk": false,
-      "log_tracking": false,
-      "log_button_presses": false,
-      "log_haptics": false,
-      "notification_level": {
-        "variant": "Warning"
+      "steamvr_launcher": {
+        "gui_collapsed": false,
+        "driver_launch_action": {
+          "variant": "UnregisterOtherDriversAtStartup"
+        },
+        "open_close_steamvr_with_dashboard": false
       },
-      "show_raw_events": {
-        "enabled": false,
-        "content": {
-          "hide_spammy_events": false
-        }
+      "capture": {
+        "gui_collapsed": false,
+        "startup_video_recording": false,
+        "rolling_video_files": {
+          "enabled": false,
+          "content": {
+            "duration_s": 5
+          }
+        },
+        "capture_frame_dir": ""
       },
-      "prefer_backtrace": false,
-      "show_notification_tip": true
-    },
-    "steamvr_launcher": {
-      "gui_collapsed": false,
-      "driver_launch_action": {
-        "variant": "UnregisterOtherDriversAtStartup"
+      "patches": {
+        "gui_collapsed": false,
+        "linux_async_compute": false,
+        "linux_async_reprojection": false
       },
-      "open_close_steamvr_with_dashboard": false
-    },
-    "capture": {
-      "gui_collapsed": false,
-      "startup_video_recording": false,
-      "rolling_video_files": {
-        "enabled": false,
-        "content": {
-          "duration_s": 5
-        }
-      },
-      "capture_frame_dir": ""
-    },
-    "patches": {
-      "gui_collapsed": false,
-      "linux_async_compute": false,
-      "linux_async_reprojection": false
-    },
-    "open_setup_wizard": false
+      "open_setup_wizard": false
+    }
   }
 }

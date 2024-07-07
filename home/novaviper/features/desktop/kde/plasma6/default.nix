@@ -14,6 +14,11 @@ in {
   programs = {
     firefox.nativeMessagingHosts = with pkgs; [kdePackages.plasma-browser-integration];
     plasma = {
+      hotkeys.commands."restart-plasmashell" = {
+        name = "Restart Plasmashell";
+        key = "Meta+Alt+R";
+        command = "${pkgs.restart-plasma}/bin/restart-plasma";
+      };
       extraWidgets = ["application-title-bar"];
       panels = [
         # Windows like panel at the bottom

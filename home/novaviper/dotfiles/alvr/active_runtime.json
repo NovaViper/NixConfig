@@ -1,0 +1,8 @@
+{
+    "file_format_version": "1.0.0",
+    "runtime": {
+        "VALVE_runtime_is_steamvr": true,
+        "library_path": "/home/novaviper/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrclient.so",
+        "name": "SteamVR"
+    }
+}

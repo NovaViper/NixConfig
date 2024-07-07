@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkOption mkRemovedOptionModule mkMerge mkIf mkDefault optionals types;
+  inherit (lib) mkOption mkRemovedOptionModule mkMerge mkIf mkDefault mkForce optionals types;
   inherit (pkgs) libsForQt5 kdePackages;
   cfg = config.variables;
   cfgde = config.variables.desktop;
@@ -111,6 +111,13 @@ in {
   */
 
   config = mkIf (cfg != null) (mkMerge [
+    (mkIf (cfg.machine.gpu == "nvidia") {
+      nixpkgs.config.cudaSupport = mkForce true;
+    })
+    (mkIf (cfg.machine.gpu == "amd") {
+      nixpkgs.config.rocmSupport = mkForce true;
+    })
+
     (mkIf cfg.useVR {
       assertions = [
         {

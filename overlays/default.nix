@@ -53,15 +53,6 @@ in {
     prismlauncher =
       prev.prismlauncher.override {withWaylandGLFW = true;};
 
-    # Make btop compile with GPU support (Nvidia and AMD)
-    btop = prev.btop.override {
-      cudaSupport = true;
-      rocmSupport = true;
-    };
-
-    # For Nvidia GPUs
-    sunshine = prev.sunshine.override {cudaSupport = true;};
-
     # Fixes upstream bug borgbase/vorta/issues/2025
     vorta = addPatches prev.vorta [./vorta-extract.diff];
   };

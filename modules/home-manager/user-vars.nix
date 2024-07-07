@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  inherit (lib) mkIf mkOption mkRemovedOptionModule mkMerge types;
+  inherit (lib) mkIf mkOption mkRemovedOptionModule mkMerge mkForce types;
   cfg = config.variables;
   cfgde = config.variables.desktop;
   cfgma = config.variables.machine;
@@ -80,6 +80,12 @@ in {
   };
 
   config = mkMerge [
+    (mkIf (cfg.machine.gpu == "nvidia") {
+      nixpkgs.config.cudaSupport = mkForce true;
+    })
+    (mkIf (cfg.machine.gpu == "amd") {
+      nixpkgs.config.rocmSupport = mkForce true;
+    })
     /*
     (mkIf (cfg.machine.buildType == "desktop") {
       # KDE specific stuff

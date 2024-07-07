@@ -33,7 +33,6 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#visual-session-and-window-settings][Visual, Session, and Window Settings]]
     - [[#doom-theme][Doom Theme]]
     - [[#doom-dashboard][Doom Dashboard]]
-    - [[#rainbow-mode][Rainbow Mode]]
     - [[#disable-mixed-pitch-for-cursor][Disable Mixed Pitch for Cursor]]
     - [[#modeline][Modeline]]
     - [[#window-splitting][Window Splitting]]
@@ -299,7 +298,6 @@ This code is written to ~init.el~ to select which modules to load.
        ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
        (emoji +unicode)  ; 🙂
        hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
-       ;;hydra
        indent-guides     ; highlighted indent columns
        ligatures         ; ligatures and symbols to make your code pretty again
        minimap           ; show a map of the code on the side
@@ -368,8 +366,6 @@ This code is written to ~init.el~ to select which modules to load.
        (:if (executable-find "pass") (pass +auth))              ; password manager for nerds
        pdf               ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
-       rgb               ; creating color strings
-       ;;taskrunner        ; taskrunner for all your projects
        ;;terraform         ; infrastructure as code
        tmux              ; an API for interacting with tmux
        tree-sitter       ; syntax and parsing, sitting in a tree...
@@ -451,8 +447,8 @@ This code is written to ~init.el~ to select which modules to load.
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       (web +lsp               ; the tubes
-            +tree-sitter)
+       ;;(web +lsp               ; the tubes
+       ;;     +tree-sitter)
        (yaml +lsp              ; JSON, but readable
              +tree-sitter)
        ;;zig               ; C, but simpler
@@ -468,7 +464,6 @@ This code is written to ~init.el~ to select which modules to load.
        ;;everywhere        ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader
-       ;;twitter           ; twitter client https://twitter.com/vnought
 
        :config
        literate
@@ -606,13 +601,6 @@ Add more entries to Doom Dashboard
                :action =mu4e))
 #+end_src
 
-*** Rainbow Mode
-~hl-line-mode~ overrides the color highlighting of ~rainbow-mode~, limiting the use of that plugin and on-site color changes using ~kurecolor~. This line will automatically disable ~hl-line-mode~ only when ~rainbow-mode~ is active
-#+begin_src emacs-lisp
-(add-hook! 'rainbow-mode-hook
-  (hl-line-mode (if rainbow-mode -1 +1)))
-#+end_src
-
 *** Disable Mixed Pitch for Cursor
 Don't modify the cursor when using =mixed-pitch-mode=
 #+begin_src emacs-lisp
@@ -729,6 +717,7 @@ Enable Vim like tab changing motion for Centaur Tabs
         :desc "zoxide-travel-with-query"      "T" #'zoxide-travel-with-query
 ))
 #+end_src
+
 *** Justl/Just-mode Integration
 #+begin_src emacs-lisp
 (use-package! justl

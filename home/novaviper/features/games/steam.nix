@@ -3,37 +3,14 @@
   lib,
   pkgs,
   ...
-}: let
-  utils = import ../../../lib/utils.nix {inherit config pkgs;};
-in {
+}: {
   home.packages = with pkgs; [protontricks keyutils goverlay ludusavi];
 
   home.sessionVariables.ICED_BACKEND = "tiny-skia";
 
-  xdg = {
-    mimeApps = {
-      defaultApplications."x-scheme-handler/steam" = "steam.desktop";
-      associations.added."x-scheme-handler/steam" = "steam.desktop";
-    };
-
-    configFile."alvr/session.json" = lib.mkIf (config.variables.useVR) {
-      source = utils.linkDots "alvr/session.json";
-    };
-
-    desktopEntries = lib.mkMerge [
-      (lib.mkIf (config.variables.useVR) {
-        "BeatSaberModManager" = {
-          name = "Beat Saber ModManager";
-          genericName = "Game";
-          exec = "BeatSaberModManager";
-          icon = "${pkgs.BeatSaberModManager}/lib/BeatSaberModManager/Resources/Icons/Icon.ico";
-          type = "Application";
-          categories = ["Game"];
-          startupNotify = true;
-          comment = "Beat Saber ModManager is a mod manager for Beat Saber";
-        };
-      })
-    ];
+  xdg.mimeApps = {
+    defaultApplications."x-scheme-handler/steam" = "steam.desktop";
+    associations.added."x-scheme-handler/steam" = "steam.desktop";
   };
 
   programs.mangohud = {
