@@ -42,16 +42,12 @@ repos:
               .*/dotfiles/zsh/.*
               flake.lock
           )$
-  - repo: local
+  - repo: https://github.com/kamadorueda/alejandra
+    rev: 3.0.0
+    # depending on what pre-requisites you have:
     hooks:
-      - id: nixfmt
-        name: nixfmt
-        entry: nixfmt
-        language: system
-        files: \.nix$
-        pass_filenames: true
-        args:
-          - --width=100
+      # No prerequisites
+      - id: alejandra-system
   - repo: https://github.com/scop/pre-commit-shfmt
     rev: v3.8.0-1
     hooks:

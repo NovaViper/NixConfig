@@ -42,7 +42,7 @@
 
     # Nix Tools
     nh # Nice wrapper for NixOS and HM
-    nixfmt-rfc-style # Nix formatter
+    alejandra # Nix formatter
     nix-output-monitor # Monitor Nix compilation
     nixpkgs-review # Review nixpkgs
     nix-prefetch-github # Prefetch tool for Github

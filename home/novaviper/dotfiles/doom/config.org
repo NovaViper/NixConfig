@@ -55,7 +55,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#notifications-for-org-mode][Notifications for Org-mode]]
 - [[#coding-configurations][Coding Configurations]]
   - [[#projectile-configurations][Projectile Configurations]]
-  - [[#nix-modelsp-configurations][Nix-Mode/LSP Configurations]]
+  - [[#set-nix-formatter-to-alejandra][Set Nix Formatter to Alejandra]]
   - [[#black-formatter-configuration][Black Formatter Configuration]]
     - [[#global-config-file][Global Config File]]
   - [[#numpydoc-configuration][Numpydoc Configuration]]
@@ -1048,11 +1048,16 @@ Configures projectile
 (setq projectile-project-search-path '(("~/Documents/Projects" .  4)))
 #+end_src
 
-** Nix-Mode/LSP Configurations
-Disable nil's auto-eval-inputs since I have some really large inputs that ends up making my computers lock up.
+** Set Nix Formatter to Alejandra
+Forces nix-mode to use alejandra. The =nix-nixfmt-bin= specifically utilizes the wrapper =alejandra-quiet= (which is declared by my NixOS flake) that has alejandra prefixed with the =--quiet= option. Also disable nil's auto-eval-inputs since I have some really large inputs that ends up making my computers lock up.
 #+begin_src emacs-lisp
+(after! nix-mode
+  (setq nix-nixfmt-bin "alejandra-quiet" )
+  (set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode)))
+
 (use-package! lsp-nix
   :custom
+  (lsp-nix-nil-formatter ["alejandra" "--quiet"])
   (lsp-nix-nil-auto-eval-inputs nil))
 #+end_src
 
