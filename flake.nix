@@ -123,8 +123,7 @@
     # Acessible through 'nix develop' or 'nix-shell' (legacy)
     devShells = forAllSystems (pkgs: import ./shell.nix {inherit pkgs self;});
     # Formatter for your nix files, available through 'nix fmt'
-    # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = forAllSystems (pkgs: pkgs.alejandra);
+    formatter = forAllSystems (pkgs: pkgs.nixfmt-rfc-style);
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
