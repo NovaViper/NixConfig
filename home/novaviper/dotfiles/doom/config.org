@@ -42,6 +42,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#vivim-emulation-for-centaur-tabs][Vi/Vim emulation for Centaur Tabs]]
     - [[#zoxide-integration][Zoxide Integration]]
     - [[#justljust-mode-integration][Justl/Just-mode Integration]]
+    - [[#ediff-extras][Ediff Extras]]
 - [[#org-mode][Org Mode]]
   - [[#basic-configuration][Basic Configuration]]
     - [[#disable-electric-mode-in-org][Disable Electric Mode in Org]]
@@ -703,6 +704,7 @@ Enable Vim like tab changing motion for Centaur Tabs
 #+end_src
 
 *** Zoxide Integration
+Add keybindings for zoxide compatibility
 #+begin_src emacs-lisp
 (map! :leader
       (:prefix ("z" . "zoxide/fzf")
@@ -719,10 +721,25 @@ Enable Vim like tab changing motion for Centaur Tabs
 #+end_src
 
 *** Justl/Just-mode Integration
+Add keybindings for just-mode
 #+begin_src emacs-lisp
 (use-package! justl
   :config
   (map! :n "e" 'justl-exec-recipe))
+#+end_src
+
+*** Ediff Extras
+Adds some nice additions to ediff, notably the ability to copy both A and B buffers into C. Taken from:
+- https://stackoverflow.com/a/29757750
+#+begin_src emacs-lisp
+(defun ediff-copy-both-to-C ()
+  (interactive)
+  (ediff-copy-diff ediff-current-difference nil 'C nil
+                   (concat
+                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+(defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "'" 'ediff-copy-both-to-C))
+(add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
 #+end_src
 * Org Mode
 ** Basic Configuration
