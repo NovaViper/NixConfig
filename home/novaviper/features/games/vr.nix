@@ -26,7 +26,7 @@ in {
       "alvr/session.json" = lib.mkIf (config.variables.useVR) {
         source = utils.linkDots "alvr/session.json";
       };
-      "openxr/1/active_runtime.json".source = utils.linkDots "alvr/active_runtime.json";
+      #"openxr/1/active_runtime.json".source = utils.linkDots "alvr/active_runtime.json";
     };
   };
 }

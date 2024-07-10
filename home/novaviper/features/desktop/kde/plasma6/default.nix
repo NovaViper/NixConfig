@@ -19,7 +19,7 @@ in {
         key = "Meta+Alt+R";
         command = "${pkgs.restart-plasma}/bin/restart-plasma";
       };
-      extraWidgets = ["application-title-bar"];
+      extraWidgets = ["application-title-bar" "plasmusic-toolbar"];
       panels = [
         # Windows like panel at the bottom
         {
@@ -28,17 +28,23 @@ in {
           floating = false;
           widgets = [
             {
-              name = "org.kde.plasma.kickoff";
-              config = {
-                General.icon = "nix-snowflake-white";
+              kickoff = {
+                icon = "nix-snowflake";
+                sidebarPosition = "right";
+                showButtonsFor = "powerAndSession";
+                showActionButtonCaptions = false;
               };
             }
             "org.kde.plasma.marginsseparator"
             {
-              name = "org.kde.plasma.icontasks";
-
-              config = {
-                Genera.launchers = let
+              iconTasks = {
+                appearance = {
+                  showTooltips = true;
+                  highlightWindows = true;
+                  indicateAudioStreams = true;
+                  fill = true;
+                };
+                launchers = let
                   # Auto switch terminal application desktop file
                   terminal =
                     if builtins.hasAttr "TERMINAL" config.home.sessionVariables
