@@ -21,7 +21,6 @@ in {
     group = "users";
   };
 
-  users.mutableUsers = false;
   users.users.${config.variables.username} = {
     isNormalUser = true;
     shell = pkgs.zsh;
