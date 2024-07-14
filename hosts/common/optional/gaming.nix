@@ -7,6 +7,12 @@
   programs = {
     steam = {
       enable = true;
+      package = pkgs.steam.override {
+        extraEnv = {
+          # Make Steam folder spawn in ~/.config instead of /home/USER
+          HOME = "/home/${config.variables.username}/.config";
+        };
+      };
       remotePlay.openFirewall = true;
     };
     gamemode = {

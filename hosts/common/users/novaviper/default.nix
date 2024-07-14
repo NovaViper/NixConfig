@@ -37,8 +37,6 @@ in {
         "gamemode"
       ];
     hashedPasswordFile = agenixHashedPasswordFile;
-    # Use if agenix isn't working
-    password = "nixos";
     packages = with pkgs; [home-manager];
   };
 

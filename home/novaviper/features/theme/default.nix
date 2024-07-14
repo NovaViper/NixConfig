@@ -7,6 +7,7 @@
 }: let
   inherit (lib) mkIf;
   c = config.lib.stylix.colors.withHashtag;
+  f = config.stylix.fonts;
 in {
   stylix = {
     enable = true;
@@ -16,6 +17,8 @@ in {
       kitty.variant256Colors = true;
       # Causes some mismatched colors with Dracula-tmux theme
       tmux.enable = false;
+      # Disable stylix's KDE module, very broken currently
+      kde.enable = false;
     };
   };
 
@@ -48,11 +51,40 @@ in {
   };
 
   programs = {
-    plasma.workspace = {
-      #lookAndFeel = "org.kde.breezedark.desktop";
-      colorScheme = "DraculaPurple";
-      iconTheme = "${config.theme.iconTheme.name}";
-      #splashScreen = "";
+    plasma = rec {
+      overrideConfig = true;
+      workspace = {
+        lookAndFeel = "org.kde.breezedark.desktop";
+        colorScheme = "DraculaPurple";
+        iconTheme = "${config.theme.iconTheme.name}";
+        #splashScreen = "";
+        cursor = {
+          theme = "${config.stylix.cursor.name}";
+          size = config.stylix.cursor.size;
+        };
+        wallpaperSlideShow = {
+          path = ["${inputs.wallpapers}/"];
+          interval = 300;
+        };
+      };
+      kscreenlocker.wallpaperSlideShow = workspace.wallpaperSlideShow;
+      fonts = rec {
+        general = {
+          family = "${f.sansSerif.name}";
+          pointSize = f.sizes.applications;
+        };
+        fixedWidth = {
+          family = "${f.monospace.name}";
+          pointSize = f.sizes.terminal;
+        };
+        small = {
+          family = general.family;
+          pointSize = f.sizes.desktop;
+        };
+        toolbar = small;
+        menu = small;
+        windowTitle = small;
+      };
     };
     cava.settings.color = {
       gradient = 1;
