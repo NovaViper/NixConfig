@@ -13,6 +13,7 @@ in {
       plasma-manager.homeManagerModules.plasma-manager
       nixvim.homeManagerModules.nixvim
       nur.hmModules.nur
+      ./xdg.nix
     ]
     ++ (builtins.attrValues self.homeManagerModules);
 
@@ -25,6 +26,8 @@ in {
       warn-dirty = false;
       # Optimize storage
       auto-optimise-store = true;
+      # Force XDG Base Directory paths for Nix path
+      use-xdg-base-directories = true;
     };
   };
 

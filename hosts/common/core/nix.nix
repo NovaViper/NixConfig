@@ -27,6 +27,8 @@ in {
 
       # Workaround for https://github.com/NixOS/nix/issues/9574
       nix-path = config.nix.nixPath;
+      # Force XDG Base Directory paths for Nix path
+      use-xdg-base-directories = true;
     };
 
     # Perform nix store optimisation weekly to maintain low disk usage

@@ -11,6 +11,8 @@
     builtins.filter (group: builtins.hasAttr group config.users.groups) groups;
   agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${config.variables.username}-password".path;
 in {
+  imports = [../standard.nix];
+
   # Special Variables
   variables.username = "novaviper";
 
@@ -22,7 +24,6 @@ in {
   };
 
   users.users.${config.variables.username} = {
-    isNormalUser = true;
     shell = pkgs.zsh;
     description = "${config.variables.username}";
     extraGroups =
@@ -37,16 +38,8 @@ in {
         "gamemode"
       ];
     hashedPasswordFile = agenixHashedPasswordFile;
-    packages = with pkgs; [home-manager];
   };
 
-  # Import Home-Manager config for host
-  home-manager.users.${config.variables.username} =
-    import ../../../../home/${config.variables.username}/${config.networking.hostName}.nix;
-
-  # Make hardware clock use localtime.
-  time = {
-    hardwareClockInLocalTime = lib.mkDefault true;
-    timeZone = lib.mkDefault "America/Chicago";
-  };
+  # Use US Central timezone
+  time.timeZone = "America/Chicago";
 }

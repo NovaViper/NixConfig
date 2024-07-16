@@ -1,4 +1,4 @@
-# This file should be included when using hm standalone
+# This file should be included when using Home-Manager standalone
 {
   lib,
   inputs,
@@ -12,6 +12,8 @@ in {
       experimental-features = ["nix-command" "flakes"];
       warn-dirty = false;
       flake-registry = ""; # Disable global flake registry
+      # Force XDG Base Directory paths for Nix path
+      use-xdg-base-directories = true;
     };
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
   };

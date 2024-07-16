@@ -1,12 +1,22 @@
 {
-  programs.zsh = {
+  lib,
+  config,
+  ...
+}: {
+  # Most here is borrowed from https://github.com/Lubsch/nixos-config/blob/main/nixos/common/zsh.nix
+  programs.zsh = lib.mkIf (config.home-manager.users != {}) {
     enable = true;
     histFile = "$HOME/.config/zsh/.zsh_history";
-    #    profileExtra = lib.optionalString (config.home.sessionPath != [ ]) ''
-    #      export PATH="$PATH''${PATH:+:}${lib.concatStringsSep ":" config.home.sessionPath}"
-    #    '';
   };
 
-  # Get completion for system packages
-  environment.pathsToLink = ["/share/zsh"];
+  environment = lib.mkIf (config.home-manager.users != {}) {
+    etc."zshenv".text = ''export ZDOTDIR="$HOME"/.config/zsh''; # Source zshenv without ~/.zshenv
+    pathsToLink = ["/share/zsh"]; # Make zsh-completions work
+  };
+
+  home-manager.sharedModules = [
+    {
+      home.file.".zshenv".enable = false;
+    }
+  ];
 }

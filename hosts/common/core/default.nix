@@ -21,6 +21,7 @@
       ./ssh.nix
       ./gpg.nix
       ./age.nix
+      ./xdg.nix
     ]
     ++ (builtins.attrValues self.nixosModules);
 

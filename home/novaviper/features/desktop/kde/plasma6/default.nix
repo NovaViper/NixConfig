@@ -10,16 +10,18 @@ in {
 
   services.kdeconnect.package = pkgs.kdePackages.kdeconnect-kde;
 
+  home.packages = with pkgs; [plasmusic-toolbar];
+
   # Add Firefox native messaging host support for Plasma Integration
   programs = {
     firefox.nativeMessagingHosts = with pkgs; [kdePackages.plasma-browser-integration];
     plasma = {
+      kwin.borderlessMaximizedWindows = true;
       hotkeys.commands."restart-plasmashell" = {
         name = "Restart Plasmashell";
         key = "Meta+Alt+R";
         command = "${pkgs.restart-plasma}/bin/restart-plasma";
       };
-      extraWidgets = ["application-title-bar" "plasmusic-toolbar"];
       panels = [
         # Windows like panel at the bottom
         {
