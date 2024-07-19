@@ -14,7 +14,7 @@
 
   home = {
     packages = with pkgs;
-      [openscad rpi-imager blisp]
+      [openscad freecad rpi-imager blisp]
       # For KDE Plasma 5
       ++ lib.optionals (config.variables.desktop.environment == "kde" && config.variables.desktop.displayManager == "x11")
       [libreoffice-qt-fresh]
