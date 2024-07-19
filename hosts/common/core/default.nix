@@ -22,6 +22,7 @@
       ./gpg.nix
       ./age.nix
       ./xdg.nix
+      ./ld.nix
     ]
     ++ (builtins.attrValues self.nixosModules);
 
