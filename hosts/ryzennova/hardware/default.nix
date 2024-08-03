@@ -22,6 +22,15 @@
       }
     }
   '';
+  vulkanDriverFiles = [
+    "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json"
+    "/run/opengl-driver/share/vulkan/icd.d/intel_icd.x86_64.json"
+    "/run/opengl-driver-32/share/vulkan/icd.d/nvidia_icd.i686.json"
+    "/run/opengl-driver-32/share/vulkan/icd.d/intel_icd.i686.json"
+    #"${config.hardware.nvidia.package}/share/vulkan/icd.d/nvidia_icd.x86_64.json"
+    #"${config.hardware.nvidia.package.lib32}/share/vulkan/icd.d/nvidia_icd.i686.json"
+    #"${pkgs.mesa.drivers}/share/vulkan/icd.d/intel_icd.x86_64.json"
+  ];
 in {
   imports = [
     inputs.hardware.nixosModules.common-cpu-amd
@@ -61,13 +70,14 @@ in {
       # Make libva use Nvidia
       LIBVA_DRIVER_NAME = "nvidia";
       # Force VK to use Nvidia driver instead of NVK
-      VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+      #VK_DRIVER_FILES = "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json";
+      VK_DRIVER_FILES = builtins.concatStringsSep ":" vulkanDriverFiles;
       # Enable hardware acceleration for Nvidia
-      VDPAU_DRIVER = "nvidia";
+      #VDPAU_DRIVER = "nvidia";
       # Enable new direct backend for NVIDIA-VAAPI-Driver
-      NVD_BACKEND = "direct";
+      #NVD_BACKEND = "direct";
       # Force GLX to use Nvidia
-      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
       # Necessary to make Minecraft Wayland GLFW work with Wayland+Nvidia
       __GL_THREADED_OPTIMIZATIONS = "0";
     };

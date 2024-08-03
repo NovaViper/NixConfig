@@ -35,6 +35,7 @@ in {
   };
 
   programs = {
+    java.enable = true;
     pyenv.enable = true;
     emacs = {
       enable = true;
@@ -171,7 +172,6 @@ in {
 
       # :checkers grammer
       languagetool
-      openjdk17
 
       # :tools editorconfig
       editorconfig-core-c # per-project style config

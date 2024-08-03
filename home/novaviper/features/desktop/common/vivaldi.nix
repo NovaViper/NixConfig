@@ -37,7 +37,11 @@
     commandLineArgs = [
       "--force-dark-mode"
       "--enable-force-dark"
-      "--enable-features=WebUIDarkMode"
+      #"--use-gl=desktop"
+      "--enable-gpu-rasterization"
+      "--ignore-gpu-blocklist"
+      "--enable-features=WebUIDarkMode,VaapiVideoEncoder,VaapiVideoDecodeLinuxGL,VaapiVideoDecoder,CanvasOopRasterization,Vulkan,UseSkiaRenderer"
+      "--disable-features=UseChromeOSDirectVideoDecoder"
     ];
     extensions = [
       {id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";} # UBlock Origin
