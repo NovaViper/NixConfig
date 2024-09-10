@@ -210,7 +210,7 @@ in {
 
       # :lang python, debugger, formatter
       (python311.withPackages
-        (ps: with ps; [debugpy pyflakes isort pytest black pip nose3]))
+        (ps: with ps; [debugpy pyflakes isort pytest black pip nose]))
       pyright
       pipenv
 

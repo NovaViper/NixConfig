@@ -112,10 +112,10 @@ in {
 
   config = mkIf (cfg != null) (mkMerge [
     (mkIf (cfg.machine.gpu == "nvidia") {
-      nixpkgs.config.cudaSupport = mkForce true;
+      #nixpkgs.config.cudaSupport = mkForce true;
     })
     (mkIf (cfg.machine.gpu == "amd") {
-      nixpkgs.config.rocmSupport = mkForce true;
+      #nixpkgs.config.rocmSupport = mkForce true;
     })
 
     (mkIf cfg.useVR {

@@ -49,10 +49,6 @@ in {
       enableWidevine = true;
     };
 
-    # TODO: Remove when https://github.com/NixOS/nixpkgs/pull/310073 is merged
-    prismlauncher =
-      prev.prismlauncher.override {withWaylandGLFW = true;};
-
     # Fixes upstream bug borgbase/vorta/issues/2025
     vorta = addPatches prev.vorta [./vorta-extract.diff];
   };
