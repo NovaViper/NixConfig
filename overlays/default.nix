@@ -43,13 +43,70 @@ in {
     # ...
     # });
 
-    # Enable DRM support in Vivaldi
-    vivaldi = prev.vivaldi.override {
-      proprietaryCodecs = true;
-      enableWidevine = true;
-    };
-
     # Fixes upstream bug borgbase/vorta/issues/2025
     vorta = addPatches prev.vorta [./vorta-extract.diff];
+
+    # Enable DRM support in Vivaldi and make it work properly on Wayland
+    vivaldi =
+      (prev.vivaldi.overrideAttrs (oldAttrs: {
+        buildPhase =
+          builtins.replaceStrings
+          ["for f in libGLESv2.so libqt5_shim.so ; do"]
+          ["for f in libGLESv2.so libqt5_shim.so libqt6_shim.so ; do"]
+          oldAttrs.buildPhase;
+      }))
+      .override {
+        qt5 = prev.qt6;
+        commandLineArgs = [
+          "--ozone-platform=wayland"
+          "--force-dark-mode"
+          "--enable-force-dark"
+        ];
+        # The following two are just my preference, feel free to leave them out
+        proprietaryCodecs = true;
+        enableWidevine = true;
+      };
+
+    vesktop = prev.vesktop.overrideAttrs {
+      desktopItems = prev.lib.optionals prev.stdenv.isLinux (prev.makeDesktopItem {
+        name = "vesktop";
+        desktopName = "Vesktop";
+        exec = "vesktop --disable-features=UseMultiPlaneFormatForSoftwareVideo %U";
+        icon = "vesktop";
+        startupWMClass = "Vesktop";
+        genericName = "Internet Messenger";
+        keywords = [
+          "discord"
+          "vencord"
+          "electron"
+          "chat"
+        ];
+        categories = [
+          "Network"
+          "InstantMessaging"
+          "Chat"
+        ];
+      });
+    };
+
+    discord-wayland = let
+      discord = prev.discord.override {
+        withOpenASAR = true;
+        withVencord = true;
+      };
+    in
+      prev.symlinkJoin {
+        name = "Discord";
+        paths = [
+          (prev.writeShellScriptBin "Discord" ''
+            exec ${discord}/bin/Discord \
+              --enable-features=UseOzonePlatform,WaylandWindowDecorations \
+              --ozone-platform-hint=auto \
+              --ozone-platform=wayland \
+              "$@"
+          '')
+          discord
+        ];
+      };
   };
 }

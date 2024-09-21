@@ -31,7 +31,7 @@ nixos-install HOST:
 disko HOST:
     sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
     --mode disko \
-    hosts/{{HOST}}/hardware/disks.nix |&nom
+    hosts/{{HOST}}/disks.nix |&nom
 
 [doc('Rekey FILE age-key secret that is under secrets/USER using the specified IDENTITY file')]
 rekey USER FILE IDENTITY:

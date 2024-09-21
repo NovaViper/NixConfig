@@ -1,0 +1,1151 @@
+:DOC-CONFIG:
+# Tangle by default to config.el, which is the most common case
+#+PROPERTY: header-args:emacs-lisp :tangle config.el
+#+PROPERTY: header-args :mkdirp yes :comments no
+:END:
+
+#+TITLE: Doom Emacs Configuration
+#+AUTHOR: Nova Leary
+#+EMAIL: coder.nova99@mailbox.org
+
+
+This is my Doom Emacs configuration. From this org file, all of the necessary Doom Emacs configuration files are generated.
+
+* Table of Contents :TOC_3:noexport:
+- [[#references][References]]
+- [[#doom-config-file-overview][Doom Config File Overview]]
+  - [[#config-file-headers][Config File Headers]]
+  - [[#customized-variables][Customized Variables]]
+- [[#doom-modules][Doom Modules]]
+- [[#doom-packages][Doom Packages]]
+- [[#editor-configuration][Editor Configuration]]
+  - [[#general-configuration][General Configuration]]
+    - [[#import-nix-values][Import Nix Values]]
+    - [[#global-auto-revert][Global Auto Revert]]
+    - [[#enable-auto-save-and-backup][Enable Auto Save and Backup]]
+    - [[#line-number-modes][Line Number Modes]]
+    - [[#beacon][Beacon]]
+    - [[#word-wrap][Word Wrap]]
+    - [[#workspace-emacsclient-fix][Workspace Emacsclient Fix]]
+    - [[#emojify-fix][Emojify Fix]]
+    - [[#nerd-fonts-fix-nixos-only][Nerd Fonts Fix (NixOS only)]]
+    - [[#gpg-encryption-and-password-configuration][GPG Encryption and Password Configuration]]
+  - [[#visual-session-and-window-settings][Visual, Session, and Window Settings]]
+    - [[#doom-theme][Doom Theme]]
+    - [[#doom-dashboard][Doom Dashboard]]
+    - [[#disable-mixed-pitch-for-cursor][Disable Mixed Pitch for Cursor]]
+    - [[#modeline][Modeline]]
+    - [[#window-splitting][Window Splitting]]
+    - [[#centaur-tabs][Centaur Tabs]]
+  - [[#key-bindings][Key Bindings]]
+    - [[#org-capture-shortcut][Org Capture Shortcut]]
+    - [[#vivim-emulation-for-centaur-tabs][Vi/Vim emulation for Centaur Tabs]]
+    - [[#zoxide-integration][Zoxide Integration]]
+    - [[#justljust-mode-integration][Justl/Just-mode Integration]]
+    - [[#ediff-extras][Ediff Extras]]
+- [[#org-mode][Org Mode]]
+  - [[#basic-configuration][Basic Configuration]]
+    - [[#disable-electric-mode-in-org][Disable Electric Mode in Org]]
+    - [[#better-fonts-and-visual-fidelity][Better Fonts and Visual Fidelity]]
+  - [[#tasks-and-agenda][Tasks and Agenda]]
+    - [[#quality-of-life-functions][Quality of Life Functions]]
+    - [[#ricing-agenda][Ricing Agenda]]
+    - [[#super-agenda][Super Agenda]]
+  - [[#capturing-and-note-taking][Capturing and Note Taking]]
+  - [[#notifications-for-org-mode][Notifications for Org-mode]]
+- [[#coding-configurations][Coding Configurations]]
+  - [[#projectile-configurations][Projectile Configurations]]
+  - [[#set-nix-formatter-to-alejandra][Set Nix Formatter to Alejandra]]
+  - [[#black-formatter-configuration][Black Formatter Configuration]]
+    - [[#global-config-file][Global Config File]]
+  - [[#numpydoc-configuration][Numpydoc Configuration]]
+  - [[#dap-mode][Dap-Mode]]
+  - [[#lsp-mode-nerd-icon-fix][Lsp-mode Nerd Icon Fix]]
+  - [[#agenix-integration][Agenix Integration]]
+  - [[#lua-lsp-mode-configurations][Lua LSP Mode Configurations]]
+- [[#mu4e-configuration][MU4E Configuration]]
+    - [[#main-configurations][Main Configurations]]
+    - [[#mail-contexts][Mail Contexts]]
+
+* References
+- [[https://github.com/zzamboni/dot-doom][ZZamboni's doom.org file]] - For primary configuration for Doom Emacs
+- [[https://github.com/daviwil/emacs-from-scratch/blob/master/Emacs.org][SystemCrafter's Emacs.org file]] - For help separating configurations and describing them, also took many configurations from here
+- [[https://tecosaur.github.io/emacs-config/config.html][Tecosaur's emacs configuration blog]] - For extra modline functions and daemon extras
+- [[https://jherrlin.github.io/posts/emacs-mu4e/][jherrlin's mu4e tutorial]] - For the new mu4e `pass` functions and improvements
+- [[https://github.com/hlissner/doom-emacs-private/blob/master/config.el#L80-L85][Hlissner's Doom Config]] - Advanced configurations for Emacs everywhere, indents and more
+- [[https://github.com/danielfleischer/mu4easy][danielfleischer's mu4e configuration]] - Mu4e context and Gmail refile macros, mbsyncrc configuration
+- [[https://github.com/librephoenix/nixos-config/tree/main/user/app/doom-emacs][librephoenix's nixos flake: doom.org file]] - Org-mode agenda configurations
+- [[https://github.com/mcordell/dotfiles][mcordell's dotfiles]] - just-mode configs
+* Doom Config File Overview
+Doom Emacs uses three config files:
+- [[file:init.el][init.el]] defines which of the existing Doom [[https://github.com/hlissner/doom-emacs/blob/develop/docs/getting_started.org#modules][modules]] are loaded. A Doom module is a bundle of packages, configuration and commands, organized into a unit that can be toggled easily from this file.
+- [[file:packages.el][packages.el]] defines which [[https://github.com/hlissner/doom-emacs/blob/develop/docs/getting_started.org#package-management][packages]] should be installed, beyond those that are installed and loaded as part of the enabled modules.
+- [[file:config.el][config.el]] contains all [[https://github.com/hlissner/doom-emacs/blob/develop/docs/getting_started.org#configuring-doom][custom configurations]] and code.
+There are other files that can be loaded, but theses are the main ones. The load order of different files is [[https://github.com/hlissner/doom-emacs/blob/develop/docs/getting_started.org#load-order][defined depending on the type of session]] being started.
+** Config File Headers
+We start by simply defining the standard headers used by the three files. These headers come from the initial files generated by ~doom install~ and contain either some Emacs-LISP relevant indicators like ~lexical-binding~, or instructions about the contents of the file.
+
+#+html: <details><summary>init.el</summary>
+#+begin_src emacs-lisp :tangle init.el
+;;; init.el -*- lexical-binding: t; -*-
+
+;; DO NOT EDIT THIS FILE DIRECTLY
+;; This is a file generated from a literate programing source file located at
+;; https://gitlab.com/NovaViper/NixConfig/-/blob/main/home/novaviper/dotfiles/doom/config.org
+;; You should make any changes there and regenerate it from Emacs org-mode
+;; using org-babel-tangle (C-c C-v t)
+
+;; This file controls what Doom modules are enabled and what order they load
+;; in. Remember to run 'doom sync' after modifying it!
+
+;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
+;;      documentation. There you'll find a link to Doom's Module Index where all
+;;      of our modules are listed, including what flags they support.
+
+;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
+;;      'C-c c k' for non-vim users) to view its documentation. This works on
+;;      flags as well (those symbols that start with a plus).
+;;
+;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
+;;      directory (for easy access to its source code).
+#+end_src
+
+#+RESULTS:
+
+#+html: </details>
+
+#+html: <details><summary>packages.el</summary>
+#+begin_src emacs-lisp :tangle packages.el
+;; -*- no-byte-compile: t; -*-
+;;; $DOOMDIR/packages.el
+
+;; DO NOT EDIT THIS FILE DIRECTLY
+;; This is a file generated from a literate programing source file located at
+;; https://gitlab.com/NovaViper/NixConfig/-/blob/main/home/novaviper/dotfiles/doom/config.org
+;; You should make any changes there and regenerate it from Emacs org-mode
+;; using org-babel-tangle (C-c C-v t)
+
+;; To install a package with Doom you must declare them here and run 'doom sync'
+;; on the command line, then restart Emacs for the changes to take effect -- or
+;; use 'M-x doom/reload'.
+
+
+;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
+;; (package! some-package)
+
+;; To install a package directly from a remote git repo, you must specify a
+;; `:recipe'. You'll find documentation on what `:recipe' accepts here:
+;; https://github.com/radian-software/straight.el#the-recipe-format
+;; (package! another-package
+;;   :recipe (:host github :repo "username/repo"))
+
+;; If the package you are trying to install does not contain a PACKAGENAME.el
+;; file, or is located in a subdirectory of the repo, you'll need to specify
+;; `:files' in the `:recipe':
+;; (package! this-package
+;;   :recipe (:host github :repo "username/repo"
+;;            :files ("some-file.el" "src/lisp/*.el")))
+
+;; If you'd like to disable a package included with Doom, you can do so here
+;; with the `:disable' property:
+;; (package! builtin-package :disable t)
+
+;; You can override the recipe of a built in package without having to specify
+;; all the properties for `:recipe'. These will inherit the rest of its recipe
+;; from Doom or MELPA/ELPA/Emacsmirror:
+;; (package! builtin-package :recipe (:nonrecursive t))
+;; (package! builtin-package-2 :recipe (:repo "myfork/package"))
+
+;; Specify a `:branch' to install a package from a particular branch or tag.
+;; This is required for some packages whose default branch isn't 'master' (which
+;; our package manager can't deal with; see radian-software/straight.el#279)
+;; (package! builtin-package :recipe (:branch "develop"))
+
+;; Use `:pin' to specify a particular commit to install.
+;; (package! builtin-package :pin "1a2b3c4d5e")
+
+
+;; Doom's packages are pinned to a specific commit and updated from release to
+;; release. The `unpin!' macro allows you to unpin single packages...
+;; (unpin! pinned-package)
+;; ...or multiple packages
+;; (unpin! pinned-package another-pinned-package)
+;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
+;; (unpin! t)
+#+end_src
+#+html: </details>
+
+#+html: <details><summary>config.el</summary>
+#+begin_src emacs-lisp :tangle config.el
+;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+
+;; DO NOT EDIT THIS FILE DIRECTLY
+;; This is a file generated from a literate programing source file located at
+;; https://gitlab.com/NovaViper/NixConfig/-/blob/main/home/novaviper/dotfiles/doom/config.org
+;; You should make any changes there and regenerate it from Emacs org-mode
+;; using org-babel-tangle (C-c C-v t)
+
+;; Place your private configuration here! Remember, you do not need to run 'doom
+;; sync' after modifying this file!
+
+
+;; Some functionality uses this to identify you, e.g. GPG configuration, email
+;; clients, file templates and snippets. It is optional.
+;; (setq user-full-name "John Doe"
+;;       user-mail-address "john@doe.com")
+
+;; Doom exposes five (optional) variables for controlling fonts in Doom:
+;;
+;; - `doom-font' -- the primary font to use
+;; - `doom-variable-pitch-font' -- a non-monospace font (where applicable)
+;; - `doom-big-font' -- used for `doom-big-font-mode'; use this for
+;;   presentations or streaming.
+;; - `doom-symbol-font' -- for symbols
+;; - `doom-serif-font' -- for the `fixed-pitch-serif' face
+;;
+;; See 'C-h v doom-font' for documentation and more examples of what they
+;; accept. For example:
+;;
+;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
+;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+;;
+;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
+;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
+;; refresh your font settings. If Emacs still can't find your font, it likely
+;; wasn't installed correctly. Font issues are rarely Doom issues!
+
+;; There are two ways to load a theme. Both assume the theme is installed and
+;; available. You can either set `doom-theme' or manually load a theme with the
+;; `load-theme' function. This is the default:
+;;(setq doom-theme 'doom-one)
+
+;; This determines the style of line numbers in effect. If set to `nil', line
+;; numbers are disabled. For relative line numbers, set this to `relative'.
+;;(setq display-line-numbers-type t)
+
+;; If you use `org' and don't want your org files in the default location below,
+;; change `org-directory'. It must be set before org loads!
+;;(setq org-directory "~/org/")
+
+
+;; Whenever you reconfigure a package, make sure to wrap your config in an
+;; `after!' block, otherwise Doom's defaults may override your settings. E.g.
+;;
+;;   (after! PACKAGE
+;;     (setq x y))
+;;
+;; The exceptions to this rule:
+;;
+;;   - Setting file/directory variables (like `org-directory')
+;;   - Setting variables which explicitly tell you to set them before their
+;;     package is loaded (see 'C-h v VARIABLE' to look up their documentation).
+;;   - Setting doom variables (which start with 'doom-' or '+').
+;;
+;; Here are some additional functions/macros that will help you configure Doom.
+;;
+;; - `load!' for loading external *.el files relative to this one
+;; - `use-package!' for configuring packages
+;; - `after!' for running code after a package has loaded
+;; - `add-load-path!' for adding directories to the `load-path', relative to
+;;   this file. Emacs searches the `load-path' when you load packages with
+;;   `require' or `use-package'.
+;; - `map!' for binding new keys
+;;
+;; To get information about any of these functions/macros, move the cursor over
+;; the highlighted symbol at press 'K' (non-evil users must press 'C-c c k').
+;; This will open documentation for it, including demos of how they are used.
+;; Alternatively, use `C-h o' to look up a symbol (functions, variables, faces,
+;; etc).
+;;
+;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
+;; they are implemented.
+#+end_src
+#+html: </details>
+
+** Customized Variables
+Doom [[https://github.com/hlissner/doom-emacs/blob/develop/docs/getting_started.org#configure][does not recommend the Emacs ~customize~ mechanism]]:
+#+begin_quote
+Note: do not use ~M-x customize~ or the customize API in general. Doom is
+designed to be configured programmatically from your config.el, which can
+conflict with Customize's way of modifying variables.
+
+If you're concerned about ~defcustom~ setters, Doom has a ~setq!~ macro that
+will trigger them.
+#+end_quote
+
+All necessary settings are therefore set by hand as part of this configuration file. The only exceptions are "safe variable" and "safe theme" settings, which are automatically saved by Emacs in ~custom.el~, but this is OK as they don't conflict with anything else from the config.
+* Doom Modules
+This code is written to ~init.el~ to select which modules to load.
+#+begin_src emacs-lisp :tangle init.el
+(doom! :input
+       ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
+       ;;chinese
+       ;;japanese
+       ;;layout            ; auie,ctsrnm is the superior home row
+
+       :completion
+       (company +childframe)           ; the ultimate code completion backend
+       ;;(corfu +orderless)  ; complete with cap(f), cape and a flying feather!
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
+       ;;ivy               ; a search engine for love and life
+       (vertico +icons)           ; the search engine of the future
+
+       :ui
+       ;;deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       ;;doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       (emoji +unicode)  ; 🙂
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       indent-guides     ; highlighted indent columns
+       ligatures         ; ligatures and symbols to make your code pretty again
+       minimap           ; show a map of the code on the side
+       modeline          ; snazzy, Atom-inspired modeline, plus API
+       ;;nav-flash         ; blink cursor line after big motions
+       ;;neotree           ; a project drawer, like NERDTree for vim
+       ophints           ; highlight the region an operation acts on
+       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       tabs              ; a tab bar for Emacs
+       treemacs          ; a project drawer, like neotree but cooler
+       unicode           ; extended unicode support for various languages
+       (vc-gutter +pretty) ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       ;;window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
+       zen               ; distraction-free coding or writing
+
+       :editor
+       (evil +everywhere); come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
+       fold              ; (nigh) universal code folding
+       (format +onsave)  ; automated prettiness
+       ;;god               ; run Emacs commands without modifier keys
+       ;;lispy             ; vim for lisp, for people who don't like vim
+       multiple-cursors  ; editing in many places at once
+       ;;objed             ; text object editing for the innocent
+       ;;parinfer          ; turn lisp into python, sort of
+       ;;rotate-text       ; cycle region at point between text candidates
+       snippets          ; my elves. They type so I don't have to
+       word-wrap         ; soft wrapping with language-aware indent
+
+       :emacs
+       (dired +icons)             ; making dired pretty [functional]
+       electric          ; smarter, keyword-based electric-indent
+       (ibuffer +icons)         ; interactive buffer management
+       undo              ; persistent, smarter undo for your inevitable mistakes
+       vc                ; version-control and Emacs, sitting in a tree
+
+       :term
+       ;;eshell            ; the elisp shell that works everywhere
+       ;;shell             ; simple shell REPL for Emacs
+       ;;term              ; basic terminal emulator for Emacs
+       vterm             ; the best terminal emulation in Emacs
+
+       :checkers
+       syntax              ; tasing you for every semicolon you forget
+       (spell +flyspell) ; tasing you for misspelling mispelling
+       grammar           ; tasing grammar mistake every you make
+
+       :tools
+       ;;ansible
+       ;;biblio            ; Writes a PhD for you (citation needed)
+       ;;collab            ; buffers with friends
+       (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
+       direnv
+       ;;docker
+       editorconfig      ; let someone else argue about tabs vs spaces
+       ;;ein               ; tame Jupyter notebooks with emacs
+       (eval +overlay)     ; run code, run (also, repls)
+       (lookup +dictionary              ; navigate your code and its documentation
+               +docsets
+               +offline)
+       (lsp +peek)               ; M-x vscode
+       (magit +forge)             ; a git porcelain for Emacs
+       ;;make              ; run make tasks from Emacs
+       (:if (executable-find "pass") (pass +auth))              ; password manager for nerds
+       pdf               ; pdf enhancements
+       ;;prodigy           ; FIXME managing external services & code builders
+       ;;terraform         ; infrastructure as code
+       tmux              ; an API for interacting with tmux
+       tree-sitter       ; syntax and parsing, sitting in a tree...
+       ;;upload            ; map local to remote projects via ssh/ftp
+
+       :os
+       (:if (featurep :system 'macos) macos)  ; improve compatibility with macOS
+       (tty +osc)               ; improve the terminal Emacs experience
+
+       :lang
+       ;;agda              ; types of types of types of types...
+       ;;beancount         ; mind the GAAP
+       ;;(cc +lsp)         ; C > C++ == 1
+       ;;clojure           ; java with a lisp
+       ;;common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;coq               ; proofs-as-programs
+       ;;crystal           ; ruby at the speed of c
+       ;;csharp            ; unity, .NET, and mono shenanigans
+       ;;data              ; config/data formats
+       ;;(dart +flutter)   ; paint ui and not much else
+       ;;dhall
+       ;;elixir            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       ;;ess               ; emacs speaks statistics
+       ;;factor
+       ;;faust             ; dsp, but you get to keep your soul
+       ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
+       ;;fsharp            ; ML stands for Microsoft's Language
+       ;;fstar             ; (dependent) types and (monadic) effects and Z3
+       ;;gdscript          ; the language you waited for
+       ;;(go +lsp)         ; the hipster dialect
+       ;;(graphql +lsp)    ; Give queries a REST
+       ;;(haskell +lsp)    ; a language that's lazier than I am
+       ;;hy                ; readability of scheme w/ speed of python
+       ;;idris             ; a language you can depend on
+       (json +lsp              ; At least it ain't XML
+             +tree-sitter)
+       ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
+       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;julia             ; a better, faster MATLAB
+       ;;kotlin            ; a better, slicker Java(Script)
+       ;;latex             ; writing papers in Emacs has never been so fun
+       ;;lean              ; for folks with too much to prove
+       ;;ledger            ; be audit you can be
+       (lua +lsp               ; one-based indices? one-based indices
+            +tree-sitter)
+       markdown          ; writing docs for people to ignore
+       ;;nim               ; python + lisp at the speed of c
+       (nix +lsp              ; I hereby declare "nix geht mehr!"
+            +tree-sitter)
+       ;;ocaml             ; an objective camel
+       (org +dragndrop               ; organize your plain life in plain text
+            +pomodoro
+            +pretty
+            +journal
+            +gnuplot
+            +crypt)
+       ;;php               ; perl's insecure younger brother
+       ;;plantuml          ; diagrams for confusing people more
+       ;;purescript        ; javascript, but functional
+       (python +lsp            ; beautiful is better than ugly
+               +pyright
+               +tree-sitter)
+       ;;qt                ; the 'cutest' gui framework ever
+       ;;racket            ; a DSL for DSLs
+       ;;raku              ; the artist formerly known as perl6
+       ;;rest              ; Emacs as a REST client
+       ;;rst               ; ReST in peace
+       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       ;;(rust +lsp       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;      +tree-sitter)
+       ;;scala             ; java, but good
+       ;;(scheme +guile)   ; a fully conniving family of lisps
+       (sh +lsp                ; she sells {ba,z,fi}sh shells on the C xor
+           +tree-sitter)
+       ;;sml
+       ;;solidity          ; do you need a blockchain? No.
+       ;;swift             ; who asked for emoji variables?
+       ;;terra             ; Earth and Moon in alignment for performance.
+       ;;(web +lsp               ; the tubes
+       ;;     +tree-sitter)
+       (yaml +lsp              ; JSON, but readable
+             +tree-sitter)
+       ;;zig               ; C, but simpler
+
+       :email
+       (:if (executable-find "mu") (mu4e +org +gmail))
+       ;;notmuch
+       ;;(wanderlust +gmail)
+
+       :app
+       calendar
+       ;;emms
+       ;;everywhere        ; *leave* Emacs!? You must be joking
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+
+       :config
+       literate
+       (default +bindings +smartparens))
+#+end_src
+
+* Doom Packages
+Installs several packages I need,
+- =evil-tutor=: Teaches how to use evil
+- =command-log-mode=: Show event history and command history of some or all buffers.
+- =org-super-agenda=: Makes org-agenda really really fancy
+- =org-wild-notifier=: Customize notifications for org tasks and events
+- =visual-fill-column=: It turns the view on the left into the view on the right, without changing the contents of the file
+- =exec-path-from-shell=: Ensure environment variables inside Emacs look the same as in the user's shell.
+- =platformio-mode=: Integrates PlatformIO build tools into Emacs
+- =numpydoc=: Automatically insert NumPy style docstrings for Python functions
+- =mixed-pitch=: Enables mixing fixed-pitch (also known as fixed-width or monospace) and variable-pitch (AKA “proportional”) fonts
+- =beacon=: Highlights the cursor location when window scrolling
+- =zoxide=: Fancy find-file command, companion for [[https://github.com/ajeetdsouza/zoxide][zoxide]]
+- =justl=: Major mode for driving justfiles
+- =just-mode=: Emacs mode for justfiles
+- =agenix=: Transparent editing for [[https://github.com/ryantm/agenix][agenix]] secrets inside Emacs
+#+begin_src emacs-lisp :tangle packages.el
+(package! evil-tutor)
+;;(package! command-log-mode)
+(package! org-super-agenda)
+(package! org-wild-notifier)
+(package! visual-fill-column)
+(package! exec-path-from-shell)
+(package! platformio-mode)
+(package! numpydoc)
+(package! mixed-pitch)
+(package! beacon)
+(package! zoxide)
+(package! justl)
+(package! just-mode)
+(package! agenix)
+#+end_src
+
+#+begin_src emacs-lisp :tangle (if (executable-find "mu") "packages.el" "no") packages.el
+(package! mu4easy)
+#+end_src
+
+* Editor Configuration
+** General Configuration
+*** Import Nix Values
+Brings up values from flake (see [[file:~/Documents/NixConfig/home/novaviper/features/emacs/][features/emacs]]). Includes variables such as =user-full-name=, =user-username=, =user-mail-address=, =doom-font= and a few more custom variables used throughout the config
+#+begin_src emacs-lisp
+;; Import relevant system variables from flake
+(load (concat doom-user-dir "system-vars.el"))
+#+end_src
+
+*** Global Auto Revert
+A buffer can get out of sync with respect to its visited file on disk if that file is changed by another program. To keep it up to date, you can enable Auto Revert mode by typing M-x auto-revert-mode, or you can set it to be turned on globally with =global-auto-revert-mode=.  I have also turned on Global Auto Revert on non-file buffers, which is especially useful for ~dired~ buffers.
+#+begin_src emacs-lisp
+(setq global-auto-revert-mode t)
+(setq auto-revert-mode t)
+(setq global-auto-revert-non-file-buffers t)
+(setq auto-revert-use-notify t)
+#+end_src
+
+*** Enable Auto Save and Backup
+Re-enable auto-save, creation of lock files, and backup files
+#+begin_src emacs-lisp
+(setq auto-save-default t)
+(setq create-lockfiles t)
+(setq make-backup-files t)
+#+end_src
+
+*** Line Number Modes
+Determines what modes should display line numbers be disabled in
+#+begin_src emacs-lisp
+(dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook
+                vterm-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+*** Beacon
+Enable beacon mode for blinking cursor
+#+begin_src emacs-lisp
+(setq beacon-mode t)
+;(after! beacon
+;  (beacon-mode 1)
+  ;(setq beacon-color "#bd93f9")
+;)
+#+end_src
+
+*** Word Wrap
+Make all text files word warp enabled by default
+#+begin_src emacs-lisp
+(+global-word-wrap-mode +1)
+#+end_src
+
+*** Workspace Emacsclient Fix
+This fixes [[https://github.com/hlissner/doom-emacs/issues/5876][my issue]] where enabling the workspace plugin would cause emacsclient to create new workspaces when exiting out of Emacs
+#+begin_src emacs-lisp
+(after! persp-mode
+  (setq persp-emacsclient-init-frame-behaviour-override "main"))
+#+end_src
+
+*** Emojify Fix
+Fixes infinite loop issue with Emojify downloading not working and going into infinite looping
+#+begin_src emacs-lisp
+(setq emojify-download-emojis-p t)
+#+end_src
+
+*** Nerd Fonts Fix (NixOS only)
+This fixes =doom doctor= when it says that NerdFonts aren't installed on NixOS. Addresses [[https://github.com/doomemacs/doomemacs/issues/7431#ref-commit-f3f8e7d][this issue]].
+#+begin_src emacs-lisp :tangle (if (executable-find "nixos-version") "yes" "no")
+(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
+#+end_src
+
+*** GPG Encryption and Password Configuration
+This sets up password look up for mu4e and other gpg operations. For Yubikey usage, the passphrase Emacs prompts for is the yubikey pin!
+#+begin_src emacs-lisp
+(after! epa-file
+  (setq epa-file-encrypt-to '("coder.nova99@mailbox.org")
+        epa-file-select-keys t
+        epg-pinentry-mode 'loopback))
+#+end_src
+
+** Visual, Session, and Window Settings
+*** Doom Theme
+Set the theme for Doom Emacs to Dracula theme
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-dracula)
+#+end_src
+
+*** Doom Dashboard
+Add more entries to Doom Dashboard
+#+begin_src emacs-lisp
+(add-to-list '+doom-dashboard-menu-sections
+             '("Open mu4e client"
+               :icon (nerd-icons-octicon "nf-oct-mail" :face 'doom-dashboard-menu-title)
+               :when (modulep! :email mu4e)
+               :action =mu4e))
+#+end_src
+
+*** Disable Mixed Pitch for Cursor
+Don't modify the cursor when using =mixed-pitch-mode=
+#+begin_src emacs-lisp
+;;(add-hook! 'org-mode-hook #'solaire-mode)
+(setq mixed-pitch-variable-pitch-cursor nil)
+#+end_src
+
+*** Modeline
+**** Word Count
+Show word count on modeline
+#+begin_src emacs-lisp
+(setq doom-modeline-enable-word-count t)
+#+end_src
+
+**** Time
+Enable time display on modeline
+#+begin_src emacs-lisp
+(display-time-mode 1)
+#+end_src
+
+**** Battery Display
+Display battery mode in modeline for laptop configuration
+#+begin_src emacs-lisp
+(unless (string-match-p "^Power N/A" (battery))
+  (display-battery-mode 1))
+#+end_src
+
+**** Zen Mode Module
+Make sure =doom-modeline-mode= is actually enabled in =writeroom=
+#+begin_src emacs-lisp
+(add-hook! 'writeroom-mode-hook :append #'doom-modeline-mode)
+#+end_src
+
+*** Window Splitting
+Focus on new windows after splitting and enable prompt for window splitting with advice hooks
+#+begin_src emacs-lisp
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+
+(advice-add 'evil-window-vsplit :after #'consult-buffer)
+(advice-add 'evil-window-split :after #'consult-buffer)
+#+end_src
+
+*** Centaur Tabs
+Several changes made to centaur tabs to make it more usable.
+- Set selected style to have an under outline
+- Create custom function that forces centaur tabs to reload when running in daemon mode (fixes [[https://github.com/doomemacs/doomemacs/issues/6647][issue]] where centaur tabs doesn't work properly when using emacsclient)
+- Make the tabs larger to be easier to see
+- Enable navigation buttons in tab bar
+- Make centaur tabs headline font match
+- Group your tabs by Projectile’s project.
+#+begin_src emacs-lisp
+; Fix centaur tabs in Emacs daemon mod
+(defun tdr/fix-centaur-tabs ()
+  (centaur-tabs-mode -1)      ; Disable Centaur Tabs globally
+  (centaur-tabs-mode 1)       ; Re-enable Centaur Tabs globally
+  ; Tourn off local instance of centaur tabs (when buffer is either a popup or is the Doom Dashboard)
+  (if (or (+popup-buffer-p (current-buffer)) (+doom-dashboard-p (current-buffer)))
+      (centaur-tabs-local-mode)
+      (doom/reload-theme)))
+
+(use-package! centaur-tabs
+  :demand
+  :init
+  (setq centaur-tabs-style "bar"
+        centaur-tabs-height 32
+        centaur-tabs-show-navigation-buttons t
+        centaur-tabs-set-bar 'under
+        ; Make underline bar work properly
+        x-underline-at-descent-line t)
+  (if (daemonp)
+      (add-hook 'server-after-make-frame-hook 'tdr/fix-centaur-tabs)
+    (add-hook 'after-init-hook 'tdr/fix-centaur-tabs))
+  :config
+  (centaur-tabs-headline-match)
+  (centaur-tabs-group-by-projectile-project))
+#+end_src
+
+** Key Bindings
+All keybindings are evil-mode since I'm using Doom Emacs. So I have some specific keybindings I want to use
+*** Org Capture Shortcut
+Create custom shortcut for org-capture
+#+begin_src emacs-lisp
+(define-key global-map (kbd "C-c j")
+  (lambda () (interactive) (org-capture nil "jj")))
+#+end_src
+
+Shortcut for creating numpydoc comments
+#+begin_src emacs-lisp
+(map! :leader
+      :desc "Create Numpydoc"
+        "C-n" #'numpydoc-generate)
+#+end_src
+
+*** Vi/Vim emulation for Centaur Tabs
+Enable Vim like tab changing motion for Centaur Tabs
+#+begin_src emacs-lisp
+(define-key evil-normal-state-map (kbd "g t") 'centaur-tabs-forward)
+(define-key evil-normal-state-map (kbd "g T") 'centaur-tabs-backward)
+#+end_src
+
+*** Zoxide Integration
+Add keybindings for zoxide compatibility
+#+begin_src emacs-lisp
+(map! :leader
+      (:prefix ("z" . "zoxide/fzf")
+        :desc "zoxide-add"                    "a" #'zoxide-add
+        :desc "zoxide-cd"                     "c" #'zoxide-cd
+        :desc "zoxide-find-file"              "f" #'zoxide-find-file
+        :desc "zoxide-travel"                 "t" #'zoxide-travel
+        :desc "zoxide-remove"                 "x" #'zoxide-remove
+        :desc "zoxide-add-with-query"         "A" #'zoxide-add-with-query
+        :desc "zoxide-cd-with-query"          "C" #'zoxide-cd-with-query
+        :desc "zoxide-find-file-with-query"   "F" #'zoxide-find-file-with-query
+        :desc "zoxide-travel-with-query"      "T" #'zoxide-travel-with-query
+))
+#+end_src
+
+*** Justl/Just-mode Integration
+Add keybindings for just-mode
+#+begin_src emacs-lisp
+(use-package! justl
+  :config
+  (map! :n "e" 'justl-exec-recipe))
+#+end_src
+
+*** Ediff Extras
+Adds some nice additions to ediff, notably the ability to copy both A and B buffers into C. Taken from:
+- https://stackoverflow.com/a/29757750
+#+begin_src emacs-lisp
+(defun ediff-copy-both-to-C ()
+  (interactive)
+  (ediff-copy-diff ediff-current-difference nil 'C nil
+                   (concat
+                    (ediff-get-region-contents ediff-current-difference 'A ediff-control-buffer)
+                    (ediff-get-region-contents ediff-current-difference 'B ediff-control-buffer))))
+(defun add-d-to-ediff-mode-map () (define-key ediff-mode-map "'" 'ediff-copy-both-to-C))
+(add-hook 'ediff-keymap-setup-hook 'add-d-to-ediff-mode-map)
+#+end_src
+* Org Mode
+** Basic Configuration
+This section contains several important variables for various parts of =org-mode=. Also adds a hook that
+- =org-directory=: Sets the default directory for Org files to be in my Syncthing directory
+- =org-hide-emphasis-markers=: hide org markup indicators
+- =org-insert-heading-respect-content=: Insert Org headings at point, not after the current subtree (this is enabled by default by Doom).
+- =org-pretty-entities=: Make LaTeX special symbols appear as pretty Unicode characters instead of plain text
+- =org-startup-with-inline-images=: Make org mode show inline images when loading a new org file
+- =org-image-actual-width=: Set the actual image width in org mode to 300px when inlining them
+- =org-emphasis-alist=: Sets colors for emphasis characters
+
+#+begin_src emacs-lisp
+(after! org
+  (setq org-directory "~/Sync/org/"
+        org-hide-emphasis-markers t
+        org-insert-heading-respect-content nil
+        org-pretty-entities t
+        org-startup-with-inline-images t
+        org-image-actual-width '(300)
+))
+#+end_src
+*** Disable Electric Mode in Org
+[[https://code.orgmode.org/bzg/org-mode/src/master/etc/ORG-NEWS#L323][electric-mode]] is disabled in org-mode since it is now respected by it! Leaving it on will cause indentations to misbehave when hitting <RET> multiple times.
+#+begin_src emacs-lisp
+(add-hook! org-mode (electric-indent-local-mode -1))
+#+end_src
+
+*** Better Fonts and Visual Fidelity
+Adds several configurations to customize the fonts and visual appearance of org-mode in general.
+- Enable variable-pitch-mode and visual-line mode in Org mode by default.
+- Use [[https://github.com/awth13/org-appear][org-appear]] to reveal emphasis markers when moving the cursor over them. Also make the mode toggle org links, superscript and subscript markers
+- Adjust the text area width and make the text centered for Doom's =zen module= (aka =writeroom=)
+#+begin_src emacs-lisp
+; Enable variable-pitch-mode and visual-line mode in Org mode by default.
+(add-hook! org-mode :append
+           #'visual-line-mode
+           #'variable-pitch-mode)
+
+; Configure org-appear
+(add-hook! org-mode :append #'org-appear-mode)
+(setq org-appear-autolinks t
+      org-appear-autosubmarkers t)
+
+; Configure writeroom/Doom zen module
+(after! writeroom
+  ; Center the text and increase the widrh of the visual columns
+  (setq visual-fill-column-center-text t
+        visual-fill-column-width '(60)))
+;(setq +zen-window-divider-size 4
+;      +zen-text-scale 2)
+#+end_src
+
+** Tasks and Agenda
+This section contains configurations dealing with org tasks and agendas. I use these as part of my daily planner.
+**** Default Variables
+- =org-agenda-directory=: Set the default directory for where all org-agenda files will reside
+- =org-agenda-files=: Grab all of the org agenda files that's in the =org-agenda-directory=
+- *(UNUSED)* =org-agenda-prefix-format=: Create Custom keywords for different projects
+- =org-todo-keywords=: Setup the keywords to create new todo items
+- =org-tag-alist=: Create custom default org tags to use in org files
+#+begin_src emacs-lisp
+;; Required for faster loading
+(require 'org-agenda)
+(after! org
+  (setq org-agenda-directory (concat org-directory "agenda/")
+        org-agenda-files (doom-files-in org-agenda-directory :match "\\.org$")
+        ;(make time-grid refresh)org-agenda-prefix-format "%b"
+        org-todo-keywords
+                '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+                  (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")
+                  (sequence "STUDY(s)" "|" "FIN(f)")
+                  (sequence "TASK(T)")
+                  (sequence "MEETING(m)"))
+        org-tag-alist
+                '((:startgroup)
+                ; Put mutually exclusive tags here
+                  (:endgroup)
+                  ("@errand" . ?E)
+                  ("@home" . ?H)
+                  ("@work" . ?W)
+                  ("agenda" . ?a)
+                  ("planning" . ?p)
+                  ("publish" . ?P)
+                  ("batch" . ?b)
+                  ("note" . ?n)
+                  ("idea" . ?i))
+))
+#+end_src
+
+
+*** Quality of Life Functions
+This section adds in several really useful and QoL configurations that make using org-agenda and tasks much easier
+**** Root TODO complete when all leaf nodes are done
+Make the root TODO item set to =DONE= when all node items are =DONE=
+#+begin_src emacs-lisp
+(defun org-summary-todo (n-done n-not-done)
+  "Switch entry to DONE when all subentries are done, to TODO otherwise."
+  (let (org-log-done org-log-states)   ; turn off logging
+    (org-todo (if (= n-not-done 0) "DONE" "TODO"))))
+
+(add-hook 'org-after-todo-statistics-hook #'org-summary-todo)
+#+end_src
+
+**** Automatically refresh agenda when agenda is modified
+Automatic refresh of org agenda for syncthing file changes. Came from: [[https://www.reddit.com/r/emacs/comments/mu45mt/comment/gv5prhp/]]
+#+begin_src emacs-lisp
+(defun org-agenda-auto-refresh-agenda-buffer ()
+  "If we're in an agenda file, and there is an agenda buffer, refresh it."
+  (when (org-agenda-file-p)
+    (when-let ((buffer (get-buffer org-agenda-buffer-name)))
+      (with-current-buffer buffer
+	(org-agenda-redo-all)))))
+
+(add-hook 'after-revert-hook #'org-agenda-auto-refresh-agenda-buffer)
+#+end_src
+
+**** Automatically refresh agenda view regularly
+Automatically refresh the agenda view regularly. Came from: [[https://lists.gnu.org/archive/html/emacs-orgmode/2011-01/msg00459.html]]
+#+begin_src emacs-lisp
+(defun kiwon/org-agenda-redo-in-other-window ()
+  "Call org-agenda-redo function even in the non-agenda buffer."
+  (interactive)
+  (let ((agenda-window (get-buffer-window org-agenda-buffer-name t)))
+    (when agenda-window
+      (with-selected-window agenda-window (org-agenda-redo)))))
+(run-at-time nil 60 'kiwon/org-agenda-redo-in-other-window)
+#+end_src
+
+**** List and Switch Agenda Files
+Function to list all available org agenda files and switch to them. Create a new keymap in order to bring up the menu to switch between agenda files.
+#+begin_src emacs-lisp
+(defun list-and-switch-to-agenda-file ()
+  "Lists all available agenda files and switches to desired one"
+  (interactive)
+  (setq full-agenda-file-list nil)
+  (setq choice (completing-read "Select agenda file:" org-agenda-files nil t))
+  (find-file choice))
+
+(map! :leader
+      :desc "Switch to specific org agenda file"
+      "o a s" 'list-and-switch-to-agenda-file)
+#+end_src
+
+*** Ricing Agenda
+**** Activate writeroom on Agenda startup
+Make org-agenda open with zen mode activated
+#+begin_src emacs-lisp
+(defun org-agenda-open-hook ()
+(writeroom-mode 1)
+(text-scale-set 0)
+(visual-fill-column-adjust))
+
+(add-hook 'org-agenda-mode-hook 'org-agenda-open-hook)
+#+end_src
+
+**** Niceties for agenda timestramps
+Make sure to do the following:
+- Don't select org items by timestramp or -range if it's DONE
+- Don't show deadlines when the corresponding item is done
+- Don't show scheduled items in agenda when they are done
+#+begin_src emacs-lisp
+(setq org-agenda-skip-timestamp-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-scheduled-if-deadline-is-shown t
+      org-agenda-skip-timestamp-if-deadline-is-shown t)
+#+end_src
+
+**** Better Fonts for Agenda
+Custom styles for the agenda
+#+begin_src emacs-lisp
+(custom-set-faces!
+  '(org-agenda-date :inherit outline-1 :height 1.15)
+  '(org-agenda-date-today :inherit diary :height 1.15)
+  '(org-agenda-date-weekend :ineherit outline-2 :height  1.15)
+  '(org-agenda-date-weekend-today :inherit outline-4 :height 1.15)
+  '(org-super-agenda-header :inherit custom-button :weight bold :height 1.05)
+  `(link :foreground unspecified :underline nil :background ,(nth 1 (nth 7 doom-themes--colors)))
+  '(org-link :foreground unspecified)
+)
+#+end_src
+
+**** Category Icons
+Define icons for different org agenda categories. This allows TODO items that have categories associated with them to display a fancy icon next to them in the agenda
+#+begin_src emacs-lisp
+(setq org-agenda-category-icon-alist
+      `(("personal" ,(list (nerd-icons-codicon "nf-cod-person" :height 0.9)) nil nil :ascent center)
+        ("school" ,(list (nerd-icons-mdicon "nf-md-school" :height 0.9)) nil nil :ascent center)
+        ("coding" ,(list (nerd-icons-faicon "nf-fa-code_fork" :height 0.9)) nil nil :ascent center)
+))
+#+end_src
+
+*** Super Agenda
+[[https://github.com/alphapapa/org-super-agenda][org-super-agenda]] provides great grouping and customization features to make agenda mode easier to use.
+#+begin_src emacs-lisp
+(require 'org-super-agenda)
+(org-super-agenda-mode t)
+
+(map! :desc "Next line"
+      :map org-super-agenda-header-map
+      "j" 'org-agenda-next-line)
+
+(map! :desc "Next line"
+      :map org-super-agenda-header-map
+      "k" 'org-agenda-previous-line)
+
+(setq org-super-agenda-groups
+      '((:name "Today"
+                :time-grid t
+                :date today
+                :todo "TODAY"
+                :scheduled today
+                :order 1)
+        (:name "Next Items"
+               :tag ("NEXT" "outbox"))
+        (:name "Important"
+               :priority "A")
+        (:name "Quick Picks"
+               :effort< "0:30")
+        (:priority<= "B"
+                     :scheduled future
+                     :order 2)))
+#+end_src
+
+** Capturing and Note Taking
+**** Basic Configuration
+Adds some nicer default values for org-roam and notetaking
+- =org-roam-directory=: Set the default directory for where all org-roam related org files will reside
+- =org-default-notes-file=: Set the default org file to refile (combined with =org-directory= path)
+#+begin_src emacs-lisp
+(after! org
+  (setq org-roam-directory "~/Sync/org/"
+        org-default-notes-file (concat org-directory "refile.org")
+))
+#+end_src
+**** Advice for Refiling
+Add advice to save org buffers after refiling them (useful for college agenda)
+#+begin_src emacs-lisp
+(advice-add 'org-refile :after 'org-save-all-org-buffers)
+#+end_src
+
+**** Refile Targets
+Refile target locations for school planner
+#+begin_src emacs-lisp
+(after! org
+  (setq org-refile-targets
+        '(("archive.org" :maxlevel . 3)
+          ("tasks.org" :maxlevel . 1)
+          ("exams.org" :maxlevel . 1)
+          ("quizzes.org" :maxlevel . 1)
+          ("assignments.org" :maxlevel . 1))))
+#+end_src
+
+**** Org-Capture Templates
+Custom org-capture templates for creating new entries
+#+begin_src emacs-lisp
+(after! org
+  (setq org-capture-templates
+        `(("t" "Tasks")
+          ("tt" "Task" entry (file+olp ,(concat org-agenda-directory "tasks.org") "Inbox")
+           "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+          ("a" "School Assignments")
+          ("aa" "Assignments" entry
+           (file ,(concat org-agenda-directory "school/assignments.org"))
+           "* TODO %?\n DEADLINE: %T\n"
+           :jump-to-captured 1
+           :empty-lines 1)
+          ("ae" "Exams" entry
+           (file ,(concat org-agenda-directory "school/exams.org"))
+           "* %? %T\n"
+           :jump-to-captured 1
+           :empty-lines 1)
+          ("aq" "Quizzes" entry
+           (file ,(concat org-agenda-directory "school/quizzes.org"))
+           "* %? %T\n"
+           :jump-to-captured 1
+           :empty-lines 1)
+
+          ("m" "Metrics Capture")
+          ("mw" "Weight" table-line (file+headline ,(concat org-agenda-directory "tasks.org") "Weight")
+           "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t))))
+#+end_src
+
+** Notifications for Org-mode
+Configure Org notifications for personal planner
+#+begin_src emacs-lisp
+(use-package! org-wild-notifier
+  :after org
+  :config
+  (setq org-wild-notifier-keyword-whitelist '()
+        org-wild-notifier-keyword-blacklist '("DONE")
+        org-wild-notifier--alert-severity "medium"
+        org-wild-notifier-notification-title "<< ORG AENGDA >>"
+        org-wild-notifier-alert-time '(5 10 30 60 120 1440)
+        alert-default-style 'libnotify
+        alert-libnotify-additional-args'("-h" "string:desktop-entry:emacs"))
+  (org-wild-notifier-mode 1))
+#+end_src
+
+* Coding Configurations
+These configurations are for my coding workflow
+** Projectile Configurations
+Configures projectile
+#+begin_src emacs-lisp
+(setq projectile-project-search-path '(("~/Documents/Projects" .  4)))
+#+end_src
+
+** Set Nix Formatter to Alejandra
+Forces nix-mode to use alejandra. The =nix-nixfmt-bin= specifically utilizes the wrapper =alejandra-quiet= (which is declared by my NixOS flake) that has alejandra prefixed with the =--quiet= option. Also disable nil's auto-eval-inputs since I have some really large inputs that ends up making my computers lock up.
+#+begin_src emacs-lisp
+(after! nix-mode
+  (setq nix-nixfmt-bin "alejandra-quiet" )
+  (set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode)))
+
+(use-package! lsp-nix
+  :custom
+  (lsp-nix-nil-formatter ["alejandra" "--quiet"])
+  (lsp-nix-nil-auto-eval-inputs nil))
+#+end_src
+
+** Black Formatter Configuration
+*** Global Config File
+Creates configuration file for Black formatter. Increases the max line length
+#+begin_src emacs-lisp :tangle ~/.config/black/pyproject.tool
+[tool.black]
+line-length = 90
+#+end_src
+
+** Numpydoc Configuration
+Creates configuration for Numpydoc. Prompts for numpydoc insertion style
+#+begin_src emacs-lisp
+(use-package! numpydoc
+  :after lsp-mode
+  :init
+  (setq numpydoc-insertion-style 'prompt))
+#+end_src
+
+** Dap-Mode
+Configures dap mode configurations for different languages
+#+begin_src emacs-lisp
+;; Configure dap mode debuggers
+(setq dap-python-debugger 'debugpy)
+;(setq lsp-csharp-server-path (executable-find "omnisharp"))
+;(setq dap-netcore-install-dir "/usr/bin")
+
+(use-package! dap-mode
+  :after lsp-mode
+  :init
+  (dap-tooltip-mode 1)
+  (tooltip-mode 1))
+  ;(require 'dap-netcore))
+
+;(add-hook! 'csharp-mode-hook 'dotnet-mode)
+#+end_src
+
+** Lsp-mode Nerd Icon Fix
+#+begin_src emacs-lisp
+(setq lsp-modeline-code-action-fallback-icon "󰌵"
+      lsp-progress-prefix "")
+#+end_src
+
+** Agenix Integration
+Integrate agenix for editing secrets for NixOS inside of Emacs
+#+begin_src emacs-lisp
+(setq agenix-key-files (append `,(doom-files-in (concat flake-directory "/secrets/identities")) `("~/.ssh/id_ed25519" "~/.ssh/id_rsa")))
+(add-hook 'agenix-pre-mode-hook #'envrc-mode)
+#+end_src
+
+** Lua LSP Mode Configurations
+Changes the location of lua-language-server to where the binary location is
+#+begin_src emacs-lisp
+(setq lsp-clients-lua-language-server-bin (executable-find "lua-language-server"))
+#+end_src
+
+* MU4E Configuration
+This configures mu and mu4e (mu 4 emacs). These configs are ONLY loaded when ~mu~ is installed on the system (useful for NixOS config)
+*** Main Configurations
+#+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
+(use-package! mu4e
+:init
+(require 'mu4e-contrib)
+;; This is set to 't' to avoid mail syncing issues when using mbsync
+(setq mu4e-change-filenames-when-moving t
+      mu4e-maildir (concat mail_directory "/mail")
+      ;; Disable mu4e sync since mbsync system service is enabled
+      mu4e-get-mail-command "true"
+      mu4e-update-interval nil
+      ;; Make sure plain text mails flow correctly for recipients
+      mu4e-compose-format-flowed t
+
+      ;; Configure the function to use for sending mail
+      message-send-mail-function 'smtpmail-send-it
+      mu4e-context-policy 'pick-first
+      mu4e-compose-context-policy 'always-ask
+      mu4e-headers-date-format "%d-%m-%Y %H:%M"
+      mu4e-alert-email-notification-types '(count)))
+#+end_src
+
+*** Mail Contexts
+Declares mu4e contexts for my accounts
+#+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
+(add-hook! mu4e-main-mode #'mu4easy-mode)
+(setq mu4easy-signature "")
+(load (concat doom-user-dir "mu4e-accounts.el"))
+#+end_src

@@ -1,0 +1,95 @@
+{
+    "Effects": [
+        {
+            "AllowOnlyFirst": false,
+            "AutoStart": true,
+            "Brightness": 100,
+            "ControllerZones": [
+                {
+                    "description": "MSI Mystic Light Device (185-byte)",
+                    "is_segment": false,
+                    "location": "HID: /dev/hidraw3",
+                    "name": "MSI MPG B550 GAMING PLUS (MS-7C56)",
+                    "reverse": false,
+                    "segment_idx": -1,
+                    "self_brightness": 100,
+                    "serial": "A02021090806",
+                    "vendor": "MSI",
+                    "version": "AP/LD 0.6 / 1.5",
+                    "zone_idx": 0
+                }
+            ],
+            "CustomName": "",
+            "EffectClassName": "Breathing",
+            "FPS": 60,
+            "RandomColors": false,
+            "Slider2Val": 1,
+            "Speed": 160,
+            "Temperature": 0,
+            "Tint": 0,
+            "UserColors": [16715419]
+        },
+        {
+            "AllowOnlyFirst": false,
+            "AutoStart": true,
+            "Brightness": 100,
+            "ControllerZones": [
+                {
+                    "description": "MSI Mystic Light Device (185-byte)",
+                    "is_segment": false,
+                    "location": "HID: /dev/hidraw3",
+                    "name": "MSI MPG B550 GAMING PLUS (MS-7C56)",
+                    "reverse": false,
+                    "segment_idx": -1,
+                    "self_brightness": 100,
+                    "serial": "A02021090806",
+                    "vendor": "MSI",
+                    "version": "AP/LD 0.6 / 1.5",
+                    "zone_idx": 3
+                }
+            ],
+            "CustomName": "",
+            "EffectClassName": "Visor",
+            "FPS": 60,
+            "RandomColors": false,
+            "Slider2Val": 20,
+            "Speed": 50,
+            "Temperature": 0,
+            "Tint": 0,
+            "UserColors": [8323327, 8323327]
+        },
+        {
+            "AllowOnlyFirst": false,
+            "AutoStart": true,
+            "Brightness": 50,
+            "ControllerZones": [
+                {
+                    "description": "MSI Mystic Light Device (185-byte)",
+                    "is_segment": false,
+                    "location": "HID: /dev/hidraw3",
+                    "name": "MSI MPG B550 GAMING PLUS (MS-7C56)",
+                    "reverse": false,
+                    "segment_idx": -1,
+                    "self_brightness": 100,
+                    "serial": "A02021090806",
+                    "vendor": "MSI",
+                    "version": "AP/LD 0.6 / 1.5",
+                    "zone_idx": 1
+                }
+            ],
+            "CustomName": "",
+            "CustomSettings": {
+                "background": 0
+            },
+            "EffectClassName": "MotionPoint",
+            "FPS": 60,
+            "RandomColors": false,
+            "Slider2Val": 1,
+            "Speed": 25,
+            "Temperature": 0,
+            "Tint": 0,
+            "UserColors": [16715354]
+        }
+    ],
+    "version": 2
+}
