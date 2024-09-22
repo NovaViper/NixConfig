@@ -28,21 +28,6 @@ outputs.lib.mkDesktopModule config "vr" {
         comment = "Beat Saber ModManager is a mod manager for Beat Saber";
       };
     };
-
-    configFile = {
-      "alvr/session.json" = outputs.lib.mkIf (builtins.pathExists ./dotfiles/alvr) (outputs.lib.mkDotsSymlink {
-        config = config;
-        user = config.home.username;
-        source = "alvr/session.json";
-      });
-      /*
-        "openxr/1/active_runtime.json"= outputs.lib.mkDotsSymlink {
-        config = config;
-        user = config.home.username;
-        source = "alvr/active_runtime.json";
-      };
-      */
-    };
   };
 
   nixos = {

@@ -18,6 +18,12 @@
     ];
   };
 
+  # Enable native messaging host for Firefox/Firefox forks
+  programs.firefox.nativeMessagingHosts = with pkgs; [kdePackages.plasma-browser-integration];
+
+  # Makes Plasma Browser Integration work properly for Vivaldi
+  xdg.configFile."vivaldi/NativeMessagingHosts/org.kde.plasma.browser_integration.json" = outputs.lib.mkIf (config.programs.vivaldi.enable) {source = "${pkgs.kdePackages.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";};
+
   services.kdeconnect = {
     enable = true;
     package = pkgs.kdePackages.kdeconnect-kde;

@@ -10,8 +10,10 @@ in {
     source,
     recursive ? false,
     ...
-  }: {
-    source = config.lib.file.mkOutOfStoreSymlink "${flakePath config}/users/${dotsPath user}/${source}";
+  }: let
+    path = "${flakePath config}/users/${dotsPath user}/${source}";
+  in {
+    source = config.lib.file.mkOutOfStoreSymlink path;
     recursive = recursive;
   };
 

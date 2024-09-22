@@ -284,8 +284,8 @@ This code is written to ~init.el~ to select which modules to load.
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +childframe)           ; the ultimate code completion backend
-       ;;(corfu +orderless)  ; complete with cap(f), cape and a flying feather!
+       ;;(company +childframe)           ; the ultimate code completion backend
+       (corfu +orderless)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -332,7 +332,8 @@ This code is written to ~init.el~ to select which modules to load.
        :emacs
        (dired +icons)             ; making dired pretty [functional]
        electric          ; smarter, keyword-based electric-indent
-       (ibuffer +icons)         ; interactive buffer management
+       ;;eww               ; the internet is gross
+       ;;ibuffer           ; interactive buffer management
        undo              ; persistent, smarter undo for your inevitable mistakes
        vc                ; version-control and Emacs, sitting in a tree
 
@@ -351,7 +352,7 @@ This code is written to ~init.el~ to select which modules to load.
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
-       (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
+       (debugger +lsp)         ; FIXME stepping through code, to help you add bugs
        direnv
        ;;docker
        editorconfig      ; let someone else argue about tabs vs spaces
@@ -360,7 +361,8 @@ This code is written to ~init.el~ to select which modules to load.
        (lookup +dictionary              ; navigate your code and its documentation
                +docsets
                +offline)
-       (lsp +peek)               ; M-x vscode
+       (lsp +peek               ; M-x vscode
+            +eglot)
        (magit +forge)             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        (:if (executable-find "pass") (pass +auth))              ; password manager for nerds
@@ -414,21 +416,25 @@ This code is written to ~init.el~ to select which modules to load.
        ;;ledger            ; be audit you can be
        (lua +lsp               ; one-based indices? one-based indices
             +tree-sitter)
-       markdown          ; writing docs for people to ignore
+       (markdown +grip)          ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
-       (nix +lsp              ; I hereby declare "nix geht mehr!"
+       (nix +lsp               ; I hereby declare "nix geht mehr!"
             +tree-sitter)
        ;;ocaml             ; an objective camel
        (org +dragndrop               ; organize your plain life in plain text
-            +pomodoro
-            +pretty
-            +journal
+            +crypt
             +gnuplot
-            +crypt)
+            +journal
+            +noter
+            +pandoc
+            +pomodoro
+            +pretty)
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
+       ;;graphviz          ; diagrams for confusing yourself even more
        ;;purescript        ; javascript, but functional
        (python +lsp            ; beautiful is better than ugly
+               +pyenv
                +pyright
                +tree-sitter)
        ;;qt                ; the 'cutest' gui framework ever
@@ -437,8 +443,8 @@ This code is written to ~init.el~ to select which modules to load.
        ;;rest              ; Emacs as a REST client
        ;;rst               ; ReST in peace
        ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-       ;;(rust +lsp       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-       ;;      +tree-sitter)
+       (rust +lsp       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+             +tree-sitter)
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
        (sh +lsp                ; she sells {ba,z,fi}sh shells on the C xor
@@ -454,7 +460,7 @@ This code is written to ~init.el~ to select which modules to load.
        ;;zig               ; C, but simpler
 
        :email
-       (:if (executable-find "mu") (mu4e +org +gmail))
+       (:if (executable-find "mu") (mu4e +org +gmail +mbsync))
        ;;notmuch
        ;;(wanderlust +gmail)
 
@@ -597,7 +603,7 @@ Set the theme for Doom Emacs to Dracula theme
 
 *** Doom Dashboard
 Add more entries to Doom Dashboard
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
 (add-to-list '+doom-dashboard-menu-sections
              '("Open mu4e client"
                :icon (nerd-icons-octicon "nf-oct-mail" :face 'doom-dashboard-menu-title)

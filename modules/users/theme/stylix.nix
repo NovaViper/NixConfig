@@ -38,6 +38,7 @@
 
           printf "Removing GTK files built by Home Manager\n"
 
+          rm -rf ~/.config/gtk-2.0
           rm -rf ~/.config/gtk-3.0
           rm -rf ~/.config/gtk-4.0
           rm -f .gtkrc-2.0
