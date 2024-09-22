@@ -2,6 +2,7 @@
 result*
 *.qcow2
 .nixie
+.pre-commit-config.yaml
 .nobackup
 
 # ignore temporary files

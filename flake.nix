@@ -38,6 +38,10 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    pre-commit-hooks = {
+      url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Extras
     stylix = {
@@ -94,12 +98,14 @@
     # Your custom packages and modifications, exported as overlays output
     overlays = import ./overlays {inherit self;};
 
+    checks = lib.forEachSystem (pkgs: import ./checks.nix {inherit inputs pkgs;});
+
     # Your custom packages
     # Acessible through 'nix build', 'nix shell', etc
     packages = lib.forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
     # Devshell for bootstrapping
     # Acessible through 'nix develop' or 'nix-shell' (legacy)
-    devShells = lib.forEachSystem (pkgs: import ./shell.nix {inherit pkgs self;});
+    devShells = lib.forEachSystem (pkgs: import ./shell.nix {inherit pkgs checks;});
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = lib.forEachSystem (pkgs: pkgs.alejandra);
