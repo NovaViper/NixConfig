@@ -8,12 +8,15 @@
   activationScript = let
     commands =
       builtins.concatStringsSep "\n"
-      (map (file: ''rm -fv "${file}"'') config.nukeFiles);
+      (map (file: ''rm -fv "${file}" && echo Deleted "${file}"'') config.nukeFiles);
   in ''
-    printf 'Nuking files so Home Manager can get its will\n'
+    #!/run/current-system/sw/bin/bash
+    set -o errexit
+    set -o nounset
+
+    echo "[home-nuker] Nuking files so Home Manager can get its will"
 
     ${commands}
-    printf 'Nuking done!'
   '';
 in {
   options = {
@@ -25,6 +28,6 @@ in {
   };
 
   config = outputs.lib.mkIf (config.nukeFiles != []) {
-    nixos.system.userActivationScripts.home-conflict-file-nuker.text = activationScript;
+    nixos.system.userActivationScripts.home-conflict-file-nuker = activationScript;
   };
 }
