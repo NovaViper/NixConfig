@@ -46,18 +46,6 @@
       };
 
       alejandra.enable = true;
-      deadnix = {
-        enable = true;
-        settings.edit = true;
-      };
-
-      statix = {
-        enable = true;
-        settings.ignore = [
-          ".direnv"
-          "**/hardware-configuration.nix"
-        ];
-      };
 
       shfmt = {
         enable = true;
