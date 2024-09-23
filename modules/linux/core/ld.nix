@@ -38,16 +38,31 @@
     xorg.libXext
     xorg.libX11
     xorg.libXfixes
+    xorg.libxkbfile
     libGL
     libva
     libva-utils
     #pipewire.lib
+    ocamlPackages.alsa
     alsaLib
+    alsa-lib
     libpulseaudio
     # steamwebhelper
     harfbuzz
     libthai
     pango
+    brotli
+    fuse3
+    icu
+    libglvnd
+    libnotify
+    libxml2
+    openssl
+    pipewire
+    pulseaudio
+    systemd
+    x264
+    libplist
 
     lsof # friends options won't display "Launch Game" without it
     file # called by steam's setup.sh
@@ -58,8 +73,6 @@
     vulkan-loader
     expat
     wayland
-    egl-wayland
-    wayland-utils
     xorg.libxcb
     xorg.libXdamage
     xorg.libxshmfence
@@ -83,6 +96,7 @@
     libcap
     SDL2
     libusb1
+    dbus
     dbus-glib
     gsettings-desktop-schemas
     ffmpeg
@@ -102,9 +116,15 @@
     tbb
     zlib
 
+    # SteamVR
+    procps
+    usbutils
+    udev
+
     # Other things from runtime
     glib
     gtk2
+    gtk3
     bzip2
     flac
     freeglut
@@ -123,6 +143,7 @@
     SDL2_ttf
     SDL2_mixer
     libappindicator-gtk2
+    libappindicator-gtk3
     libdbusmenu-gtk2
     libindicator-gtk2
     libcaca
@@ -149,29 +170,21 @@
     json-glib # paradox launcher (Stellaris)
     libdrm
     libxkbcommon # paradox launcher
-    libvorbis # Dead Cells
     libxcrypt # Alien Isolation, XCOM 2, Company of Heroes 2
     mono
     xorg.xkeyboardconfig
     xorg.libpciaccess
-    xorg.libXScrnSaver # Dead Cells
     icu # dotnet runtime, e.g. Stardew Valley
 
     # screeps dependencies
-    gtk3
-    dbus
-    zlib
     atk
     cairo
-    freetype
     gdk-pixbuf
-    fontconfig
 
     # Prison Architect
     libGLU
     libuuid
     libbsd
-    alsa-lib
 
     # Loop Hero
     libidn2

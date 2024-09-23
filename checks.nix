@@ -24,7 +24,7 @@
 
       trim-trailing-whitespace = {
         enable = true;
-        excludes = [".*/dotfiles/PrusaSlicer/.*" ".*/dotfiles/alvr/.*" ".*/dotfiles/zsh/.*" "flake.lock"];
+        excludes = [".*/dotfiles/PrusaSlicer/.*" ".*/dotfiles/alvr/.*" ".*/dotfiles/zsh/.*" "flake.lock" ".+\.patch" ".+\.diff"];
       };
 
       forbid-submodules = {

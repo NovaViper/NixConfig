@@ -67,6 +67,13 @@ in {
     };
   };
 
+  programs.nix-ld.libraries =
+    [config.boot.kernelPackages.nvidiaPackages.beta]
+    ++ (with pkgs; [
+      nvidia-vaapi-driver
+      #cudatoolkit
+    ]);
+
   environment = {
     systemPackages = with pkgs; [nvitop];
     sessionVariables = {

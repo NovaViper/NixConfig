@@ -1,83 +1,142 @@
-# Credit to PassiveLemon for his work on making this derivation!
 {
   lib,
-  stdenv,
-  fetchzip,
+  rustPlatform,
   fetchFromGitHub,
+  substituteAll,
+  nix-update-script,
+  pkg-config,
+  autoAddDriverRunpath,
   alsa-lib,
-  autoPatchelfHook,
   brotli,
+  bzip2,
+  celt,
   ffmpeg,
+  jack2,
+  lame,
+  libX11,
+  libXi,
+  libXrandr,
+  libXcursor,
   libdrm,
-  libGL,
+  libglvnd,
+  libogg,
+  libpng,
+  libtheora,
   libunwind,
   libva,
   libvdpau,
   libxkbcommon,
-  nix-update-script,
   openssl,
+  openvr,
   pipewire,
-  pulseaudio,
+  rust-cbindgen,
+  soxr,
+  vulkan-headers,
   vulkan-loader,
   wayland,
   x264,
-  xorg,
   xvidcore,
 }:
-stdenv.mkDerivation (finalAttrs: {
+rustPlatform.buildRustPackage rec {
   pname = "alvr";
-  version = "20.8.1";
+  version = "20.11.0";
 
-  src = fetchzip {
-    url = "https://github.com/alvr-org/ALVR/releases/download/v${finalAttrs.version}/alvr_streamer_linux.tar.gz";
-    hash = "sha256-8bQpEnzK4ZGE5P49Gh/fmxgyCBFTzD511q6aZxe0B/Y=";
-  };
-
-  alvrSrc = fetchFromGitHub {
+  src = fetchFromGitHub {
     owner = "alvr-org";
     repo = "ALVR";
-    rev = "v${finalAttrs.version}";
-    hash = "sha256-HRXBagh6NClm0269ip0SlhOWCoI8CQXEtr7veSRgvwE=";
+    rev = "refs/tags/v${version}";
+    fetchSubmodules = true; #TODO devendor openvr
+    hash = "sha256-zqeh9U0A/KHlRieq9Lf+7f04K3JG/vpE2gZ916ReXLc=";
   };
 
+  cargoLock = {
+    lockFile = ./Cargo.lock;
+    outputHashes = {
+      "openxr-0.19.0" = "sha256-bnMSjJh+zjLw4Pdxr7LLm6qYAJOK7hz5xORKZ2pVcGw=";
+      "settings-schema-0.2.0" = "sha256-luEdAKDTq76dMeo5kA+QDTHpRMFUg3n0qvyQ7DkId0k=";
+    };
+  };
+
+  patches = [
+    (substituteAll {
+      src = ./fix-finding-libs.patch;
+      ffmpeg = lib.getDev ffmpeg;
+      x264 = lib.getDev x264;
+    })
+  ];
+
+  env = {
+    NIX_CFLAGS_COMPILE = toString [
+      "-lbrotlicommon"
+      "-lbrotlidec"
+      "-lcrypto"
+      "-lpng"
+      "-lssl"
+    ];
+  };
+
+  RUSTFLAGS = map (a: "-C link-arg=${a}") [
+    "-Wl,--push-state,--no-as-needed"
+    "-lEGL"
+    "-lwayland-client"
+    "-lxkbcommon"
+    "-Wl,--pop-state"
+  ];
+
   nativeBuildInputs = [
-    autoPatchelfHook
+    rust-cbindgen
+    pkg-config
+    rustPlatform.bindgenHook
+    autoAddDriverRunpath
   ];
 
   buildInputs = [
     alsa-lib
+    brotli
+    bzip2
+    celt
+    ffmpeg
+    jack2
+    lame
+    libX11
+    libXcursor
+    libXi
+    libXrandr
+    libdrm
+    libglvnd
+    libogg
+    libpng
+    libtheora
     libunwind
     libva
     libvdpau
-    vulkan-loader
-  ];
-
-  runtimeDependencies = [
-    brotli
-    ffmpeg
-    libdrm
-    libGL
     libxkbcommon
     openssl
+    openvr
     pipewire
-    pulseaudio
+    soxr
+    vulkan-headers
+    vulkan-loader
     wayland
     x264
-    xorg.libX11
-    xorg.libXcursor
-    xorg.libxcb
-    xorg.libXi
+    xvidcore
   ];
 
-  installPhase = ''
-    runHook preInstall
+  postBuild = ''
+    # Build SteamVR driver ("streamer")
+    cargo xtask build-streamer --release
+  '';
 
-    mkdir -p $out/share/applications
-    cp -r $src/* $out
-    install -Dm444 $alvrSrc/alvr/xtask/resources/alvr.desktop -t $out/share/applications
-    install -Dm444 $alvrSrc/resources/alvr.png -t $out/share/icons/hicolor/256x256/apps
+  postInstall = ''
+    install -Dm755 ${src}/alvr/xtask/resources/alvr.desktop $out/share/applications/alvr.desktop
+    install -Dm644 ${src}/resources/alvr.png $out/share/icons/hicolor/256x256/apps/alvr.png
 
-    runHook postInstall
+    # Install SteamVR driver
+    mkdir -p $out/{libexec,lib/alvr,share}
+    cp -r ./build/alvr_streamer_linux/lib64/. $out/lib
+    cp -r ./build/alvr_streamer_linux/libexec/. $out/libexec
+    cp -r ./build/alvr_streamer_linux/share/. $out/share
+    ln -s $out/lib $out/lib64
   '';
 
   passthru.updateScript = nix-update-script {};
@@ -85,10 +144,10 @@ stdenv.mkDerivation (finalAttrs: {
   meta = with lib; {
     description = "Stream VR games from your PC to your headset via Wi-Fi";
     homepage = "https://github.com/alvr-org/ALVR/";
-    changelog = "https://github.com/alvr-org/ALVR/releases/tag/v${finalAttrs.version}";
+    changelog = "https://github.com/alvr-org/ALVR/releases/tag/v${version}";
     license = licenses.mit;
-    maintainers = with maintainers; [];
-    platforms = platforms.linux;
     mainProgram = "alvr_dashboard";
+    maintainers = with maintainers; [passivelemon];
+    platforms = platforms.linux;
   };
-})
+}
