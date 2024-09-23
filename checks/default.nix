@@ -4,7 +4,7 @@
   ...
 }: {
   pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.system}.run {
-    src = ./.;
+    src = ../.;
     default_stages = ["pre-commit"];
     hooks = {
       check-added-large-files.enable = true;

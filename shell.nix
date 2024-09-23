@@ -19,16 +19,25 @@
     PKCS = "${pkgs.opensc}/lib/opensc-pkcs11.so";
     buildInputs = checks.${pkgs.system}.pre-commit-check.enabledPackages;
     nativeBuildInputs = with pkgs; [
+      # Nix toolkit
       nix
-      vim
+      nix-output-monitor
+      nix-inspect
+      deadnix
+      statix
       home-manager
-      git
-      gnupg
+
+      # Encryption tools
+      vim # Needed for agenix
       age
       age-plugin-yubikey
       agenix
-      just
+      gnupg
       openssh
+
+      # Git setup
+      git
+      just
       git-credential-oauth
       git-crypt
       pre-commit

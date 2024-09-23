@@ -21,6 +21,8 @@ in
       nix-init # Automatically create nix packages from URLs
       nix-inspect # View nix configurations
       nil # Nix LSP
+      deadnix # Deadcode finder for NIx
+      statix # Anti-pattern detector
 
       alejandra-quiet # Wrapper for Emacs
     ];

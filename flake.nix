@@ -98,7 +98,7 @@
     # Your custom packages and modifications, exported as overlays output
     overlays = import ./overlays {inherit self;};
 
-    checks = lib.forEachSystem (pkgs: import ./checks.nix {inherit inputs pkgs;});
+    checks = lib.forEachSystem (pkgs: import ./checks {inherit inputs pkgs;});
 
     # Your custom packages
     # Acessible through 'nix build', 'nix shell', etc
