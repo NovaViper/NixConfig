@@ -102,7 +102,7 @@ in {
     })
 
     {
-      nukeFiles = ["${config.home.homeDirectory}/.config/gtk-2.0/gtkrc" "${config.home.homeDirectory}/.config/gtk-3.0/gtk.css" "${config.home.homeDirectory}/.config/gtk-4.0/gtk.css"];
+      nukeFiles = ["${config.home.homeDirectory}/.config/gtk-2.0/gtkrc" "${config.home.homeDirectory}/.config/gtk-3.0/gtk.css" "${config.home.homeDirectory}/.config/gtk-4.0/gtk.css" "${config.home.homeDirectory}/.gtkrc-2.0"];
       programs.plasma.workspace.iconTheme = "${cfg.iconTheme.name}";
       # Install the packages
       home.packages = with pkgs; (mkMerge

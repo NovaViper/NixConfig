@@ -24,28 +24,7 @@
         gtk3.extraConfig = {gtk-application-prefer-dark-theme = true;};
         gtk4.extraConfig = {gtk-application-prefer-dark-theme = true;};
       };
-
-      systemd.user.services.rm-gtk = {
-        Unit = {
-          Description = "Remove GTK files built by Home Manager";
-          PartOf = ["home-manager-${name}.target"];
-        };
-
-        Service.ExecStart = builtins.toString (pkgs.writeShellScript "rm-gtk" ''
-          #!/run/current-system/sw/bin/bash
-          set -o errexit
-          set -o nounset
-
-          printf "Removing GTK files built by Home Manager\n"
-
-          rm -rf ~/.config/gtk-2.0
-          rm -rf ~/.config/gtk-3.0
-          rm -rf ~/.config/gtk-4.0
-          rm -f .gtkrc-2.0
-        '');
-
-        Install.WantedBy = ["default.target"];
-      };
+      nukeFiles = ["${config.home.homeDirectory}/.config/gtk-2.0/gtkrc" "${config.home.homeDirectory}/.config/gtk-3.0/gtk.css" "${config.home.homeDirectory}/.config/gtk-4.0/gtk.css" "${config.home.homeDirectory}/.gtkrc-2.0"];
     };
 
     system-wide = {
@@ -108,8 +87,6 @@ in {
         };
       })
       {
-        nukeFiles = ["${config.home.homeDirectory}/.config/gtk-2.0/gtkrc" "${config.home.homeDirectory}/.config/gtk-3.0/gtk.css" "${config.home.homeDirectory}/.config/gtk-4.0/gtk.css"];
-
         programs = {
           rio.settings = {
             window.opacity = config.stylix.opacity.terminal;
