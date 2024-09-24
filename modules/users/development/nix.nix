@@ -12,12 +12,12 @@ in
     programs.nix-index-database.comma.enable = true;
 
     home.packages = with pkgs; [
-      # Nix Tools
       nh # Nice wrapper for NixOS and HM
       alejandra # Nix formatter
       nix-output-monitor # Monitor Nix compilation
+      nvd # Nix/NixOS package version diff tool
       nixpkgs-review # Review nixpkgs
-      nix-prefetch-github # Prefetch tool for Github
+      nurl # Automated prefetch tool for
       nix-init # Automatically create nix packages from URLs
       nix-inspect # View nix configurations
       nil # Nix LSP
