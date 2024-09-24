@@ -1,5 +1,4 @@
 {
-  config,
   osConfig,
   inputs,
   outputs,
@@ -9,7 +8,7 @@
   pkgs,
   ...
 }: let
-  ifIsDesktop = outputs.lib.optionals (outputs.lib.isDesktop config hostname);
+  #ifIsDesktop = outputs.lib.optionals (outputs.lib.isDesktop config hostname);
   agenixHashedPasswordFile = outputs.lib.optionalString (outputs.lib.hasAttr "agenix" inputs) osConfig.age.secrets."${name}-password".path;
 in
   outputs.lib.mkFor system hostname {

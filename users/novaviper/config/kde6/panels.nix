@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{config, ...}: {
   programs.plasma.panels = [
     # Windows like panel at the bottom
     {

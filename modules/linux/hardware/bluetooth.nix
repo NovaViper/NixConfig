@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+_: {
   hardware.bluetooth = {
     enable = true;
     # Fix controller compatibility

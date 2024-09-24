@@ -1,4 +1,4 @@
-flake @ {outputs, ...}:
+{outputs, ...}:
 with outputs.lib; let
   flakePath = config: "${config.home.sessionVariables.FLAKE}";
   dotsPath = user: "${user}/dotfiles";
@@ -14,7 +14,7 @@ in {
     path = "${flakePath config}/users/${dotsPath user}/${source}";
   in {
     source = config.lib.file.mkOutOfStoreSymlink path;
-    recursive = recursive;
+    inherit recursive;
   };
 
   getDotsPath = {

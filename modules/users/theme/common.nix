@@ -92,11 +92,11 @@ in {
       };
     })
     # Configure gtk theme
-    (mkIf (config.gtk.enable) {
+    (mkIf config.gtk.enable {
       gtk = {
         iconTheme = mkIf (cfg.iconTheme != null) {
-          name = cfg.iconTheme.name;
-          package = cfg.iconTheme.package;
+          inherit (cfg.iconTheme) name;
+          inherit (cfg.iconTheme) package;
         };
       };
     })

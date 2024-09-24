@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+_: {
   dconf.settings = {
     "org/virt-manager/virt-manager" = {
       system-tray = true;

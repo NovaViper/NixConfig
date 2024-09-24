@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+_: {
   boot = {
     # Make /tmp clean itself on remote. /tmp should be volatile storage!
     tmp.cleanOnBoot = true;

@@ -42,7 +42,7 @@ outputs.lib.mkModule config "ssh" {
       startAgent = true;
       askPassword = let
         askpass =
-          if (osConfig.services.desktopManager.plasma6.enable)
+          if osConfig.services.desktopManager.plasma6.enable
           then "${pkgs.kdePackages.ksshaskpass}/bin/ksshaskpass"
           else "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
       in "${askpass}";

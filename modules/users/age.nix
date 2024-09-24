@@ -2,8 +2,6 @@
   config,
   pkgs,
   outputs,
-  inputs,
-  options,
   ...
 }:
 with outputs.lib; let

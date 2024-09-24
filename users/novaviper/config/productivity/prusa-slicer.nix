@@ -21,31 +21,31 @@ with outputs.lib; {
 
     configFile = {
       "PrusaSlicer/printer" = mkDotsSymlink {
-        config = config;
+        inherit config;
         user = config.home.username;
         source = "PrusaSlicer/printer";
         recursive = true;
       };
       "PrusaSlicer/print" = mkDotsSymlink {
-        config = config;
+        inherit config;
         user = config.home.username;
         source = "PrusaSlicer/print";
         recursive = true;
       };
       "PrusaSlicer/physical_printer" = mkDotsSymlink {
-        config = config;
+        inherit config;
         user = config.home.username;
         source = "PrusaSlicer/physical_printer";
         recursive = true;
       };
       "PrusaSlicer/filament" = mkDotsSymlink {
-        config = config;
+        inherit config;
         user = config.home.username;
         source = "PrusaSlicer/filament";
         recursive = true;
       };
       "PrusaSlicer/bed_models" = mkDotsSymlink {
-        config = config;
+        inherit config;
         user = config.home.username;
         source = "PrusaSlicer/bed_models";
         recursive = true;

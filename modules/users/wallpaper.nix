@@ -1,8 +1,6 @@
 {
-  pkgs,
   outputs,
   config,
-  name,
   ...
 }: {
   options.wallpaper = outputs.lib.mkOption {

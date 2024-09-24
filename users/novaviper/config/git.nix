@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+_: {
   programs.git = {
     userName = "NovaViper";
     userEmail = "coder.nova99@mailbox.org";

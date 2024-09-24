@@ -161,7 +161,7 @@ with outputs.lib;
 
           # Append HISTFILE before running autin import to make it work properly
           atuin-import =
-            mkIf (config.modules.atuin.enable)
+            mkIf config.modules.atuin.enable
             "export HISTFILE && atuin import auto && unset HISTFILE";
         };
         zplug = {
@@ -192,7 +192,7 @@ with outputs.lib;
             }
 
             # Tmux integration
-            (mkIf (config.programs.tmux.enable) {
+            (mkIf config.programs.tmux.enable {
               name = "plugins/tmux";
               tags = ["from:oh-my-zsh"];
             })

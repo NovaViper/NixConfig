@@ -1,7 +1,6 @@
 {
   outputs,
   config,
-  pkgs,
   ...
 }:
 outputs.lib.mkModule config "btop" {

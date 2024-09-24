@@ -1,7 +1,6 @@
 {
   config,
   outputs,
-  pkgs,
   ...
 }:
 outputs.lib.mkDesktopModule config "rio" {
@@ -60,7 +59,7 @@ outputs.lib.mkDesktopModule config "rio" {
       };
 
       # Rio has multiple styles of showing navigation/tabs
-      navigation.mode = outputs.lib.mkIf (config.programs.tmux.enable) "Plain";
+      navigation.mode = outputs.lib.mkIf config.programs.tmux.enable "Plain";
     };
   };
 }

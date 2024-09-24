@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+_: {
   networking.firewall.enable = true;
   systemd.network.wait-online.enable = false;
   systemd.services.NetworkManager-wait-online.enable = false;

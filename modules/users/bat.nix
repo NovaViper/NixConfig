@@ -20,7 +20,7 @@ outputs.lib.mkModule config "bat" {
     };
 
     fzf.fileWidgetOptions =
-      outputs.lib.mkIf (config.programs.fzf.enable)
+      outputs.lib.mkIf config.programs.fzf.enable
       (outputs.lib.mkBefore ["--preview '${pkgs.bat}/bin/bat -n --color=always {}'"]);
   };
 }

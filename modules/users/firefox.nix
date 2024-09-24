@@ -1,6 +1,5 @@
 {
   outputs,
-  inputs,
   config,
   pkgs,
   name,

@@ -1,4 +1,4 @@
-flake @ {outputs, ...}: let
+{outputs, ...}: let
   agePath = ../secrets;
 in {
   mkSecretFile = {
@@ -13,8 +13,8 @@ in {
     outputs.lib.filterAttrs (n: v: v != null) {
       file = outputs.lib.path.append (agePath + "/${user}") source;
       path = destination;
-      owner = owner;
-      group = group;
+      inherit owner;
+      inherit group;
     };
 
   mkSecretIdentities = identity:

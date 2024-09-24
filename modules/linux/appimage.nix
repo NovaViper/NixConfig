@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   environment.systemPackages = with pkgs; [appimage-run];
 
   # Register AppImage files as a binary type to binfmt_misc, allowing them to be invoked directly

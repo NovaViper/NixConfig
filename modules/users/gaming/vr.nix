@@ -1,6 +1,5 @@
 {
   config,
-  osConfig,
   pkgs,
   outputs,
   name,

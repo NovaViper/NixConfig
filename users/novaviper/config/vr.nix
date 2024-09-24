@@ -1,12 +1,11 @@
 {
   config,
   outputs,
-  pkgs,
   ...
 }: {
-  xdg.configFile = outputs.lib.mkIf (config.modules.vr.enable) {
+  xdg.configFile = outputs.lib.mkIf config.modules.vr.enable {
     "alvr/session.json" = outputs.lib.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = config.home.username;
       source = "alvr/session.json";
     };

@@ -1,7 +1,5 @@
 {
   config,
-  pkgs,
-  inputs,
   outputs,
   name,
   ...
@@ -102,7 +100,7 @@ in {
             overrideConfig = true;
             workspace.cursor = {
               theme = "${config.stylix.cursor.name}";
-              size = config.stylix.cursor.size;
+              inherit (config.stylix.cursor) size;
             };
             fonts = rec {
               general = {
@@ -114,7 +112,7 @@ in {
                 pointSize = f.sizes.terminal;
               };
               small = {
-                family = general.family;
+                inherit (general) family;
                 pointSize = f.sizes.desktop;
               };
               toolbar = small;

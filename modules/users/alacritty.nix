@@ -1,7 +1,6 @@
 {
   outputs,
   config,
-  pkgs,
   ...
 }:
 outputs.lib.mkDesktopModule config "alacritty" {

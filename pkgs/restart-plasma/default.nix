@@ -1,9 +1,4 @@
-{
-  lib,
-  stdenv,
-  writeShellApplication,
-  ...
-}:
+{writeShellApplication, ...}:
 writeShellApplication
 {
   name = "restart-plasma";

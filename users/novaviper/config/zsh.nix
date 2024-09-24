@@ -8,12 +8,12 @@ with outputs.lib; {
   xdg.configFile = mkMerge [
     (mkIf config.modules.zsh.enable {
       "zsh/.p10k.zsh" = mkDotsSymlink {
-        config = config;
+        inherit config;
         user = config.home.username;
         source = "zsh/.p10k.zsh";
       };
       "zsh/functions" = mkDotsSymlink {
-        config = config;
+        inherit config;
         user = config.home.username;
         source = "zsh/functions";
       };
@@ -21,7 +21,7 @@ with outputs.lib; {
 
     (mkIf config.modules.tmux.enable {
       "tmuxp/session.yaml" = mkDotsSymlink {
-        config = config;
+        inherit config;
         user = config.home.username;
         source = "tmuxp/session.yaml";
       };

@@ -1,7 +1,6 @@
 {
   config,
   outputs,
-  pkgs,
   ...
 }:
 with outputs.lib; {
@@ -16,12 +15,12 @@ with outputs.lib; {
 
   xdg.configFile = {
     "doom/config.org" = mkDotsSymlink {
-      config = config;
+      inherit config;
       user = config.home.username;
       source = "doom/config.org";
     };
     "doom/snippets/.keep" = mkDotsSymlink {
-      config = config;
+      inherit config;
       user = config.home.username;
       source = builtins.toFile "keep" "";
     };

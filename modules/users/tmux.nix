@@ -8,7 +8,7 @@
 in
   outputs.lib.mkModule config "tmux" {
     # Fixes issue where cava can't run under tmux
-    home.shellAliases = outputs.lib.mkIf (config.modules.cava.enable) {
+    home.shellAliases = outputs.lib.mkIf config.modules.cava.enable {
       cava = "TERM=xterm-256color cava";
     };
 
@@ -145,7 +145,7 @@ in
           open
           fuzzback
           extrakto
-          (outputs.lib.mkIf (config.programs.fzf.enable) tmux-fzf)
+          (outputs.lib.mkIf config.programs.fzf.enable tmux-fzf)
           {
             plugin = dracula;
             extraConfig = ''

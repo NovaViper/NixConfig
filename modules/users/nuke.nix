@@ -1,8 +1,6 @@
 {
   outputs,
   config,
-  name,
-  pkgs,
   ...
 }: let
   activationScript = let

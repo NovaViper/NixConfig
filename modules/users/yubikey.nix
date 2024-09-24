@@ -49,7 +49,7 @@ outputs.lib.mkModule config "yubikey" {
 
     environment.systemPackages = with pkgs;
       [yubikey-personalization yubikey-manager yubico-piv-tool]
-      ++ lib.optionals (osConfig.services.xserver.enable) [
+      ++ lib.optionals osConfig.services.xserver.enable [
         yubikey-personalization-gui
         yubikey-manager-qt
       ];

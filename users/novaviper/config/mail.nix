@@ -80,7 +80,7 @@ in {
 
   #home.packages = with pkgs; [qtpass];
 
-  xdg.configFile = outputs.lib.mkIf (config.programs.emacs.enable) {
+  xdg.configFile = outputs.lib.mkIf config.programs.emacs.enable {
     "doom/mu4e-accounts.el".text = ''
       ;;; mu4e-accounts.el -*- lexical-binding: t; -*-
       (use-package! mu4easy

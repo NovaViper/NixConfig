@@ -1,9 +1,7 @@
 {
   config,
-  osConfig,
   outputs,
   pkgs,
-  inputs,
   ...
 }:
 with outputs.lib; {

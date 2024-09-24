@@ -1,6 +1,6 @@
 let
   pkgs = import <nixpkgs> {};
-  lib = pkgs.lib;
+  inherit (pkgs) lib;
 
   users = {
     novaviper = [

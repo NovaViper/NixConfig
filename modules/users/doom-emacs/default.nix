@@ -41,7 +41,7 @@ in
       programs.emacs = {
         enable = true;
         package = pack;
-        extraPackages = epkgs: with epkgs; [tramp pdf-tools vterm] ++ optionals (config.programs.mu.enable) [mu4e];
+        extraPackages = epkgs: with epkgs; [tramp pdf-tools vterm] ++ optionals config.programs.mu.enable [mu4e];
       };
 
       xdg = {
@@ -75,7 +75,7 @@ in
                   mail_directory "${config.xdg.dataHome}" ; Path to mail directory (for mu4e)
                   flake-directory "${config.home.sessionVariables.FLAKE}" ; Path to NixOS Flake
 
-                  ${optionalString (config.theme.stylix.enable) ''
+                  ${optionalString config.theme.stylix.enable ''
               ; Setup Fonts from Stylix
               doom-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 3)})
               doom-variable-pitch-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 3)})
@@ -89,24 +89,24 @@ in
             (add-to-list 'default-frame-alist '(alpha-background . ${emacsOpacity}))
           '';
 
-          "doom/themes/doom-stylix-theme.el" = mkIf (config.theme.stylix.enable) {
+          "doom/themes/doom-stylix-theme.el" = mkIf config.theme.stylix.enable {
             source = config.lib.stylix.colors {
               template = builtins.readFile ./doom-stylix-theme.el.mustache;
               extension = ".el";
             };
           };
           "doom/config.el" = mkDotsSymlink {
-            config = config;
+            inherit config;
             user = config.home.username;
             source = "doom/config.el";
           };
           "doom/packages.el" = mkDotsSymlink {
-            config = config;
+            inherit config;
             user = config.home.username;
             source = "doom/packages.el";
           };
           "doom/init.el" = mkDotsSymlink {
-            config = config;
+            inherit config;
             user = config.home.username;
             source = "doom/init.el";
           };

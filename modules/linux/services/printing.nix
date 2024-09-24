@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: let
+{pkgs, ...}: let
   printers = with pkgs; [hplipWithPlugin cnijfilter2];
 in {
   # Printer Setup

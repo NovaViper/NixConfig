@@ -68,7 +68,7 @@ in {
       };
 
     vesktop = prev.vesktop.overrideAttrs {
-      desktopItems = prev.lib.optionals prev.stdenv.isLinux (prev.makeDesktopItem {
+      desktopItems = prev.lib.optionals final.stdenv.isLinux (prev.makeDesktopItem {
         name = "vesktop";
         desktopName = "Vesktop";
         exec = "vesktop --disable-features=UseMultiPlaneFormatForSoftwareVideo %U";
