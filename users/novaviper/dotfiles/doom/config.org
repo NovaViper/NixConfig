@@ -1054,14 +1054,14 @@ These configurations are for my coding workflow
 ** Projectile Configurations
 Configures projectile
 #+begin_src emacs-lisp
-(setq projectile-project-search-path '(("~/Documents/Projects" .  4)))
+(setq projectile-project-search-path '(("~/Documents/Projects" . 4)))
 #+end_src
 
 ** Set Nix Formatter to Alejandra
 Forces nix-mode to use alejandra. The =nix-nixfmt-bin= specifically utilizes the wrapper =alejandra-quiet= (which is declared by my NixOS flake) that has alejandra prefixed with the =--quiet= option. Also disable nil's auto-eval-inputs since I have some really large inputs that ends up making my computers lock up.
 #+begin_src emacs-lisp
 (after! nix-mode
-  (setq nix-nixfmt-bin "alejandra-quiet" )
+  (setq nix-nixfmt-bin "alejandra-quiet")
   (set-formatter! 'alejandra '("alejandra" "--quiet") :modes '(nix-mode)))
 
 (use-package! lsp-nix

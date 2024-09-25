@@ -78,25 +78,25 @@ in {
     systemPackages = with pkgs; [nvitop];
     sessionVariables = {
       # Make libva use Nvidia
-      LIBVA_DRIVER_NAME = "nvidia";
+      #LIBVA_DRIVER_NAME = "nvidia";
       # Force VK to use Nvidia driver instead of NVK
-      VK_DRIVER_FILES = builtins.concatStringsSep ":" vulkanDriverFiles;
+      #VK_DRIVER_FILES = builtins.concatStringsSep ":" vulkanDriverFiles;
       # Enable hardware acceleration for Nvidia
-      VDPAU_DRIVER = "nvidia";
+      #VDPAU_DRIVER = "nvidia";
       # Enable new direct backend for NVIDIA-VAAPI-Driver
-      NVD_BACKEND = "direct";
+      #NVD_BACKEND = "direct";
       # Force GLX to use Nvidia
-      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      #__GLX_VENDOR_LIBRARY_NAME = "nvidia";
       # Necessary to make Minecraft Wayland GLFW work with Wayland+Nvidia
       __GL_THREADED_OPTIMIZATIONS = "0";
-      GBM_BACKEND = "nvidia-drm";
-      __GL_GSYNC_ALLOWED = 1;
-      __GL_VRR_ALLOWED = 0;
-      VKD3D_CONFIG = "dxr11,dxr";
-      PROTON_ENABLE_NVAPI = 1;
-      DXVK_ENABLE_NVAPI = 1;
-      PROTON_ENABLE_NGX_UPDATER = 1;
-      PROTON_HIDE_NVIDIA_GPU = 0;
+      #GBM_BACKEND = "nvidia-drm";
+      #__GL_GSYNC_ALLOWED = 1;
+      #__GL_VRR_ALLOWED = 0;
+      #VKD3D_CONFIG = "dxr11,dxr";
+      #PROTON_ENABLE_NVAPI = 1;
+      #DXVK_ENABLE_NVAPI = 1;
+      #PROTON_ENABLE_NGX_UPDATER = 1;
+      #PROTON_HIDE_NVIDIA_GPU = 0;
     };
   };
 }
