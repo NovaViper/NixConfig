@@ -19,9 +19,11 @@
 
       gtk = {
         enable = true;
+        theme.name = outputs.lib.mkIf config.stylix.polarity == "dark" outputs.lib.mkForce "adw-gtk3-dark";
         gtk3.extraConfig = {gtk-application-prefer-dark-theme = true;};
         gtk4.extraConfig = {gtk-application-prefer-dark-theme = true;};
       };
+
       nukeFiles = ["${config.home.homeDirectory}/.config/gtk-2.0/gtkrc" "${config.home.homeDirectory}/.config/gtk-3.0/gtk.css" "${config.home.homeDirectory}/.config/gtk-4.0/gtk.css" "${config.home.homeDirectory}/.gtkrc-2.0"];
     };
 
@@ -63,7 +65,7 @@ in {
           defaultProfile = "DefaultThemed";
           profiles.DefaultThemed = {
             name = "DefaultThemed";
-            colorScheme = "Dracula";
+            colorScheme = "Stylix";
             font = {
               name = "${config.stylix.fonts.monospace.name}";
               size = config.stylix.fonts.sizes.terminal;
@@ -77,10 +79,12 @@ in {
               template = builtins.readFile ./konsole.mustache;
               extension = ".colorscheme";
             };
-            "yakuake/skins/Dracula".source = fetchGit {
+            /*
+              "yakuake/skins/Dracula".source = fetchGit {
               url = "https://github.com/dracula/yakuake";
               rev = "591a705898763167dd5aca2289d170f91a85aa56";
             };
+            */
           };
         };
       })

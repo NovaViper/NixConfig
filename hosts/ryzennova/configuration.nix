@@ -3,7 +3,9 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+/*
+     let
   vulkanDriverFiles = [
     "/run/opengl-driver/share/vulkan/icd.d/nvidia_icd.x86_64.json"
     "/run/opengl-driver/share/vulkan/icd.d/intel_icd.x86_64.json"
@@ -13,7 +15,9 @@
     #"${config.hardware.nvidia.package.lib32}/share/vulkan/icd.d/nvidia_icd.i686.json"
     #"${pkgs.mesa.drivers}/share/vulkan/icd.d/intel_icd.x86_64.json"
   ];
-in {
+in
+*/
+{
   imports = with inputs; [
     ### Hardware Modules
     hardware.nixosModules.common-cpu-amd
@@ -43,7 +47,6 @@ in {
     ### Applications
     ../../modules/linux/virtualization.nix
     ../../modules/linux/appimage.nix
-    #../../modules/linux/stylix.nix
     ../../modules/linux/waydroid.nix
 
     # Locale

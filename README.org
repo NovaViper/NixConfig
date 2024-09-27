@@ -142,7 +142,7 @@ Main user relevant apps
 - kde plasma 6
 - doom emacs
 - zsh + atuin + fzf + powerlevel10k
-- zen
+- floorp
 - keepassxc/pass
 - gpg + ssh-agent + yubikey
 - tailscale

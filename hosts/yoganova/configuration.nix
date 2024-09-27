@@ -29,7 +29,6 @@
 
     ### Applications
     ../../modules/linux/appimage.nix
-    #../../modules/linux/stylix.nix
     ../../modules/linux/waydroid.nix
 
     # Locale

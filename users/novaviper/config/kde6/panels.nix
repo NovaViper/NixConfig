@@ -1,4 +1,10 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
+  home.packages = with pkgs; [plasma-panel-colorizer];
+
   programs.plasma.panels = [
     # Windows like panel at the bottom
     {

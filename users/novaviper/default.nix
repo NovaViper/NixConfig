@@ -47,7 +47,6 @@ in
           "vivaldi"
           "plasma6"
           "fonts"
-          "rio"
           # Apps
           "jellyfin-player"
           "borg"
