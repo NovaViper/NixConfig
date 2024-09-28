@@ -1,18 +1,18 @@
 {
   config,
+  osConfig,
   pkgs,
   outputs,
-  fullName ? "",
-  emailAddress ? "",
+  name,
   ...
 }: let
   pack =
     if (outputs.lib.isWayland config)
     then pkgs.emacs29-pgtk
     else pkgs.emacs29;
-  # FIXME: Work on Stylix
   emacsOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.applications * 100));
   f = config.stylix.fonts;
+  # FIXME: Work on font sizes per device
   /*
   fSize =
   if (config.variables.machine.buildType == "desktop")
@@ -47,31 +47,15 @@ in
       xdg = {
         configFile = {
           # Doom Emacs
-          /*
-            "doom/system-vars.el".text = ''
-            ;;; ~/.config/emacs/config.el -*- lexical-binding: t; -*-
-
-            ;; Import relevant variables from flake into emacs
-
-            (setq user-emacs-directory "${config.home.sessionVariables.EMDOTDIR}" ; Path to emacs config folder
-                  user-full-name "${fullName}" ; Name
-                  user-username "${config.home.username}" ; username
-                  user-mail-address "${emailAddress}" ; email
-                  mail_directory "${config.xdg.dataHome}" ; Path to mail directory (for mu4e)
-                  flake-directory "${config.home.sessionVariables.FLAKE}" ; Path to NixOS Flake
-            )
-          '';
-          */
-
           "doom/system-vars.el".text = ''
             ;;; ~/.config/emacs/config.el -*- lexical-binding: t; -*-
 
             ;; Import relevant variables from flake into emacs
 
             (setq user-emacs-directory "${config.home.sessionVariables.EMDOTDIR}" ; Path to emacs config folder
-                  user-full-name "Nova Leary" ; Name
+                  ${optionalString (config.fullName != "") ''user-full-name "${config.fullName}" ; Name''}
                   user-username "${config.home.username}" ; username
-                  user-mail-address "coder.nova99@mailbox.org'" ; email
+                  ${optionalString (config.emailAddress != "") ''user-mail-address "${config.emailAddress}" ; Email''}
                   mail_directory "${config.xdg.dataHome}" ; Path to mail directory (for mu4e)
                   flake-directory "${config.home.sessionVariables.FLAKE}" ; Path to NixOS Flake
 

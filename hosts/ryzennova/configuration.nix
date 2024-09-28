@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  outputs,
   ...
 }:
 /*
@@ -59,6 +60,8 @@ in
   # Make NixOS use the latest Linux Kernel
   boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
 
+  nixpkgs.config.cudaSupport = outputs.lib.mkForce true;
+
   hardware = {
     # Configure GPU
     nvidia = {
@@ -78,7 +81,7 @@ in
     ]);
 
   environment = {
-    systemPackages = with pkgs; [nvitop];
+    systemPackages = with pkgs; [nvtopPackages.full];
     sessionVariables = {
       # Make libva use Nvidia
       #LIBVA_DRIVER_NAME = "nvidia";

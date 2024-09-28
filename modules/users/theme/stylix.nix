@@ -17,13 +17,6 @@
         else (throw "stylix.image or wallpaper not set")
       );
 
-      gtk = {
-        enable = true;
-        theme.name = outputs.lib.mkIf config.stylix.polarity == "dark" outputs.lib.mkForce "adw-gtk3-dark";
-        gtk3.extraConfig = {gtk-application-prefer-dark-theme = true;};
-        gtk4.extraConfig = {gtk-application-prefer-dark-theme = true;};
-      };
-
       nukeFiles = ["${config.home.homeDirectory}/.config/gtk-2.0/gtkrc" "${config.home.homeDirectory}/.config/gtk-3.0/gtk.css" "${config.home.homeDirectory}/.config/gtk-4.0/gtk.css" "${config.home.homeDirectory}/.gtkrc-2.0"];
     };
 
@@ -52,14 +45,14 @@ in {
   config =
     outputs.lib.mkIf cfg.enable
     (outputs.lib.mkMerge [
+      (outputs.lib.mkIf (!cfg.system-wide)
+        settings.users)
       (outputs.lib.mkIf cfg.system-wide {
         nixos =
           outputs.lib.trace
           "info: Enabling Stylix system-wide. This will override the configs of all users with ${name}'s config."
           settings.system-wide;
       })
-      (outputs.lib.mkIf (!cfg.system-wide)
-        settings.users)
       (outputs.lib.mkIf (config.defaultTerminal == "konsole") {
         programs.konsole = {
           defaultProfile = "DefaultThemed";
@@ -89,6 +82,13 @@ in {
         };
       })
       {
+        gtk = outputs.lib.mkIf (config.stylix.polarity == "dark") {
+          enable = true;
+          theme.name = outputs.lib.mkForce "adw-gtk3-dark";
+          gtk3.extraConfig = {gtk-application-prefer-dark-theme = true;};
+          gtk4.extraConfig = {gtk-application-prefer-dark-theme = true;};
+        };
+
         programs = {
           rio.settings = {
             window.opacity = config.stylix.opacity.terminal;

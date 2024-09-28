@@ -1,6 +1,9 @@
 {pkgs, ...}: let
   printers = with pkgs; [hplipWithPlugin cnijfilter2];
 in {
+  # Address CUPS vulnerability CVE-2024-47076
+  systemd.services.cups-browsed.enable = false;
+
   # Printer Setup
   services.printing = {
     enable = true;

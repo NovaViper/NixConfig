@@ -1,4 +1,5 @@
 {
+  config,
   osConfig,
   inputs,
   outputs,
@@ -16,6 +17,9 @@ in
       imports =
         outputs.lib.umport {path = ../../modules/users;}
         ++ outputs.lib.umport {path = ./config;};
+
+      fullName = "Nova Leary";
+      emailAddress = "coder.nova99@mailbox.org";
 
       defaultTerminal = "kitty";
       defaultBrowser = "floorp";
@@ -78,7 +82,7 @@ in
 
           users.users."${name}" = {
             isNormalUser = true;
-            description = "NovaViper";
+            description = "${config.fullName}";
             shell = pkgs.zsh;
             extraGroups = [
               "networkmanager"
