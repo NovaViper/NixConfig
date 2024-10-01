@@ -7,6 +7,7 @@
 with outputs.lib;
   outputs.lib.mkModule config "zsh" {
     modules.atuin.enable = true;
+    modules.oh-my-posh.enable = true;
 
     # Forcibly Disable .zshenv
     nixos = {
@@ -45,6 +46,9 @@ with outputs.lib;
         enable = true;
         #config = {};
         nix-direnv.enable = true;
+        stdlib = ''
+          export DIRENV_ACTIVE=1
+        '';
       };
 
       # Much better ls replacement
@@ -109,8 +113,6 @@ with outputs.lib;
           # Append extra variables
           AUTO_NOTIFY_IGNORE+=("atuin" "yadm" "emacs" "nix-shell" "nix")
 
-          source "$ZDOTDIR/.p10k.zsh"
-
           setopt beep CORRECT # Enable terminal bell and autocorrect
           autoload -U colors && colors # Enable colors
 
@@ -164,45 +166,32 @@ with outputs.lib;
             mkIf config.modules.atuin.enable
             "export HISTFILE && atuin import auto && unset HISTFILE";
         };
-        zplug = {
+        antidote = {
           enable = true;
-          zplugHome = "${config.xdg.configHome}/zsh/zplug";
+          useFriendlyNames = true;
           plugins = [
-            # Prompts
-            {
-              name = "romkatv/powerlevel10k";
-              tags = ["as:theme" "depth:1"];
-            }
             #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
-            {
-              name = "jeffreytse/zsh-vi-mode";
-            }
+            "jeffreytse/zsh-vi-mode"
+
             # Fish-like Plugins
-            {name = "mattmc3/zfunctions";}
-            {name = "Aloxaf/fzf-tab";}
-            {name = "Freed-Wu/fzf-tab-source";}
-            {
-              name = "MichaelAquilina/zsh-auto-notify";
-            }
+            "mattmc3/zfunctions"
+            "Aloxaf/fzf-tab"
+            "Freed-Wu/fzf-tab-source"
+            "MichaelAquilina/zsh-auto-notify"
 
             # Sudo escape
-            {
-              name = "plugins/sudo";
-              tags = ["from:oh-my-zsh"];
-            }
+            "ohmyzsh/ohmyzsh path:lib"
+            "ohmyzsh/ohmyzsh path:plugins/sudo"
 
             # Tmux integration
-            (mkIf config.programs.tmux.enable {
-              name = "plugins/tmux";
-              tags = ["from:oh-my-zsh"];
-            })
+            (mkIf config.programs.tmux.enable
+              "ohmyzsh/ohmyzsh path:plugins/tmux")
 
             # Nix stuff
-            {
-              name = "chisui/zsh-nix-shell";
-            }
+            "chisui/zsh-nix-shell"
+
             # Make ZLE use system clipboard
-            {name = "kutsan/zsh-system-clipboard";}
+            "kutsan/zsh-system-clipboard"
           ];
         };
       };
