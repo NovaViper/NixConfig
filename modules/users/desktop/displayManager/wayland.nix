@@ -32,7 +32,7 @@ in
 
     home.packages = with pkgs; [
       #xorg.xeyes
-      xwaylandvideobridge
+      kdePackages.xwaylandvideobridge
       libsForQt5.qt5.qtwayland
       qt6.qtwayland
     ];

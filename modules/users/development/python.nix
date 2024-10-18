@@ -15,7 +15,7 @@ outputs.lib.mkModule config "python" {
     packages = with pkgs; [
       # :lang python, debugger, formatter
       (python312.withPackages
-        (ps: with ps; [debugpy pyflakes isort pytest black pip pipx nose]))
+        (ps: with ps; [debugpy pyflakes isort pytest black pip pipx]))
       pyright
       pipenv
     ];

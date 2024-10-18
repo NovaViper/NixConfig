@@ -57,8 +57,24 @@ in
     ../../modules/linux/graphical
   ];
 
-  # Make NixOS use the latest Linux Kernel
-  boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;
+  # Make NixOS use the Xanmod kernel (pinned to 6.10.11), see https://github.com/NixOS/nixpkgs/issues/344167
+  #boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
+  boot.kernelPackages = pkgs.linuxPackagesFor (
+    pkgs.linux_xanmod_latest.override {
+      argsOverride = rec {
+        modDirVersion = "${version}-${suffix}";
+        suffix = "xanmod1";
+        version = "6.10.11";
+
+        src = pkgs.fetchFromGitHub {
+          owner = "xanmod";
+          repo = "linux";
+          rev = modDirVersion;
+          hash = "sha256-FDWFpiN0VvzdXcS3nZHm1HFgASazNX5+pL/8UJ3hkI8=";
+        };
+      };
+    }
+  );
 
   nixpkgs.config.cudaSupport = outputs.lib.mkForce true;
 

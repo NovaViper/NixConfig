@@ -98,7 +98,6 @@
         qtimageformats
         packagekit-qt
         sddm-kcm # Add KCM for sddm
-        qtbase
       ]);
   };
 }

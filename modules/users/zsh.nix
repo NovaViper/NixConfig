@@ -55,7 +55,7 @@ with outputs.lib;
       eza = {
         enable = true;
         git = true;
-        icons = true;
+        icons = "auto";
         extraOptions = ["--color=always" "--group-directories-first" "--classify"];
       };
 

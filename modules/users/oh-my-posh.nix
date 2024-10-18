@@ -145,7 +145,7 @@ in
             "{{if gt .Code 0}}1{{end}}"
             "{{if eq .Code 0}}10{{end}}"
           ];
-          template = "{{.Var.PromptChar}}";
+          template = "{{.Var.PromptChar}} ";
         };
       };
     };

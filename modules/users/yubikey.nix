@@ -6,12 +6,6 @@
   ...
 }:
 outputs.lib.mkModule config "yubikey" {
-  # Make Yubikeys work with gnupg
-  programs.gpg.scdaemonSettings = {
-    reader-port = "Yubico Yubi";
-    disable-ccid = true;
-  };
-
   home.shellAliases = {
     # Make gpg switch Yubikey
     gpg-switch-yubikey = ''gpg-connect-agent "scd serialno" "learn --force" /bye'';
