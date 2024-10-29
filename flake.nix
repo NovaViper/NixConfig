@@ -79,14 +79,18 @@
     self,
     nixpkgs,
     home-manager,
-    systems,
     ...
   } @ inputs: rec {
-    lib = import ./lib {
-      inherit inputs;
-      inherit self;
-      inherit (inputs.self) outputs;
-    };
+    # Overlay my custom lib and home-manager lib onto the default nixpkgs lib
+    lib =
+      nixpkgs.lib.extend (
+        final: prev:
+          import ./lib {
+            inherit inputs self;
+            lib = final;
+          }
+      )
+      // home-manager.lib;
 
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
@@ -98,6 +102,8 @@
     # Your custom packages and modifications, exported as overlays output
     overlays = import ./overlays {inherit self;};
 
+    # Flake evaluation tests and checks entrypoint
+    # Available through 'nix flake check'
     checks = lib.forEachSystem (pkgs: import ./checks {inherit inputs pkgs;});
 
     # Your custom packages
@@ -112,55 +118,33 @@
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
-    nixosConfigurations = {
-      # Main desktop
-      ryzennova = lib.mkHost {
-        system = "x86_64-linux";
-        hostname = "ryzennova";
-        users = ["novaviper"];
-      };
+    nixosConfigurations =
+      # Run mkHost for each nixosConfiguration, with key passed as host
+      builtins.mapAttrs lib.mkHost {
+        ryzennova =
+          # Main desktop
+          {
+            username = "novaviper";
+            system = "x86_64-linux";
+            stateVersion = "24.11";
+          };
 
-      # Personal laptop
-      yoganova = lib.mkHost {
-        system = "x86_64-linux";
-        hostname = "yoganova";
-        users = ["novaviper"];
+        yoganova =
+          # Personal laptop
+          {
+            username = "novaviper";
+            system = "x86_64-linux";
+            stateVersion = "24.11";
+          };
       };
-
-      # ISO Image
-      live-image = lib.mkHost {
-        system = "x86_64-linux";
-        hostname = "live-image";
-        users = ["nixos"];
-      };
-    };
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
-
-    homeConfigurations = {
-      # Users
-      novaviper = lib.mkUser {username = "novaviper";};
-      nixos = lib.mkUser {username = "nixos";};
-
-      # Machines
-      "novaviper@ryzennova" = lib.mkUser {
-        username = "novaviper";
-        system = "x86_64-linux";
-        hostname = "ryzennova";
+    homeConfigurations =
+      # Run mkHome for each homeConfiguration, with key passed as host
+      builtins.mapAttrs lib.mkHome {
+        "novaviper@ryzennova" = {inherit nixosConfigurations;};
+        "novaviper@yoganova" = {inherit nixosConfigurations;};
       };
-
-      "novaviper@yoganova" = lib.mkUser {
-        username = "novaviper";
-        system = "x86_64-linux";
-        hostname = "yoganova";
-      };
-
-      "nixos@live-image" = lib.mkUser {
-        username = "nixos";
-        system = "x86_64-linux";
-        hostname = "live-image";
-      };
-    };
   };
 }

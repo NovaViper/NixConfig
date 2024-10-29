@@ -1,7 +1,5 @@
-{outputs, ...}: let
-  sanitize = name:
-    builtins.replaceStrings [" "] ["-"] (outputs.lib.toLower name);
-in rec {
+{lib, ...}: rec {
+  # Enable all modules in the list elems
   enable = elems:
     builtins.listToAttrs (map (name: {
         inherit name;
@@ -9,6 +7,7 @@ in rec {
       })
       elems);
 
+  # Disable all modules in the list elems
   disable = elems:
     builtins.listToAttrs (map (name: {
         name = name;
@@ -16,114 +15,19 @@ in rec {
       })
       elems);
 
+  # Conditionally enable/disable all modules in the list elems
   enableIf = cond: elems:
     if cond
     then (enable elems)
     else (disable elems);
 
-  print = ret: builtins.trace ret ret;
-
-  fill = attr: value: elems:
-    builtins.listToAttrs (map (name: {
-        name = name;
-        value."${attr}" = value;
-      })
-      elems);
-
-  mkModuleWithOptions = {
-    config,
-    name,
-    result,
-    default ? false,
-    extraOptions ? {},
-    extraCondition ? true,
-  }: {
-    options = outputs.lib.deepMerge [
-      {
-        # TODO the property name of the module should be nest-able
-        #  e.g. modules.python.enable and modules.python.ide.enable
-        modules.${name}.enable = outputs.lib.mkOption {
-          inherit default;
-          type = outputs.lib.types.bool;
-          description = "Enable ${name} module";
-        };
-      }
-      extraOptions
-    ];
-    config =
-      outputs.lib.mkIf (config.modules.${name}.enable && extraCondition)
-      result;
-  };
-
-  /*
-  mkModuleWithOptions =
-  {
-    config,
-    name,
-    result,
-    default ? false,
-    extraOptions ? { },
-  }:
-  let
-    parts = outputs.lib.splitString "." name;
-
-    buildNestedOptions =
-      parts: value:
-      if builtins.length parts == 0 then
-        value
-      else
-        let
-          current = builtins.head parts;
-          rest = builtins.tail parts;
-        in
-        {
-          "${current}" = buildNestedOptions rest value;
-        };
-
-    options = buildNestedOptions parts {
-      enable = outputs.lib.mkOption {
-        inherit default;
-        type = outputs.lib.types.bool;
-        description = "Enable ${name} module";
-      };
-    };
-
-    config = buildNestedOptions parts {
-      enable = outputs.lib.mkIf config.modules.${name}.enable result;
-    };
-  in
-  {
-    inherit options config;
-  };
-  */
-
-  mkModule' = config: name: extraOptions: result:
-    mkModuleWithOptions {inherit config name result extraOptions;};
-
-  mkModule = config: name: result: mkModule' config name {} result;
-
-  mkEnabledModule' = config: name: extraOptions: result:
-    mkModuleWithOptions {
-      inherit config name result extraOptions;
-      default = true;
-    };
-
-  mkEnabledModule = config: name: result:
-    mkEnabledModule' config name {} result;
-
-  mkDesktopModule' = config: name: extraOptions: result:
-    mkModuleWithOptions {
-      inherit config name result extraOptions;
-      extraCondition = outputs.lib.isDesktop' config;
-    };
-
-  mkDesktopModule = config: name: result:
-    mkDesktopModule' config name {} result;
+  # GPG command for checking if there is a hardware key present
+  isGpgUnlocked = pkgs: "${pkgs.procps}/bin/pgrep 'gpg-agent' &> /dev/null && ${pkgs.gnupg}/bin/gpg-connect-agent 'scd getinfo card_list' /bye | ${pkgs.gnugrep}/bin/grep SERIALNO -q";
 
   # Concatinatinates all file paths in a given directory into one list.
   # It recurses through subdirectories. If it detects a default.nix, only that
   # file will be considered.
-  umport = {
+  concatImports = {
     path ? null,
     paths ? [],
     include ? [],
@@ -131,7 +35,7 @@ in rec {
     recursive ? true,
     filterDefault ? true,
   }:
-    with outputs.lib;
+    with lib;
     with fileset; let
       excludedFiles = filter (path: pathIsRegularFile path) exclude;
       excludedDirs = filter (path: pathIsDirectory path) exclude;

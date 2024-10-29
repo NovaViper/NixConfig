@@ -7,6 +7,8 @@
 
 My current NixOS (and constant changing) configuration
 
+Note: There are upcoming changes being actively made so documentation will change and may not necessarily be update to date!
+
 * Table of Contents :TOC_3:noexport:
 - [[#highlights][Highlights]]
 - [[#references][References]]
@@ -31,6 +33,7 @@ My current NixOS (and constant changing) configuration
 
 * References
 - [[https://github.com/runarsf/dotfiles][Runarsf's dotfiles]] and [[https://github.com/imatpot/dotfiles][imatpot's dotfiles]] - Custom library and inspiration for more traditional flake layout
+- [[https://github.com/llakala/nixos][Llakala's nixos config]] - Additional libraries for home-manager cli integration and inspiration for integrating more HM stuff into the NixOS-specific configs
 - [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Original inspiration for flake, now mostly using some opinionated settings and overlay/devshell setup
 - [[https://github.com/hlissner/dotfiles][Hlissner's dotfiles]] - Security hardening configs
 - [[https://github.com/Baitinq/nixos-config][Baitinq's nixos-config]] - Partitioning scripts

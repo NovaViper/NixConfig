@@ -1,4 +1,5 @@
 {
+  lib,
   pkgs,
   inputs,
   ...
@@ -12,30 +13,32 @@
     ### Disko Config
     disko.nixosModules.disko
     ./disks.nix
+  ];
 
+  modules = lib.utils.enable [
     ### Hardware
-    ../../modules/linux/hardware/bluetooth.nix
-    #../../modules/linux/hardware/howdy.nix
-    ../../modules/linux/hardware/hardware-acceleration.nix
+    "bluetooth"
+    "hardware-accel"
 
     ### Base Configs
-    ../../modules/linux/systemd-boot.nix
-    ../../modules/linux/quietboot.nix
+    "systemd-boot"
+    "quietboot"
 
     ### Service
-    ../../modules/linux/services/tailscale.nix
-    ../../modules/linux/services/flatpak.nix
-    ../../modules/linux/services/printing.nix
+    "flatpak"
+    "printing"
+    "tailscale"
 
     ### Applications
-    ../../modules/linux/appimage.nix
-    ../../modules/linux/waydroid.nix
+    "appimage"
+    "waydroid"
+    "gaming"
 
-    # Locale
-    ../../modules/linux/locales/us-english.nix
+    ### Locale
+    "us-english"
 
-    ### Import modules required for Desktop Environment
-    ../../modules/linux/graphical
+    ### Desktop Environment
+    "plasma6"
   ];
 
   # Make NixOS use the latest Linux Kernel
@@ -45,6 +48,14 @@
   powerManagement.powertop.enable = true;
 
   hardware.sensor.iio.enable = true;
+
+  # Apply configs
+  system.activationScripts.copySysConfigs = ''
+    mkdir -p /var/lib/linux-enable-ir-emitter
+    if [ -z "$(ls -A /var/lib/linux-enable-ir-emitter)" ]; then
+       cp ${builtins.readFile ./config/ir-emitter-driver.txt} /var/lib/linux-enable-ir-emitter/pci-0000:00:14.0-usb-0:6:1.2-video-index0_emitter0.driver
+    fi
+  '';
 
   services = {
     # Enable Thunderbolt

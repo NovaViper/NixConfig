@@ -1,10 +1,10 @@
 {
   config,
-  outputs,
+  lib,
   pkgs,
   ...
 }: let
-  mail-secrets = (outputs.lib.evalSecret config.home.username).mail;
+  mail-secrets = (lib.secrets.evalSecret config.home.username).mail;
   pass = "${config.programs.password-store.package}/bin/pass";
 in {
   accounts.email = {
@@ -74,13 +74,11 @@ in {
   };
 
   # Add check to ensure to only run mbsync when my hardware key is inserted
-  systemd.user.services.mbsync.Service.ExecCondition = let
-    gpgCmds = import ../../../modules/users/gpg/gpg-commands.nix {inherit pkgs;};
-  in ''/bin/sh -c "${gpgCmds.isUnlocked}"'';
+  systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${lib.utils.isGpgUnlocked pkgs}"'';
 
   #home.packages = with pkgs; [qtpass];
 
-  xdg.configFile = outputs.lib.mkIf config.programs.emacs.enable {
+  xdg.configFile = lib.mkIf config.programs.emacs.enable {
     "doom/mu4e-accounts.el".text = ''
       ;;; mu4e-accounts.el -*- lexical-binding: t; -*-
       (use-package! mu4easy

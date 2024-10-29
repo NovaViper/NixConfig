@@ -1,18 +1,19 @@
 {
-  outputs,
   config,
+  osConfig,
+  lib,
   pkgs,
   ...
 }:
-with outputs.lib; {
+with lib; {
   xdg.configFile = mkMerge [
-    (mkIf config.modules.zsh.enable {
-      "zsh/.p10k.zsh" = mkDotsSymlink {
+    (mkIf osConfig.modules.zsh.enable {
+      "zsh/.p10k.zsh" = dots.mkDotsSymlink {
         inherit config;
         user = config.home.username;
         source = "zsh/.p10k.zsh";
       };
-      "zsh/functions" = mkDotsSymlink {
+      "zsh/functions" = dots.mkDotsSymlink {
         inherit config;
         user = config.home.username;
         source = "zsh/functions";
@@ -20,7 +21,7 @@ with outputs.lib; {
     })
 
     (mkIf config.modules.tmux.enable {
-      "tmuxp/session.yaml" = mkDotsSymlink {
+      "tmuxp/session.yaml" = dots.mkDotsSymlink {
         inherit config;
         user = config.home.username;
         source = "tmuxp/session.yaml";
@@ -29,7 +30,7 @@ with outputs.lib; {
   ];
 
   programs.zsh = {
-    initExtraFirst = outputs.lib.mkAfter ''
+    initExtraFirst = lib.mkAfter ''
       ${
         if config.modules.tmux.enable
         then ''
@@ -42,7 +43,7 @@ with outputs.lib; {
         else ""
       }
     '';
-    initExtra = outputs.lib.mkAfter ''
+    initExtra = lib.mkAfter ''
       # Create shell prompt
       if [ $(tput cols) -ge '75' ] || [ $(tput cols) -ge '100' ]; then
         ${pkgs.toilet}/bin/toilet -f pagga "FOSS AND BEAUTIFUL" --metal

@@ -1,0 +1,15 @@
+{
+    "E131Devices": {
+        "devices": [
+            {
+                "ip": "192.168.1.69",
+                "name": "Desklight",
+                "num_leds": 38,
+                "rgb_order": 2,
+                "start_channel": 1,
+                "start_universe": 1,
+                "type": 1
+            }
+        ]
+    }
+}

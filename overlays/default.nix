@@ -24,7 +24,11 @@ in {
 
   # Adds pkgs.stable == inputs.nixpkgs-stable.legacyPackages.${pkgs.system}
   stable = final: _: {
-    stable = self.inputs.nixpkgs-stable.legacyPackages.${final.system};
+    stable = import self.inputs.nixpkgs-stable {
+      system = final.system;
+      config.allowUnfree = true;
+    };
+    #stable = self.inputs.nixpkgs-stable.legacyPackages.${final.system};
   };
 
   # This one brings our custom packages from the 'pkgs' directory

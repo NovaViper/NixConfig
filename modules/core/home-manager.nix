@@ -1,0 +1,104 @@
+{
+  config,
+  lib,
+  self,
+  inputs,
+  stateVersion,
+  hostname,
+  username,
+  ...
+}: let
+  cfg = config.modules.core;
+  hm-config = config.hm;
+  activationScript = let
+    commands =
+      builtins.concatStringsSep "\n"
+      (map (file: ''rm -fv "${file}" && echo Deleted "${file}"'') hm-config.nukeFiles);
+  in ''
+    #!/run/current-system/sw/bin/bash
+    set -o errexit
+    set -o nounset
+
+    echo "[home-nuker] Nuking files so Home Manager can get its will"
+
+    ${commands}
+  '';
+in {
+  imports = with inputs; [
+    home-manager.nixosModules.home-manager
+    # Let us use hm as shorthand for home-manager config
+    (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" username])
+  ];
+
+  config = lib.mkIf cfg.homeManager.enable {
+    # Home file nuking script that deletes stuff just before we run home-manager's activation scripts
+    system.userActivationScripts.home-conflict-file-nuker = lib.mkIf (hm-config.nukeFiles != []) activationScript;
+
+    home-manager = {
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      extraSpecialArgs = {inherit self inputs stateVersion hostname username;};
+      backupFileExtension = ".bak";
+      sharedModules = with inputs;
+        [
+          #agenix.homeManagerModules.default
+          nix-index-database.hmModules.nix-index
+          plasma-manager.homeManagerModules.plasma-manager
+          #stylix.homeManagerModules.stylix
+        ]
+        # Import modules specific and user configs for home-manager
+        ++ lib.utils.concatImports {paths = [../home ../../users/${username}/config];};
+      users.${username} = import ../../users/${username}/${config.networking.hostName}.nix;
+    };
+
+    hm = {
+      nix.settings = config.nix.settings;
+
+      programs = {
+        home-manager.enable = true;
+        emacs.enable = lib.mkDefault true;
+        git.enable = lib.mkDefault true;
+        ssh.enable = lib.mkDefault true;
+        gpg.enable = lib.mkDefault true;
+      };
+
+      home = {
+        preferXdgDirectories = true;
+        username = username;
+        homeDirectory = config.variables.user.homeDirectory;
+        stateVersion = stateVersion;
+
+        sessionVariables = {
+          FLAKE = "${hm-config.home.homeDirectory}/Documents/NixConfig";
+          XDG_BIN_HOME = "${hm-config.home.homeDirectory}/.local/bin";
+
+          ANDROID_USER_HOME = "${hm-config.xdg.dataHome}/android";
+          CUDA_CACHE_PATH = "${hm-config.xdg.cacheHome}/nv";
+          TLDR_CACHE_DIR = "${hm-config.xdg.cacheHome}/tldr";
+        };
+        sessionPath = ["${hm-config.home.sessionVariables.XDG_BIN_HOME}"];
+        shellAliases = {
+          wget = ''wget --hsts-file="${hm-config.xdg.dataHome}/wget-hsts"'';
+        };
+      };
+
+      # (De)activate wanted systemd units when changing configs
+      systemd.user.startServices = "sd-switch";
+
+      # Enable HTML help page
+      manual.html.enable = true;
+
+      news.display = "silent";
+
+      # Make sure XDG is enabled
+      xdg.enable = true;
+
+      xresources.path = lib.mkForce "${hm-config.xdg.configHome}/.Xresources";
+
+      gtk = {
+        enable = true;
+        gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
+      };
+    };
+  };
+}

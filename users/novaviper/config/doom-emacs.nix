@@ -1,25 +1,15 @@
 {
   config,
-  outputs,
+  lib,
   ...
-}:
-with outputs.lib; {
-  imports = [
-    {
-      _module.args = {
-        fullName = "Nova Leary";
-        emailAddress = "coder.nova99@mailbox.org";
-      };
-    }
-  ];
-
+}: {
   xdg.configFile = {
-    "doom/config.org" = mkDotsSymlink {
+    "doom/config.org" = lib.dots.mkDotsSymlink {
       inherit config;
       user = config.home.username;
       source = "doom/config.org";
     };
-    "doom/snippets/.keep" = mkDotsSymlink {
+    "doom/snippets/.keep" = lib.dots.mkDotsSymlink {
       inherit config;
       user = config.home.username;
       source = builtins.toFile "keep" "";

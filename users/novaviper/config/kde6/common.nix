@@ -1,11 +1,9 @@
 {
   config,
-  outputs,
   pkgs,
   ...
-}:
-with outputs.lib; {
-  programs.plasma = rec {
+}: {
+  programs.plasma = {
     enable = true;
     kwin = {
       titlebarButtons = {

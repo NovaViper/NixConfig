@@ -1,10 +1,10 @@
 {
-  outputs,
   config,
+  lib,
   pkgs,
   ...
 }:
-with outputs.lib; {
+with lib; {
   xdg = {
     mimeApps = {
       associations = {
@@ -20,31 +20,31 @@ with outputs.lib; {
     };
 
     configFile = {
-      "PrusaSlicer/printer" = mkDotsSymlink {
+      "PrusaSlicer/printer" = dots.mkDotsSymlink {
         inherit config;
         user = config.home.username;
         source = "PrusaSlicer/printer";
         recursive = true;
       };
-      "PrusaSlicer/print" = mkDotsSymlink {
+      "PrusaSlicer/print" = dots.mkDotsSymlink {
         inherit config;
         user = config.home.username;
         source = "PrusaSlicer/print";
         recursive = true;
       };
-      "PrusaSlicer/physical_printer" = mkDotsSymlink {
+      "PrusaSlicer/physical_printer" = dots.mkDotsSymlink {
         inherit config;
         user = config.home.username;
         source = "PrusaSlicer/physical_printer";
         recursive = true;
       };
-      "PrusaSlicer/filament" = mkDotsSymlink {
+      "PrusaSlicer/filament" = dots.mkDotsSymlink {
         inherit config;
         user = config.home.username;
         source = "PrusaSlicer/filament";
         recursive = true;
       };
-      "PrusaSlicer/bed_models" = mkDotsSymlink {
+      "PrusaSlicer/bed_models" = dots.mkDotsSymlink {
         inherit config;
         user = config.home.username;
         source = "PrusaSlicer/bed_models";

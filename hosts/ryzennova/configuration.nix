@@ -1,8 +1,8 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
-  outputs,
   ...
 }:
 /*
@@ -28,34 +28,45 @@ in
     ### Disko Config
     disko.nixosModules.disko
     ./disks.nix
-
-    ### Hardware
-    ../../modules/linux/hardware/rgb.nix
-    ../../modules/linux/hardware/bluetooth.nix
-    ../../modules/linux/hardware/qmk.nix
-    ../../modules/linux/hardware/hardware-acceleration.nix
-
-    ### Base Configs
-    ../../modules/linux/systemd-boot.nix
-    ../../modules/linux/quietboot.nix
-
-    ### Service
-    ../../modules/linux/services/sunshine.nix
-    ../../modules/linux/services/tailscale.nix
-    ../../modules/linux/services/flatpak.nix
-    ../../modules/linux/services/printing.nix
-
-    ### Applications
-    ../../modules/linux/virtualization.nix
-    ../../modules/linux/appimage.nix
-    ../../modules/linux/waydroid.nix
-
-    # Locale
-    ../../modules/linux/locales/us-english.nix
-
-    ### Import modules required for Desktop Environment
-    ../../modules/linux/graphical
   ];
+
+  modules =
+    lib.utils.enable [
+      ### Hardware
+      "openrgb"
+      "bluetooth"
+      "qmk"
+      "hardware-accel"
+
+      ### Base Configs
+      "systemd-boot"
+      "quietboot"
+
+      ### Service
+      "flatpak"
+      "printing"
+      "sunshine-server"
+      "tailscale"
+
+      ### Applications
+      "appimage"
+      "waydroid"
+      "virtualization"
+      "obs-studio"
+
+      ### Locale
+      "us-english"
+
+      ### Desktop Environment
+      "plasma6"
+    ]
+    // {
+      gaming = {
+        enable = true;
+        minecraft-server.enable = true;
+        vr.enable = true;
+      };
+    };
 
   # Make NixOS use the Xanmod kernel (pinned to 6.10.11), see https://github.com/NixOS/nixpkgs/issues/344167
   #boot.kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
@@ -76,7 +87,12 @@ in
     }
   );
 
-  nixpkgs.config.cudaSupport = outputs.lib.mkForce true;
+  nixpkgs.config.cudaSupport = lib.mkForce true;
+
+  system.activationScripts.makeOpenRGBSettings = ''
+    mkdir -p /var/lib/OpenRGB/plugins/settings/effect-profiles
+    cp ${./config/rgb-devices.json} /var/lib/OpenRGB/OpenRGB.json
+  '';
 
   hardware = {
     # Configure GPU

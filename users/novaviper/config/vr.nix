@@ -1,10 +1,11 @@
 {
   config,
-  outputs,
+  osConfig,
+  lib,
   ...
 }: {
-  xdg.configFile = outputs.lib.mkIf config.modules.vr.enable {
-    "alvr/session.json" = outputs.lib.mkDotsSymlink {
+  xdg.configFile = lib.mkIf osConfig.modules.gaming.vr.enable {
+    "alvr/session.json" = lib.dots.mkDotsSymlink {
       inherit config;
       user = config.home.username;
       source = "alvr/session.json";

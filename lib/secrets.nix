@@ -1,24 +1,33 @@
-{outputs, ...}: let
-  agePath = ../secrets;
-in {
-  mkSecretFile = {
-    user,
-    source,
-    destination ? null,
-    owner ? null,
-    group ? null,
-    ...
-  }:
-  # Make sure to remove any null values or they will cause issues!
-    outputs.lib.filterAttrs (n: v: v != null) {
-      file = outputs.lib.path.append (agePath + "/${user}") source;
-      path = destination;
-      inherit owner;
-      inherit group;
-    };
+{lib, ...}: let
+  # Helper functions we don't plan on exporting past this file
+  internals = {
+    # Location of the secrets folder in the repo
+    agePath = ../secrets;
+  };
 
-  mkSecretIdentities = identity:
-    outputs.lib.lists.forEach identity (x: outputs.lib.path.append (agePath + "/identities") x);
+  exports = {
+    # Helper function for creating secrets for agenix/sops-nix, links the source file given to the user's secrets location
+    mkSecretFile = {
+      user,
+      source,
+      destination ? null,
+      owner ? null,
+      group ? null,
+      ...
+    }:
+    # Remove any null values or they will cause values to be overwritten when they don't need to be!
+      lib.filterAttrs (n: v: v != null) {
+        file = lib.path.append (internals.agePath + "/${user}") source;
+        path = destination;
+        inherit owner group;
+      };
 
-  evalSecret = user: builtins.fromJSON (builtins.readFile "${agePath}/${user}/eval-secrets.json");
-}
+    # Helper function for adding identity files located in the age path
+    mkSecretIdentities = identity:
+      lib.lists.forEach identity (x: lib.path.append (internals.agePath + "/identities") x);
+
+    # Helper function for retrieving the eval-secrets.json for the specified user
+    evalSecret = user: builtins.fromJSON (builtins.readFile "${internals.agePath}/${user}/eval-secrets.json");
+  };
+in
+  exports
