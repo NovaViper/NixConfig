@@ -7,7 +7,7 @@
   desktopW = config.services.desktopManager;
 
   askpass =
-    if (desktopW.plasma6.enable)
+    if desktopW.plasma6.enable
     then "${pkgs.kdePackages.ksshaskpass}/bin/ksshaskpass"
     else "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
 in {
@@ -23,10 +23,8 @@ in {
     };
   };
 
-  programs.ssh = {
-    startAgent = true;
-    askPassword = "${askpass}";
-  };
+  programs.ssh.startAgent = true;
+  programs.ssh.askPassword = "${askpass}";
 
   # Enforce askpass gui when the option is enabled (based on rather x11 is running)
   /*
@@ -37,9 +35,7 @@ in {
   */
 
   hm = {
-    programs.ssh = {
-      enable = true;
-    };
+    programs.ssh.enable = true;
 
     # NOTE https://github.com/nix-community/home-manager/issues/322#issuecomment-1856128020
     home.file.".ssh/config" = {

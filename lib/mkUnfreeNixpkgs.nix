@@ -1,3 +1,4 @@
+# Credit goes to Frontear and llakala for this solution!
 {
   path,
   runCommandLocal,

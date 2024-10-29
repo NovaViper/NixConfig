@@ -22,17 +22,13 @@ lib.utilMods.mkModule config "virtualization" {
   ];
 
   # Manage the virutalisation services
-  virtualisation = {
-    spiceUSBRedirection.enable = true;
-    libvirtd = {
+  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.libvirtd = {
+    enable = true;
+    qemu.swtpm.enable = true;
+    qemu.ovmf = {
       enable = true;
-      qemu = {
-        swtpm.enable = true;
-        ovmf = {
-          enable = true;
-          packages = with pkgs; [OVMFFull.fd];
-        };
-      };
+      packages = with pkgs; [OVMFFull.fd];
     };
   };
 

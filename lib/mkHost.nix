@@ -30,6 +30,7 @@ flake @ {
               ../hosts/${hostname}/hardware-configuration.nix
               #../hosts/${hostname}/hostVars.nix
             ];
+            filterDefault = false;
           };
     };
 in

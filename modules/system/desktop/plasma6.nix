@@ -7,34 +7,30 @@
   hm-config = config.hm;
 in
   lib.utilMods.mkModule config "plasma6" {
-    modules.desktop = {
+    modules.desktop.enable = true;
+    modules.desktop.x11.enable = lib.mkForce true;
+    modules.desktop.wayland.enable = lib.mkForce true;
+
+    # Enable the KDE's SDDM.
+    services.displayManager.sddm = {
       enable = true;
-      x11.enable = lib.mkForce true;
-      wayland.enable = lib.mkForce true;
+      autoNumlock = true;
+      enableHidpi = true;
+      wayland.enable = true;
     };
 
-    services = {
-      # Enable the KDE's SDDM.
-      displayManager.sddm = {
-        enable = true;
-        autoNumlock = true;
-        enableHidpi = true;
-        wayland.enable = true;
-      };
-      # Enable Desktop Environment
-      desktopManager.plasma6 = {
-        enable = true;
-        enableQt5Integration = true;
-      };
+    # Enable Desktop Environment
+    services.desktopManager.plasma6 = {
+      enable = true;
+      enableQt5Integration = true;
     };
 
     environment.plasma6.excludePackages = with pkgs.kdePackages; [elisa];
 
     # Enable KDE partition manager
-    programs = {
-      partition-manager.enable = true;
-      kdeconnect.enable = true;
-    };
+    programs.partition-manager.enable = true;
+    # Enable KDEConnect
+    programs.kdeconnect.enable = true;
 
     environment.systemPackages = with pkgs;
       [
@@ -75,9 +71,7 @@ in
       xdg.portal = {
         enable = true;
         configPackages = with pkgs; lib.mkDefault [kdePackages.xdg-desktop-portal-kde];
-        extraPortals = with pkgs; [
-          xdg-desktop-portal-gtk
-        ];
+        extraPortals = with pkgs; [xdg-desktop-portal-gtk];
       };
 
       # Enable native messaging host for Firefox/Firefox forks
@@ -88,18 +82,9 @@ in
 
       services.kdeconnect.enable = true;
 
-      xdg = {
-        mimeApps = {
-          associations = {
-            added = {
-              "x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
-            };
-          };
-          defaultApplications = {
-            "x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
-          };
-        };
+      xdg.mimeApps = {
+        defaultApplications."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
+        associations.added."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
       };
     };
-    #};
   }

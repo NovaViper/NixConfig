@@ -4,9 +4,7 @@
   pkgs,
   ...
 }: let
-  alejandra-quiet = pkgs.writeShellScriptBin "alejandra-quiet" ''
-    alejandra --quiet "$@"
-  '';
+  alejandra-quiet = pkgs.writeShellScriptBin "alejandra-quiet" ''alejandra --quiet "$@"'';
 in
   lib.utilMods.mkModule config "nix" {
     programs.nix-index-database.comma.enable = true;

@@ -3,8 +3,8 @@
   lib,
   pkgs,
   ...
-}:
-with lib; let
+}: let
+  inherit (lib) types mkOption literalExpression mkIf mkMerge mkBefore;
   cfg = config.theme;
   cfgapp = cfg.app;
 

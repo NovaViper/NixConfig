@@ -38,7 +38,7 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    pre-commit-hooks = {
+    git-hooks = {
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -80,7 +80,7 @@
     nixpkgs,
     home-manager,
     ...
-  } @ inputs: rec {
+  } @ inputs: let
     # Overlay my custom lib and home-manager lib onto the default nixpkgs lib
     lib =
       nixpkgs.lib.extend (
@@ -121,23 +121,21 @@
     nixosConfigurations =
       # Run mkHost for each nixosConfiguration, with key passed as host
       builtins.mapAttrs lib.mkHost {
-        ryzennova =
-          # Main desktop
-          {
-            username = "novaviper";
-            system = "x86_64-linux";
-            stateVersion = "24.11";
-          };
+        # Main desktop
+        ryzennova = {
+          username = "novaviper";
+          system = "x86_64-linux";
+          stateVersion = "24.11";
+        };
 
-        yoganova =
-          # Personal laptop
-          {
-            username = "novaviper";
-            system = "x86_64-linux";
-            stateVersion = "24.11";
-          };
+        # Personal laptop
+        yoganova = {
+          username = "novaviper";
+          system = "x86_64-linux";
+          stateVersion = "24.11";
+        };
+        # TODO: Add installer config
       };
-
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations =
@@ -146,5 +144,8 @@
         "novaviper@ryzennova" = {inherit nixosConfigurations;};
         "novaviper@yoganova" = {inherit nixosConfigurations;};
       };
+  in {
+    # Just inherit everything we made in the let statement
+    inherit overlays checks packages devShells formatter nixosConfigurations homeConfigurations;
   };
 }

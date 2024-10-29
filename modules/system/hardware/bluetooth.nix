@@ -4,12 +4,11 @@
   ...
 }:
 lib.utilMods.mkModule config "bluetooth" {
-  hardware.bluetooth = {
-    enable = true;
-    # Fix controller compatibility
-    input.General = {
-      ClassicBondedOnly = false;
-      UserspaceHID = false;
-    };
+  hardware.bluetooth.enable = true;
+
+  # Fix controller compatibility
+  hardware.bluetooth.input.General = {
+    ClassicBondedOnly = false;
+    UserspaceHID = false;
   };
 }

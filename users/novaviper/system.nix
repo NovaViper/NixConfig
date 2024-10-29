@@ -8,13 +8,11 @@
 }: let
   agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${username}-password".path;
 in {
-  variables = {
-    user = {
-      fullName = "Nova Leary";
-      emailAddress = "coder.nova99@mailbox.org";
-    };
-    userIdentityPaths = lib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
+  variables.user = {
+    fullName = "Nova Leary";
+    emailAddress = "coder.nova99@mailbox.org";
   };
+  variables.userIdentityPaths = lib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
 
   users.users.${username} = {
     shell = pkgs.zsh;
@@ -57,6 +55,7 @@ in {
 
   stylix = {
     enable = true;
+    polarity = "dark";
     base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/dracula.yaml";
     image = "${inputs.wallpapers}/purple-mountains-ai.png";
     override = {
@@ -78,13 +77,12 @@ in {
       base0E = "ff79c6";
       base0F = "bd93f9";
     };
-    polarity = "dark";
     cursor = {
       package = pkgs.capitaine-cursors;
       name = "capitaine-cursors-white";
       size = 24;
     };
-    fonts = rec {
+    fonts = let
       sansSerif = {
         package = pkgs.nerdfonts;
         name = "NotoSans Nerd Font";
@@ -104,7 +102,7 @@ in {
         popups = 10;
         terminal = 11;
       };
-    };
+    in {inherit sansSerif serif monospace emoji sizes;};
     opacity = {
       applications = 1.0;
       desktop = 1.0;
@@ -114,55 +112,54 @@ in {
   };
 
   # Modules for users live under ../../modules/home
-  hm = {
-    variables = {
-      defaultTerminal = "kitty";
-      defaultBrowser = "floorp";
-      defaultTextEditor = "doom-emacs";
-    };
-
-    stylix.targets = lib.mkForce {
-      # Enable 256 colors for kitty
-      kitty.variant256Colors = true;
-      # Causes some mismatched colors with Dracula-tmux theme
-      tmux.enable = false;
-      # Disable stylix's KDE module, very broken currently
-      kde.enable = false;
-    };
-
-    age.secrets."borg_token" = lib.secrets.mkSecretFile {
-      user = username;
-      source = "borg.age";
-      destination = "${config.hm.xdg.configHome}/borg/keys/srv_dev_disk_by_uuid_5aaed6a3_d2c7_4623_b121_5ebb8d37d930_Backups";
-    };
-    home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon];
-    modules = lib.utils.enable [
-      # Core
-      "git"
-      "doom-emacs"
-      "password-store"
-
-      # Terminal Utils
-      "shell-utils"
-      "nix"
-      "cava"
-      "tmux"
-      "bat"
-      "btop"
-      "fastfetch"
-      "topgrade"
-
-      # Development Environment
-      "latex"
-      "lua"
-      "markdown"
-      "python"
-
-      # Applications
-      #"vivaldi"
-      "jellyfin-player"
-      "borg"
-      "discord"
-    ];
+  hm.variables = {
+    defaultTerminal = "kitty";
+    defaultBrowser = "floorp";
+    defaultTextEditor = "doom-emacs";
   };
+
+  hm.home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon];
+
+  hm.stylix.targets = lib.mkForce {
+    # Enable 256 colors for kitty
+    kitty.variant256Colors = true;
+    # Causes some mismatched colors with Dracula-tmux theme
+    tmux.enable = false;
+    # Disable stylix's KDE module, very broken currently
+    kde.enable = false;
+  };
+
+  hm.age.secrets."borg_token" = lib.secrets.mkSecretFile {
+    user = username;
+    source = "borg.age";
+    destination = "${config.hm.xdg.configHome}/borg/keys/srv_dev_disk_by_uuid_5aaed6a3_d2c7_4623_b121_5ebb8d37d930_Backups";
+  };
+  hm.modules = lib.utils.enable [
+    # Core
+    "git"
+    "doom-emacs"
+    "password-store"
+
+    # Terminal Utils
+    "shell-utils"
+    "nix"
+    "cava"
+    "tmux"
+    "bat"
+    "btop"
+    "fastfetch"
+    "topgrade"
+
+    # Development Environment
+    "latex"
+    "lua"
+    "markdown"
+    "python"
+
+    # Applications
+    #"vivaldi"
+    "jellyfin-player"
+    "borg"
+    "discord"
+  ];
 }

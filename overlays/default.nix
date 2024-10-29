@@ -25,7 +25,7 @@ in {
   # Adds pkgs.stable == inputs.nixpkgs-stable.legacyPackages.${pkgs.system}
   stable = final: _: {
     stable = import self.inputs.nixpkgs-stable {
-      system = final.system;
+      inherit (final) system;
       config.allowUnfree = true;
     };
     #stable = self.inputs.nixpkgs-stable.legacyPackages.${final.system};

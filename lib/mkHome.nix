@@ -9,13 +9,13 @@ flake @ {
     atSignSplit = string:
       lib.splitString "@" string;
 
-    # Grab everything before the @ in "username@hostname"
+    # Grab everything before the @ in "username@hostname", from llakala
     guessUsername = userhost:
       if lib.length (internals.atSignSplit userhost) == 2
       then lib.elemAt (internals.atSignSplit userhost) 0 # First value in list
       else throw "Invalid userhost format: ${userhost}. Expected format: username@hostname";
 
-    # Grab everything after the @ in "username@hostname"
+    # Grab everything after the @ in "username@hostname", from llakala
     guessHostname = userhost:
       if lib.length (internals.atSignSplit userhost) == 2
       then lib.elemAt (internals.atSignSplit userhost) 1 # Second value in list

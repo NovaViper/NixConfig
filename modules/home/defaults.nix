@@ -28,19 +28,16 @@ in {
   };
 
   config = lib.mkMerge [
-    (lib.mkIf
-      ((lib.conds.runsDesktop osConfig) && cfg.defaultTerminal != null) {
-        home.sessionVariables.TERMINAL = cfg.defaultTerminal;
+    (lib.mkIf ((lib.conds.runsDesktop osConfig) && cfg.defaultTerminal != null) {
+      home.sessionVariables.TERMINAL = cfg.defaultTerminal;
 
-        modules.${cfg.defaultTerminal}.enable = true;
-      })
-    (lib.mkIf
-      ((lib.conds.runsDesktop osConfig) && cfg.defaultBrowser != null) {
-        modules.${cfg.defaultBrowser}.enable = true;
-      })
-    (lib.mkIf
-      (cfg.defaultTextEditor != null) {
-        modules.${cfg.defaultTextEditor}.enable = true;
-      })
+      modules.${cfg.defaultTerminal}.enable = true;
+    })
+    (lib.mkIf ((lib.conds.runsDesktop osConfig) && cfg.defaultBrowser != null) {
+      modules.${cfg.defaultBrowser}.enable = true;
+    })
+    (lib.mkIf (cfg.defaultTextEditor != null) {
+      modules.${cfg.defaultTextEditor}.enable = true;
+    })
   ];
 }

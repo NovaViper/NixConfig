@@ -36,9 +36,9 @@ in
         age.ageBin = "PATH=$PATH:${lib.makeBinPath [pkgs.age-plugin-yubikey]} ${pkgs.age}/bin/age";
 
         services.pcscd.enable = lib.mkForce true;
-        #systemd.services.pcscd.serviceConfig.ExecStart = mkForce [
-        #   "${pcscdPkg}/bin/pcscd -f -c ${pcscdCfg}"
-        #];
+        systemd.services.pcscd.serviceConfig.ExecStart = lib.mkForce [
+          "${pcscdPkg}/bin/pcscd -f -c ${pcscdCfg}"
+        ];
 
         # HACK: Start pcscd before decrypting secrets
         boot.initrd.systemd = {

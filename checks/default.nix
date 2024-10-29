@@ -2,8 +2,11 @@
   inputs,
   pkgs,
   ...
-}: {
-  pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.system}.run {
+}: let
+  git-hooks-in = inputs.git-hooks;
+  checks-in = git-hooks-in.checks.${pkgs.system};
+in {
+  pre-commit-check = git-hooks-in.lib.${pkgs.system}.run {
     src = ../.;
     default_stages = ["pre-commit"];
     hooks = {
@@ -40,12 +43,33 @@
         enable = true;
         name = "destroyed-symlinks";
         description = "detects symlinks which are changed to regular files with a content of a path which that symlink was pointing to.";
-        package = inputs.pre-commit-hooks.checks.${pkgs.system}.pre-commit-hooks;
-        entry = "${inputs.pre-commit-hooks.checks.${pkgs.system}.pre-commit-hooks}/bin/destroyed-symlinks";
+        package = checks-in.pre-commit-hooks;
+        entry = "${checks-in.pre-commit-hooks}/bin/destroyed-symlinks";
         types = ["symlink"];
       };
 
       alejandra.enable = true;
+
+      /*
+        deadnix = {
+        enable = true;
+        settings = {
+          noLambdaArg = true;
+          noLambdaPatternNames = true;
+        };
+      };
+      */
+
+      statix = {
+        enable = true;
+        settings = {
+          config = "../statix.toml";
+          ignore = [
+            ".direnv"
+            "**/hardware-configuration.nix"
+          ];
+        };
+      };
 
       shfmt = {
         enable = true;

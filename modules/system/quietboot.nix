@@ -14,8 +14,6 @@ lib.utilMods.mkModule config "quietboot"
   };
 
   # Needed for quiet boot
-  console = {
-    earlySetup = true;
-    useXkbConfig = false;
-  };
+  console.earlySetup = true;
+  console.useXkbConfig = false;
 }

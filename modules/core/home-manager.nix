@@ -11,9 +11,7 @@
   cfg = config.modules.core;
   hm-config = config.hm;
   activationScript = let
-    commands =
-      builtins.concatStringsSep "\n"
-      (map (file: ''rm -fv "${file}" && echo Deleted "${file}"'') hm-config.nukeFiles);
+    commands = builtins.concatStringsSep "\n" (map (file: ''rm -fv "${file}" && echo Deleted "${file}"'') hm-config.nukeFiles);
   in ''
     #!/run/current-system/sw/bin/bash
     set -o errexit
@@ -47,7 +45,15 @@ in {
           #stylix.homeManagerModules.stylix
         ]
         # Import modules specific and user configs for home-manager
-        ++ lib.utils.concatImports {paths = [../home ../../users/${username}/config];};
+        # TODO: Maybe make ./config in users be available to NixOS too and just pass any Home-Manager configs via hm?
+        ++ lib.utils.concatImports {
+          paths = [
+            ../home
+            ../../users/${username}/config
+          ];
+        };
+
+      # Import specific stuff for the user
       users.${username} = import ../../users/${username}/${config.networking.hostName}.nix;
     };
 
@@ -63,10 +69,9 @@ in {
       };
 
       home = {
+        inherit username stateVersion;
+        inherit (config.variables.user) homeDirectory;
         preferXdgDirectories = true;
-        username = username;
-        homeDirectory = config.variables.user.homeDirectory;
-        stateVersion = stateVersion;
 
         sessionVariables = {
           FLAKE = "${hm-config.home.homeDirectory}/Documents/NixConfig";
@@ -77,9 +82,7 @@ in {
           TLDR_CACHE_DIR = "${hm-config.xdg.cacheHome}/tldr";
         };
         sessionPath = ["${hm-config.home.sessionVariables.XDG_BIN_HOME}"];
-        shellAliases = {
-          wget = ''wget --hsts-file="${hm-config.xdg.dataHome}/wget-hsts"'';
-        };
+        shellAliases.wget = ''wget --hsts-file="${hm-config.xdg.dataHome}/wget-hsts"'';
       };
 
       # (De)activate wanted systemd units when changing configs
@@ -95,10 +98,8 @@ in {
 
       xresources.path = lib.mkForce "${hm-config.xdg.configHome}/.Xresources";
 
-      gtk = {
-        enable = true;
-        gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
-      };
+      gtk.enable = true;
+      gtk.gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
     };
   };
 }

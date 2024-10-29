@@ -15,31 +15,38 @@
     ./disks.nix
   ];
 
-  modules = lib.utils.enable [
-    ### Hardware
-    "bluetooth"
-    "hardware-accel"
+  modules =
+    lib.utils.enable [
+      ### Hardware
+      "bluetooth"
+      "hardware-accel"
 
-    ### Base Configs
-    "systemd-boot"
-    "quietboot"
+      ### Base Configs
+      "systemd-boot"
+      "quietboot"
 
-    ### Service
-    "flatpak"
-    "printing"
-    "tailscale"
+      ### Service
+      "flatpak"
+      "printing"
+      "tailscale"
 
-    ### Applications
-    "appimage"
-    "waydroid"
-    "gaming"
+      ### Applications
+      "appimage"
+      "waydroid"
+      "gaming"
 
-    ### Locale
-    "us-english"
+      ### Locale
+      "us-english"
 
-    ### Desktop Environment
-    "plasma6"
-  ];
+      ### Desktop Environment
+      "plasma6"
+    ]
+    // {
+      gaming = {
+        enable = true;
+        minecraft-server.enable = true;
+      };
+    };
 
   # Make NixOS use the latest Linux Kernel
   boot.kernelPackages = pkgs.linuxPackages_xanmod_latest;

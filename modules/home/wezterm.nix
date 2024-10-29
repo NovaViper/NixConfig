@@ -8,31 +8,29 @@
   wezterm = inputs.wezterm.packages.${pkgs.system}.default;
 in
   lib.utilMods.mkModule config "wezterm" {
-    xdg = {
-      /*
-        configFile = mkIf (builtins.pathExists ./dotfiles/wezterm) (mkMerge [
-        {"wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";}
-        (mkIf (!config.programs.tmux.enable) {
-          "wezterm/on.lua".source = utils.linkDots "wezterm/on.lua";
-        })
-      ]);
-      */
-      mimeApps = lib.mkIf (config.variables.defaultTerminal == "wezterm") rec {
-        defaultApplications = {
-          "mimetype" = "wezterm.desktop";
-          "application/x-terminal-emulator" = "wezterm.desktop";
-          "x-terminal-emulator" = "wezterm.desktop";
-        };
-        associations.added = defaultApplications;
+    /*
+      xdg.configFile = mkIf (builtins.pathExists ./dotfiles/wezterm) (mkMerge [
+      {"wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";}
+      (mkIf (!config.programs.tmux.enable) {
+        "wezterm/on.lua".source = utils.linkDots "wezterm/on.lua";
+      })
+    ]);
+    */
+    xdg.mimeApps = lib.mkIf (config.variables.defaultTerminal == "wezterm") rec {
+      enable = true;
+      defaultApplications = {
+        "mimetype" = "wezterm.desktop";
+        "application/x-terminal-emulator" = "wezterm.desktop";
+        "x-terminal-emulator" = "wezterm.desktop";
       };
+      associations.added = defaultApplications;
     };
 
-    programs.wezterm = {
-      enable = true;
-      package = wezterm;
-      enableZshIntegration = true;
-      /*
-        extraConfig = ''
+    programs.wezterm.enable = true;
+    programs.wezterm.package = wezterm;
+    programs.wezterm.enableZshIntegration = true;
+    /*
+    programs.wezterm.extraConfig = ''
         local keybinds = require("keybinds")
         ${
           if (config.programs.tmux.enable)
@@ -106,6 +104,5 @@ in
         -- and finally, return the configuration to wezterm
         return config
       '';
-      */
-    };
+    */
   }

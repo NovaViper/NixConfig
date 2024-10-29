@@ -1,9 +1,9 @@
 _: let
-  exports = rec {
+  exports = {
     defaultStateVersion = "24.05";
     runsDesktop = config: config.modules.desktop.enable;
-    isWayland = config: (runsDesktop config) && config.modules.desktop.wayland.enable;
-    isX11 = config: (runsDesktop config) && config.modules.desktop.x11.enable;
+    isWayland = config: (exports.runsDesktop config) && config.modules.desktop.wayland.enable;
+    isX11 = config: (exports.runsDesktop config) && config.modules.desktop.x11.enable;
   };
 in
   exports

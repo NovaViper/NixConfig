@@ -38,12 +38,10 @@ lib.utilMods.mkModule config "git" {
   };
 
   # Enable fancy git changelogs
-  programs.git-cliff = {
-    enable = true;
-    settings = {
-      header = "Changelog";
-      trim = true;
-    };
+  programs.git-cliff.enable = true;
+  programs.git-cliff.settings = {
+    header = "Changelog";
+    trim = true;
   };
 
   # Enable git authentication handler for OAuth

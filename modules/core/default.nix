@@ -7,21 +7,9 @@
   inputs,
   ...
 }: {
-  # Import all files in this folder ignoring this one
-  imports = with inputs;
-    lib.utils.concatImports {
-      path = ./.;
-      exclude = [./default.nix];
-      filterDefault = false;
-      recursive = false;
-    }
-    ++ [
-      stylix.nixosModules.stylix
-    ];
+  imports = with inputs; [stylix.nixosModules.stylix];
 
-  options.modules.core = {
-    homeManager.enable = lib.mkEnableOption "Enable home-manager integration" // {default = true;};
-  };
+  options.modules.core.homeManager.enable = lib.mkEnableOption "Enable home-manager integration" // {default = true;};
 
   config = {
     # Setup primary variables for the systems

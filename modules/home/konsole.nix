@@ -6,6 +6,7 @@
 }:
 lib.utilMods.mkModule config "konsole" {
   xdg.mimeApps = lib.mkIf (config.variables.defaultTerminal == "konsole") rec {
+    enable = true;
     defaultApplications = {
       "mimetype" = "konsole.desktop";
       "application/x-terminal-emulator" = "konsole.desktop";

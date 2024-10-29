@@ -44,6 +44,8 @@
       # Delete generations that are more than 14 days old
       options = "--delete-older-than 14d";
     };
+
+    # Modify several settings for the nix cli
     settings = {
       # Make sure flakes is enabled
       experimental-features = ["nix-command" "flakes"];
@@ -57,8 +59,10 @@
       # for Nix path
       nix-path = ["nixpkgs=${pkgs.path}"];
 
+      # Make root and any user in the wheel group trusted
       trusted-users = ["root" "@wheel"];
 
+      # Add substituters and their respective public keys
       substituters = [
         "https://nix-community.cachix.org"
         "https://nix-gaming.cachix.org"

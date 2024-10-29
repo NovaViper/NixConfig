@@ -13,11 +13,13 @@
     import nixpkgs {},
   checks,
   ...
-}: {
+}: let
+  checks-lib = checks.${pkgs.system};
+in {
   default = pkgs.mkShell {
     NIX_CONFIG = "use-xdg-base-directories = true\nextra-experimental-features = nix-command flakes";
     PKCS = "${pkgs.opensc}/lib/opensc-pkcs11.so";
-    buildInputs = checks.${pkgs.system}.pre-commit-check.enabledPackages;
+    buildInputs = checks-lib.pre-commit-check.enabledPackages;
     nativeBuildInputs = with pkgs; [
       # Nix toolkit
       nix
@@ -43,7 +45,7 @@
       pre-commit
     ];
     shellHook = ''
-      ${checks.${pkgs.system}.pre-commit-check.shellHook}
+      ${checks-lib.pre-commit-check.shellHook}
         export EDITOR=vim
     '';
   };

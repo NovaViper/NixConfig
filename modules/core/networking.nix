@@ -10,9 +10,7 @@ _: {
     # for a WiFi printer
     openFirewall = true;
     # Make user systemd service work with avahi
-    publish = {
-      enable = true;
-      userServices = true;
-    };
+    publish.enable = true;
+    publish.userServices = true;
   };
 }
