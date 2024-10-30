@@ -6,6 +6,7 @@
 lib.utilMods.mkModule config "atuin" {
   # The much better shell history database
   programs.atuin.enable = true;
+
   programs.atuin.settings = {
     auto_sync = true;
     sync_frequency = "10m";

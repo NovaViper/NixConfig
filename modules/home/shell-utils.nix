@@ -15,14 +15,16 @@ lib.utilMods.mkModule config "shell-utils" {
       procs # Better ps
       ventoy-full # bootable USB solution
       dust # Better du and df
-
-      # Terminal Decorations
-      toilet # Display fancy text in terminal
-      dwt1-shell-color-scripts # Display cool graphics in terminal
       libnotify
     ]
     ++ lib.optionals (lib.conds.isWayland osConfig) [wl-clipboard wl-clipboard-x11]
-    ++ lib.optionals ((lib.conds.isX11 osConfig) && (!lib.conds.isWayland osConfig)) [xclip xsel xdotool xorg.xwininfo xorg.xprop];
+    ++ lib.optionals ((lib.conds.isX11 osConfig) && (!lib.conds.isWayland osConfig)) [
+      xclip
+      xsel
+      xdotool
+      xorg.xwininfo
+      xorg.xprop
+    ];
 
   # Custom colors for ls, grep and more
   programs.dircolors.enable = true;

@@ -6,6 +6,7 @@
 lib.utilMods.mkModule config "btop" {
   # Fancy resource monitor for CLI, replaces top
   programs.btop.enable = true;
+
   programs.btop.settings = {
     #* Set to True to enable "h,j,k,l,g,G" keys for directional control in lists.
     #* Conflicting keys for h:"help" and k:"kill" is accessible while holding shift.

@@ -18,10 +18,12 @@ lib.utilMods.mkModule config "kitty" {
   };
 
   programs.kitty.enable = true;
+
   programs.kitty.environment = {
     COLORTERM = "truecolor";
     WINIT_X11_SCALE_FACTOR = "1";
   };
+
   programs.kitty.settings = {
     # Advanced {{{
     term = "xterm-256color";

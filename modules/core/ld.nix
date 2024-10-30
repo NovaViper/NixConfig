@@ -44,7 +44,6 @@
     libva-utils
     #pipewire.lib
     ocamlPackages.alsa
-    alsaLib
     alsa-lib
     libpulseaudio
     # steamwebhelper

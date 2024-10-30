@@ -9,10 +9,10 @@ lib.utilMods.mkModule config "borg" {
 
   systemd.user.services.vorta = {
     Unit.Description = "Vorta";
+    Install.WantedBy = ["default.target"];
     Service = {
       ExecStart = "${pkgs.vorta}/bin/vorta --daemonise";
       Restart = "on-failure";
     };
-    Install.WantedBy = ["default.target"];
   };
 }

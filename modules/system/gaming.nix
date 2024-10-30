@@ -56,10 +56,18 @@ in
 
     # Common
     {
+      # Enable Steam hardware compatibility
+      hardware.steam-hardware.enable = true;
+
+      # Fixes SteamLink/Remote play crashing
+      environment.systemPackages = with pkgs; [protontricks keyutils goverlay ludusavi libcanberra protonup-qt];
+
+      environment.sessionVariables.ICED_BACKEND = "tiny-skia";
       hardware.graphics = {
         enable = true;
         enable32Bit = true;
       };
+
       programs.gamemode = {
         enable = true;
         enableRenice = true;
@@ -78,16 +86,12 @@ in
       programs.steam = {
         enable = true;
         # Make Steam folder spawn in ~/.config instead of /home/USER
-        package = pkgs.steam.override {extraEnv.HOME = "/home/${username}/.config";};
+        package = pkgs.steam.override {
+          extraEnv.HOME = "/home/${username}/.config";
+          extraLibraries = pkgs: [pkgs.xorg.libxcb];
+        };
         remotePlay.openFirewall = true;
       };
-
-      # Enable Steam hardware compatibility
-      hardware.steam-hardware.enable = true;
-
-      # Fixes SteamLink/Remote play crashing
-      environment.systemPackages = with pkgs; [protontricks keyutils goverlay ludusavi libcanberra protonup-qt];
-      environment.sessionVariables.ICED_BACKEND = "tiny-skia";
 
       xdg.mime = {
         defaultApplications."x-scheme-handler/steam" = "steam.desktop";
@@ -96,6 +100,7 @@ in
 
       hm.xdg = {
         userDirs.extraConfig.XDG_GAME_DIR = "${hm-config.home.homeDirectory}/Games";
+
         mimeApps = {
           defaultApplications."x-scheme-handler/steam" = "steam.desktop";
           associations.added."x-scheme-handler/steam" = "steam.desktop";

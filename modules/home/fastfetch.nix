@@ -5,6 +5,7 @@
 }:
 lib.utilMods.mkModule config "fastfetch" {
   programs.fastfetch.enable = true;
+
   programs.fastfetch.settings = {
     logo.type = "none";
     display.separator = "-> ";

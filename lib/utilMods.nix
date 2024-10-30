@@ -33,13 +33,13 @@
     };
   };
 
-  exports = rec {
+  exports = {
     # Function for creating modules.NAME modules, with extra options
     mkModule' = config: name: extraOptions: moduleConfig:
-      internals.mkModuleWithOptions {inherit config name moduleConfig extraOptions;};
+      internals.mkModuleWithOptions {inherit config name extraOptions moduleConfig;};
 
     # Function for creating modules.NAME modules, without extra options
-    mkModule = config: name: moduleConfig: mkModule' config name {} moduleConfig;
+    mkModule = config: name: moduleConfig: exports.mkModule' config name {} moduleConfig;
 
     # Function for creating modules.NAME modules that are enabled by default, with extra options
     mkEnabledModule' = config: name: extraOptions: moduleConfig:
@@ -50,7 +50,7 @@
 
     # Function for creating modules.NAME modules that are enabled by default, without extra options
     mkEnabledModule = config: name: moduleConfig:
-      mkEnabledModule' config name {} moduleConfig;
+      exports.mkEnabledModule' config name {} moduleConfig;
   };
 in
   exports

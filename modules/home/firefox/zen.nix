@@ -5,13 +5,11 @@
   inputs,
   ...
 }: let
-  zenBrowserPkg = inputs.zen-browser.packages."${pkgs.system}".default;
-
-  updatedZenBrowser = zenBrowserPkg.overrideAttrs (oldAttrs: rec {
-    version = "1.0.1-a.12";
+  updatedZenBrowser = pkgs.inputs.zen-browser.overrideAttrs (oldAttrs: rec {
+    version = "1.0.1-a.13";
     src = builtins.fetchTarball {
       url = "https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-generic.tar.bz2";
-      sha256 = "sha256:0qs92h0vvw6qdcnpb076qr3dxw6hjyzzznb98dfp224z628vjm1i";
+      sha256 = "sha256:0hicb3d09q0kgkfn9blvcci93hmli9vv35wbiybl0zd5h28yca4k";
     };
   });
 in
@@ -31,6 +29,5 @@ in
       associations.added = defaultApplications;
     };
 
-    # home.packages = [ inputs.zen-browser.packages."${pkgs.system}".default ];
     home.packages = [updatedZenBrowser];
   }

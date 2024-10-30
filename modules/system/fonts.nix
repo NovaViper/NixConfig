@@ -22,7 +22,7 @@ lib.utilMods.mkModule config "fonts" {
   environment.systemPackages = with pkgs; [
     fontpreview
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     noto-fonts-color-emoji
     joypixels
     nerdfonts

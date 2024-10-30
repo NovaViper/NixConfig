@@ -6,6 +6,7 @@
 lib.utilMods.mkModule config "cava" {
   # CLI audio visualizer
   programs.cava.enable = true;
+
   programs.cava.settings = {
     # Enable alacritty syncronized updates, removes flickering in alacritty
     output.alacritty_sync = 1;

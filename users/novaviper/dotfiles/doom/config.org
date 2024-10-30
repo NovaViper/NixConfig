@@ -63,6 +63,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#lsp-mode-nerd-icon-fix][Lsp-mode Nerd Icon Fix]]
   - [[#agenix-integration][Agenix Integration]]
   - [[#lua-lsp-mode-configurations][Lua LSP Mode Configurations]]
+  - [[#keyboard-integration-with-magit][Keyboard integration with Magit]]
 - [[#mu4e-configuration][MU4E Configuration]]
     - [[#main-configurations][Main Configurations]]
     - [[#mail-contexts][Mail Contexts]]
@@ -492,6 +493,7 @@ Installs several packages I need,
 - =justl=: Major mode for driving justfiles
 - =just-mode=: Emacs mode for justfiles
 - =agenix=: Transparent editing for [[https://github.com/ryantm/agenix][agenix]] secrets inside Emacs
+- =magit-todos=: Show keyword entries from source code comments and Org files in the Magit status buffer
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-tutor)
 ;;(package! command-log-mode)
@@ -507,6 +509,7 @@ Installs several packages I need,
 (package! justl)
 (package! just-mode)
 (package! agenix)
+(package! magit-todos)
 #+end_src
 
 #+begin_src emacs-lisp :tangle (if (executable-find "mu") "packages.el" "no") packages.el
@@ -1122,6 +1125,12 @@ Integrate agenix for editing secrets for NixOS inside of Emacs
 Changes the location of lua-language-server to where the binary location is
 #+begin_src emacs-lisp
 (setq lsp-clients-lua-language-server-bin (executable-find "lua-language-server"))
+#+end_src
+
+** Keyboard integration with Magit
+Enable showing keyword entries inside of Magit buffer
+#+begin_src emacs-lisp
+(add-hook! 'magit-mode-hook #'magit-todos-mode)
 #+end_src
 
 * MU4E Configuration

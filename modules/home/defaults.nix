@@ -14,6 +14,7 @@ in {
         else null;
       type = lib.types.str;
     };
+
     defaultBrowser = lib.mkOption {
       default =
         if osConfig.modules.desktop.enable
@@ -21,6 +22,7 @@ in {
         else null;
       type = lib.types.str;
     };
+
     defaultTextEditor = lib.mkOption {
       default = "";
       type = lib.types.str;
@@ -33,9 +35,11 @@ in {
 
       modules.${cfg.defaultTerminal}.enable = true;
     })
+
     (lib.mkIf ((lib.conds.runsDesktop osConfig) && cfg.defaultBrowser != null) {
       modules.${cfg.defaultBrowser}.enable = true;
     })
+
     (lib.mkIf (cfg.defaultTextEditor != null) {
       modules.${cfg.defaultTextEditor}.enable = true;
     })

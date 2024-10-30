@@ -44,10 +44,11 @@ in {
       description = internals.cfg.fullName;
     };
 
-    # Make hardware clock use localtime.
-    time.hardwareClockInLocalTime = lib.mkDefault true;
-    # Set UTC as default timezone, users can override if they want to
-    time.timeZone = lib.mkDefault "UTC";
+    time = {
+      hardwareClockInLocalTime = lib.mkDefault true;
+      # Set UTC as default timezone, users can override if they want to
+      timeZone = lib.mkDefault "UTC";
+    };
 
     assertions = [
       #{assertion = options.variables.user.fullName.isDefined;}

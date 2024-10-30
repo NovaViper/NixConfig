@@ -9,8 +9,6 @@
 }: {
   imports = with inputs; [stylix.nixosModules.stylix];
 
-  options.modules.core.homeManager.enable = lib.mkEnableOption "Enable home-manager integration" // {default = true;};
-
   config = {
     # Setup primary variables for the systems
     networking.hostName = hostname;

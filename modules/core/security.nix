@@ -1,6 +1,7 @@
 _: {
   # Make /tmp clean itself on remote. /tmp should be volatile storage!
   boot.tmp.cleanOnBoot = true;
+
   boot.kernelModules = ["tcp_bbr"];
 
   ## TCP hardening

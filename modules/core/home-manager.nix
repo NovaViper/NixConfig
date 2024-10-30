@@ -8,10 +8,11 @@
   username,
   ...
 }: let
-  cfg = config.modules.core;
   hm-config = config.hm;
   activationScript = let
-    commands = builtins.concatStringsSep "\n" (map (file: ''rm -fv "${file}" && echo Deleted "${file}"'') hm-config.nukeFiles);
+    commands = builtins.concatStringsSep "\n" (
+      map (file: ''rm -fv "${file}" && echo Deleted "${file}"'') hm-config.nukeFiles
+    );
   in ''
     #!/run/current-system/sw/bin/bash
     set -o errexit
@@ -21,14 +22,15 @@
 
     ${commands}
   '';
-in {
-  imports = with inputs; [
-    home-manager.nixosModules.home-manager
-    # Let us use hm as shorthand for home-manager config
-    (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" username])
-  ];
-
-  config = lib.mkIf cfg.homeManager.enable {
+in
+  {
+    imports = with inputs; [
+      home-manager.nixosModules.home-manager
+      # Let us use hm as shorthand for home-manager config
+      (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" username])
+    ];
+  }
+  // lib.utilMods.mkEnabledModule config "core.homeManager" {
     # Home file nuking script that deletes stuff just before we run home-manager's activation scripts
     system.userActivationScripts.home-conflict-file-nuker = lib.mkIf (hm-config.nukeFiles != []) activationScript;
 
@@ -98,8 +100,9 @@ in {
 
       xresources.path = lib.mkForce "${hm-config.xdg.configHome}/.Xresources";
 
-      gtk.enable = true;
-      gtk.gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
+      gtk = {
+        enable = true;
+        gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
+      };
     };
-  };
-}
+  }

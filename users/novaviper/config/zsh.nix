@@ -29,6 +29,12 @@ with lib; {
     })
   ];
 
+  home.packages = with pkgs; [
+    # Terminal Decorations
+    toilet # Display fancy text in terminal
+    dwt1-shell-color-scripts # Display cool graphics in terminal
+  ];
+
   programs.zsh = {
     initExtraFirst = lib.mkAfter ''
       ${

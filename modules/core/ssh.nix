@@ -23,8 +23,10 @@ in {
     };
   };
 
-  programs.ssh.startAgent = true;
-  programs.ssh.askPassword = "${askpass}";
+  programs.ssh = {
+    startAgent = true;
+    askPassword = "${askpass}";
+  };
 
   # Enforce askpass gui when the option is enabled (based on rather x11 is running)
   /*

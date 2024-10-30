@@ -92,29 +92,9 @@
       )
       // home-manager.lib;
 
-    # Reusable nixos modules you might want to export
-    # These are usually stuff you would upstream into nixpkgs
-    #nixosModules = import ./modules/nixos;
-    # Reusable home-manager modules you might want to export
-    # These are usually stuff you would upstream into home-manager
-    #homeManagerModules = import ./modules/home-manager;
-
-    # Your custom packages and modifications, exported as overlays output
-    overlays = import ./overlays {inherit self;};
-
     # Flake evaluation tests and checks entrypoint
     # Available through 'nix flake check'
     checks = lib.forEachSystem (pkgs: import ./checks {inherit inputs pkgs;});
-
-    # Your custom packages
-    # Acessible through 'nix build', 'nix shell', etc
-    packages = lib.forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
-    # Devshell for bootstrapping
-    # Acessible through 'nix develop' or 'nix-shell' (legacy)
-    devShells = lib.forEachSystem (pkgs: import ./shell.nix {inherit pkgs checks;});
-    # Formatter for your nix files, available through 'nix fmt'
-    # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = lib.forEachSystem (pkgs: pkgs.alejandra);
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
@@ -136,6 +116,31 @@
         };
         # TODO: Add installer config
       };
+  in {
+    # Just inherit everything we made in the let statement
+    inherit lib checks nixosConfigurations;
+
+    # Reusable nixos modules you might want to export
+    # These are usually stuff you would upstream into nixpkgs
+    #nixosModules = import ./modules/nixos;
+    # Reusable home-manager modules you might want to export
+    # These are usually stuff you would upstream into home-manager
+    #homeManagerModules = import ./modules/home-manager;
+
+    # Your custom packages and modifications, exported as overlays output
+    overlays = import ./overlays {inherit self;};
+
+    # Your custom packages
+    # Acessible through 'nix build', 'nix shell', etc
+    packages = lib.forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    # Devshell for bootstrapping
+    # Acessible through 'nix develop' or 'nix-shell' (legacy)
+    devShells = lib.forEachSystem (pkgs: import ./shell.nix {inherit pkgs checks;});
+
+    # Formatter for your nix files, available through 'nix fmt'
+    # Other options beside 'alejandra' include 'nixpkgs-fmt'
+    formatter = lib.forEachSystem (pkgs: pkgs.alejandra);
+
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations =
@@ -144,8 +149,5 @@
         "novaviper@ryzennova" = {inherit nixosConfigurations;};
         "novaviper@yoganova" = {inherit nixosConfigurations;};
       };
-  in {
-    # Just inherit everything we made in the let statement
-    inherit overlays checks packages devShells formatter nixosConfigurations homeConfigurations;
   };
 }

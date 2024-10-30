@@ -17,7 +17,8 @@
       ];
     };
     kernelModules = ["kvm-amd"];
-    extraModulePackages = [];
+    # Include beta nvidia x11 driver
+    extraModulePackages = [config.boot.kernelPackages.nvidia_x11_beta];
     blacklistedKernelModules = ["i915" "amdgpu"];
 
     kernelParams = [
