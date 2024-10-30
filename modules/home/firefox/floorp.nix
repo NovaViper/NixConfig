@@ -6,8 +6,7 @@
   ...
 }:
 lib.utilMods.mkModule config "floorp" {
-  xdg.mimeApps = lib.mkIf (config.variables.defaultBrowser == "floorp") rec {
-    enable = true;
+  xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["floorp.desktop"];
       "text/html" = ["floorp.desktop"];
@@ -18,8 +17,12 @@ lib.utilMods.mkModule config "floorp" {
       "application/xhtml+xml" = ["floorp.desktop"];
       "text/xml" = ["floorp.desktop"];
     };
-    associations.added = defaultApplications;
-  };
+  in
+    lib.mkIf (config.variables.defaultBrowser == "floorp") {
+      enable = true;
+      inherit defaultApplications;
+      associations.added = defaultApplications;
+    };
 
   programs.floorp.enable = true;
 

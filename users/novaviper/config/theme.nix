@@ -19,8 +19,7 @@
   };
 
   programs = {
-    plasma = rec {
-      overrideConfig = true;
+    plasma = let
       workspace = {
         lookAndFeel = "org.kde.breezedark.desktop";
         colorScheme = "DraculaPurple";
@@ -30,6 +29,9 @@
           interval = 300;
         };
       };
+    in {
+      overrideConfig = true;
+      inherit workspace;
       kscreenlocker.appearance.wallpaperSlideShow = workspace.wallpaperSlideShow;
     };
     cava.settings.color = {

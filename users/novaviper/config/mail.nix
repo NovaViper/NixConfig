@@ -9,54 +9,56 @@
 in {
   accounts.email = {
     maildirBasePath = "${config.xdg.dataHome}/mail";
-    accounts = {
-      personal-1 = rec {
-        primary = true;
-        address = "${mail-secrets.personal-1.address}";
-        userName = address;
-        realName = "Nova Leary";
-        aliases = ["code.nova99@mailbox.org" "${mail-secrets.personal-1.alias-work}" "${mail-secrets.personal-1.alias-school}" "${mail-secrets.personal-1.alias-shop}"];
-        mu.enable = true;
-        smtp.host = "smtp.mailbox.org";
-        imap = {
-          host = "imap.mailbox.org";
-          tls.useStartTls = true;
-        };
-        passwordCommand = "${pass} Mail/${smtp.host}/${address}";
-        mbsync = {
-          enable = true;
-          create = "both";
-          expunge = "both";
-          patterns = ["INBOX" "AllMail" "Trash" "Spam" "Drafts" "Sent"];
-          extraConfig.channel = {
-            CopyArrivalDate = "yes";
-            Create = "Both";
-            Expunge = "Both";
-            SyncState = "*";
-          };
+    accounts.personal-1 = let
+      address = "${mail-secrets.personal-1.address}";
+      smtp.host = "smtp.mailbox.org";
+    in {
+      primary = true;
+      inherit address smtp;
+      userName = address;
+      realName = "Nova Leary";
+      aliases = ["code.nova99@mailbox.org" "${mail-secrets.personal-1.alias-work}" "${mail-secrets.personal-1.alias-school}" "${mail-secrets.personal-1.alias-shop}"];
+      mu.enable = true;
+      imap = {
+        host = "imap.mailbox.org";
+        tls.useStartTls = true;
+      };
+      passwordCommand = "${pass} Mail/${smtp.host}/${address}";
+      mbsync = {
+        enable = true;
+        create = "both";
+        expunge = "both";
+        patterns = ["INBOX" "AllMail" "Trash" "Spam" "Drafts" "Sent"];
+        extraConfig.channel = {
+          CopyArrivalDate = "yes";
+          Create = "Both";
+          Expunge = "Both";
+          SyncState = "*";
         };
       };
+    };
 
-      personal-2 = rec {
-        address = "${mail-secrets.personal-2-address}";
-        userName = address;
-        realName = "Nova Leary";
-        mu.enable = true;
-        # Declaring ports for Gmail breaks it!!
-        smtp.host = "smtp.gmail.com";
-        imap.host = "imap.gmail.com";
-        passwordCommand = "${pass} Mail/${smtp.host}/${address}";
-        mbsync = {
-          enable = true;
-          create = "both";
-          expunge = "both";
-          patterns = ["*" ''!"[Gmail]/All Mail"'' ''!"[Gmail]/Important"'' ''!"[Gmail]/Starred"'' ''!"[Gmail]/Bin"''];
-          extraConfig.channel = {
-            CopyArrivalDate = "yes";
-            Create = "Both";
-            Expunge = "Both";
-            SyncState = "*";
-          };
+    accounts.personal-2 = let
+      address = "${mail-secrets.personal-2-address}";
+      smtp.host = "smtp.gmail.com";
+    in {
+      inherit address smtp;
+      userName = address;
+      realName = "Nova Leary";
+      mu.enable = true;
+      # Declaring ports for Gmail breaks it!!
+      imap.host = "imap.gmail.com";
+      passwordCommand = "${pass} Mail/${smtp.host}/${address}";
+      mbsync = {
+        enable = true;
+        create = "both";
+        expunge = "both";
+        patterns = ["*" ''!"[Gmail]/All Mail"'' ''!"[Gmail]/Important"'' ''!"[Gmail]/Starred"'' ''!"[Gmail]/Bin"''];
+        extraConfig.channel = {
+          CopyArrivalDate = "yes";
+          Create = "Both";
+          Expunge = "Both";
+          SyncState = "*";
         };
       };
     };

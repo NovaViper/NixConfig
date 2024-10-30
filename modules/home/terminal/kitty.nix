@@ -7,15 +7,18 @@
 lib.utilMods.mkModule config "kitty" {
   #modules.fonts.enable = true;
 
-  xdg.mimeApps = lib.mkIf (config.variables.defaultTerminal == "kitty") rec {
-    enable = true;
+  xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "kitty.desktop";
       "application/x-terminal-emulator" = "kitty.desktop";
       "x-terminal-emulator" = "kitty.desktop";
     };
-    associations.added = defaultApplications;
-  };
+  in
+    lib.mkIf (config.variables.defaultTerminal == "kitty") {
+      enable = true;
+      inherit defaultApplications;
+      associations.added = defaultApplications;
+    };
 
   programs.kitty.enable = true;
 

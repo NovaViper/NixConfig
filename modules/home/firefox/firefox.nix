@@ -6,8 +6,7 @@
   ...
 }:
 lib.utilMods.mkModule config "firefox" {
-  xdg.mimeApps = lib.mkIf (config.variables.defaultBrowser == "firefox") rec {
-    enable = true;
+  xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["firefox.desktop"];
       "text/html" = ["firefox.desktop"];
@@ -18,8 +17,12 @@ lib.utilMods.mkModule config "firefox" {
       "application/xhtml+xml" = ["firefox.desktop"];
       "text/xml" = ["firefox.desktop"];
     };
-    associations.added = defaultApplications;
-  };
+  in
+    lib.mkIf (config.variables.defaultBrowser == "firefox") {
+      enable = true;
+      inherit defaultApplications;
+      associations.added = defaultApplications;
+    };
 
   programs.firefox.enable = true;
 

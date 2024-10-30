@@ -14,8 +14,7 @@
   });
 in
   lib.utilMods.mkModule config "zen" {
-    xdg.mimeApps = lib.mkIf (config.variables.defaultBrowser == "zen") rec {
-      enable = true;
+    xdg.mimeApps = let
       defaultApplications = {
         "default-web-browser" = ["zen.desktop"];
         "text/html" = ["zen.desktop"];
@@ -26,8 +25,12 @@ in
         "application/xhtml+xml" = ["zen.desktop"];
         "text/xml" = ["zen.desktop"];
       };
-      associations.added = defaultApplications;
-    };
+    in
+      lib.mkIf (config.variables.defaultBrowser == "zen") {
+        enable = true;
+        inherit defaultApplications;
+        associations.added = defaultApplications;
+      };
 
     home.packages = [updatedZenBrowser];
   }

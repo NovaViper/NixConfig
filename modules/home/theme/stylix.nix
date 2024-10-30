@@ -70,18 +70,20 @@ in {
               theme = "${config.stylix.cursor.name}";
               inherit (config.stylix.cursor) size;
             };
-            fonts = rec {
+            fonts = let
               general = {
                 family = "${f.sansSerif.name}";
                 pointSize = f.sizes.applications;
               };
-              fixedWidth = {
-                family = "${f.monospace.name}";
-                pointSize = f.sizes.terminal;
-              };
               small = {
                 inherit (general) family;
                 pointSize = f.sizes.desktop;
+              };
+            in {
+              inherit general small;
+              fixedWidth = {
+                family = "${f.monospace.name}";
+                pointSize = f.sizes.terminal;
               };
               toolbar = small;
               menu = small;

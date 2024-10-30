@@ -24,11 +24,9 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
     - [[#global-auto-revert][Global Auto Revert]]
     - [[#enable-auto-save-and-backup][Enable Auto Save and Backup]]
     - [[#line-number-modes][Line Number Modes]]
-    - [[#beacon][Beacon]]
     - [[#word-wrap][Word Wrap]]
     - [[#workspace-emacsclient-fix][Workspace Emacsclient Fix]]
     - [[#emojify-fix][Emojify Fix]]
-    - [[#nerd-fonts-fix-nixos-only][Nerd Fonts Fix (NixOS only)]]
     - [[#gpg-encryption-and-password-configuration][GPG Encryption and Password Configuration]]
   - [[#visual-session-and-window-settings][Visual, Session, and Window Settings]]
     - [[#doom-theme][Doom Theme]]
@@ -303,7 +301,7 @@ This code is written to ~init.el~ to select which modules to load.
        ligatures         ; ligatures and symbols to make your code pretty again
        minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
-       ;;nav-flash         ; blink cursor line after big motions
+       nav-flash         ; blink cursor line after big motions
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup +defaults)   ; tame sudden yet inevitable temporary windows
@@ -362,8 +360,7 @@ This code is written to ~init.el~ to select which modules to load.
        (lookup +dictionary              ; navigate your code and its documentation
                +docsets
                +offline)
-       (lsp +peek               ; M-x vscode
-            +eglot)
+       (lsp +peek)               ; M-x vscode
        (magit +forge)             ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        (:if (executable-find "pass") (pass +auth))              ; password manager for nerds
@@ -480,31 +477,26 @@ This code is written to ~init.el~ to select which modules to load.
 * Doom Packages
 Installs several packages I need,
 - =evil-tutor=: Teaches how to use evil
-- =command-log-mode=: Show event history and command history of some or all buffers.
 - =org-super-agenda=: Makes org-agenda really really fancy
 - =org-wild-notifier=: Customize notifications for org tasks and events
 - =visual-fill-column=: It turns the view on the left into the view on the right, without changing the contents of the file
 - =exec-path-from-shell=: Ensure environment variables inside Emacs look the same as in the user's shell.
 - =platformio-mode=: Integrates PlatformIO build tools into Emacs
 - =numpydoc=: Automatically insert NumPy style docstrings for Python functions
-- =mixed-pitch=: Enables mixing fixed-pitch (also known as fixed-width or monospace) and variable-pitch (AKA “proportional”) fonts
-- =beacon=: Highlights the cursor location when window scrolling
 - =zoxide=: Fancy find-file command, companion for [[https://github.com/ajeetdsouza/zoxide][zoxide]]
 - =justl=: Major mode for driving justfiles
 - =just-mode=: Emacs mode for justfiles
 - =agenix=: Transparent editing for [[https://github.com/ryantm/agenix][agenix]] secrets inside Emacs
 - =magit-todos=: Show keyword entries from source code comments and Org files in the Magit status buffer
+- =mu4easy=: A global minor mode that defines a full working setup for mu4e and mbsync
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-tutor)
-;;(package! command-log-mode)
 (package! org-super-agenda)
 (package! org-wild-notifier)
 (package! visual-fill-column)
 (package! exec-path-from-shell)
 (package! platformio-mode)
 (package! numpydoc)
-(package! mixed-pitch)
-(package! beacon)
 (package! zoxide)
 (package! justl)
 (package! just-mode)
@@ -553,16 +545,6 @@ Determines what modes should display line numbers be disabled in
   (add-hook mode (lambda () (display-line-numbers-mode 0))))
 #+end_src
 
-*** Beacon
-Enable beacon mode for blinking cursor
-#+begin_src emacs-lisp
-(setq beacon-mode t)
-;(after! beacon
-;  (beacon-mode 1)
-  ;(setq beacon-color "#bd93f9")
-;)
-#+end_src
-
 *** Word Wrap
 Make all text files word warp enabled by default
 #+begin_src emacs-lisp
@@ -580,12 +562,6 @@ This fixes [[https://github.com/hlissner/doom-emacs/issues/5876][my issue]] wher
 Fixes infinite loop issue with Emojify downloading not working and going into infinite looping
 #+begin_src emacs-lisp
 (setq emojify-download-emojis-p t)
-#+end_src
-
-*** Nerd Fonts Fix (NixOS only)
-This fixes =doom doctor= when it says that NerdFonts aren't installed on NixOS. Addresses [[https://github.com/doomemacs/doomemacs/issues/7431#ref-commit-f3f8e7d][this issue]].
-#+begin_src emacs-lisp :tangle (if (executable-find "nixos-version") "yes" "no")
-(setq nerd-icons-font-names '("SymbolsNerdFontMono-Regular.ttf"))
 #+end_src
 
 *** GPG Encryption and Password Configuration
@@ -617,7 +593,6 @@ Add more entries to Doom Dashboard
 *** Disable Mixed Pitch for Cursor
 Don't modify the cursor when using =mixed-pitch-mode=
 #+begin_src emacs-lisp
-;;(add-hook! 'org-mode-hook #'solaire-mode)
 (setq mixed-pitch-variable-pitch-cursor nil)
 #+end_src
 
@@ -670,7 +645,7 @@ Several changes made to centaur tabs to make it more usable.
 (defun tdr/fix-centaur-tabs ()
   (centaur-tabs-mode -1)      ; Disable Centaur Tabs globally
   (centaur-tabs-mode 1)       ; Re-enable Centaur Tabs globally
-  ; Tourn off local instance of centaur tabs (when buffer is either a popup or is the Doom Dashboard)
+  ; Turn off local instance of centaur tabs (when buffer is either a popup or is the Doom Dashboard)
   (if (or (+popup-buffer-p (current-buffer)) (+doom-dashboard-p (current-buffer)))
       (centaur-tabs-local-mode)
       (doom/reload-theme)))
@@ -775,7 +750,7 @@ This section contains several important variables for various parts of =org-mode
 ))
 #+end_src
 *** Disable Electric Mode in Org
-[[https://code.orgmode.org/bzg/org-mode/src/master/etc/ORG-NEWS#L323][electric-mode]] is disabled in org-mode since it is now respected by it! Leaving it on will cause indentations to misbehave when hitting <RET> multiple times.
+[[https://code.orgmode.org/bzg/org-mode/src/master/etc/ORG-NEWS#L323][electric-mode]] is disabled in org-mode since it is now respected by it! Leaving it on will cause indentations to misbehave when hitting <RET> (Enter) multiple times.
 #+begin_src emacs-lisp
 (add-hook! org-mode (electric-indent-local-mode -1))
 #+end_src
@@ -819,7 +794,7 @@ This section contains configurations dealing with org tasks and agendas. I use t
 (after! org
   (setq org-agenda-directory (concat org-directory "agenda/")
         org-agenda-files (doom-files-in org-agenda-directory :match "\\.org$")
-        ;(make time-grid refresh)org-agenda-prefix-format "%b"
+        ;org-agenda-prefix-format "%b")
         org-todo-keywords
                 '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
                   (sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")

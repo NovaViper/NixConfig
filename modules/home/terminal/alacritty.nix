@@ -4,15 +4,18 @@
   ...
 }:
 lib.utilMods.mkModule config "alacritty" {
-  xdg.mimeApps = lib.mkIf (config.defaultTerminal == "alacritty") rec {
-    enable = true;
+  xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "alacritty.desktop";
       "application/x-terminal-emulator" = "alacritty.desktop";
       "x-terminal-emulator" = "alacritty.desktop";
     };
-    associations.added = defaultApplications;
-  };
+  in
+    lib.mkIf (config.defaultTerminal == "alacritty") {
+      enable = true;
+      inherit defaultApplications;
+      associations.added = defaultApplications;
+    };
 
   programs.alacritty.enable = true;
   programs.alacritty.settings = {

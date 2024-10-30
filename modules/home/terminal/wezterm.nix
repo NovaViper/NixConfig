@@ -16,15 +16,18 @@ in
       })
     ]);
     */
-    xdg.mimeApps = lib.mkIf (config.variables.defaultTerminal == "wezterm") rec {
-      enable = true;
+    xdg.mimeApps = let
       defaultApplications = {
         "mimetype" = "wezterm.desktop";
         "application/x-terminal-emulator" = "wezterm.desktop";
         "x-terminal-emulator" = "wezterm.desktop";
       };
-      associations.added = defaultApplications;
-    };
+    in
+      lib.mkIf (config.variables.defaultTerminal == "wezterm") {
+        enable = true;
+        inherit defaultApplications;
+        associations.added = defaultApplications;
+      };
 
     programs.wezterm.enable = true;
     programs.wezterm.package = wezterm;

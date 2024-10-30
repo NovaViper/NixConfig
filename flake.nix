@@ -42,6 +42,10 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rbld = {
+      url = "github:llakala/rebuild-but-less-dumb/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Extras
     stylix = {

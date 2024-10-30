@@ -5,15 +5,18 @@
   ...
 }:
 lib.utilMods.mkModule config "konsole" {
-  xdg.mimeApps = lib.mkIf (config.variables.defaultTerminal == "konsole") rec {
-    enable = true;
+  xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "konsole.desktop";
       "application/x-terminal-emulator" = "konsole.desktop";
       "x-terminal-emulator" = "konsole.desktop";
     };
-    associations.added = defaultApplications;
-  };
+  in
+    lib.mkIf (config.variables.defaultTerminal == "konsole") {
+      enable = true;
+      inherit defaultApplications;
+      associations.added = defaultApplications;
+    };
 
   # DefaultThemed profile is considered the Stylix module
   programs.konsole.enable = true;

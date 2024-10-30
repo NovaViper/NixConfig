@@ -4,15 +4,18 @@
   ...
 }:
 lib.utilMods.mkModule config "rio" {
-  xdg.mimeApps = lib.mkIf (config.variables.defaultTerminal == "rio") rec {
-    enable = true;
+  xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "rio.desktop";
       "application/x-terminal-emulator" = "rio.desktop";
       "x-terminal-emulator" = "rio.desktop";
     };
-    associations.added = defaultApplications;
-  };
+  in
+    lib.mkIf (config.variables.defaultTerminal == "rio") {
+      enable = true;
+      inherit defaultApplications;
+      associations.added = defaultApplications;
+    };
 
   programs.rio.enable = true;
   programs.rio.settings = {

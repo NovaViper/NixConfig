@@ -5,8 +5,7 @@
   ...
 }:
 lib.utilMods.mkModule config "vivaldi" {
-  xdg.mimeApps = lib.mkIf (config.variables.defaultBrowser == "vivaldi") rec {
-    enable = true;
+  xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["vivaldi.desktop"];
       "text/html" = ["vivaldi.desktop"];
@@ -17,8 +16,12 @@ lib.utilMods.mkModule config "vivaldi" {
       "application/xhtml+xml" = ["vivaldi.desktop"];
       "text/xml" = ["vivaldi.desktop"];
     };
-    associations.added = defaultApplications;
-  };
+  in
+    lib.mkIf (config.variables.defaultBrowser == "vivaldi") {
+      enable = true;
+      inherit defaultApplications;
+      associations.added = defaultApplications;
+    };
 
   programs.vivaldi.enable = true;
   programs.vivaldi.dictionaries = with pkgs; [hunspellDictsChromium.en_US];

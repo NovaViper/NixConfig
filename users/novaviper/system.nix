@@ -155,6 +155,7 @@ in {
     "lua"
     "markdown"
     "python"
+    "rust"
 
     # Applications
     #"vivaldi"

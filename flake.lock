@@ -543,6 +543,27 @@
         "type": "github"
       }
     },
+    "rbld": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1730305951,
+        "narHash": "sha256-g4h7AgV9Zq6qiUoeH8TXCYkfx+scEvemX4DaV/trjR4=",
+        "owner": "llakala",
+        "repo": "rebuild-but-less-dumb",
+        "rev": "d92f8cf21b3b5652459b46b5e656f866d799bda5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "llakala",
+        "ref": "main",
+        "repo": "rebuild-but-less-dumb",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -557,6 +578,7 @@
         "nixpkgs-stable": "nixpkgs-stable_2",
         "nur": "nur",
         "plasma-manager": "plasma-manager",
+        "rbld": "rbld",
         "stylix": "stylix",
         "systems": "systems_2",
         "wallpapers": "wallpapers",

@@ -34,6 +34,10 @@
       tree
       just
       pre-commit
+
+      # Llakala's fancy rebuild packages
+      pkgs.inputs.rbld.rbld
+      pkgs.inputs.rbld.unify
     ];
 
     # XDG Setup
