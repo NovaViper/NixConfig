@@ -502,6 +502,7 @@ Installs several packages I need,
 (package! just-mode)
 (package! agenix)
 (package! magit-todos)
+(package! nose :disable t) ; Disable nosetests since it is heavily discouraged (and outright removed from NixOS)
 #+end_src
 
 #+begin_src emacs-lisp :tangle (if (executable-find "mu") "packages.el" "no") packages.el

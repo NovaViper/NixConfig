@@ -5,7 +5,6 @@
 }:
 # English (US) display language, US English locale.
 lib.utilMods.mkModule config "us-english" {
-  time.timeZone = lib.mkForce "America/Chicago";
   i18n.defaultLocale = lib.mkDefault "en_US.UTF-8";
   console.keyMap = lib.mkDefault "us";
   services.xserver.xkb = {

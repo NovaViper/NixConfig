@@ -30,6 +30,8 @@ in {
     hashedPasswordFile = agenixHashedPasswordFile;
   };
 
+  time.timeZone = lib.mkForce "America/Chicago";
+
   # User Secrets
   age.secrets."${username}-password" = lib.secrets.mkSecretFile {
     user = username;

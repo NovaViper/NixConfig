@@ -543,7 +543,7 @@
         "type": "github"
       }
     },
-    "rbld": {
+    "rebuild-but-less-dumb": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
@@ -578,7 +578,7 @@
         "nixpkgs-stable": "nixpkgs-stable_2",
         "nur": "nur",
         "plasma-manager": "plasma-manager",
-        "rbld": "rbld",
+        "rebuild-but-less-dumb": "rebuild-but-less-dumb",
         "stylix": "stylix",
         "systems": "systems_2",
         "wallpapers": "wallpapers",
