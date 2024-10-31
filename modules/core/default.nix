@@ -34,10 +34,6 @@
       tree
       just
       pre-commit
-
-      # Llakala's fancy rebuild packages
-      pkgs.inputs.rebuild-but-less-dumb.rbld
-      pkgs.inputs.rebuild-but-less-dumb.unify
     ];
 
     # XDG Setup
@@ -46,9 +42,6 @@
       XDG_CONFIG_HOME = "$HOME/.config";
       XDG_DATA_HOME = "$HOME/.local/share";
       XDG_STATE_HOME = "$HOME/.local/state";
-
-      # For rbld
-      INPUTS_TRIGGERING_REBUILD = "nixpkgs nixpkgs-stable home-manager rebuild-but-less-dumb";
     };
 
     # Enable firmware updates on Linux

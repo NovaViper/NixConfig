@@ -42,6 +42,7 @@ lib.utilMods.mkModule config "git" {
   # Enable fancy git changelogs
   programs.git-cliff = {
     enable = true;
+
     settings = {
       header = "Changelog";
       trim = true;

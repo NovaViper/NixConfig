@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  name,
+  username,
   ...
 }:
 lib.utilMods.mkModule config "floorp" {
@@ -26,9 +26,9 @@ lib.utilMods.mkModule config "floorp" {
 
   programs.floorp.enable = true;
 
-  programs.floorp.nativeMessagingHosts = with pkgs; [fx-cast-bridge];
+  programs.floorp.nativeMessagingHosts = with pkgs; [fx-cast-bridge kdePackages.plasma-browser-integration];
 
-  programs.floorp.profiles."${name}" = {
+  programs.floorp.profiles."${username}" = {
     extensions = import ./extensions.nix {inherit pkgs;};
 
     search = {
