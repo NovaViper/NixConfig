@@ -48,22 +48,8 @@
       };
     };
 
-  # TODO: Pin to 6.11.3 until tailscale/tailscale#13863 is fixed (via kernel 6.11.6)
-  boot.kernelPackages = pkgs.linuxPackagesFor (
-    pkgs.linux_xanmod_latest.override {
-      argsOverride = rec {
-        modDirVersion = "${version}-${suffix}";
-        suffix = "xanmod1";
-        version = "6.11.3";
-        src = pkgs.fetchFromGitHub {
-          owner = "xanmod";
-          repo = "linux";
-          rev = modDirVersion;
-          hash = "sha256-Pb/7XToBFZstI1DFgWg4a2HiRuSzA9rEsMBLb6fRvYc=";
-        };
-      };
-    }
-  );
+  # Make NixOS use the latest Linux Kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Enable powertop analysis tool
   powerManagement.powertop.enable = true;

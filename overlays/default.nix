@@ -47,9 +47,6 @@ in {
     # ...
     # });
 
-    # Fixes upstream bug borgbase/vorta/issues/2025
-    vorta = addPatches prev.vorta [./vorta-extract.diff];
-
     # Enable DRM support in Vivaldi and make it work properly on Wayland
     vivaldi =
       (prev.vivaldi.overrideAttrs (oldAttrs: {

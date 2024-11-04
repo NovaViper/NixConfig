@@ -3,9 +3,7 @@
 {pkgs ? import <nixpkgs> {}, ...}: {
   # example = pkgs.callPackage ./example { };
   alvr = pkgs.callPackage ./alvr {};
-  oh-my-posh = pkgs.callPackage ./oh-my-posh {};
   plasma-panel-spacer-extended = pkgs.callPackage ./plasma-panel-spacer-extended {};
   plasma-window-title-applet = pkgs.callPackage ./plasma-window-title-applet {};
   restart-plasma = pkgs.callPackage ./restart-plasma {};
-  libinput-gestures = pkgs.callPackage ./libinput-gestures {}; # Fix erroneous link
 }
