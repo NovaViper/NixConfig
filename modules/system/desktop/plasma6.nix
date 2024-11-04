@@ -80,7 +80,10 @@ in
       # Makes Plasma Browser Integration work properly for Vivaldi
       xdg.configFile."vivaldi/NativeMessagingHosts/org.kde.plasma.browser_integration.json" = lib.mkIf hm-config.programs.vivaldi.enable {source = "${pkgs.kdePackages.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";};
 
-      services.kdeconnect.enable = true;
+      services.kdeconnect = {
+        enable = true;
+        package = pkgs.kdePackages.kdeconnect-kde;
+      };
 
       xdg.mimeApps = {
         defaultApplications."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
