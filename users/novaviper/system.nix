@@ -27,6 +27,7 @@ in {
       "git"
       "gamemode"
     ];
+    openssh.authorizedKeys.keys = lib.singleton "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICkow+KpToZkMbhpqTztf0Hz/OWP/lWPCv47QNtZc6TaAAAADnNzaDpuaXhidWlsZGVy";
     hashedPasswordFile = agenixHashedPasswordFile;
   };
 

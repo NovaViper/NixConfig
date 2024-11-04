@@ -100,7 +100,7 @@ in
         nix = "noglob nix";
         nom = "noglob nom";
         nixos-remote = "noglob nixos-remote";
-        nixos-rebuild = "noglob sudo nixos-rebuild";
+        nixos-rebuild = "noglob nixos-rebuild";
         nh = "noglob nh";
 
         # Append HISTFILE before running autin import to make it work properly

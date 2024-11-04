@@ -59,7 +59,7 @@
       nix-path = ["nixpkgs=${pkgs.path}"];
 
       # Make root and any user in the wheel group trusted
-      trusted-users = ["root" "@wheel"];
+      trusted-users = ["@wheel"];
 
       substituters = [
         "https://nix-community.cachix.org"

@@ -82,9 +82,8 @@
       };
     };
     */
-
-    # Set IR blaster device
     /*
+    # Set IR blaster device
       linux-enable-ir-emitter.device = "video2";
 
     # Configure Howdy
