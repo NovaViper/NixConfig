@@ -79,5 +79,7 @@
     };
   };
 
+  environment.variables.NIX_SSHOPTS = "-t";
+
   documentation.nixos.enable = false; # Apparently speeds up rebuild time
 }

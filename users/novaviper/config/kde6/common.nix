@@ -5,6 +5,8 @@
 }: {
   programs.plasma = {
     enable = true;
+    session.general.askForConfirmationOnLogout = true;
+    session.sessionRestore.restoreOpenApplicationsOnLogin = "startWithEmptySession";
     kwin = {
       titlebarButtons = {
         left = ["close" "maximize" "minimize"];
@@ -18,7 +20,6 @@
       command = "${pkgs.restart-plasma}/bin/restart-plasma";
     };
     configFile = {
-      ksmserverrc.General.loginMode = "restoreSavedSession"; # Force KDE to launch apps when a session was manually saved
       kdeglobals = let
         # Auto switch terminal application desktop file
         terminal =

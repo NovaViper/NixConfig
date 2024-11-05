@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  self,
   ...
 }: let
   desktopW = config.services.desktopManager;
@@ -38,6 +39,30 @@ in {
 
   hm = {
     programs.ssh.enable = true;
+
+    # Add machines delcared in our outputs to be have ssh hosts so we can use remote builds!
+    programs.ssh.matchBlocks = let
+      nixosConfigs = builtins.attrNames self.outputs.nixosConfigurations;
+      homeConfigs = map (n: lib.last (lib.splitString "@" n)) (builtins.attrNames self.outputs.homeConfigurations);
+      hostNames =
+        (attrs:
+          builtins.filter (name: (name != "live-image" && name != "iso"))
+          (lib.unique attrs))
+        nixosConfigs
+        ++ homeConfigs;
+      matchBlocksForHosts = host: [
+        {
+          name = host;
+          value = {
+            hostname = "${host}.local";
+            port = 22;
+            identityFile = "${config.hm.home.homeDirectory}/.ssh/id_ed25519_sk_rk_nixbuilder";
+            extraOptions.RequestTTY = "Force";
+          };
+        }
+      ];
+    in
+      builtins.listToAttrs (lib.flatten (map matchBlocksForHosts hostNames));
 
     # NOTE https://github.com/nix-community/home-manager/issues/322#issuecomment-1856128020
     home.file.".ssh/config" = {

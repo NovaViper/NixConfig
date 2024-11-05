@@ -20,6 +20,7 @@
       ### Hardware
       "bluetooth"
       "hardware-accel"
+      #"howdy"
 
       ### Base Configs
       "systemd-boot"
@@ -57,10 +58,12 @@
   hardware.sensor.iio.enable = true;
 
   # Apply configs
-  system.activationScripts.copySysConfigs = ''
-    mkdir -p /var/lib/linux-enable-ir-emitter
-    if [ -z "$(ls -A /var/lib/linux-enable-ir-emitter)" ]; then
-       cp ${builtins.readFile ./config/ir-emitter-driver.txt} /var/lib/linux-enable-ir-emitter/pci-0000:00:14.0-usb-0:6:1.2-video-index0_emitter0.driver
+  system.activationScripts.copySysConfigs = let
+    folder = "/etc/linux-enable-ir-emitter";
+  in ''
+    mkdir -p ${folder}
+    if [ -z "$(ls -A ${folder})" ]; then
+       cp ${import ./config/ir-emitter-driver.nix {inherit pkgs;}} ${folder}/pci-0000:00:14.0-usb-0:6:1.2-video-index0_emitter0.driver
     fi
   '';
 
@@ -71,20 +74,23 @@
     # Enable Wacom touch drivers
     xserver.wacom.enable = true;
 
+    /*
     # Fingerprint reader: login and unlock with fingerprint (if you add one with `fprintd-enroll`)
     # The driver doesn't work so far
-    /*
     fprintd = {
       enable = true;
-      tod = {
-        enable = true;
-        driver = pkgs.libfprint-2-tod1-goodix;
-      };
+
+      tod.enable = true;
+      tod.driver = pkgs.libfprint-2-tod1-goodix;
     };
+
+    udev.packages = with pkgs; [
+      libfprint-goodixtls-55x4
+    ];
     */
     /*
     # Set IR blaster device
-      linux-enable-ir-emitter.device = "video2";
+    linux-enable-ir-emitter.device = "video2";
 
     # Configure Howdy
     howdy.settings = {
