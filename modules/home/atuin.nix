@@ -12,7 +12,7 @@ lib.utilMods.mkModule config "atuin" {
     sync_frequency = "10m";
     search_mode = "fuzzy";
     inline_height = 16;
-    keymap_mode = "vim-insert";
+    keymap_mode = "auto";
     keymap_cursor = {
       emacs = "blink-block";
       vim_insert = "blink-bar";
