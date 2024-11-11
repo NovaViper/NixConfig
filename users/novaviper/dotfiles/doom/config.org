@@ -711,9 +711,9 @@ Add keybindings for zoxide compatibility
 *** Justl/Just-mode Integration
 Add keybindings for just-mode
 #+begin_src emacs-lisp
-(use-package! justl
-  :config
-  (map! :n "e" 'justl-exec-recipe))
+(map! :leader
+      (:prefix ("j" . "just")
+       :desc "Execute just recipe" "e" #'justl-exec-recipe))
 #+end_src
 
 *** Ediff Extras

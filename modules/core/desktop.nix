@@ -9,7 +9,7 @@
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
     GDK_BACKEND = "wayland,x11";
-    SDL_VIDEODRIVER = "x11";
+    SDL_VIDEODRIVER = "wayland,x11,windows";
     CLUTTER_BACKEND = "wayland";
     # QT_QPA_PLATFORM = "wayland";
     # LIBSEAT_BACKEND = "logind";

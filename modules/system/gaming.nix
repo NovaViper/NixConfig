@@ -27,30 +27,22 @@ in
     # VR
     (lib.mkIf cfg.vr.enable {
       environment.systemPackages = with pkgs; [
-        android-tools
-        android-udev-rules
         BeatSaberModManager
         helvum
+        # For the Quest headsets
+        android-tools
+        android-udev-rules
       ];
 
-      # Enable ALVR module on NixOS
-      programs.alvr.enable = true;
-      programs.alvr.openFirewall = true;
-
-      # Fixes issue with SteamVR not starting
-      system.activationScripts.fixSteamVR = "${pkgs.libcap}/bin/setcap CAP_SYS_NICE+ep /home/${username}/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher";
-
-      hm.xdg.desktopEntries = {
-        "BeatSaberModManager" = {
-          name = "Beat Saber ModManager";
-          genericName = "Game";
-          exec = "BeatSaberModManager";
-          icon = "${pkgs.BeatSaberModManager}/lib/BeatSaberModManager/Resources/Icons/Icon.ico";
-          type = "Application";
-          categories = ["Game"];
-          startupNotify = true;
-          comment = "Beat Saber ModManager is a mod manager for Beat Saber";
-        };
+      hm.xdg.desktopEntries."BeatSaberModManager" = {
+        name = "Beat Saber ModManager";
+        genericName = "Game";
+        exec = "BeatSaberModManager";
+        icon = "${pkgs.BeatSaberModManager}/lib/BeatSaberModManager/Resources/Icons/Icon.ico";
+        type = "Application";
+        categories = ["Game"];
+        startupNotify = true;
+        comment = "Beat Saber ModManager is a mod manager for Beat Saber";
       };
     })
 
@@ -62,7 +54,6 @@ in
       # Fixes SteamLink/Remote play crashing
       environment.systemPackages = with pkgs; [protontricks keyutils goverlay ludusavi libcanberra protonup-qt];
 
-      environment.sessionVariables.ICED_BACKEND = "tiny-skia";
       hardware.graphics = {
         enable = true;
         enable32Bit = true;
