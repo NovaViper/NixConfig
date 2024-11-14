@@ -19,7 +19,7 @@ lib.utilMods.mkModule config "hardware-accel" {
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [libva-utils libvdpau-va-gl vulkan-validation-layers vulkan-loader] ++ lib.optionals config.modules.gaming.vr.enable [monado-vulkan-layers];
+    extraPackages = with pkgs; [libva-utils libvdpau-va-gl vulkan-validation-layers vulkan-loader];
     extraPackages32 = with pkgs; [libva-utils libvdpau-va-gl vulkan-validation-layers vulkan-loader];
   };
 }
