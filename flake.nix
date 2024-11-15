@@ -43,7 +43,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     rebuild-but-less-dumb = {
-      url = "github:llakala/rebuild-but-less-dumb/main";
+      url = "github:llakala/rebuild-but-less-dumb";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

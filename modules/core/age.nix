@@ -28,9 +28,8 @@ in
       })
 
       {
-        home-manager.sharedModules = with inputs; [
-          agenix.homeManagerModules.default
-        ];
+        home-manager.sharedModules = with inputs; lib.singleton agenix.homeManagerModules.default;
+
         environment.systemPackages = with pkgs; [agenix age age-plugin-yubikey];
 
         age.ageBin = "PATH=$PATH:${lib.makeBinPath [pkgs.age-plugin-yubikey]} ${pkgs.age}/bin/age";

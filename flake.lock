@@ -559,7 +559,6 @@
       },
       "original": {
         "owner": "llakala",
-        "ref": "main",
         "repo": "rebuild-but-less-dumb",
         "type": "github"
       }

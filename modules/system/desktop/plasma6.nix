@@ -47,6 +47,7 @@ in
         ffmpegthumbnailer # for video thumbnails
         linuxquota # for plasma-disks
         gnuplot # for krunner to display graphs
+        libdbusmenu # For global menu support with electron apps
       ]
       ++ (with kdePackages; [
         # Apps

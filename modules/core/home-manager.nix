@@ -41,7 +41,6 @@ in
       backupFileExtension = ".bak";
       sharedModules = with inputs;
         [
-          #agenix.homeManagerModules.default
           nix-index-database.hmModules.nix-index
           plasma-manager.homeManagerModules.plasma-manager
           #stylix.homeManagerModules.stylix
