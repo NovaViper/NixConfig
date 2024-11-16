@@ -52,7 +52,7 @@ in
       hardware.steam-hardware.enable = true;
 
       # Fixes SteamLink/Remote play crashing
-      environment.systemPackages = with pkgs; [protontricks keyutils goverlay ludusavi libcanberra protonup-qt];
+      environment.systemPackages = with pkgs; [protontricks keyutils goverlay ludusavi libcanberra protonup-qt pkgsCross.mingw32.wine-discord-ipc-bridge];
 
       hardware.graphics = {
         enable = true;

@@ -121,7 +121,7 @@ in {
     defaultTextEditor = "doom-emacs";
   };
 
-  hm.home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon];
+  hm.home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh];
 
   hm.stylix.targets = lib.mkForce {
     # Enable 256 colors for kitty
@@ -130,6 +130,7 @@ in {
     tmux.enable = false;
     # Disable stylix's KDE module, very broken currently
     kde.enable = false;
+    emacs.enable = false;
   };
 
   hm.age.secrets."borg_token" = lib.secrets.mkSecretFile {

@@ -128,6 +128,7 @@
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
     #nixosModules = import ./modules/nixos;
+
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
     #homeManagerModules = import ./modules/home-manager;
@@ -138,6 +139,7 @@
     # Your custom packages
     # Acessible through 'nix build', 'nix shell', etc
     packages = lib.forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+
     # Devshell for bootstrapping
     # Acessible through 'nix develop' or 'nix-shell' (legacy)
     devShells = lib.forEachSystem (pkgs: import ./shell.nix {inherit pkgs checks;});
