@@ -8,24 +8,18 @@
 in {
   options.variables = {
     defaultTerminal = lib.mkOption {
-      default =
-        if osConfig.modules.desktop.enable
-        then (throw "defaultTerminal not set")
-        else null;
-      type = lib.types.str;
+      default = null;
+      type = lib.types.nullOr lib.types.str;
     };
 
     defaultBrowser = lib.mkOption {
-      default =
-        if osConfig.modules.desktop.enable
-        then (throw "defaultBrowser not set")
-        else null;
-      type = lib.types.str;
+      default = null;
+      type = lib.types.nullOr lib.types.str;
     };
 
     defaultTextEditor = lib.mkOption {
-      default = "";
-      type = lib.types.str;
+      default = null;
+      type = lib.types.nullOr lib.types.str;
     };
   };
 
@@ -43,5 +37,19 @@ in {
     (lib.mkIf (cfg.defaultTextEditor != null) {
       modules.${cfg.defaultTextEditor}.enable = true;
     })
+
+    {
+      assertions = [
+        {
+          assertion = osConfig.modules.desktop.enable && cfg.defaultTerminal != null;
+          message = "variables.defaultTerminal must be defined when modules.desktop is enabled!";
+        }
+
+        {
+          assertion = osConfig.modules.desktop.enable && cfg.defaultBrowser != null;
+          message = "variables.defaultBrowser must be defined when modules.desktop is enabled!";
+        }
+      ];
+    }
   ];
 }

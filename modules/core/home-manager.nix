@@ -50,12 +50,9 @@ in
         ++ lib.utils.concatImports {
           paths = [
             ../home
-            ../../users/${username}/config
+            (lib.fileset.maybeMissing ../../users/${username}/config)
           ];
         };
-
-      # Import specific stuff for the user
-      users.${username} = import ../../users/${username}/${config.networking.hostName}.nix;
     };
 
     hm = {

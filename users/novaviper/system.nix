@@ -31,6 +31,9 @@ in {
     hashedPasswordFile = agenixHashedPasswordFile;
   };
 
+  # Import specific stuff for the user
+  home-manager.users.${username} = import ../../users/${username}/${config.networking.hostName}.nix;
+
   time.timeZone = lib.mkForce "America/Chicago";
 
   # User Secrets
@@ -121,7 +124,7 @@ in {
     defaultTextEditor = "doom-emacs";
   };
 
-  hm.home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh];
+  hm.home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh digikam];
 
   hm.stylix.targets = lib.mkForce {
     # Enable 256 colors for kitty
