@@ -6,7 +6,8 @@
 }: let
   internals = import ./utils.nix {};
 in
-  lib.utilMods.mkModule config "oh-my-posh" {
+  {imports = [./snippet.nix];}
+  // lib.utilMods.mkModule config "oh-my-posh" {
     programs.oh-my-posh.enable = true;
 
     programs.oh-my-posh.settings = {

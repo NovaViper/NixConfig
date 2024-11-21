@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }: let
   inherit (lib) utilMods mkIf;
@@ -20,6 +19,14 @@ in
     # Enable accompanying modules
     hm.modules.atuin.enable = true;
     hm.modules.oh-my-posh.enable = true;
+
+    hm.xdg.configFile = {
+      "zsh/functions" = lib.dots.mkDotsSymlink {
+        config = hm-config;
+        user = hm-config.home.username;
+        source = "zsh/functions";
+      };
+    };
 
     # The shell itself
     hm.programs.zsh = {
@@ -61,6 +68,13 @@ in
         ### Pyenv command
         if command -v pyenv 1>/dev/null 2>&1; then
           eval "$(pyenv init -)"
+        fi
+
+        # Check if sudo-command-line function is available
+        if typeset -f sudo-command-line > /dev/null; then
+          zle -N sudo-command-line
+          bindkey "^B" sudo-command-line
+          bindkey -M vicmd '^B' sudo-command-line
         fi
 
         # set descriptions format to enable group support
@@ -112,18 +126,17 @@ in
         enable = true;
         useFriendlyNames = true;
         plugins = [
+          # For ohmyzsh plugins
+          "ohmyzsh/ohmyzsh path:lib"
           #Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
           "jeffreytse/zsh-vi-mode"
 
           # Fish-like Plugins
+          "hlissner/zsh-autopair"
           "mattmc3/zfunctions"
           "Aloxaf/fzf-tab"
           "Freed-Wu/fzf-tab-source"
           "MichaelAquilina/zsh-auto-notify"
-
-          # Sudo escape
-          "ohmyzsh/ohmyzsh path:lib"
-          "ohmyzsh/ohmyzsh path:plugins/sudo"
 
           # Tmux integration
           (mkIf hm-config.programs.tmux.enable

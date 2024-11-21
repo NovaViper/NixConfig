@@ -1,0 +1,20 @@
+##? Add sudo to beginning of commands, call via keybinding
+
+###
+### WARNING: Do not add a 'function sudo-command-line() {}' wrapper for autoloads.
+###
+[[ -z $BUFFER ]] && zle up-history
+if [[ $BUFFER == sudo\ * ]]; then
+    LBUFFER="${LBUFFER#sudo }"
+elif [[ $BUFFER == $EDITOR\ * ]]; then
+    LBUFFER="${LBUFFER#$EDITOR }"
+    LBUFFER="sudoedit $LBUFFER"
+elif [[ $BUFFER == vim\ * ]]; then
+    LBUFFER="${LBUFFER#vim }"
+    LBUFFER="sudoedit $LBUFFER"
+elif [[ $BUFFER == sudoedit\ * ]]; then
+    LBUFFER="${LBUFFER#sudoedit }"
+    LBUFFER="$EDITOR $LBUFFER"
+else
+    LBUFFER="sudo $LBUFFER"
+fi

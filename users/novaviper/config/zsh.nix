@@ -7,19 +7,6 @@
 }:
 with lib; {
   xdg.configFile = mkMerge [
-    (mkIf osConfig.modules.zsh.enable {
-      "zsh/.p10k.zsh" = dots.mkDotsSymlink {
-        inherit config;
-        user = config.home.username;
-        source = "zsh/.p10k.zsh";
-      };
-      "zsh/functions" = dots.mkDotsSymlink {
-        inherit config;
-        user = config.home.username;
-        source = "zsh/functions";
-      };
-    })
-
     (mkIf config.modules.tmux.enable {
       "tmuxp/session.yaml" = dots.mkDotsSymlink {
         inherit config;

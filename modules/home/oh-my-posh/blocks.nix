@@ -81,7 +81,7 @@
           "{{if gt .Code 0}}1{{end}}"
           "{{if eq .Code 0}}10{{end}}"
         ];
-        template = "{{.Var.PromptChar}}";
+        template = "{{ if .Env.POSH_VI_MODE }}{{ .Env.POSH_VI_MODE }}{{ else }}{{.Var.PromptChar}}{{ end }}";
       })
     ];
   }
