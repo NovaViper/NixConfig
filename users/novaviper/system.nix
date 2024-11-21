@@ -7,6 +7,8 @@
   ...
 }: let
   agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${username}-password".path;
+  c = config.lib.stylix.colors.withHashtag;
+  f = config.stylix.fonts;
 in {
   variables.user = {
     fullName = "Nova Leary";
@@ -116,6 +118,47 @@ in {
       terminal = 1.0;
     };
   };
+
+  services.displayManager.sddm.theme = "sddm-astronaut-theme";
+  environment.systemPackages = with pkgs; [
+    (sddm-astronaut.override {
+      themeConfig = {
+        # [General]
+        CustomBackground = true;
+        Background = config.stylix.image;
+        DimBackgroundImage = "0.0";
+
+        # [Blur Settings]
+        FullBlur = false;
+        PartialBlur = true;
+        BlurRadius = 80;
+
+        # [Design Customizations]
+        ## Form Customizations
+        HaveFormBackground = true;
+        FormPosition = "left";
+
+        Font = f.sansSerif.name;
+        FontSize = f.sizes.applications;
+
+        ## Colors
+        MainColor = c.base05;
+        AccentColor = c.base0F;
+        # Change password placeholder colors
+        placeholderColor = c.base0F;
+        IconColor = c.base05;
+        # Make form use a darker color
+        BackgroundColor = c.base00;
+
+        # [Locale]
+        HourFormat = "\"hh:mm A\"";
+        DateFormat = "\"dddd, MMMM d, yyyy\"";
+
+        # [Interface Behavior]
+        #ForceHideVirtualKeyboardButton = "true";
+      };
+    })
+  ];
 
   # Modules for users live under ../../modules/home
   hm.variables = {
