@@ -86,7 +86,7 @@ in
       # (De)activate wanted systemd units when changing configs
       systemd.user.startServices = "sd-switch";
 
-      # Enable HTML help page
+      # Disable HTML help page
       manual.html.enable = lib.mkForce false;
 
       news.display = "silent";

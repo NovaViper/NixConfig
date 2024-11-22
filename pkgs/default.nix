@@ -2,6 +2,7 @@
 # You can build them using 'nix build .#example'
 {pkgs ? import <nixpkgs> {}, ...}: {
   # example = pkgs.callPackage ./example { };
+  # TODO: Remove when https://github.com/NixOS/nixpkgs/pull/356596 is merged
   digikam = pkgs.callPackage ./digikam {};
   plasma-panel-spacer-extended = pkgs.callPackage ./plasma-panel-spacer-extended {};
   restart-plasma = pkgs.callPackage ./restart-plasma {};
