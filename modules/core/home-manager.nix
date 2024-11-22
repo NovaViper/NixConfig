@@ -87,7 +87,7 @@ in
       systemd.user.startServices = "sd-switch";
 
       # Enable HTML help page
-      manual.html.enable = true;
+      manual.html.enable = lib.mkForce false;
 
       news.display = "silent";
 
