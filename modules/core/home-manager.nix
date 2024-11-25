@@ -28,6 +28,9 @@ in
       home-manager.nixosModules.home-manager
       # Let us use hm as shorthand for home-manager config
       (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" username])
+      (lib.mkAliasOptionModule ["home"] ["hm" "home"])
+      (lib.mkAliasOptionModule ["create" "configFile"] ["hm" "xdg" "configFile"])
+      (lib.mkAliasOptionModule ["create" "dataFile"] ["hm" "xdg" "dataFile"])
     ];
   }
   // lib.utilMods.mkEnabledModule config "core.homeManager" {
@@ -43,7 +46,6 @@ in
         [
           nix-index-database.hmModules.nix-index
           plasma-manager.homeManagerModules.plasma-manager
-          #stylix.homeManagerModules.stylix
         ]
         # Import modules specific and user configs for home-manager
         # TODO: Maybe make ./config in users be available to NixOS too and just pass any Home-Manager configs via hm?
@@ -66,23 +68,6 @@ in
         gpg.enable = lib.mkDefault true;
       };
 
-      home = {
-        inherit username stateVersion;
-        inherit (config.variables.user) homeDirectory;
-        preferXdgDirectories = true;
-
-        sessionVariables = {
-          FLAKE = "${hm-config.home.homeDirectory}/Documents/NixConfig";
-          XDG_BIN_HOME = "${hm-config.home.homeDirectory}/.local/bin";
-
-          ANDROID_USER_HOME = "${hm-config.xdg.dataHome}/android";
-          CUDA_CACHE_PATH = "${hm-config.xdg.cacheHome}/nv";
-          TLDR_CACHE_DIR = "${hm-config.xdg.cacheHome}/tldr";
-        };
-        sessionPath = ["${hm-config.home.sessionVariables.XDG_BIN_HOME}"];
-        shellAliases.wget = ''wget --hsts-file="${hm-config.xdg.dataHome}/wget-hsts"'';
-      };
-
       # (De)activate wanted systemd units when changing configs
       systemd.user.startServices = "sd-switch";
 
@@ -100,5 +85,22 @@ in
         enable = true;
         gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
       };
+    };
+
+    home = {
+      inherit username stateVersion;
+      inherit (config.variables.user) homeDirectory;
+      preferXdgDirectories = true;
+
+      sessionVariables = {
+        FLAKE = "${hm-config.home.homeDirectory}/Documents/NixConfig";
+        XDG_BIN_HOME = "${hm-config.home.homeDirectory}/.local/bin";
+
+        ANDROID_USER_HOME = "${hm-config.xdg.dataHome}/android";
+        CUDA_CACHE_PATH = "${hm-config.xdg.cacheHome}/nv";
+        TLDR_CACHE_DIR = "${hm-config.xdg.cacheHome}/tldr";
+      };
+      sessionPath = ["${hm-config.home.sessionVariables.XDG_BIN_HOME}"];
+      shellAliases.wget = ''wget --hsts-file="${hm-config.xdg.dataHome}/wget-hsts"'';
     };
   }

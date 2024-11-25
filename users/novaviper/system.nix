@@ -33,9 +33,6 @@ in {
     hashedPasswordFile = agenixHashedPasswordFile;
   };
 
-  # Import specific stuff for the user
-  home-manager.users.${username} = import ../../users/${username}/${config.networking.hostName}.nix;
-
   time.timeZone = lib.mkForce "America/Chicago";
 
   # User Secrets

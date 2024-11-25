@@ -23,14 +23,16 @@ flake @ {
             paths = [
               ../modules/core
 
-              ../modules/system
+              ../modules/features
 
               ../users/${username}/system.nix
+              (lib.fileset.maybeMissing ../users/${username}/hosts/${hostname}.nix)
+
               ../hosts/${hostname}/configuration.nix
               ../hosts/${hostname}/hardware-configuration.nix
               #../hosts/${hostname}/hostVars.nix
             ];
-            filterDefault = false;
+            #filterDefault = false;
           };
     };
 in

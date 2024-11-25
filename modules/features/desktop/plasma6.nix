@@ -68,27 +68,25 @@ in
         sddm-kcm # Add KCM for sddm
       ]);
 
-    hm = {
-      xdg.portal = {
-        enable = true;
-        configPackages = with pkgs; lib.mkDefault [kdePackages.xdg-desktop-portal-kde];
-        extraPortals = with pkgs; [xdg-desktop-portal-gtk];
-      };
-
-      # Enable native messaging host for Firefox/Firefox forks
-      programs.firefox.nativeMessagingHosts = with pkgs; [kdePackages.plasma-browser-integration];
-
-      # Makes Plasma Browser Integration work properly for Vivaldi
-      xdg.configFile."vivaldi/NativeMessagingHosts/org.kde.plasma.browser_integration.json" = lib.mkIf hm-config.programs.vivaldi.enable {source = "${pkgs.kdePackages.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";};
-
-      services.kdeconnect = {
-        enable = true;
-        package = pkgs.kdePackages.kdeconnect-kde;
-      };
-
-      xdg.mimeApps = {
-        defaultApplications."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
-        associations.added."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
-      };
+    hm.xdg.portal = {
+      enable = true;
+      configPackages = with pkgs; lib.mkDefault [kdePackages.xdg-desktop-portal-kde];
+      extraPortals = with pkgs; [xdg-desktop-portal-gtk];
     };
+
+    # Enable native messaging host for Firefox/Firefox forks
+    hm.programs.firefox.nativeMessagingHosts = with pkgs; [kdePackages.plasma-browser-integration];
+
+    hm.services.kdeconnect = {
+      enable = true;
+      package = pkgs.kdePackages.kdeconnect-kde;
+    };
+
+    hm.xdg.mimeApps = {
+      defaultApplications."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
+      associations.added."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
+    };
+
+    # Makes Plasma Browser Integration work properly for Vivaldi
+    create.configFile."vivaldi/NativeMessagingHosts/org.kde.plasma.browser_integration.json" = lib.mkIf hm-config.programs.vivaldi.enable {source = "${pkgs.kdePackages.plasma-browser-integration}/etc/chromium/native-messaging-hosts/org.kde.plasma.browser_integration.json";};
   }

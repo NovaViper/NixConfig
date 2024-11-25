@@ -34,8 +34,8 @@ in
     hardware.graphics.extraPackages = with pkgs; [monado-vulkan-layers];
 
     # From https://wiki.nixos.org/wiki/VR#Monado and https://wiki.nixos.org/wiki/VR#WiVRn
-    hm.xdg.configFile."openxr/1/active_runtime.json".source = "${pkgs.wivrn}/share/openxr/1/openxr_wivrn.json";
-    hm.xdg.configFile."openvr/openvrpaths.vrpath".text = ''
+    create.configFile."openxr/1/active_runtime.json".source = "${pkgs.wivrn}/share/openxr/1/openxr_wivrn.json";
+    create.configFile."openvr/openvrpaths.vrpath".text = ''
       {
         "config" :
         [

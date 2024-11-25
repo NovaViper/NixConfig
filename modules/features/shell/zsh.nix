@@ -20,7 +20,7 @@ in
     hm.modules.atuin.enable = true;
     hm.modules.oh-my-posh.enable = true;
 
-    hm.xdg.configFile = {
+    create.configFile = {
       "zsh/functions" = lib.dots.mkDotsSymlink {
         config = hm-config;
         user = hm-config.home.username;
