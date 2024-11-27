@@ -1,13 +1,14 @@
 {
   config,
-  osConfig,
   lib,
   ...
-}: {
-  xdg.configFile = lib.mkIf osConfig.modules.alvr.enable {
+}: let
+  hm-config = config.hm;
+in {
+  create.configFile = lib.mkIf config.modules.alvr.enable {
     "alvr/session.json" = lib.dots.mkDotsSymlink {
-      inherit config;
-      user = config.home.username;
+      config = hm-config;
+      user = hm-config.home.username;
       source = "alvr/session.json";
     };
   };

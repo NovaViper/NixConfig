@@ -6,15 +6,19 @@
   inputs,
   ...
 }: let
+  hm-config = config.hm;
   agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${username}-password".path;
-  c = config.lib.stylix.colors.withHashtag;
-  f = config.stylix.fonts;
 in {
-  variables.user = {
-    fullName = "Nova Leary";
-    emailAddress = "coder.nova99@mailbox.org";
+  variables = {
+    defaultTerminal = "kitty";
+    defaultBrowser = "floorp";
+    defaultTextEditor = "doom-emacs";
+    user = {
+      fullName = "Nova Leary";
+      emailAddress = "coder.nova99@mailbox.org";
+    };
+    userIdentityPaths = lib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
   };
-  variables.userIdentityPaths = lib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
 
   users.users.${username} = {
     shell = pkgs.zsh;
@@ -46,9 +50,13 @@ in {
 
   programs.localsend.enable = true;
 
-  # Modules for system live under ../../modules/system
   modules = lib.utils.enable [
-    # Terminal
+    # Core
+    "git"
+    "doom-emacs"
+    "password-store"
+
+    # Shell
     "zsh"
 
     # Hardware
@@ -56,141 +64,11 @@ in {
 
     # Services
     "syncthing"
-  ];
-
-  stylix = {
-    enable = true;
-    polarity = "dark";
-    base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/dracula.yaml";
-    image = "${inputs.wallpapers}/purple-mountains-ai.png";
-    override = {
-      scheme = "BetterDracula";
-      base00 = "282a36";
-      base01 = "363447";
-      base02 = "44475a";
-      base03 = "6272a4";
-      base04 = "9ea8c7";
-      base05 = "f8f8f2";
-      base06 = "f0f1f4";
-      base07 = "ffffff";
-      base08 = "ff5555";
-      base09 = "ffb86c";
-      base0A = "f1fa8c";
-      base0B = "50fa7b";
-      base0C = "8be9fd";
-      base0D = "80bfff";
-      base0E = "ff79c6";
-      base0F = "bd93f9";
-    };
-    cursor = {
-      package = pkgs.capitaine-cursors;
-      name = "capitaine-cursors-white";
-      size = 24;
-    };
-    fonts = let
-      sansSerif = {
-        package = pkgs.nerdfonts;
-        name = "NotoSans Nerd Font";
-      };
-      serif = sansSerif;
-      monospace = {
-        package = pkgs.nerdfonts;
-        name = "0xProto Nerd Font Mono";
-      };
-      emoji = {
-        package = pkgs.noto-fonts-emoji;
-        name = "Noto Color Emoji";
-      };
-      sizes = {
-        applications = 10;
-        desktop = 10;
-        popups = 10;
-        terminal = 11;
-      };
-    in {inherit sansSerif serif monospace emoji sizes;};
-    opacity = {
-      applications = 1.0;
-      desktop = 1.0;
-      popups = 1.0;
-      terminal = 1.0;
-    };
-  };
-
-  services.displayManager.sddm.theme = "sddm-astronaut-theme";
-  environment.systemPackages = with pkgs; [
-    (sddm-astronaut.override {
-      themeConfig = {
-        # [General]
-        CustomBackground = true;
-        Background = config.stylix.image;
-        DimBackgroundImage = "0.0";
-
-        # [Blur Settings]
-        FullBlur = false;
-        PartialBlur = true;
-        BlurRadius = 80;
-
-        # [Design Customizations]
-        ## Form Customizations
-        HaveFormBackground = true;
-        FormPosition = "left";
-
-        Font = f.sansSerif.name;
-        FontSize = f.sizes.applications;
-
-        ## Colors
-        MainColor = c.base05;
-        AccentColor = c.base0F;
-        # Change password placeholder colors
-        placeholderColor = c.base0F;
-        IconColor = c.base05;
-        # Make form use a darker color
-        BackgroundColor = c.base00;
-
-        # [Locale]
-        HourFormat = "\"hh:mm A\"";
-        DateFormat = "\"dddd, MMMM d, yyyy\"";
-
-        # [Interface Behavior]
-        #ForceHideVirtualKeyboardButton = "true";
-      };
-    })
-  ];
-
-  # Modules for users live under ../../modules/home
-  hm.variables = {
-    defaultTerminal = "kitty";
-    defaultBrowser = "floorp";
-    defaultTextEditor = "doom-emacs";
-  };
-
-  hm.home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh digikam];
-
-  hm.stylix.targets = lib.mkForce {
-    # Enable 256 colors for kitty
-    kitty.variant256Colors = true;
-    # Causes some mismatched colors with Dracula-tmux theme
-    tmux.enable = false;
-    # Disable stylix's KDE module, very broken currently
-    kde.enable = false;
-    emacs.enable = false;
-  };
-
-  hm.age.secrets."borg_token" = lib.secrets.mkSecretFile {
-    user = username;
-    source = "borg.age";
-    destination = "${config.hm.xdg.configHome}/borg/keys/srv_dev_disk_by_uuid_5aaed6a3_d2c7_4623_b121_5ebb8d37d930_Backups";
-  };
-  hm.modules = lib.utils.enable [
-    # Core
-    "git"
-    "doom-emacs"
-    "password-store"
 
     # Terminal Utils
     "shell-utils"
     "nix"
-    "cava"
+    #"cava"
     "tmux"
     "bat"
     "btop"
@@ -210,4 +88,12 @@ in {
     "borg"
     "discord"
   ];
+
+  home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh digikam tmatrix];
+
+  hm.age.secrets."borg_token" = lib.secrets.mkSecretFile {
+    user = username;
+    source = "borg.age";
+    destination = "${hm-config.xdg.configHome}/borg/keys/srv_dev_disk_by_uuid_5aaed6a3_d2c7_4623_b121_5ebb8d37d930_Backups";
+  };
 }

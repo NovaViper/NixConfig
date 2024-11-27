@@ -11,7 +11,7 @@
   hm-config = config.hm;
   activationScript = let
     commands = builtins.concatStringsSep "\n" (
-      map (file: ''rm -fv "${file}" && echo Deleted "${file}"'') hm-config.nukeFiles
+      map (file: ''rm -fv "${file}" && echo Deleted "${file}"'') config.nukeFiles
     );
   in ''
     #!/run/current-system/sw/bin/bash
@@ -35,26 +35,17 @@ in
   }
   // lib.utilMods.mkEnabledModule config "core.homeManager" {
     # Home file nuking script that deletes stuff just before we run home-manager's activation scripts
-    system.userActivationScripts.home-conflict-file-nuker = lib.mkIf (hm-config.nukeFiles != []) activationScript;
+    system.userActivationScripts.home-conflict-file-nuker = lib.mkIf (config.nukeFiles != []) activationScript;
 
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;
       extraSpecialArgs = {inherit self inputs stateVersion hostname username;};
       backupFileExtension = ".bak";
-      sharedModules = with inputs;
-        [
-          nix-index-database.hmModules.nix-index
-          plasma-manager.homeManagerModules.plasma-manager
-        ]
-        # Import modules specific and user configs for home-manager
-        # TODO: Maybe make ./config in users be available to NixOS too and just pass any Home-Manager configs via hm?
-        ++ lib.utils.concatImports {
-          paths = [
-            ../home
-            (lib.fileset.maybeMissing ../../users/${username}/config)
-          ];
-        };
+      sharedModules = with inputs; [
+        nix-index-database.hmModules.nix-index
+        plasma-manager.homeManagerModules.plasma-manager
+      ];
     };
 
     hm = {

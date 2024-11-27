@@ -550,15 +550,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1730847040,
-        "narHash": "sha256-XBbTSOs27pe+8PHXPd+/NiGrWbDwnCxTCbG7K5Qd34E=",
+        "lastModified": 1732402759,
+        "narHash": "sha256-u4ibCwr4aORCNcSelbAuFBfqMsiMSFdnEeqlai2QKio=",
         "owner": "llakala",
         "repo": "rebuild-but-less-dumb",
-        "rev": "4b250a36428856614ac58e6083fdcd5944330e45",
+        "rev": "b4647cd5f6b9964609cb2f3efdc015555621d3ba",
         "type": "github"
       },
       "original": {
         "owner": "llakala",
+        "ref": "renameEnvVars",
         "repo": "rebuild-but-less-dumb",
         "type": "github"
       }

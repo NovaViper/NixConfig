@@ -2,8 +2,10 @@
   config,
   pkgs,
   ...
-}: {
-  programs.plasma = {
+}: let
+  hm-config = config.hm;
+in {
+  hm.programs.plasma = {
     enable = true;
     session.general.askForConfirmationOnLogout = true;
     session.sessionRestore.restoreOpenApplicationsOnLogin = "startWithEmptySession";
@@ -23,8 +25,8 @@
       kdeglobals = let
         # Auto switch terminal application desktop file
         terminal =
-          if builtins.hasAttr "TERMINAL" config.home.sessionVariables
-          then "${config.home.sessionVariables.TERMINAL}"
+          if builtins.hasAttr "TERMINAL" hm-config.home.sessionVariables
+          then "${hm-config.home.sessionVariables.TERMINAL}"
           else "org.kde.konsole";
       in {
         General.TerminalApplication = "${terminal}.destop";

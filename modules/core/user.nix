@@ -6,54 +6,104 @@
   ...
 }: let
   internals = {
-    cfg = config.variables.user;
+    cfg = config.variables;
+    cfg-user = internals.cfg.user;
     hostname = config.networking.hostName;
   };
 in {
-  options.variables.user = {
-    fullName = lib.mkOption {
-      type = lib.types.str;
-      default = "";
-      example = "John Doe";
-      description = ''
-        Your first and last name.
-      '';
+  options.variables = {
+    defaultTerminal = lib.mkOption {
+      default = null;
+      type = lib.types.nullOr lib.types.str;
     };
-    emailAddress = lib.mkOption {
-      type = lib.types.str;
-      default = "";
-      example = "johndoe@example.com";
-      description = ''
-        Your email address.
-      '';
+
+    defaultBrowser = lib.mkOption {
+      default = null;
+      type = lib.types.nullOr lib.types.str;
     };
-    homeDirectory = lib.mkOption {
-      type = lib.types.str;
-      description = ''
-        The directory for the user's folders. This should only be set if it's in a non-default location.
-      '';
-      default = "/home/${username}";
+
+    defaultTextEditor = lib.mkOption {
+      default = null;
+      type = lib.types.nullOr lib.types.str;
+    };
+
+    user = {
+      fullName = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        example = "John Doe";
+        description = ''
+          Your first and last name.
+        '';
+      };
+      emailAddress = lib.mkOption {
+        type = lib.types.str;
+        default = "";
+        example = "johndoe@example.com";
+        description = ''
+          Your email address.
+        '';
+      };
+      homeDirectory = lib.mkOption {
+        type = lib.types.str;
+        description = ''
+          The directory for the user's folders. This should only be set if it's in a non-default location.
+        '';
+        default = "/home/${username}";
+      };
     };
   };
 
-  config = {
-    #users.mutableUsers = false; # Makes it so we can only do password stuff via nixos, safer for not bricking system
+  config = lib.mkMerge [
+    # Enable defined terminal module and set it as the default TERMINAL program
+    (lib.mkIf ((lib.conds.runsDesktop config) && internals.cfg.defaultTerminal != null) {
+      home.sessionVariables.TERMINAL = internals.cfg.defaultTerminal;
 
-    users.users.${username} = {
-      isNormalUser = true;
-      description = internals.cfg.fullName;
-    };
+      modules.${internals.cfg.defaultTerminal}.enable = true;
+    })
 
-    time = {
-      hardwareClockInLocalTime = lib.mkDefault true;
-      # Set UTC as default timezone, users can override if they want to
-      timeZone = lib.mkDefault "UTC";
-    };
+    # Enable defined browser module
+    (lib.mkIf ((lib.conds.runsDesktop config) && internals.cfg.defaultBrowser != null) {
+      modules.${internals.cfg.defaultBrowser}.enable = true;
+    })
 
-    assertions = [
-      #{assertion = options.variables.user.fullName.isDefined;}
-      #{assertion = options.variables.user.emailaddress.isDefined;}
-      {assertion = options.variables.user.homeDirectory.isDefined;}
-    ];
-  };
+    # Enable defined text editor module
+    (lib.mkIf (internals.cfg.defaultTextEditor != null) {
+      modules.${internals.cfg.defaultTextEditor}.enable = true;
+    })
+
+    # Configure the user
+    {
+      # Makes it so we can only do password stuff via nixos, safer for not bricking system
+      #users.mutableUsers = false;
+
+      users.users.${username} = {
+        isNormalUser = true;
+        description = internals.cfg-user.fullName;
+      };
+
+      time = {
+        hardwareClockInLocalTime = lib.mkDefault true;
+        # Set UTC as default timezone, users can override if they want to
+        timeZone = lib.mkDefault "UTC";
+      };
+    }
+
+    {
+      assertions = [
+        #{assertion = options.variables.user.fullName.isDefined;}
+        #{assertion = options.variables.user.emailaddress.isDefined;}
+        {assertion = options.variables.user.homeDirectory.isDefined;}
+        {
+          assertion = config.modules.desktop.enable && internals.cfg.defaultTerminal != null;
+          message = "variables.defaultTerminal must be defined when modules.desktop is enabled!";
+        }
+
+        {
+          assertion = config.modules.desktop.enable && internals.cfg.defaultBrowser != null;
+          message = "variables.defaultBrowser must be defined when modules.desktop is enabled!";
+        }
+      ];
+    }
+  ];
 }

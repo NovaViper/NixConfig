@@ -3,7 +3,7 @@
   pkgs,
   ...
 }: {
-  programs.mpv = {
+  hm.programs.mpv = {
     enable = true;
     #bindings = { };
     scripts = with pkgs.mpvScripts; [

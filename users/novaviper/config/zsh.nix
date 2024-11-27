@@ -5,12 +5,14 @@
   pkgs,
   ...
 }:
-with lib; {
-  xdg.configFile = mkMerge [
+with lib; let
+  hm-config = config.hm;
+in {
+  create.configFile = mkMerge [
     (mkIf config.modules.tmux.enable {
       "tmuxp/session.yaml" = dots.mkDotsSymlink {
-        inherit config;
-        user = config.home.username;
+        config = hm-config;
+        user = hm-config.home.username;
         source = "tmuxp/session.yaml";
       };
     })
@@ -22,14 +24,14 @@ with lib; {
     dwt1-shell-color-scripts # Display cool graphics in terminal
   ];
 
-  programs.zsh = {
+  hm.programs.zsh = {
     initExtraFirst = lib.mkAfter ''
       ${
         if config.modules.tmux.enable
         then ''
           # Run Tmux on startup
           if [ -z "$TMUX" ]; then
-            ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
+            ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
             exit
           fi
         ''

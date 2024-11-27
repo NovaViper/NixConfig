@@ -27,6 +27,7 @@ flake @ {
 
               ../users/${username}/system.nix
               (lib.fileset.maybeMissing ../users/${username}/hosts/${hostname}.nix)
+              (lib.fileset.maybeMissing ../users/${username}/config)
 
               ../hosts/${hostname}/configuration.nix
               ../hosts/${hostname}/hardware-configuration.nix

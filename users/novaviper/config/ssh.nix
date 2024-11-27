@@ -1,8 +1,10 @@
-{config, ...}: {
-  programs.ssh.matchBlocks = {
+{config, ...}: let
+  hm-config = config.hm;
+in {
+  hm.programs.ssh.matchBlocks = {
     "knoxpi-*" = {
       hostname = "192.168.1.101";
-      identityFile = "${config.home.homeDirectory}/.ssh/id_ecdsa_sk_rk_knox";
+      identityFile = "${hm-config.home.homeDirectory}/.ssh/id_ecdsa_sk_rk_knox";
       port = 22;
       extraOptions = {
         RequestTTY = "yes";
@@ -11,7 +13,7 @@
     };
     "knoxpi" = {
       hostname = "192.168.1.101";
-      identityFile = "${config.home.homeDirectory}/.ssh/id_ecdsa_sk_rk_knox";
+      identityFile = "${hm-config.home.homeDirectory}/.ssh/id_ecdsa_sk_rk_knox";
       port = 22;
     };
     "printerpi" = {

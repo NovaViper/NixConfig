@@ -2,10 +2,12 @@
   config,
   pkgs,
   ...
-}: {
+}: let
+  hm-config = config.hm;
+in {
   home.packages = with pkgs; [plasma-panel-colorizer];
 
-  programs.plasma.panels = [
+  hm.programs.plasma.panels = [
     # Windows like panel at the bottom
     {
       location = "bottom";
@@ -32,8 +34,8 @@
             launchers = let
               # Auto switch terminal application desktop file
               terminal =
-                if builtins.hasAttr "TERMINAL" config.home.sessionVariables
-                then "${config.home.sessionVariables.TERMINAL}"
+                if builtins.hasAttr "TERMINAL" hm-config.home.sessionVariables
+                then "${hm-config.home.sessionVariables.TERMINAL}"
                 else "org.kde.konsole";
             in [
               "preferred://browser"

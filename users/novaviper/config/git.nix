@@ -1,5 +1,5 @@
 _: {
-  programs.git = {
+  hm.programs.git = {
     userName = "NovaViper";
     userEmail = "coder.nova99@mailbox.org";
     signing = {

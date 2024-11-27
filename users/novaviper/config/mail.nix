@@ -4,11 +4,12 @@
   pkgs,
   ...
 }: let
-  mail-secrets = (lib.secrets.evalSecret config.home.username).mail;
-  pass = "${config.programs.password-store.package}/bin/pass";
+  hm-config = config.hm;
+  mail-secrets = (lib.secrets.evalSecret hm-config.home.username).mail;
+  pass = "${hm-config.programs.password-store.package}/bin/pass";
 in {
-  accounts.email = {
-    maildirBasePath = "${config.xdg.dataHome}/mail";
+  hm.accounts.email = {
+    maildirBasePath = "${hm-config.xdg.dataHome}/mail";
     accounts.personal-1 = let
       address = "${mail-secrets.personal-1.address}";
       smtp.host = "smtp.mailbox.org";
@@ -64,23 +65,23 @@ in {
     };
   };
 
-  programs = {
+  hm.programs = {
     mu.enable = true;
     mbsync.enable = true;
   };
 
-  services.mbsync = {
+  hm.services.mbsync = {
     enable = true;
     frequency = "*:0/10";
-    postExec = "${config.programs.mu.package}/bin/mu index";
+    postExec = "${hm-config.programs.mu.package}/bin/mu index";
   };
 
   # Add check to ensure to only run mbsync when my hardware key is inserted
-  systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${lib.utils.isGpgUnlocked pkgs}"'';
+  hm.systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${lib.utils.isGpgUnlocked pkgs}"'';
 
   #home.packages = with pkgs; [qtpass];
 
-  xdg.configFile = lib.mkIf config.programs.emacs.enable {
+  create.configFile = lib.mkIf config.modules.doom-emacs.enable {
     "doom/mu4e-accounts.el".text = ''
       ;;; mu4e-accounts.el -*- lexical-binding: t; -*-
       (use-package! mu4easy

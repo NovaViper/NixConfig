@@ -17,8 +17,8 @@ in
 
     # Most of the configuration is done in Home-Manager
     # Enable accompanying modules
-    hm.modules.atuin.enable = true;
-    hm.modules.oh-my-posh.enable = true;
+    modules.atuin.enable = true;
+    modules.oh-my-posh.enable = true;
 
     create.configFile = {
       "zsh/functions" = lib.dots.mkDotsSymlink {
