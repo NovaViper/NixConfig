@@ -20,14 +20,15 @@ in
       };
 
     hm.programs.rio.enable = true;
+
     hm.programs.rio.settings = {
-      editor.program = "${hm-config.home.sessionVariables.EDITOR}";
+      editor.program = hm-config.home.sessionVariables.EDITOR;
       editor.args = [];
 
       cursor.shape = "block";
       cursor.blinking = true;
 
-      working-dir = "${config.variables.user.homeDirectory}";
+      working-dir = config.variables.user.homeDirectory;
 
       env-vars = [
         "TERM=xterm-256color"

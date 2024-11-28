@@ -29,7 +29,7 @@
     # Disable channels
     channel.enable = false;
     # Force latest nix version
-    package = pkgs.nixVersions.nix_2_23;
+    package = pkgs.nixVersions.latest;
 
     # Perform nix store optimisation weekly to maintain low disk usage
     optimise = {

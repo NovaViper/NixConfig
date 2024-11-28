@@ -43,7 +43,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     rebuild-but-less-dumb = {
-      url = "github:llakala/rebuild-but-less-dumb/renameEnvVars";
+      url = "github:llakala/rebuild-but-less-dumb";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -53,8 +53,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-    # TODO: https://github.com/NixOS/nixpkgs/pull/216245
-    nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -77,6 +75,9 @@
       url = "github:NovaViper/Wallpapers";
       flake = false;
     };
+    # Nixpkgs PRs
+    # TODO: https://github.com/NixOS/nixpkgs/pull/216245
+    nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
   };
 
   # These are all just outputs for the flake
@@ -87,6 +88,7 @@
     ...
   } @ inputs: let
     # Overlay my custom lib and home-manager lib onto the default nixpkgs lib
+    # TODO: Change the naming of this to avoid confusion
     lib =
       nixpkgs.lib.extend (
         final: prev:

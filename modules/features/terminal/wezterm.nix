@@ -29,9 +29,12 @@ in
         associations.added = defaultApplications;
       };
 
-    hm.programs.wezterm.enable = true;
-    hm.programs.wezterm.package = wezterm;
-    hm.programs.wezterm.enableZshIntegration = true;
+    hm.programs.wezterm = {
+      enable = true;
+      package = wezterm;
+      enableZshIntegration = true;
+    };
+
     /*
     programs.wezterm.extraConfig = ''
         local keybinds = require("keybinds")

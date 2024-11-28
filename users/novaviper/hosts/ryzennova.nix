@@ -8,6 +8,8 @@
 }: let
   hm-config = config.hm;
 in {
+  home.packages = with pkgs; [digikam];
+
   hm.xdg.configFile = {
     "OpenRGB/plugins/settings/effect-profiles/default".source = lib.dots.getDotsPath {
       user = username;

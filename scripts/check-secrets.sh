@@ -12,7 +12,7 @@ else
 	exit 1
 fi
 
-# FIXME: Make this better
+# HACK: Best I could find sadly, but there's gotta be a better way right?
 secrets_result=$(journalctl --no-pager --no-hostname --since "10 minutes ago" |
 	tac |
 	awk '!flag; /Starting '+${secretAgent}+' activation/{flag = 1};' |

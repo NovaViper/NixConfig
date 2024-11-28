@@ -357,11 +357,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1732482255,
-        "narHash": "sha256-GUffLwzawz5WRVfWaWCg78n/HrBJrOG7QadFY6rtV8A=",
+        "lastModified": 1732793095,
+        "narHash": "sha256-6TrknJ8CpvSSF4gviQSeD+wyj3siRcMvdBKhOXkEMKU=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "a9953635d7f34e7358d5189751110f87e3ac17da",
+        "rev": "2f7739d01080feb4549524e8f6927669b61c6ee3",
         "type": "github"
       },
       "original": {
@@ -550,16 +550,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1732402759,
-        "narHash": "sha256-u4ibCwr4aORCNcSelbAuFBfqMsiMSFdnEeqlai2QKio=",
+        "lastModified": 1732733349,
+        "narHash": "sha256-JYRMUsQTJKq7B4jcP/oE5l5hGL4x9qUdozE6Ti0OgR8=",
         "owner": "llakala",
         "repo": "rebuild-but-less-dumb",
-        "rev": "b4647cd5f6b9964609cb2f3efdc015555621d3ba",
+        "rev": "bb74afc268d47a4eb467c5cddff826e53332b9b2",
         "type": "github"
       },
       "original": {
         "owner": "llakala",
-        "ref": "renameEnvVars",
         "repo": "rebuild-but-less-dumb",
         "type": "github"
       }

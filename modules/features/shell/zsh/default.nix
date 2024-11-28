@@ -6,7 +6,10 @@
   inherit (lib) utilMods mkIf;
   hm-config = config.hm;
 in
-  utilMods.mkModule config "zsh" {
+  {
+    imports = [./zshAbbr.nix];
+  }
+  // utilMods.mkModule config "zsh" {
     # Forcibly Disable .zshenv
     home-manager.sharedModules = [{home.file.".zshenv".enable = false;}];
     programs.zsh.enable = true;
@@ -50,8 +53,6 @@ in
         ZVM_CURSOR_STYLE_ENABLED = false;
         # Prompt message for auto correct
         SPROMPT = "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [ny] ";
-        # Add more strategies to zsh-autosuggestions
-        ZSH_AUTOSUGGEST_STRATEGY = ["completion"];
       };
       initExtraFirst = ''
         # If not running interactively, don't do anything
@@ -61,6 +62,10 @@ in
       initExtra = ''
         # Append extra variables
         AUTO_NOTIFY_IGNORE+=("atuin" "yadm" "emacs" "nix-shell" "nix")
+
+        # Forcibly set ZSH_AUTOSUGGEST_STRATEGY until https://github.com/nix-community/home-manager/pull/6151 is merged
+        typeset -U ZSH_AUTOSUGGEST_STRATEGY # Remove any duplicate entries
+        ZSH_AUTOSUGGEST_STRATEGY=("atuin" "abbreviations" "completion" "''${ZSH_AUTOSUGGEST_STRATEGY[@]}")
 
         setopt beep CORRECT # Enable terminal bell and autocorrect
         autoload -U colors && colors # Enable colors
@@ -137,6 +142,7 @@ in
           "Aloxaf/fzf-tab"
           "Freed-Wu/fzf-tab-source"
           "MichaelAquilina/zsh-auto-notify"
+          "olets/zsh-autosuggestions-abbreviations-strategy"
 
           # Tmux integration
           (mkIf hm-config.programs.tmux.enable
