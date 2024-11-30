@@ -8,7 +8,7 @@
   cfg = config.modules.gaming;
   hm-config = config.hm;
 in
-  lib.utilMods.mkModule' config "gaming" {
+  lib.utilMods.mkDesktopModule' config "gaming" {
     minecraft-server.enable = lib.mkEnableOption "Enable minecraft server configs";
     vr.enable = lib.mkEnableOption "Enable virual reality configs";
   } (lib.mkMerge [

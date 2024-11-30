@@ -5,7 +5,7 @@
   username,
   ...
 }:
-lib.utilMods.mkModule config "alvr" {
+lib.utilMods.mkDesktopModule config "alvr" {
   # Make sure to enable the needed gaming and vr modules
   modules.gaming = {
     enable = true;

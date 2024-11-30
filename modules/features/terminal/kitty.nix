@@ -4,7 +4,7 @@
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "kitty" {
+lib.utilMods.mkDesktopModule config "kitty" {
   #modules.fonts.enable = true;
 
   hm.xdg.mimeApps = let

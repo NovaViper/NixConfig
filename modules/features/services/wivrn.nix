@@ -6,7 +6,7 @@
 }: let
   hm-config = config.hm;
 in
-  lib.utilMods.mkModule config "wivrn" {
+  lib.utilMods.mkDesktopModule config "wivrn" {
     # Make sure to enable the needed gaming and vr modules
     modules.gaming = {
       enable = true;

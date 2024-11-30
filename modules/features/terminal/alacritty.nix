@@ -3,7 +3,7 @@
   lib,
   ...
 }:
-lib.utilMods.mkModule config "alacritty" {
+lib.utilMods.mkDesktopModule config "alacritty" {
   hm.xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "alacritty.desktop";

@@ -95,12 +95,12 @@ in {
         #{assertion = options.variables.user.emailaddress.isDefined;}
         {assertion = options.variables.user.homeDirectory.isDefined;}
         {
-          assertion = config.modules.desktop.enable && internals.cfg.defaultTerminal != null;
+          assertion = (internals.cfg.defaultTerminal != null) -> config.modules.desktop.enable;
           message = "variables.defaultTerminal must be defined when modules.desktop is enabled!";
         }
 
         {
-          assertion = config.modules.desktop.enable && internals.cfg.defaultBrowser != null;
+          assertion = (internals.cfg.defaultBrowser != null) -> config.modules.desktop.enable;
           message = "variables.defaultBrowser must be defined when modules.desktop is enabled!";
         }
       ];

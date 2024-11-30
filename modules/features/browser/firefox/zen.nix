@@ -13,7 +13,7 @@
     };
   });
 in
-  lib.utilMods.mkModule config "zen" {
+  lib.utilMods.mkDesktopModule config "zen" {
     hm.xdg.mimeApps = let
       defaultApplications = {
         "default-web-browser" = ["zen.desktop"];

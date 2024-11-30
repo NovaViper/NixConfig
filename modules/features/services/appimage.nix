@@ -4,7 +4,7 @@
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "appimage" {
+lib.utilMods.mkDesktopModule config "appimage" {
   environment.systemPackages = with pkgs; [appimage-run];
 
   # Register AppImage files as a binary type to binfmt_misc, allowing them to be invoked directly

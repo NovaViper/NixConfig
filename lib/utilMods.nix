@@ -51,6 +51,15 @@
     # Function for creating modules.NAME modules that are enabled by default, without extra options
     mkEnabledModule = config: name: moduleConfig:
       exports.mkEnabledModule' config name {} moduleConfig;
+
+    mkDesktopModule' = config: name: extraOptions: moduleConfig:
+      internals.mkModuleWithOptions {
+        inherit config name extraOptions moduleConfig;
+        extraCondition = lib.conds.runsDesktop config;
+      };
+
+    mkDesktopModule = config: name: moduleConfig:
+      exports.mkDesktopModule' config name {} moduleConfig;
   };
 in
   exports

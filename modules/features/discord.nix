@@ -4,7 +4,7 @@
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "discord" {
+lib.utilMods.mkDesktopModule config "discord" {
   home.packages = with pkgs;
     if (lib.conds.isWayland config)
     then [discord-wayland vesktop]

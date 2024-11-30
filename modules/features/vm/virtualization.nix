@@ -4,7 +4,7 @@
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "virtualization" {
+lib.utilMods.mkDesktopModule config "virtualization" {
   # Enable dconf (System Management Tool)
   #programs.dconf.enable = true;
 

@@ -4,7 +4,7 @@
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "flatpak" {
+lib.utilMods.mkDesktopModule config "flatpak" {
   # Enable Flatpak
   services.flatpak.enable = true;
 
