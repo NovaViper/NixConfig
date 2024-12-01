@@ -5,6 +5,8 @@
 }: let
   hm-config = config.hm;
 in {
+  home.shellAliases.reload-plasma-theming = "~/.local/share/plasma-manager/run_all.sh";
+
   hm.programs.plasma = {
     enable = true;
     session.general.askForConfirmationOnLogout = true;
