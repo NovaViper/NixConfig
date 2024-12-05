@@ -52,16 +52,16 @@ in {
     };
     fonts = let
       sansSerif = {
-        package = pkgs.nerdfonts;
+        package = pkgs.nerd-fonts.noto;
         name = "NotoSans Nerd Font";
       };
       serif = sansSerif;
       monospace = {
-        package = pkgs.nerdfonts;
+        package = pkgs.nerd-fonts._0xproto;
         name = "0xProto Nerd Font Mono";
       };
       emoji = {
-        package = pkgs.noto-fonts-emoji;
+        package = pkgs.noto-fonts-color-emoji;
         name = "Noto Color Emoji";
       };
       sizes = {
