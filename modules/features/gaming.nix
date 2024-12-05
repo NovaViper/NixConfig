@@ -27,23 +27,11 @@ in
     # VR
     (lib.mkIf cfg.vr.enable {
       environment.systemPackages = with pkgs; [
-        BeatSaberModManager
         helvum
         # For the Quest headsets
         android-tools
         android-udev-rules
       ];
-
-      hm.xdg.desktopEntries."BeatSaberModManager" = {
-        name = "Beat Saber ModManager";
-        genericName = "Game";
-        exec = "BeatSaberModManager";
-        icon = "${pkgs.BeatSaberModManager}/lib/BeatSaberModManager/Resources/Icons/Icon.ico";
-        type = "Application";
-        categories = ["Game"];
-        startupNotify = true;
-        comment = "Beat Saber ModManager is a mod manager for Beat Saber";
-      };
     })
 
     # Common
