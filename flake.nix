@@ -80,6 +80,8 @@
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
     # TODO: https://github.com/NixOS/nixpkgs/pull/350069
     nixpkgs-wivrn.url = "github:PassiveLemon/nixpkgs/wivrn-update";
+    # TODO: BSManager testing
+    nixpkgs-bsmanager.url = "github:Mistyttm/nixpkgs/add-bs-manager";
   };
 
   # These are all just outputs for the flake
