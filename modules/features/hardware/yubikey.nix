@@ -28,8 +28,7 @@ lib.utilMods.mkModule config "yubikey" {
   environment.systemPackages = with pkgs;
     [yubikey-personalization yubikey-manager yubico-piv-tool]
     ++ lib.optionals config.modules.desktop.enable [
-      yubikey-personalization-gui
-      yubikey-manager-qt
+      yubioath-flutter
     ];
 
   home.shellAliases = {

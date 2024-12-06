@@ -36,9 +36,10 @@ in
 
         services.pcscd.enable = lib.mkForce true;
         # TODO: Figure out why this is broken
-        #systemd.services.pcscd.serviceConfig.ExecStart = mkForce [
-        #   "${pcscdPkg}/bin/pcscd -f -c ${pcscdCfg}"
-        #];
+        systemd.services.pcscd.serviceConfig.ExecStart = lib.mkForce [
+          ""
+          "${pcscdPkg}/bin/pcscd -f -x -c ${pcscdCfg}"
+        ];
 
         # HACK: Start pcscd before decrypting secrets
         boot.initrd.systemd = {
@@ -56,7 +57,7 @@ in
             after = ["rollback.service"];
             serviceConfig.ExecStart = [
               ""
-              "${pcscdPkg}/bin/pcscd -f -c ${pcscdCfg}"
+              "${pcscdPkg}/bin/pcscd -f -x -c ${pcscdCfg}"
             ];
           };
         };

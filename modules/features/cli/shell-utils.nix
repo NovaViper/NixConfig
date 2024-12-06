@@ -44,7 +44,7 @@ lib.utilMods.mkModule config "shell-utils" {
     enable = true;
     git = true;
     icons = "auto";
-    extraOptions = ["--color=always" "--group-directories-first" "--classify"];
+    extraOptions = ["--color=always" "--group-directories-first" "--classify=always"];
   };
 
   # Fancy 'find' replacement
@@ -57,6 +57,7 @@ lib.utilMods.mkModule config "shell-utils" {
   # Fuzzy finder
   hm.programs.fzf = {
     enable = true;
+    defaultOptions = ["--height 40%" "--tmux"];
     # Alt-C command options
     changeDirWidgetOptions = ["--preview 'eza --tree --color=always {} | head -200'"];
     # Ctrl-T command options
