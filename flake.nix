@@ -78,6 +78,8 @@
     # Nixpkgs PRs
     # TODO: https://github.com/NixOS/nixpkgs/pull/216245
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
+    # TODO: https://github.com/NixOS/nixpkgs/pull/350069
+    nixpkgs-wivrn.url = "github:PassiveLemon/nixpkgs/wivrn-update";
   };
 
   # These are all just outputs for the flake

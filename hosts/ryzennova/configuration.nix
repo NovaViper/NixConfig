@@ -86,8 +86,6 @@
   # Config for WiVRn (https://github.com/WiVRn/WiVRn/blob/master/docs/configuration.md)
   # Steam launch args: PRESSURE_VESSEL_FILESYSTEMS_RW=$XDG_RUNTIME_DIR/wivrn_comp_ipc %command%
   services.wivrn.config.json = {
-    # 0.4x foveation scaling, don't need it super high because it makes latency higher (which is bad for Beat Saber)
-    scale = 0.4;
     # 50 Mb/s, default setting and seems to be the best for Beat Saber
     bitrate = 50 * 1000000;
     encoders = [
@@ -101,6 +99,7 @@
         offset_y = 0.0;
       }
     ];
+    application = [pkgs.wlx-overlay-s];
   };
 
   environment = {

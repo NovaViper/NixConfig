@@ -39,9 +39,9 @@
       s = "source";
 
       jc = "journalctl";
-      jcf = "journalctl --follow";
-      jcu = "journalctl --user";
-      jcfu = "journalctl --follow --user";
+      jcf = "journalctl --follow -u";
+      jcu = "journalctl --user -u";
+      jcfu = "journalctl --follow --user -u";
 
       sc = "systemctl";
       scu = "systemctl --user";

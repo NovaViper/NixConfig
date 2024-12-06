@@ -90,6 +90,7 @@ in
         ANDROID_USER_HOME = "${hm-config.xdg.dataHome}/android";
         CUDA_CACHE_PATH = "${hm-config.xdg.cacheHome}/nv";
         TLDR_CACHE_DIR = "${hm-config.xdg.cacheHome}/tldr";
+        RUSTUP_HOME = "${hm-config.xdg.dataHome}/rustup";
       };
       sessionPath = ["${hm-config.home.sessionVariables.XDG_BIN_HOME}"];
       shellAliases.wget = ''wget --hsts-file="${hm-config.xdg.dataHome}/wget-hsts"'';

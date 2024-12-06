@@ -8,6 +8,33 @@ in {
   nur = self.inputs.nur.overlay;
   agenix-overlay = self.inputs.agenix.overlays.default;
 
+  # Import wivrnupdate-nixpkgs and override the wivrn package
+  overlay-wivrn = final: prev: {
+    wivrn =
+      (import self.inputs.nixpkgs-wivrn {
+        inherit (final) system;
+        config.allowUnfree = true;
+        config.cudaSupport = true;
+      })
+      .wivrn
+      .overrideAttrs (old: {
+        nativeBuildInputs =
+          (old.nativeBuildInputs or [])
+          ++ [
+            final.cmake
+            final.autoAddDriverRunpath
+          ];
+        buildInputs = (old.buildInputs or []) ++ [prev.cudaPackages.cudatoolkit];
+
+        # Ensure the CUDA toolkit root directory is set correctly
+        cmakeFlags =
+          (old.cmakeFlags or [])
+          ++ [
+            "-DCUDA_TOOLKIT_ROOT_DIR=${prev.cudaPackages.cudatoolkit}"
+          ];
+      });
+  };
+
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.system}' or
   # 'inputs.${flake}.legacyPackages.${pkgs.system}'

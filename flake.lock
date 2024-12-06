@@ -505,6 +505,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-wivrn": {
+      "locked": {
+        "lastModified": 1733023508,
+        "narHash": "sha256-z2bFIHL2wkuZKuOZvN1jqcTxFdyGo1Ps5Q0OKFqQsvo=",
+        "owner": "PassiveLemon",
+        "repo": "nixpkgs",
+        "rev": "b6991a56cb742bc8237db48578dd281224e01b94",
+        "type": "github"
+      },
+      "original": {
+        "owner": "PassiveLemon",
+        "ref": "wivrn-update",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nur": {
       "locked": {
         "lastModified": 1733366553,
@@ -575,6 +591,7 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-howdy": "nixpkgs-howdy",
         "nixpkgs-stable": "nixpkgs-stable_2",
+        "nixpkgs-wivrn": "nixpkgs-wivrn",
         "nur": "nur",
         "plasma-manager": "plasma-manager",
         "rebuild-but-less-dumb": "rebuild-but-less-dumb",
