@@ -523,11 +523,11 @@
     },
     "nixpkgs-wivrn": {
       "locked": {
-        "lastModified": 1733515305,
-        "narHash": "sha256-DhX1DvV0Prfy5J0ZdK7YfM3zL4UdYeMj68pyBrK/Upk=",
+        "lastModified": 1733526778,
+        "narHash": "sha256-x6j23zqDSOdwN1QDfHVdONyOuKnfTtGDwcwdfn4FQRw=",
         "owner": "PassiveLemon",
         "repo": "nixpkgs",
-        "rev": "1dbed4e593bf89efe9ae67ab8eebf4b4faf5c9a0",
+        "rev": "7a625d3ccf9b0fa9d45412aea94daffb27233657",
         "type": "github"
       },
       "original": {

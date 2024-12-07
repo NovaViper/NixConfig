@@ -16,23 +16,7 @@ in {
         config.allowUnfree = true;
         config.cudaSupport = true;
       })
-      .wivrn
-      .overrideAttrs (old: {
-        nativeBuildInputs =
-          (old.nativeBuildInputs or [])
-          ++ [
-            final.cmake
-            final.autoAddDriverRunpath
-          ];
-        buildInputs = (old.buildInputs or []) ++ [prev.cudaPackages.cudatoolkit];
-
-        # Ensure the CUDA toolkit root directory is set correctly
-        cmakeFlags =
-          (old.cmakeFlags or [])
-          ++ [
-            "-DCUDA_TOOLKIT_ROOT_DIR=${prev.cudaPackages.cudatoolkit}"
-          ];
-      });
+      .wivrn;
   };
 
   # For every flake input, aliases 'pkgs.inputs.${flake}' to

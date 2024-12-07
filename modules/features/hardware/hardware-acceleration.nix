@@ -16,10 +16,12 @@ lib.utilMods.mkDesktopModule config "hardware-accel" {
   ];
 
   # Enable OpenGL
-  hardware.graphics = {
+  hardware.graphics = let
+    extraPackages = with pkgs; [libva-utils libvdpau-va-gl vulkan-validation-layers vulkan-loader];
+  in {
+    inherit extraPackages;
     enable = true;
     enable32Bit = true;
-    extraPackages = with pkgs; [libva-utils libvdpau-va-gl vulkan-validation-layers vulkan-loader];
-    extraPackages32 = with pkgs; [libva-utils libvdpau-va-gl vulkan-validation-layers vulkan-loader];
+    extraPackages32 = extraPackages;
   };
 }
