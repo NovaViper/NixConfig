@@ -2,13 +2,14 @@ flake @ {
   inputs,
   self,
   lib,
+  myLib,
   ...
 }: let
   # Helper function for creating the system config for NixOS
   mkHost = hostname: {
     username,
     system,
-    stateVersion ? lib.conds.defaultStateVersion,
+    stateVersion ? myLib.conds.defaultStateVersion,
   }:
     lib.nixosSystem {
       inherit system;
@@ -19,7 +20,7 @@ flake @ {
           ../hosts/installer
         ]
         else
-          lib.utils.concatImports {
+          myLib.utils.concatImports {
             paths = [
               ../modules/core
 

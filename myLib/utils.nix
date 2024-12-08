@@ -1,4 +1,8 @@
-{lib, ...}: let
+{
+  lib,
+  myLib,
+  ...
+}: let
   exports = {
     # Enable all modules in the list elems
     enable = elems:
@@ -44,7 +48,7 @@
           if elem path excludedFiles
           then true
           else
-            (filter (excludedDir: outputs.lib.path.hasPrefix excludedDir path)
+            (filter (excludedDir: lib.path.hasPrefix excludedDir path)
               excludedDirs)
             != [];
 

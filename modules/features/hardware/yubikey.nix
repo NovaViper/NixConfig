@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "yubikey" {
+myLib.utilMods.mkModule config "yubikey" {
   programs = {
     yubikey-touch-detector.enable = lib.mkIf config.modules.desktop.enable true;
 

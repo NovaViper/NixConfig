@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkDesktopModule config "virtualization" {
+myLib.utilMods.mkDesktopModule config "virtualization" {
   # Enable dconf (System Management Tool)
   #programs.dconf.enable = true;
 

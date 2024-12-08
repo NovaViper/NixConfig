@@ -2,6 +2,7 @@ flake @ {
   inputs,
   self,
   lib,
+  myLib,
   ...
 }: let
   # Helper functions we don't plan on exporting past this file
@@ -27,7 +28,7 @@ flake @ {
     nixosConfigurations,
     username ? internals.guessUsername userhost,
     hostname ? internals.guessHostname userhost,
-    #stateVersion ? lib.conds.defaultStateVersion,
+    #stateVersion ? myLib.conds.defaultStateVersion,
   }:
   /*
     lib.homeManagerConfiguration {

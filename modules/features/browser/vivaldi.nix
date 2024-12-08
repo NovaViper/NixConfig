@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkDesktopModule config "vivaldi" {
+myLib.utilMods.mkDesktopModule config "vivaldi" {
   hm.xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["vivaldi.desktop"];

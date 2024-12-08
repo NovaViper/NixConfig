@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   inputs,
   ...
@@ -17,7 +18,7 @@
   ];
 
   modules =
-    lib.utils.enable [
+    myLib.utils.enable [
       ### Hardware
       "openrgb"
       "bluetooth"

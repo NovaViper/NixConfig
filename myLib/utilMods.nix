@@ -1,4 +1,8 @@
-{lib, ...}: let
+{
+  lib,
+  myLib,
+  ...
+}: let
   internals = {
     # Helper for creating modules
     mkModuleWithOptions = {
@@ -55,7 +59,7 @@
     mkDesktopModule' = config: name: extraOptions: moduleConfig:
       internals.mkModuleWithOptions {
         inherit config name extraOptions moduleConfig;
-        extraCondition = lib.conds.runsDesktop config;
+        extraCondition = myLib.conds.runsDesktop config;
       };
 
     mkDesktopModule = config: name: moduleConfig:

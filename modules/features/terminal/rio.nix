@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  myLib,
   ...
 }: let
   hm-config = config.hm;
 in
-  lib.utilMods.mkDesktopModule config "rio" {
+  myLib.utilMods.mkDesktopModule config "rio" {
     hm.xdg.mimeApps = let
       defaultApplications = {
         "mimetype" = "rio.desktop";

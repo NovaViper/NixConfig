@@ -1,9 +1,9 @@
 {
   config,
-  lib,
+  myLib,
   ...
 }:
-lib.utilMods.mkModule config "bluetooth" {
+myLib.utilMods.mkModule config "bluetooth" {
   hardware.bluetooth.enable = true;
 
   # Fix controller compatibility

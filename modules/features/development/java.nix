@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "java" {
+myLib.utilMods.mkModule config "java" {
   hm.programs.java.enable = true;
 
   home.sessionVariables.JDTLS_PATH = "${pkgs.jdt-language-server}/share/java";

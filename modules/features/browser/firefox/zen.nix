@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   inputs,
   ...
@@ -13,7 +14,7 @@
     };
   });
 in
-  lib.utilMods.mkDesktopModule config "zen" {
+  myLib.utilMods.mkDesktopModule config "zen" {
     hm.xdg.mimeApps = let
       defaultApplications = {
         "default-web-browser" = ["zen.desktop"];

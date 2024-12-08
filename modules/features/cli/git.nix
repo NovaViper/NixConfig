@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "git" {
+myLib.utilMods.mkModule config "git" {
   hm.programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;

@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkDesktopModule config "borg" {
+myLib.utilMods.mkDesktopModule config "borg" {
   home.packages = with pkgs; [borgbackup vorta];
 
   hm.systemd.user.services.vorta = {

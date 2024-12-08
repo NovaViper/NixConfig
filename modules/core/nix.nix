@@ -3,6 +3,7 @@
   pkgs,
   self,
   lib,
+  myLib,
   inputs,
   ...
 }: {
@@ -22,8 +23,8 @@
       nixpkgs-stable.flake = inputs.nixpkgs-stable;
 
       # Allow running unfree packages with nix3 commands via `nix run unfree#steam`
-      unfree.flake = pkgs.callPackage lib.mkUnfreeNixpkgs {path = inputs.nixpkgs;};
-      unfree-stable.flake = pkgs.callPackage lib.mkUnfreeNixpkgs {path = inputs.nixpkgs-stable;};
+      unfree.flake = pkgs.callPackage myLib.mkUnfreeNixpkgs {path = inputs.nixpkgs;};
+      unfree-stable.flake = pkgs.callPackage myLib.mkUnfreeNixpkgs {path = inputs.nixpkgs-stable;};
     };
 
     # Disable channels

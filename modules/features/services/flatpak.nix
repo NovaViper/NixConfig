@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkDesktopModule config "flatpak" {
+myLib.utilMods.mkDesktopModule config "flatpak" {
   # Enable Flatpak
   services.flatpak.enable = true;
 

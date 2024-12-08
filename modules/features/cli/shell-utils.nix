@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
   hm-config = config.hm;
 in
-  lib.utilMods.mkModule config "shell-utils" {
+  myLib.utilMods.mkModule config "shell-utils" {
     home.packages = with pkgs;
       [
         # Fancy utilities
@@ -18,8 +19,8 @@ in
         dust # Better du and df
         libnotify
       ]
-      ++ lib.optionals (lib.conds.isWayland config) [wl-clipboard wl-clipboard-x11]
-      ++ lib.optionals ((lib.conds.isX11 config) && (!lib.conds.isWayland config)) [
+      ++ lib.optionals (myLib.conds.isWayland config) [wl-clipboard wl-clipboard-x11]
+      ++ lib.optionals ((myLib.conds.isX11 config) && (!myLib.conds.isWayland config)) [
         xclip
         xsel
         xdotool

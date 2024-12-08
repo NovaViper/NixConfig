@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "lua" {
+myLib.utilMods.mkModule config "lua" {
   home.packages = with pkgs; [
     # :editor format
     nodePackages.lua-fmt

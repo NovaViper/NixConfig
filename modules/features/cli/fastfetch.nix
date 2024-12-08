@@ -1,9 +1,10 @@
 {
   config,
   lib,
+  myLib,
   ...
 }:
-lib.utilMods.mkModule config "fastfetch" {
+myLib.utilMods.mkModule config "fastfetch" {
   hm.programs.fastfetch.enable = true;
 
   hm.programs.fastfetch.settings = {

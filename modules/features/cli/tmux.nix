@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
   cfg = config.hm.programs.tmux;
   hm-config = config.hm;
 in
-  lib.utilMods.mkModule config "tmux" {
+  myLib.utilMods.mkModule config "tmux" {
     # Fixes issue where cava can't run under tmux
     home.shellAliases.cava = lib.mkIf config.modules.cava.enable "TERM=xterm-256color cava";
 

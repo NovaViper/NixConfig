@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "web" {
+myLib.utilMods.mkModule config "web" {
   home.packages = with pkgs; [
     # :editor format
     html-tidy

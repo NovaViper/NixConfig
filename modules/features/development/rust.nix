@@ -1,9 +1,11 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "rust" {
+myLib.utilMods.mkModule config "rust" {
   home.packages = with pkgs; [rustup];
+
+  home.sessionVariables.RUSTUP_HOME = "${config.hm.xdg.dataHome}/rustup";
 }

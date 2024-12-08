@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   username,
   ...
 }:
-lib.utilMods.mkModule config "syncthing" {
+myLib.utilMods.mkModule config "syncthing" {
   services.syncthing = {
     user = lib.mkForce username;
     enable = true;
@@ -15,5 +16,5 @@ lib.utilMods.mkModule config "syncthing" {
     openDefaultPorts = true;
   };
 
-  environment.systemPackages = with pkgs; lib.mkIf (lib.conds.runsDesktop config) [syncthingtray-minimal];
+  environment.systemPackages = with pkgs; lib.mkIf (myLib.conds.runsDesktop config) [syncthingtray-minimal];
 }

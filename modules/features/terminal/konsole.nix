@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkDesktopModule config "konsole" {
+myLib.utilMods.mkDesktopModule config "konsole" {
   hm.xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "konsole.desktop";

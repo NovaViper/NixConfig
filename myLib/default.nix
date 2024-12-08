@@ -1,9 +1,12 @@
-flake @ {
+{
   inputs,
   self,
-  lib,
   ...
 }: let
+  lib = inputs.nixpkgs.lib // inputs.home-manager.lib;
+  myLib = (import ./default.nix) {inherit inputs self;}; # Pass around so functions in different files can call each other
+  flakeNLibs = {inherit inputs self lib myLib;};
+
   # Helper functions we don't plan on exporting past this file
   internals = {
     # Supported systems for your flake packages, shell, etc are determined by the systems input.
@@ -16,16 +19,14 @@ flake @ {
     dotsPath = user: "${user}/dotfiles";
 
     # Import functions for library
-    secrets = import ./secrets.nix flake;
-    conds = import ./conds.nix flake;
-    dots = import ./dots.nix flake;
+    secrets = import ./secrets.nix flakeNLibs;
+    conds = import ./conds.nix flakeNLibs;
+    dots = import ./dots.nix flakeNLibs;
+    utils = import ./utils.nix flakeNLibs;
+    utilMods = import ./utilMods.nix flakeNLibs;
+    mkHost = import ./mkHost.nix flakeNLibs;
+    mkHome = import ./mkHome.nix flakeNLibs;
     mkUnfreeNixpkgs = import ./mkUnfreeNixpkgs.nix;
-    #forEachSystem = import ./forEachSystem.nix flake;
-    #pkgsFor = import ./pkgsFor.nix flake;
-    utils = import ./utils.nix flake;
-    utilMods = import ./utilMods.nix flake;
-    mkHost = import ./mkHost.nix flake;
-    mkHome = import ./mkHome.nix flake;
 
     # This is a function that generates an attribute by calling function you pass to it, with each system as an argument
     forEachSystem = function:
@@ -36,7 +37,7 @@ flake @ {
       system:
         import inputs.nixpkgs {
           inherit system;
-          overlays = builtins.attrValues inputs.self.outputs.overlays;
+          overlays = builtins.attrValues self.outputs.overlays;
           config.allowUnfree = true;
         }
     );

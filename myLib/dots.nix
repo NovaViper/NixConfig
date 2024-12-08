@@ -1,4 +1,8 @@
-{lib, ...}: {
+{
+  lib,
+  myLib,
+  ...
+}: {
   # Helper function for creating Out of Store symlinks for, links the source file given to the user's dotfiles location
   mkDotsSymlink = {
     config,
@@ -7,7 +11,7 @@
     recursive ? false,
     ...
   }: let
-    path = "${lib.flakePath config}/users/${lib.dotsPath user}/${source}";
+    path = "${myLib.flakePath config}/users/${myLib.dotsPath user}/${source}";
   in {
     source = config.lib.file.mkOutOfStoreSymlink path;
     inherit recursive;
@@ -18,7 +22,7 @@
     user,
     path,
   }:
-    ../users/${lib.dotsPath user}/${path};
+    ../users/${myLib.dotsPath user}/${path};
 
   # Helper function for retrieving all files in a given path
   filesIn = path: builtins.attrNames (builtins.readDir path);

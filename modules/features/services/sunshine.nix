@@ -1,9 +1,9 @@
 {
   config,
-  lib,
+  myLib,
   ...
 }:
-lib.utilMods.mkDesktopModule config "sunshine-server" {
+myLib.utilMods.mkDesktopModule config "sunshine-server" {
   services.sunshine = {
     enable = true;
     autoStart = true;

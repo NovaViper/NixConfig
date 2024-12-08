@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
   internals = import ./utils.nix {};
 in
   {imports = [./snippet.nix];}
-  // lib.utilMods.mkModule config "oh-my-posh" {
+  // myLib.utilMods.mkModule config "oh-my-posh" {
     hm.programs.oh-my-posh.enable = true;
 
     hm.programs.oh-my-posh.settings = {

@@ -1,15 +1,15 @@
 # Llakala's fancy rebuild packages
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }: let
   hm-config = config.hm;
 in {
   environment.sessionVariables = {
-    RBLD_DIRECTORY = lib.flakePath hm-config;
-    UNIFY_DIRECTORY = lib.flakePath hm-config;
+    RBLD_DIRECTORY = myLib.flakePath hm-config;
+    UNIFY_DIRECTORY = myLib.flakePath hm-config;
 
     UNIFY_TRACKED_INPUTS = "nixpkgs nixpkgs-stable home-manager rebuild-but-less-dumb";
     UNIFY_COMMIT_MESSAGE = "chore: update flake.lock";

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   username,
   inputs,
@@ -17,7 +18,7 @@ in {
       fullName = "Nova Leary";
       emailAddress = "coder.nova99@mailbox.org";
     };
-    userIdentityPaths = lib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
+    userIdentityPaths = myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
   };
 
   users.users.${username} = {
@@ -40,7 +41,7 @@ in {
   time.timeZone = lib.mkForce "America/Chicago";
 
   # User Secrets
-  age.secrets."${username}-password" = lib.secrets.mkSecretFile {
+  age.secrets."${username}-password" = myLib.secrets.mkSecretFile {
     user = username;
     source = "passwd.age";
   };
@@ -50,7 +51,7 @@ in {
 
   programs.localsend.enable = true;
 
-  modules = lib.utils.enable [
+  modules = myLib.utils.enable [
     # Core
     "git"
     "doom-emacs"
@@ -91,7 +92,7 @@ in {
 
   home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh tmatrix];
 
-  hm.age.secrets."borg_token" = lib.secrets.mkSecretFile {
+  hm.age.secrets."borg_token" = myLib.secrets.mkSecretFile {
     user = username;
     source = "borg.age";
     destination = "${hm-config.xdg.configHome}/borg/keys/srv_dev_disk_by_uuid_5aaed6a3_d2c7_4623_b121_5ebb8d37d930_Backups";

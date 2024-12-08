@@ -92,26 +92,17 @@
     ...
   } @ inputs: let
     # Overlay my custom lib and home-manager lib onto the default nixpkgs lib
-    # TODO: Change the naming of this to avoid confusion
-    lib =
-      nixpkgs.lib.extend (
-        final: prev:
-          import ./lib {
-            inherit inputs self;
-            lib = final;
-          }
-      )
-      // home-manager.lib;
+    myLib = import ./myLib {inherit inputs self;};
 
     # Flake evaluation tests and checks entrypoint
     # Available through 'nix flake check'
-    checks = lib.forEachSystem (pkgs: import ./checks {inherit inputs pkgs;});
+    checks = myLib.forEachSystem (pkgs: import ./checks {inherit inputs pkgs;});
 
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations =
       # Run mkHost for each nixosConfiguration, with key passed as host
-      builtins.mapAttrs lib.mkHost {
+      builtins.mapAttrs myLib.mkHost {
         # Main desktop
         ryzennova = {
           username = "novaviper";
@@ -129,7 +120,7 @@
       };
   in {
     # Just inherit everything we made in the let statement
-    inherit lib checks nixosConfigurations;
+    inherit checks nixosConfigurations;
 
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
@@ -144,21 +135,21 @@
 
     # Your custom packages
     # Acessible through 'nix build', 'nix shell', etc
-    packages = lib.forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    packages = myLib.forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
 
     # Devshell for bootstrapping
     # Acessible through 'nix develop' or 'nix-shell' (legacy)
-    devShells = lib.forEachSystem (pkgs: import ./shell.nix {inherit pkgs checks;});
+    devShells = myLib.forEachSystem (pkgs: import ./shell.nix {inherit pkgs checks;});
 
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = lib.forEachSystem (pkgs: pkgs.alejandra);
+    formatter = myLib.forEachSystem (pkgs: pkgs.alejandra);
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations =
       # Run mkHome for each homeConfiguration, with key passed as host
-      builtins.mapAttrs lib.mkHome {
+      builtins.mapAttrs myLib.mkHome {
         "novaviper@ryzennova" = {inherit nixosConfigurations;};
         "novaviper@yoganova" = {inherit nixosConfigurations;};
       };

@@ -1,12 +1,12 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }: let
   printers = with pkgs; [hplipWithPlugin cnijfilter2];
 in
-  lib.utilMods.mkModule config "printing" {
+  myLib.utilMods.mkModule config "printing" {
     # Address CUPS vulnerability CVE-2024-47076
     systemd.services.cups-browsed.enable = false;
 

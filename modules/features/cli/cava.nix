@@ -1,9 +1,10 @@
 {
   config,
   lib,
+  myLib,
   ...
 }:
-lib.utilMods.mkModule config "cava" {
+myLib.utilMods.mkModule config "cava" {
   # CLI audio visualizer
   hm.programs.cava.enable = true;
 

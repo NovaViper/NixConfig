@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   username,
   ...
 }:
-lib.utilMods.mkDesktopModule config "floorp" {
+myLib.utilMods.mkDesktopModule config "floorp" {
   hm.xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["floorp.desktop"];

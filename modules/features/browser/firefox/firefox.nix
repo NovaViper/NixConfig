@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   username,
   ...
 }:
-lib.utilMods.mkDesktopModule config "firefox" {
+myLib.utilMods.mkDesktopModule config "firefox" {
   hm.xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["firefox.desktop"];

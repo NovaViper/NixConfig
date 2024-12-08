@@ -1,9 +1,9 @@
 {
   config,
-  lib,
+  myLib,
   ...
 }:
-lib.utilMods.mkModule config "quietboot"
+myLib.utilMods.mkModule config "quietboot"
 {
   boot = {
     plymouth.enable = true;

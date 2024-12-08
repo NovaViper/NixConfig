@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkDesktopModule config "hardware-accel" {
+myLib.utilMods.mkDesktopModule config "hardware-accel" {
   # Make sure to include this so hardware acceloration actually works
   environment.sessionVariables.LD_LIBRARY_PATH = lib.mkBefore ["/run/opengl-driver/lib"];
   environment.systemPackages = with pkgs; [

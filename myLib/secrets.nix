@@ -1,4 +1,8 @@
-{lib, ...}: let
+{
+  lib,
+  myLib,
+  ...
+}: let
   # Helper functions we don't plan on exporting past this file
   internals = {
     # Location of the secrets folder in the repo

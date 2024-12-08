@@ -1,9 +1,9 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   username,
-  osConfig,
   ...
 }: let
   hm-config = config.hm;
@@ -11,11 +11,11 @@ in {
   home.packages = with pkgs; [digikam];
 
   hm.xdg.configFile = {
-    "OpenRGB/plugins/settings/effect-profiles/default".source = lib.dots.getDotsPath {
+    "OpenRGB/plugins/settings/effect-profiles/default".source = myLib.dots.getDotsPath {
       user = username;
       path = "openrgb/rgb-default-effect.json";
     };
-    "OpenRGB/plugins/settings/EffectSettings.json".source = lib.dots.getDotsPath {
+    "OpenRGB/plugins/settings/EffectSettings.json".source = myLib.dots.getDotsPath {
       user = username;
       path = "openrgb/rgb-effect-settings.json";
     };

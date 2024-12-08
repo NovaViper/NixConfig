@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
   hm-config = config.hm;
 in
-  lib.utilMods.mkModule config "bat" {
+  myLib.utilMods.mkModule config "bat" {
     # Fancy 'cat' replacement
     hm.programs.bat = {
       enable = true;

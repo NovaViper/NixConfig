@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkDesktopModule config "jellyfin-player" {
+myLib.utilMods.mkDesktopModule config "jellyfin-player" {
   home.packages = with pkgs; [feishin];
 
   hm.xdg.mimeApps = {

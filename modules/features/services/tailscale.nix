@@ -1,9 +1,10 @@
 {
   config,
   lib,
+  myLib,
   ...
 }:
-lib.utilMods.mkModule config "tailscale" {
+myLib.utilMods.mkModule config "tailscale" {
   services.tailscale = {
     enable = true;
     useRoutingFeatures = lib.mkDefault "client";

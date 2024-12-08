@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  myLib,
   ...
 }: let
   hm-config = config.hm;
 in
-  lib.utilMods.mkModule config "topgrade" {
+  myLib.utilMods.mkModule config "topgrade" {
     hm.programs.topgrade.enable = true;
     hm.programs.topgrade.settings = {
       misc = {
@@ -16,8 +17,8 @@ in
         set_title = true;
       };
       linux = {
-        nix_arguments = "--flake ${lib.flakePath hm-config}";
-        home_manager_arguments = ["--flake" "${lib.flakePath hm-config}"];
+        nix_arguments = "--flake ${myLib.flakePath hm-config}";
+        home_manager_arguments = ["--flake" "${myLib.flakePath hm-config}"];
       };
     };
   }

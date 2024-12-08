@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   self,
   inputs,
   stateVersion,
@@ -33,7 +34,7 @@ in
       (lib.mkAliasOptionModule ["create" "dataFile"] ["hm" "xdg" "dataFile"])
     ];
   }
-  // lib.utilMods.mkEnabledModule config "core.homeManager" {
+  // myLib.utilMods.mkEnabledModule config "core.homeManager" {
     # Home file nuking script that deletes stuff just before we run home-manager's activation scripts
     system.userActivationScripts.home-conflict-file-nuker = lib.mkIf (config.nukeFiles != []) activationScript;
 
@@ -90,7 +91,6 @@ in
         ANDROID_USER_HOME = "${hm-config.xdg.dataHome}/android";
         CUDA_CACHE_PATH = "${hm-config.xdg.cacheHome}/nv";
         TLDR_CACHE_DIR = "${hm-config.xdg.cacheHome}/tldr";
-        RUSTUP_HOME = "${hm-config.xdg.dataHome}/rustup";
       };
       sessionPath = ["${hm-config.home.sessionVariables.XDG_BIN_HOME}"];
       shellAliases.wget = ''wget --hsts-file="${hm-config.xdg.dataHome}/wget-hsts"'';

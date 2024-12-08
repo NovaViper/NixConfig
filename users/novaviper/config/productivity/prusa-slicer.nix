@@ -1,10 +1,9 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
-}:
-with lib; let
+}: let
   hm-config = config.hm;
 in {
   hm.xdg.mimeApps = {
@@ -21,31 +20,31 @@ in {
   };
 
   create.configFile = {
-    "PrusaSlicer/printer" = dots.mkDotsSymlink {
+    "PrusaSlicer/printer" = myLib.dots.mkDotsSymlink {
       config = hm-config;
       user = hm-config.home.username;
       source = "PrusaSlicer/printer";
       recursive = true;
     };
-    "PrusaSlicer/print" = dots.mkDotsSymlink {
+    "PrusaSlicer/print" = myLib.dots.mkDotsSymlink {
       config = hm-config;
       user = hm-config.home.username;
       source = "PrusaSlicer/print";
       recursive = true;
     };
-    "PrusaSlicer/physical_printer" = dots.mkDotsSymlink {
+    "PrusaSlicer/physical_printer" = myLib.dots.mkDotsSymlink {
       config = hm-config;
       user = hm-config.home.username;
       source = "PrusaSlicer/physical_printer";
       recursive = true;
     };
-    "PrusaSlicer/filament" = dots.mkDotsSymlink {
+    "PrusaSlicer/filament" = myLib.dots.mkDotsSymlink {
       config = hm-config;
       user = hm-config.home.username;
       source = "PrusaSlicer/filament";
       recursive = true;
     };
-    "PrusaSlicer/bed_models" = dots.mkDotsSymlink {
+    "PrusaSlicer/bed_models" = myLib.dots.mkDotsSymlink {
       config = hm-config;
       user = hm-config.home.username;
       source = "PrusaSlicer/bed_models";

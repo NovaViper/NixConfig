@@ -1,9 +1,10 @@
 {
   config,
   lib,
+  myLib,
   ...
 }:
-lib.utilMods.mkDesktopModule config "alacritty" {
+myLib.utilMods.mkDesktopModule config "alacritty" {
   hm.xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "alacritty.desktop";

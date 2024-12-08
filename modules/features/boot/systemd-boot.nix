@@ -1,9 +1,9 @@
 {
   config,
-  lib,
+  myLib,
   ...
 }:
-lib.utilMods.mkModule config "systemd-boot" {
+myLib.utilMods.mkModule config "systemd-boot" {
   boot.loader.systemd-boot = {
     enable = true;
     memtest86.enable = true;

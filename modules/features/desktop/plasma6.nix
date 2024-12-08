@@ -1,12 +1,13 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
   hm-config = config.hm;
 in
-  lib.utilMods.mkModule config "plasma6" {
+  myLib.utilMods.mkModule config "plasma6" {
     modules.desktop.enable = true;
     modules.desktop.x11.enable = lib.mkForce true;
     modules.desktop.wayland.enable = lib.mkForce true;

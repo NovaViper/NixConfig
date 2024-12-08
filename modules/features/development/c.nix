@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "c" {
+myLib.utilMods.mkModule config "c" {
   home.packages = with pkgs; [
     # :editor format
     clang-tools

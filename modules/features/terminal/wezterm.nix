@@ -1,13 +1,14 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   inputs,
   ...
 }: let
   wezterm = inputs.wezterm.packages.${pkgs.system}.default;
 in
-  lib.utilMods.mkDesktopModule config "wezterm" {
+  myLib.utilMods.mkDesktopModule config "wezterm" {
     /*
       xdg.configFile = mkIf (builtins.pathExists ./dotfiles/wezterm) (mkMerge [
       {"wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";}

@@ -1,5 +1,6 @@
 {
   lib,
+  myLib,
   pkgs,
   inputs,
   ...
@@ -16,7 +17,7 @@
   ];
 
   modules =
-    lib.utils.enable [
+    myLib.utils.enable [
       ### Hardware
       "bluetooth"
       "hardware-accel"

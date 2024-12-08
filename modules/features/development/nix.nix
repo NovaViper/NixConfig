@@ -1,12 +1,12 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }: let
   alejandra-quiet = pkgs.writeShellScriptBin "alejandra-quiet" ''alejandra --quiet "$@"'';
 in
-  lib.utilMods.mkModule config "nix" {
+  myLib.utilMods.mkModule config "nix" {
     hm.programs.nix-index-database.comma.enable = true;
 
     home.packages = with pkgs; [

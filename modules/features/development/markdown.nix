@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "markdown" {
+myLib.utilMods.mkModule config "markdown" {
   home.packages = with pkgs; [
     # :lang markdown
     proselint

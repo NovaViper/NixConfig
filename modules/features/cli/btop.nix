@@ -1,9 +1,10 @@
 {
   config,
   lib,
+  myLib,
   ...
 }:
-lib.utilMods.mkModule config "btop" {
+myLib.utilMods.mkModule config "btop" {
   # Fancy resource monitor for CLI, replaces top
   hm.programs.btop.enable = true;
 

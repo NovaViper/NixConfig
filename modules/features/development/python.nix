@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkModule config "python" {
+myLib.utilMods.mkModule config "python" {
   hm.programs.pyenv.enable = true;
 
   home.sessionVariables.PYENV_ROOT = "${config.hm.xdg.dataHome}/pyenv";

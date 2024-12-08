@@ -1,11 +1,11 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   username,
   ...
 }:
-lib.utilMods.mkDesktopModule config "alvr" {
+myLib.utilMods.mkDesktopModule config "alvr" {
   # Make sure to enable the needed gaming and vr modules
   modules.gaming = {
     enable = true;

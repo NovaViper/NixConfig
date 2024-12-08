@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   inputs,
   ...
@@ -12,7 +13,7 @@
   full-name = config.variables.user.fullName;
   email-address = config.variables.user.emailAddress;
   pack =
-    if (lib.conds.isWayland config)
+    if (myLib.conds.isWayland config)
     then pkgs.emacs29-pgtk
     else pkgs.emacs29;
   emacsOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.applications * 100));
@@ -31,7 +32,7 @@
   };
   */
 in
-  lib.utilMods.mkModule config "doom-emacs" {
+  myLib.utilMods.mkModule config "doom-emacs" {
     hm.services.emacs = {
       enable = true;
       defaultEditor = true;
@@ -56,7 +57,7 @@ in
               user-username "${hm-config.home.username}" ; username
               ${lib.optionalString (email-address != "") ''user-mail-address "${email-address}" ; Email''}
               mail_directory "${hm-config.xdg.dataHome}" ; Path to mail directory (for mu4e)
-              flake-directory "${lib.flakePath hm-config}" ; Path to NixOS Flake
+              flake-directory "${myLib.flakePath hm-config}" ; Path to NixOS Flake
 
               ${lib.optionalString config.theme.stylix.enable ''
           ; Setup Fonts from Stylix
@@ -79,19 +80,19 @@ in
         };
       };
 
-      "doom/config.el" = lib.dots.mkDotsSymlink {
+      "doom/config.el" = myLib.dots.mkDotsSymlink {
         config = config.hm;
         user = hm-config.home.username;
         source = "doom/config.el";
       };
 
-      "doom/packages.el" = lib.dots.mkDotsSymlink {
+      "doom/packages.el" = myLib.dots.mkDotsSymlink {
         config = config.hm;
         user = hm-config.home.username;
         source = "doom/packages.el";
       };
 
-      "doom/init.el" = lib.dots.mkDotsSymlink {
+      "doom/init.el" = myLib.dots.mkDotsSymlink {
         config = config.hm;
         user = hm-config.home.username;
         source = "doom/init.el";

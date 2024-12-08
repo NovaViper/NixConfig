@@ -1,11 +1,12 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
   hm-config = config.hm;
-  mail-secrets = (lib.secrets.evalSecret hm-config.home.username).mail;
+  mail-secrets = (myLib.secrets.evalSecret hm-config.home.username).mail;
   pass = "${hm-config.programs.password-store.package}/bin/pass";
 in {
   hm.accounts.email = {
@@ -77,7 +78,7 @@ in {
   };
 
   # Add check to ensure to only run mbsync when my hardware key is inserted
-  hm.systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${lib.utils.isGpgUnlocked pkgs}"'';
+  hm.systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${myLib.utils.isGpgUnlocked pkgs}"'';
 
   #home.packages = with pkgs; [qtpass];
 

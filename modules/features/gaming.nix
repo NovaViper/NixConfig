@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   username,
   ...
@@ -8,7 +9,7 @@
   cfg = config.modules.gaming;
   hm-config = config.hm;
 in
-  lib.utilMods.mkDesktopModule' config "gaming" {
+  myLib.utilMods.mkDesktopModule' config "gaming" {
     minecraft-server.enable = lib.mkEnableOption "Enable minecraft server configs";
     vr.enable = lib.mkEnableOption "Enable virual reality configs";
   } (lib.mkMerge [

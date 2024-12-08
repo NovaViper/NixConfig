@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   options,
   username,
   ...
@@ -56,14 +57,14 @@ in {
 
   config = lib.mkMerge [
     # Enable defined terminal module and set it as the default TERMINAL program
-    (lib.mkIf ((lib.conds.runsDesktop config) && internals.cfg.defaultTerminal != null) {
+    (lib.mkIf ((myLib.conds.runsDesktop config) && internals.cfg.defaultTerminal != null) {
       home.sessionVariables.TERMINAL = internals.cfg.defaultTerminal;
 
       modules.${internals.cfg.defaultTerminal}.enable = true;
     })
 
     # Enable defined browser module
-    (lib.mkIf ((lib.conds.runsDesktop config) && internals.cfg.defaultBrowser != null) {
+    (lib.mkIf ((myLib.conds.runsDesktop config) && internals.cfg.defaultBrowser != null) {
       modules.${internals.cfg.defaultBrowser}.enable = true;
     })
 

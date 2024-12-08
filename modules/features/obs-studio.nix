@@ -1,10 +1,10 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
-lib.utilMods.mkDesktopModule config "obs-studio" {
+myLib.utilMods.mkDesktopModule config "obs-studio" {
   # Makes OBS Virtual Camera feature function
   boot.extraModulePackages = with config.boot.kernelPackages; [v4l2loopback];
 

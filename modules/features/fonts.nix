@@ -1,11 +1,11 @@
 {
   config,
-  lib,
+  myLib,
   pkgs,
   ...
 }:
 # TODO https://codeberg.org/adamcstephens/apple-fonts.nix/src/branch/main
-lib.utilMods.mkModule config "fonts" {
+myLib.utilMods.mkModule config "fonts" {
   fonts.enableDefaultPackages = true;
 
   fonts.packages = with pkgs; [
