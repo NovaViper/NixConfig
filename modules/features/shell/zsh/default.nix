@@ -59,10 +59,12 @@ in
         # Add more Zsh Autosuggestion strategies
         ZSH_AUTOSUGGEST_STRATEGY = ["abbreviations" "completion" "history"];
       };
-      initExtraFirst = ''
-        # If not running interactively, don't do anything
-        [[ $- != *i* ]] && return
-      '';
+      initExtraFirst = lib.concatStringsSep "\n" [
+        ''
+          # If not running interactively, don't do anything
+          [[ $- != *i* ]] && return
+        ''
+      ];
 
       initExtra = lib.concatStringsSep "\n" [
         ''
@@ -163,8 +165,8 @@ in
             ${
               lib.optionalString hm-config.programs.tmux.enable ''
                 # Enable fzf-tab integration with tmux
-                #zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-                #zstyle ':fzf-tab:*' popup-min-size 100 50
+                zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+                zstyle ':fzf-tab:*' popup-min-size 100 20
               ''
             }
           ''
