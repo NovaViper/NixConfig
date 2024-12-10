@@ -86,13 +86,7 @@ in
 
       sessionVariables = {
         FLAKE = "${hm-config.home.homeDirectory}/Documents/NixConfig";
-        XDG_BIN_HOME = "${hm-config.home.homeDirectory}/.local/bin";
-
-        ANDROID_USER_HOME = "${hm-config.xdg.dataHome}/android";
-        CUDA_CACHE_PATH = "${hm-config.xdg.cacheHome}/nv";
-        TLDR_CACHE_DIR = "${hm-config.xdg.cacheHome}/tldr";
       };
-      sessionPath = ["${hm-config.home.sessionVariables.XDG_BIN_HOME}"];
-      shellAliases.wget = ''wget --hsts-file="${hm-config.xdg.dataHome}/wget-hsts"'';
+      sessionPath = ["${config.environment.sessionVariables.XDG_BIN_HOME}"];
     };
   }

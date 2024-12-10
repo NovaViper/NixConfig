@@ -89,6 +89,9 @@
   services.wivrn.config.json = {
     # 50 Mb/s, default setting and seems to be the best for Beat Saber
     bitrate = 50 * 1000000;
+    # 0.5x (50%) foveation scaling, don't need it super high because it makes latency higher (which is bad for Beat Saber)
+    # Lower value means higher foveation
+    scale = 0.5;
     encoders = [
       {
         encoder = "nvenc";
