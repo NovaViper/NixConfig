@@ -31,6 +31,7 @@ in {
         create = "both";
         expunge = "both";
         patterns = ["INBOX" "AllMail" "Trash" "Spam" "Drafts" "Sent"];
+        extraConfig.account.TLSVersions = ["+1.3"];
         extraConfig.channel = {
           CopyArrivalDate = "yes";
           Create = "Both";
@@ -56,6 +57,7 @@ in {
         create = "both";
         expunge = "both";
         patterns = ["*" ''!"[Gmail]/All Mail"'' ''!"[Gmail]/Important"'' ''!"[Gmail]/Starred"'' ''!"[Gmail]/Bin"''];
+        extraConfig.account.TLSVersions = ["+1.3"];
         extraConfig.channel = {
           CopyArrivalDate = "yes";
           Create = "Both";
