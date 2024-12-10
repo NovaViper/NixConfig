@@ -5,7 +5,7 @@
     (oldAttrs: {patches = (oldAttrs.patches or []) ++ patches;});
 in {
   # Third party overlays
-  nur = self.inputs.nur.overlay;
+  nur = self.inputs.nur.overlays.default;
   agenix-overlay = self.inputs.agenix.overlays.default;
 
   # Import wivrnupdate-nixpkgs and override the wivrn package
