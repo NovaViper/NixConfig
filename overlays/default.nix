@@ -8,17 +8,6 @@ in {
   nur = self.inputs.nur.overlays.default;
   agenix-overlay = self.inputs.agenix.overlays.default;
 
-  # Import wivrnupdate-nixpkgs and override the wivrn package
-  overlay-wivrn = final: prev: {
-    wivrn =
-      (import self.inputs.nixpkgs-wivrn {
-        inherit (final) system;
-        config.allowUnfree = true;
-        config.cudaSupport = true;
-      })
-      .wivrn;
-  };
-
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.system}' or
   # 'inputs.${flake}.legacyPackages.${pkgs.system}'

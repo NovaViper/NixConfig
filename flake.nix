@@ -78,8 +78,6 @@
     # Nixpkgs PRs
     # TODO: https://github.com/NixOS/nixpkgs/pull/216245
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
-    # TODO: Waiting til https://github.com/NixOS/nixpkgs/pull/350069 is in unstable
-    nixpkgs-wivrn.url = "github:PassiveLemon/nixpkgs/wivrn-update";
     # TODO: BSManager testing
     nixpkgs-bsmanager.url = "github:Mistyttm/nixpkgs/add-bs-manager";
   };
