@@ -54,7 +54,7 @@ in {
         {
           name = host;
           value = {
-            hostname = "${host}.local";
+            hostname = "${host}";
             port = 22;
             identityFile = "${config.hm.home.homeDirectory}/.ssh/id_ed25519_sk_rk_nixbuilder";
             extraOptions.RequestTTY = "Force";

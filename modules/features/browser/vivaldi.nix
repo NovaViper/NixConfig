@@ -35,7 +35,6 @@ myLib.utilMods.mkDesktopModule config "vivaldi" {
     {id = "fonfeflegdnbhkfefemcgbdokiinjilg";} # Chat Replay
     {id = "eimadpbcbfnmbkopoojfekhnkhdbieeh";} # Dark Reader
     {id = "hmgpakheknboplhmlicfkkgjipfabmhp";} # Pay
-    {id = "bmnlcjabgnpnenekpadlanbbkooimhnj";} # Honey
     {id = "cimiefiiaegbelhefglklhhakcgmhkai";} # Plasma Browser Integration
     {id = "fkagelmloambgokoeokbpihmgpkbgbfm";} # Indie Wiki Buddy
     {id = "clngdbkpkpeebahjckkjfobafhncgmne";} # Stylus

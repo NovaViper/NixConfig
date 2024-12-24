@@ -42,8 +42,18 @@ in
       # Enable Steam hardware compatibility
       hardware.steam-hardware.enable = true;
 
-      # Fixes SteamLink/Remote play crashing
-      environment.systemPackages = with pkgs; [protontricks keyutils goverlay ludusavi libcanberra protonup-qt pkgsCross.mingw32.wine-discord-ipc-bridge];
+      environment.systemPackages = with pkgs; [
+        heroic
+        protonup-qt
+        protontricks
+        goverlay
+        ludusavi
+        pkgsCross.mingw32.wine-discord-ipc-bridge
+
+        # Fixes SteamLink/Remote play crashing
+        keyutils
+        libcanberra
+      ];
 
       hardware.graphics = {
         enable = true;
