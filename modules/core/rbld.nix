@@ -16,8 +16,9 @@ in {
     UNIFY_PRIMARY_BRANCHES = "main master";
   };
 
-  environment.systemPackages = with pkgs; [
-    inputs.rebuild-but-less-dumb.rbld
-    inputs.rebuild-but-less-dumb.unify
+  environment.systemPackages = with pkgs.inputs.rebuild-but-less-dumb; [
+    rbld
+    unify
+    fuiska
   ];
 }

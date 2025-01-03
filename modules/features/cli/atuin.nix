@@ -15,7 +15,6 @@ myLib.utilMods.mkModule config "atuin" {
     inline_height = 16;
     keymap_mode = "auto";
     filter_mode_shell_up_key_binding = "host";
-    store_failed = false;
     keymap_cursor = {
       emacs = "blink-block";
       vim_insert = "blink-bar";
