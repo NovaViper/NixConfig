@@ -106,7 +106,7 @@ in {
       security.rtkit.enable = true;
 
       # Disable PulseAudio
-      hardware.pulseaudio.enable = lib.mkForce false;
+      services.pulseaudio.enable = lib.mkForce false;
 
       # Enable networking
       networking.networkmanager.enable = true;

@@ -109,5 +109,17 @@ in {
           discord
         ];
       };
+
+    /*
+      ucc = addPatches prev.ucc [
+      (prev.buildPackages.fetchpatch {
+        url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/369956.patch";
+        hash = "sha256-SV/ODA99uVUCPKpxuAHdYZTtQcdQf/FjJrr+awqRSis=";
+      })
+    ];
+    */
+
+    # TODO: Remove when https://github.com/NixOS/nixpkgs/pull/369086 is available in unstable/unstable-small
+    cnijfilter2 = addPatches prev.cnijfilter2 [./include_stdlib.patch];
   };
 }
