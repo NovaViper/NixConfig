@@ -21,7 +21,10 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     hardware.url = "github:nixos/nixos-hardware";
     systems.url = "github:nix-systems/default-linux";
-    nur.url = "github:nix-community/NUR";
+    nur = {
+      url = "github:nix-community/nur";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
