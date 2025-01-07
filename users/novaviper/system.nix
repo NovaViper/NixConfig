@@ -22,7 +22,7 @@ in {
   };
 
   users.users.${username} = {
-    shell = pkgs.zsh;
+    useDefaultShell = true; # Use the shell environment module declaration
     extraGroups = [
       "networkmanager"
       "wheel"

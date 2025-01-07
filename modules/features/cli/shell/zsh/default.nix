@@ -11,6 +11,9 @@ in
     imports = [./zshAbbr.nix];
   }
   // myLib.utilMods.mkModule config "zsh" {
+    # Make the default shell for users be zsh
+    users.defaultUserShell = pkgs.zsh;
+
     # Forcibly Disable .zshenv
     home-manager.sharedModules = [{home.file.".zshenv".enable = false;}];
     programs.zsh.enable = true;

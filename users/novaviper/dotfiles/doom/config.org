@@ -471,7 +471,7 @@ This code is written to ~init.el~ to select which modules to load.
 
        :config
        literate
-       (default +bindings +smartparens))
+       (default +bindings +smartparens +gnupg))
 #+end_src
 
 * Doom Packages
@@ -570,8 +570,7 @@ This sets up password look up for mu4e and other gpg operations. For Yubikey usa
 #+begin_src emacs-lisp
 (after! epa-file
   (setq epa-file-encrypt-to '("coder.nova99@mailbox.org")
-        epa-file-select-keys t
-        epg-pinentry-mode 'loopback))
+        epa-file-select-keys t))
 #+end_src
 
 ** Visual, Session, and Window Settings

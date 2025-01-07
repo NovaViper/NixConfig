@@ -83,8 +83,6 @@
     # Nixpkgs PRs
     # TODO: https://github.com/NixOS/nixpkgs/pull/216245
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
-    # TODO: BSManager testing
-    nixpkgs-bsmanager.url = "github:Mistyttm/nixpkgs/add-bs-manager";
   };
 
   # These are all just outputs for the flake

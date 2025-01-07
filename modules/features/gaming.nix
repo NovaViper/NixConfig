@@ -33,7 +33,6 @@ in
         # For the Quest headsets
         android-tools
         android-udev-rules
-        inputs.nixpkgs-bsmanager.bs-manager
       ];
     })
 

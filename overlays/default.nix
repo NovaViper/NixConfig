@@ -109,7 +109,5 @@ in {
           discord
         ];
       };
-    # TODO: Remove when https://github.com/NixOS/nixpkgs/pull/369086 is available in unstable/unstable-small
-    cnijfilter2 = addPatches prev.cnijfilter2 [./include_stdlib.patch];
   };
 }
