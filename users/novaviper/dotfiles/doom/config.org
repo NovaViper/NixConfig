@@ -446,6 +446,7 @@ This code is written to ~init.el~ to select which modules to load.
        ;;scala             ; java, but good
        ;;(scheme +guile)   ; a fully conniving family of lisps
        (sh +lsp                ; she sells {ba,z,fi}sh shells on the C xor
+           +fish
            +tree-sitter)
        ;;sml
        ;;solidity          ; do you need a blockchain? No.

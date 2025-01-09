@@ -87,12 +87,6 @@ in
         # Somewhat tmux-copycat select url functionality (requires 3.1+)
         bind -N "Select URL" C-u copy-mode \; send -X search-backward "(https?://|git@|git://|ssh://|ftp://|file:///)[[:alnum:]?=%/_.:,;~@!#$&()*+-]*"
 
-        # Navigate panes using Alt-arrow without prefix
-        bind -N "Switch pane, left" -n M-Left select-pane -L
-        bind -N "Switch pane, right" -n M-Right select-pane -R
-        bind -N "Switch pane, up" -n M-Up select-pane -U
-        bind -N "Switch pane, down" -n M-Down select-pane -D
-
         # Join pane bindings
         bind -N "Join panes horizitonally" = choose-window 'join-pane -h -s "%%"'
         bind -N "Join panes vertically" + choose-window 'join-pane -s "%%"'

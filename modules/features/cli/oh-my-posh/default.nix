@@ -18,7 +18,7 @@ in
       disable_notice = true;
       var.PromptChar = "${internals.ucode "276F"}";
       # llakala coming in a clutch once again!
-      blocks = import ./blocks.nix {inherit lib internals;};
+      blocks = import ./blocks.nix {inherit lib config internals;};
       transient_prompt = {
         background = "transparent";
         foreground_templates = [

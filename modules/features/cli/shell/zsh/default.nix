@@ -209,9 +209,6 @@ in
           (lib.mkIf hm-config.programs.tmux.enable
             "ohmyzsh/ohmyzsh path:plugins/tmux")
 
-          # Nix stuff
-          "chisui/zsh-nix-shell"
-
           # Make ZLE use system clipboard
           "kutsan/zsh-system-clipboard"
         ];

@@ -9,6 +9,8 @@ in
   myLib.utilMods.mkModule config "nix" {
     hm.programs.nix-index-database.comma.enable = true;
 
+    hm.programs.nix-your-shell.enable = true;
+
     home.packages = with pkgs; [
       nh # Nice wrapper for NixOS and HM
       alejandra # Nix formatter

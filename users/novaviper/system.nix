@@ -58,7 +58,7 @@ in {
     "password-store"
 
     # Shell
-    "zsh"
+    "fish"
 
     # Hardware
     "yubikey"

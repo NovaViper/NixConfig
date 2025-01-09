@@ -1,5 +1,6 @@
 {
   lib,
+  config,
   internals,
 }: [
   {
@@ -81,7 +82,10 @@
           "{{if gt .Code 0}}1{{end}}"
           "{{if eq .Code 0}}10{{end}}"
         ];
-        template = "{{ if .Env.POSH_VI_MODE }}{{ .Env.POSH_VI_MODE }}{{ else }}{{.Var.PromptChar}}{{ end }}";
+        template =
+          if config.modules.fish.enable
+          then "{{ if eq .Env.FISH__BIND_MODE \"default\" }}<1>[N]</>{{ else if eq .Env.FISH__BIND_MODE \"insert\" }}<10>[I]</>{{ else if eq .Env.FISH__BIND_MODE \"replace_one\" }}<1>[R]</>{{ else if eq .Env.FISH__BIND_MODE \"visual\"}}<13>[V]</>{{ else }}<10>[?]</>{{ end }} {{.Var.PromptChar}}"
+          else "{{ if .Env.POSH_VI_MODE }}{{ .Env.POSH_VI_MODE }}{{ else }}{{.Var.PromptChar}}{{ end }}";
       })
     ];
   }
