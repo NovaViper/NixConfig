@@ -62,6 +62,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#agenix-integration][Agenix Integration]]
   - [[#lua-lsp-mode-configurations][Lua LSP Mode Configurations]]
   - [[#keyboard-integration-with-magit][Keyboard integration with Magit]]
+  - [[#make-magit-more-verbose][Make Magit more verbose]]
 - [[#mu4e-configuration][MU4E Configuration]]
     - [[#main-configurations][Main Configurations]]
     - [[#mail-contexts][Mail Contexts]]
@@ -1107,6 +1108,12 @@ Changes the location of lua-language-server to where the binary location is
 Enable showing keyword entries inside of Magit buffer
 #+begin_src emacs-lisp
 (add-hook! 'magit-mode-hook #'magit-todos-mode)
+#+end_src
+
+** Make Magit more verbose
+Make Magit verbose messages
+#+begin_src emacs-lisp
+(setq magit-verbose-messages t)
 #+end_src
 
 * MU4E Configuration

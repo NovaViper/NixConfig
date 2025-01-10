@@ -1,12 +1,15 @@
 {
   config,
   lib,
+  pkgs,
   myLib,
   ...
 }:
 myLib.utilMods.mkModule config "atuin" {
   # The much better shell history database
   hm.programs.atuin.enable = true;
+
+  home.packages = with pkgs; [atuin-export-fish-history];
 
   hm.programs.atuin.settings = {
     auto_sync = true;

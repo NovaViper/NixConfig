@@ -106,7 +106,6 @@ in
         bind -N "Switch to previous window" < previous-window
         bind -N "Create new window" c new-window -c "#{pane_current_path}"
         bind -N "Create new session" C-c new-session
-        bind -N "Toggle between windows" Space last-window
         bind -N "Toggle between current and previous session" C-Space switch-client -l
         bind -N "Jump to marked session" \` switch-client -t'{marked}'
         unbind &

@@ -35,15 +35,15 @@
     # Perform nix store optimisation weekly to maintain low disk usage
     optimise = {
       automatic = true;
-      dates = ["weekly"]; # Optional; allows customizing optimisation schedule
+      dates = ["daily"]; # Optional; allows customizing optimisation schedule
     };
 
     # Perform garbage collection weekly to maintain low disk usage
     gc = {
       automatic = true;
-      dates = "weekly";
-      # Delete generations that are more than 14 days old
-      options = "--delete-older-than 14d";
+      dates = "daily";
+      # Delete generations that are more than 4 days old
+      options = "--delete-older-than 4d";
     };
 
     settings = {
@@ -70,6 +70,9 @@
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
       ];
+
+      # Make nix automatically optimise the store, helps with disk space
+      auto-optimise-store = true;
 
       # Reasonable defaults, see https://jackson.dev/post/nix-reasonable-defaults/
       connect-timeout = 5;

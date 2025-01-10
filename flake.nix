@@ -121,7 +121,7 @@
       };
   in {
     # Just inherit everything we made in the let statement
-    inherit checks nixosConfigurations;
+    inherit myLib checks nixosConfigurations;
 
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
@@ -136,7 +136,10 @@
 
     # Your custom packages
     # Acessible through 'nix build', 'nix shell', etc
-    packages = myLib.forEachSystem (pkgs: import ./pkgs {inherit pkgs;});
+    packages = myLib.forEachSystem (pkgs: (nixpkgs.lib.packagesFromDirectoryRecursive {
+      callPackage = pkgs.callPackage;
+      directory = ./pkgs;
+    }));
 
     # Devshell for bootstrapping
     # Acessible through 'nix develop' or 'nix-shell' (legacy)

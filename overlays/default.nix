@@ -31,12 +31,28 @@ in {
     #stable = self.inputs.nixpkgs-stable.legacyPackages.${final.system};
   };
 
-  # This one brings our custom packages from the 'pkgs' directory
+  # This one brings our custom packages from the 'pkgs' directory, use the new fancy lib.packagesFromDirectoryRecursive to import out packages!
+  # See: https://noogle.dev/f/lib/packagesFromDirectoryRecursive
   additions = final: prev:
-    import ../pkgs {pkgs = final;}
+    (prev.lib.packagesFromDirectoryRecursive {
+      callPackage = prev.lib.callPackageWith final;
+      directory = ../pkgs;
+    })
     // {
-      #formats = (prev.formats or {}) // import ../pkgs/formats {pkgs = final;};
-      tmuxPlugins = (prev.tmuxPlugins or {}) // import ../pkgs/tmux-plugins {pkgs = final;};
+      /*
+      formats =
+      (prev.formats or {})
+      // (prev.lib.packagesFromDirectoryRecursive {
+        callPackage = prev.lib.callPackageWith final;
+        directory = ../pkgs/formats;
+      });
+      */
+      tmuxPlugins =
+        (prev.tmuxPlugins or {})
+        // (prev.lib.packagesFromDirectoryRecursive {
+          callPackage = prev.lib.callPackageWith final;
+          directory = ../pkgs/tmux-plugins;
+        });
     };
 
   # This one contains whatever you want to overlay
