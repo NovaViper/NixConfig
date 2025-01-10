@@ -140,7 +140,7 @@
     # Acessible through 'nix build', 'nix shell', etc
     packages = myLib.forEachSystem (pkgs: (lib.packagesFromDirectoryRecursive {
       inherit (pkgs) callPackage;
-      directory = ./pkgs;
+      directory = ./pkgs/common;
     }));
 
     # Devshell for bootstrapping

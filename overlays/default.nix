@@ -36,7 +36,7 @@ in {
   additions = final: prev:
     (prev.lib.packagesFromDirectoryRecursive {
       inherit (final) callPackage;
-      directory = ../pkgs;
+      directory = ../pkgs/common;
     })
     // {
       /*
