@@ -35,7 +35,7 @@ in {
   # See: https://noogle.dev/f/lib/packagesFromDirectoryRecursive
   additions = final: prev:
     (prev.lib.packagesFromDirectoryRecursive {
-      callPackage = prev.lib.callPackageWith final;
+      inherit (final) callPackage;
       directory = ../pkgs;
     })
     // {
@@ -50,7 +50,7 @@ in {
       tmuxPlugins =
         (prev.tmuxPlugins or {})
         // (prev.lib.packagesFromDirectoryRecursive {
-          callPackage = prev.lib.callPackageWith final;
+          inherit (final) callPackage;
           directory = ../pkgs/tmux-plugins;
         });
     };

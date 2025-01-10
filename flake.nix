@@ -92,6 +92,8 @@
     home-manager,
     ...
   } @ inputs: let
+    inherit (nixpkgs) lib;
+
     # Overlay my custom lib and home-manager lib onto the default nixpkgs lib
     myLib = import ./myLib {inherit inputs self;};
 
@@ -136,8 +138,8 @@
 
     # Your custom packages
     # Acessible through 'nix build', 'nix shell', etc
-    packages = myLib.forEachSystem (pkgs: (nixpkgs.lib.packagesFromDirectoryRecursive {
-      callPackage = pkgs.callPackage;
+    packages = myLib.forEachSystem (pkgs: (lib.packagesFromDirectoryRecursive {
+      inherit (pkgs) callPackage;
       directory = ./pkgs;
     }));
 
