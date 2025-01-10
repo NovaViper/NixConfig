@@ -21,7 +21,7 @@ in {
     };
   };
 
-  hm. programs.rio.settings.window = {
+  hm.programs.rio.settings.window = {
     width = 1000;
     height = 600;
   };
