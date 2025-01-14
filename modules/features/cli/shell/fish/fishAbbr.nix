@@ -63,7 +63,9 @@
     gps = "git push";
     gpl = "git pull";
     gpa = "git push origin && git push --mirror mirror1 && git push --mirror mirror2";
+    gpaf = "git push origin -f && git push --mirror mirror1 -f && git push --mirror mirror2 -f";
     gpm = "git push --mirror mirror1 && git push --mirror mirror2";
+    gpmf = "git push --mirror mirror1 -f && git push --mirror mirror2 -f";
 
     gsw = "git switch";
     gswm = "git switch main";

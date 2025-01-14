@@ -42,7 +42,6 @@
       "waydroid"
       "virtualization"
       "obs-studio"
-      "gaming"
 
       ### Locale
       "us-english"
@@ -51,7 +50,10 @@
       "plasma6"
     ]
     // {
-      gaming.minecraft-server.enable = true;
+      gaming = {
+        enable = true;
+        minecraft-server.enable = true;
+      };
     };
 
   # Make NixOS use the latest Linux Kernel
