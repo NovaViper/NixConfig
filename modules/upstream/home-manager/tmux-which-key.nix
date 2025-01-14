@@ -5,7 +5,7 @@
   ...
 }: let
   cfg = config.programs.tmux.which-key;
-  rtpPath = "tmux-plugins/tmux-which-key";
+  rtpPath = "tmux/plugins/tmux-which-key";
 in {
   options.programs.tmux.which-key = {
     enable = lib.mkEnableOption "tmux-which-key";
@@ -46,7 +46,7 @@ in {
     configYaml = lib.generators.toYAML {} cfg.settings;
     configTmux =
       pkgs.runCommandNoCC "init.tmux" {
-        nativeBuildInputs = cfg.package.propagatedBuildInputs;
+        nativeBuildInputs = cfg.package.buildInputs;
       } ''
         set -x
         echo '${configYaml}' > config.yaml
@@ -56,8 +56,8 @@ in {
   in
     lib.mkIf cfg.enable {
       xdg = {
-        configFile."${rtpPath}/config.yaml".text = configYaml;
-        dataFile."${rtpPath}/init.tmux".source = configTmux;
+        #configFile."${rtpPath}/config.yaml".text = configYaml; # Refernece
+        dataFile."${rtpPath}/init.tmux".source = configTmux; # The actual file being used
       };
       programs.tmux.plugins = [
         {
