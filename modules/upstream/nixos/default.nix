@@ -1,0 +1,3 @@
+{
+  #example = import ./example.nix;
+}

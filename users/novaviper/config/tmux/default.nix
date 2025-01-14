@@ -15,4 +15,6 @@ in {
       };
     })
   ];
+
+  #hm.programs.tmux.which-key.settings = import ./which-key-config.nix;
 }

@@ -127,11 +127,11 @@
 
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
-    #nixosModules = import ./modules/nixos;
+    nixosModules = import ./modules/upstream/nixos;
 
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
-    #homeManagerModules = import ./modules/home-manager;
+    homeManagerModules = import ./modules/upstream/home-manager;
 
     # Your custom packages and modifications, exported as overlays output
     overlays = import ./overlays {inherit self;};

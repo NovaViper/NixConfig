@@ -7,7 +7,12 @@
   inputs,
   ...
 }: {
-  imports = with inputs; [stylix.nixosModules.stylix];
+  imports =
+    with inputs; [stylix.nixosModules.stylix]
+    /*
+    ++ (builtins.attrValues self.outputs.nixosModules)
+    */
+    ;
 
   config = {
     # Setup primary variables for the systems

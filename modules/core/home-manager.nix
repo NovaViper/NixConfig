@@ -43,10 +43,12 @@ in
       useUserPackages = true;
       extraSpecialArgs = {inherit self inputs stateVersion hostname username;};
       backupFileExtension = ".bak";
-      sharedModules = with inputs; [
-        nix-index-database.hmModules.nix-index
-        plasma-manager.homeManagerModules.plasma-manager
-      ];
+      sharedModules = with inputs;
+        [
+          nix-index-database.hmModules.nix-index
+          plasma-manager.homeManagerModules.plasma-manager
+        ]
+        ++ (builtins.attrValues self.outputs.homeManagerModules);
     };
 
     hm = {
