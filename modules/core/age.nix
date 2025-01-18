@@ -32,13 +32,13 @@ in
 
         environment.systemPackages = with pkgs; [agenix age age-plugin-yubikey];
 
-        age.ageBin = "PATH=$PATH:${lib.makeBinPath [pkgs.age-plugin-yubikey]} ${pkgs.age}/bin/age";
+        age.ageBin = "PATH=$PATH:${lib.makeBinPath [pkgs.age-plugin-yubikey]} ${lib.getExe pkgs.age}";
 
         services.pcscd.enable = lib.mkForce true;
         # TODO: Figure out why this is broken
         systemd.services.pcscd.serviceConfig.ExecStart = lib.mkForce [
           ""
-          "${pcscdPkg}/bin/pcscd -f -x -c ${pcscdCfg}"
+          "${lib.getExe' pcscdPkg "pcscd"} -f -x -c ${pcscdCfg}"
         ];
 
         # HACK: Start pcscd before decrypting secrets
@@ -46,7 +46,7 @@ in
           enable = lib.mkDefault true;
           packages = [(lib.getBin pcscdPkg)];
           storePaths = [
-            "${pcscdPkg}/bin/pcscd"
+            "${lib.getExe' pcscdPkg "pcscd"}"
             "${pcscdCfg}"
             "${pcscdPluginEnv}"
           ];
@@ -57,7 +57,7 @@ in
             after = ["rollback.service"];
             serviceConfig.ExecStart = [
               ""
-              "${pcscdPkg}/bin/pcscd -f -x -c ${pcscdCfg}"
+              "${lib.getExe' pcscdPkg "pcscd"} -f -x -c ${pcscdCfg}"
             ];
           };
         };

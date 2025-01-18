@@ -56,7 +56,7 @@ in
               ${lib.optionalString (full-name != "") ''user-full-name "${full-name}" ; Name''}
               user-username "${hm-config.home.username}" ; username
               ${lib.optionalString (email-address != "") ''user-mail-address "${email-address}" ; Email''}
-              mail_directory "${hm-config.xdg.dataHome}" ; Path to mail directory (for mu4e)
+              mail_directory "${hm-config.accounts.email.maildirBasePath}" ; Path to mail directory (for mu4e)
               flake-directory "${myLib.flakePath hm-config}" ; Path to NixOS Flake
 
               ${lib.optionalString config.theme.stylix.enable ''
@@ -119,7 +119,7 @@ in
       doom-config-reload = "${doom} +org tangle ${DOOMDIR_VAR}/config.org && ${doom} sync && systemctl --user restart emacs";
       # Download Doom Emacs frameworks
       doom-download = ''
-        ${pkgs.git}/bin/git clone https://github.com/hlissner/doom-emacs.git ${EMDOTDIR_VAR}
+        ${lib.getExe pkgs.git} clone https://github.com/hlissner/doom-emacs.git ${EMDOTDIR_VAR}
       '';
       # Create Emacs config.el from my Doom config.org
       doom-org-tangle = "${doom} +org tangle ${DOOMDIR_VAR}/config.org";
@@ -128,7 +128,7 @@ in
     home.activation.installDoomEmacs = hm-lib.hm.dag.entryAfter ["writeBoundary"] ''
       export DOOM="${EMDOTDIR_VAR}"
       if [ ! -d "$DOOM" ]; then
-        ${pkgs.git}/bin/git clone https://github.com/hlissner/doom-emacs.git $DOOM
+        ${lib.getExe pkgs.git} clone https://github.com/hlissner/doom-emacs.git $DOOM
       fi
     '';
 

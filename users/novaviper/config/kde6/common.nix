@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: let
@@ -21,7 +22,7 @@ in {
     hotkeys.commands."restart-plasmashell" = {
       name = "Restart Plasmashell";
       key = "Meta+Alt+R";
-      command = "${pkgs.restart-plasma}/bin/restart-plasma";
+      command = "${lib.getExe pkgs.restart-plasma}";
     };
     configFile = {
       kdeglobals = let

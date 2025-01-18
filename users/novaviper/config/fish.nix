@@ -13,7 +13,7 @@ in {
         ''
           # Run Tmux on startup
           if test -z $TMUX;
-            ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
+            ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || ${lib.getExe pkgs.tmuxp} load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
             exit
           end
         '')
@@ -22,8 +22,8 @@ in {
     functions = {
       fish_greeting = ''
         if test $(tput cols) -ge 75 || test $(tput cols) -ge 100;
-          ${pkgs.toilet}/bin/toilet -f pagga "FOSS AND BEAUTIFUL" --metal
-          ${pkgs.fastfetch}/bin/fastfetch
+          ${lib.getExe pkgs.toilet} -f pagga "FOSS AND BEAUTIFUL" --metal
+          ${lib.getExe pkgs.fastfetch}
         end
       '';
       reload = {

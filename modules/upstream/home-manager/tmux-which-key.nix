@@ -50,7 +50,7 @@ in {
       } ''
         set -x
         echo '${configYaml}' > config.yaml
-        python3 "${cfg.package}/share/tmux-plugins/tmux-which-key/plugin/build.py" \
+        ${lib.getExe pkgs.python3} "${cfg.package}/share/tmux-plugins/tmux-which-key/plugin/build.py" \
           config.yaml $out
       '';
   in

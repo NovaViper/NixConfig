@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   myLib,
   pkgs,
   ...
@@ -17,7 +18,7 @@ myLib.utilMods.mkDesktopModule config "discord" {
     Version=1.0
     Name=Vencord
     Comment=Vencord autostart script
-    Exec=sh -c "${pkgs.vesktop}/bin/vesktop --start-minimized"
+    Exec=sh -c "${lib.getExe pkgs.vesktop} --start-minimized"
     Terminal=false
     StartupNotify=false
   '';

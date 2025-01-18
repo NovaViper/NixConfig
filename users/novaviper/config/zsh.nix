@@ -18,7 +18,7 @@ in {
         ''
           # Run Tmux on startup
           if [ -z "$TMUX" ]; then
-            ${pkgs.tmux}/bin/tmux attach >/dev/null 2>&1 || ${pkgs.tmuxp}/bin/tmuxp load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
+            ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || ${lib.getExe pkgs.tmuxp} load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
             exit
           fi
         '')
@@ -28,8 +28,8 @@ in {
       ''
         # Create shell prompt
         if [ $(tput cols) -ge '75' ] || [ $(tput cols) -ge '100' ]; then
-          ${pkgs.toilet}/bin/toilet -f pagga "FOSS AND BEAUTIFUL" --metal
-          ${pkgs.fastfetch}/bin/fastfetch
+          ${lib.getExe pkgs.toilet} -f pagga "FOSS AND BEAUTIFUL" --metal
+          ${lib.getExe pkgs.fastfetch}
         fi
       ''
     ]);

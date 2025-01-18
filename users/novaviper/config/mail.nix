@@ -7,7 +7,7 @@
 }: let
   hm-config = config.hm;
   mail-secrets = (myLib.secrets.evalSecret hm-config.home.username).mail;
-  pass = "${hm-config.programs.password-store.package}/bin/pass";
+  pass = "${lib.getExe hm-config.programs.password-store.package}";
 in {
   hm.accounts.email = {
     maildirBasePath = "${hm-config.xdg.dataHome}/mail";
@@ -76,68 +76,63 @@ in {
   hm.services.mbsync = {
     enable = true;
     frequency = "*:0/10";
-    postExec = "${hm-config.programs.mu.package}/bin/mu index";
+    preExec = "${lib.getExe hm-config.programs.mbsync.package} -Ha";
+    postExec = "${lib.getExe hm-config.programs.mu.package} index";
   };
 
   # Add check to ensure to only run mbsync when my hardware key is inserted
   hm.systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${myLib.utils.isGpgUnlocked pkgs}"'';
 
-  #home.packages = with pkgs; [qtpass];
-
-  create.configFile = lib.mkIf config.modules.doom-emacs.enable {
-    "doom/mu4e-accounts.el".text = ''
-      ;;; mu4e-accounts.el -*- lexical-binding: t; -*-
-      (use-package! mu4easy
-        :demand
-        :config
-        (mu4easy-mode)
-        (setq mu4easy-contexts
-              '((mu4easy-context
-                :c-name  "Google"
-                :maildir "personal-2"
-                :mail    "${mail-secrets.personal-2-address}"
-                :smtp    "smtp.gmail.com"
-                :sent-action delete)
-
-                (mu4easy-context
-                :c-name  "Mailbox"
-                :maildir "personal-1"
-                :mail    "${mail-secrets.personal-1.address}"
-                :smtp    "smtp.mailbox.org")
-
-                (mu4easy-context
-                :c-name    "1-Mailbox-code-alias"
-                :maildir   "personal-1"
-                :mail      "coder.nova99@mailbox.org"
-                :smtp      "smtp.mailbox.org"
-                :smtp-mail "${mail-secrets.personal-1.address}")
-
-                (mu4easy-context
-                :c-name    "2-Mailbox-work-alias"
-                :maildir   "personal-1"
-                :mail      "${mail-secrets.personal-1.alias-work}"
-                :smtp      "smtp.mailbox.org"
-                :smtp-mail "${mail-secrets.personal-1.address}"
-                :name      "${mail-secrets.personal-1.alias-name}"
-                :sig       "Sincerely, ${mail-secrets.personal-1.alias-name}")
-
-                (mu4easy-context
-                :c-name    "3-Mailbox-school-alias"
-                :maildir   "personal-1"
-                :mail      "${mail-secrets.personal-1.alias-school}"
-                :smtp      "smtp.mailbox.org"
-                :smtp-mail "${mail-secrets.personal-1.address}"
-                :name      "${mail-secrets.personal-1.alias-name}"
-                :sig       "Sincerely, ${mail-secrets.personal-1.alias-name}")
-
-                (mu4easy-context
-                :c-name    "4-Mailbox-shop-alias"
-                :maildir   "personal-1"
-                :mail      "${mail-secrets.personal-1.alias-shop}"
-                :smtp      "smtp.mailbox.org"
-                :smtp-mail "${mail-secrets.personal-1.address}"))
-              ))
-      ;;; mu4e-accounts.el ends here
-    '';
-  };
+  create.configFile = let
+    acct = hm-config.accounts.email.accounts;
+    aliasElem = a: i: builtins.elemAt a.aliases i;
+  in
+    lib.mkIf config.modules.doom-emacs.enable {
+      "doom/mu4e-accounts.el".text = ''
+        ;;; mu4e-accounts.el -*- lexical-binding: t; -*-
+        (after! mu4e
+          :config
+          (setq mu4e-contexts
+          (list ${lib.concatStringsSep "\n    " (lib.filter (v: v != "") [
+          (myLib.utils.mkMu4eContext {
+            account = acct.personal-2;
+            contextName = "Google";
+            sentAction = "delete";
+          })
+          (myLib.utils.mkMu4eContext {
+            account = acct.personal-1;
+            contextName = "Mailbox";
+          })
+          (myLib.utils.mkMu4eContext {
+            account = acct.personal-1;
+            contextName = "1-Mailbox-code-alias";
+            addr = aliasElem acct.personal-1 0;
+            smtpAddr = acct.personal-1.address;
+          })
+          (myLib.utils.mkMu4eContext {
+            account = acct.personal-1;
+            contextName = "2-Mailbox-work-alias";
+            fullName = mail-secrets.personal-1.alias-name;
+            addr = aliasElem acct.personal-1 1;
+            smtpAddr = acct.personal-1.address;
+            signature = "Sincerely, ${mail-secrets.personal-1.alias-name}";
+          })
+          (myLib.utils.mkMu4eContext {
+            account = acct.personal-1;
+            contextName = "3-Mailbox-school-alias";
+            fullName = mail-secrets.personal-1.alias-name;
+            addr = aliasElem acct.personal-1 2;
+            smtpAddr = acct.personal-1.address;
+            signature = "Sincerely, ${mail-secrets.personal-1.alias-name}";
+          })
+          (myLib.utils.mkMu4eContext {
+            account = acct.personal-1;
+            contextName = "4-Mailbox-shop-alias";
+            addr = aliasElem acct.personal-1 3;
+            smtpAddr = acct.personal-1.address;
+          })
+        ])})))
+        ;;; mu4e-accounts.el ends here
+      '';
+    };
 }

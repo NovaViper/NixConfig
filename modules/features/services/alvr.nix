@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   myLib,
   pkgs,
   username,
@@ -19,5 +20,5 @@ myLib.utilMods.mkDesktopModule config "alvr" {
   };
 
   # Fixes issue with SteamVR not starting
-  system.activationScripts.fixSteamVR = "${pkgs.libcap}/bin/setcap CAP_SYS_NICE+ep /home/${username}/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher";
+  system.activationScripts.fixSteamVR = "${lib.getExe' pkgs.libcap "setcap"} CAP_SYS_NICE+ep /home/${username}/.local/share/Steam/steamapps/common/SteamVR/bin/linux64/vrcompositor-launcher";
 }

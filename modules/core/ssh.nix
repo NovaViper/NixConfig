@@ -9,7 +9,7 @@
 
   askpass =
     if desktopW.plasma6.enable
-    then "${pkgs.kdePackages.ksshaskpass}/bin/ksshaskpass"
+    then "${lib.getExe pkgs.kdePackages.ksshaskpass}"
     else "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
 in {
   # Enable the OpenSSH daemon

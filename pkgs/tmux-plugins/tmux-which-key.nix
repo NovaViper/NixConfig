@@ -1,6 +1,7 @@
 {
   tmuxPlugins,
   fetchFromGitHub,
+  lib,
   check-jsonschema,
   python3,
 }:
@@ -14,7 +15,8 @@ tmuxPlugins.mkTmuxPlugin {
   ];
 
   postPatch = ''
-    sed -i -e 's|python3 |${python3}/bin/python3 |g' plugin.sh.tmux
+    substituteInPlace plugin.sh.tmux --replace-fail \
+      python3 "${lib.getExe (python3.withPackages (ps: with ps; [pyyaml]))}"
   '';
 
   preInstall = ''

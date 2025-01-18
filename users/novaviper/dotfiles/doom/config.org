@@ -65,6 +65,7 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#make-magit-more-verbose][Make Magit more verbose]]
 - [[#mu4e-configuration][MU4E Configuration]]
     - [[#main-configurations][Main Configurations]]
+    - [[#utility-functions][Utility Functions]]
     - [[#mail-contexts][Mail Contexts]]
 
 * References
@@ -490,7 +491,6 @@ Installs several packages I need,
 - =just-mode=: Emacs mode for justfiles
 - =agenix=: Transparent editing for [[https://github.com/ryantm/agenix][agenix]] secrets inside Emacs
 - =magit-todos=: Show keyword entries from source code comments and Org files in the Magit status buffer
-- =mu4easy=: A global minor mode that defines a full working setup for mu4e and mbsync
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-tutor)
 (package! org-super-agenda)
@@ -505,10 +505,6 @@ Installs several packages I need,
 (package! agenix)
 (package! magit-todos)
 (package! nose :disable t) ; Disable nosetests since it is heavily discouraged (and outright removed from NixOS)
-#+end_src
-
-#+begin_src emacs-lisp :tangle (if (executable-find "mu") "packages.el" "no") packages.el
-(package! mu4easy)
 #+end_src
 
 * Editor Configuration
@@ -1125,7 +1121,6 @@ This configures mu and mu4e (mu 4 emacs). These configs are ONLY loaded when ~mu
 (require 'mu4e-contrib)
 ;; This is set to 't' to avoid mail syncing issues when using mbsync
 (setq mu4e-change-filenames-when-moving t
-      mu4e-maildir (concat mail_directory "/mail")
       ;; Disable mu4e sync since mbsync system service is enabled
       mu4e-get-mail-command "true"
       mu4e-update-interval nil
@@ -1140,10 +1135,71 @@ This configures mu and mu4e (mu 4 emacs). These configs are ONLY loaded when ~mu
       mu4e-alert-email-notification-types '(count)))
 #+end_src
 
+*** Utility Functions
+Functions pulled from mu4easy that I found useful
+#+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
+(cl-defmacro mu4e-quick-context (&key c-name maildir mail smtp
+                                   (smtp-mail mail)
+                                   (smtp-port 587)
+                                   (smtp-type 'starttls)
+                                   (sent-action 'sent)
+                                   (name user-full-name)
+                                   (sig ""))
+  "Main macro for creating email accounts (contexts).
+See examples in the README file.
+
+C-NAME context name, used in mu4e UI; first letter is going to be
+    used as a shortcut.
+MAILDIR mail dir under path/Mail/...
+MAIL email address or alias.
+SMTP address.
+SMTP-MAIL email address for this account (not alias).
+SMTP-TYPE default `starttls'.
+SMTP-PORT default 587.
+SENT-ACTION what to do after sending an email (copy to `sent' or delete);
+    see README.
+NAME name can be set per account.
+SIG signature string; supports org formatting thanks to org-msg."
+  (let
+      ((inbox  (concat "/" maildir "/Inbox"))
+       (sent   (concat "/" maildir "/Sent"))
+       (trash  (concat "/" maildir "/Trash"))
+       (refile (concat "/" maildir "/Archive"))
+       (draft  (concat "/" maildir "/Drafts"))
+       (spam   (concat "/" maildir "/Spam")))
+
+    `(make-mu4e-context
+      :name ,c-name
+      :match-func (lambda (msg)
+                    (when msg
+                      (string-match-p (concat "^/" ,maildir "/")
+                                      (mu4e-message-field msg :maildir))))
+      :vars '((user-mail-address . ,mail)
+              (user-full-name . ,name)
+              (mu4e-sent-folder . ,sent)
+              (mu4e-drafts-folder . ,draft)
+              (mu4e-trash-folder . ,trash)
+              (mu4e-refile-folder . ,refile)
+              (mu4e-compose-format-flowed . t)
+              (mu4e-sent-messages-behavior . ,sent-action)
+              (smtpmail-stream-type . ,smtp-type)
+              (smtpmail-smtp-service . ,smtp-port)
+              (smtpmail-smtp-user . ,smtp-mail)
+              (smtpmail-smtp-server . ,smtp)
+              (smtpmail-debug-info . t)
+              (smtpmail-debug-verbose . t)
+              (org-msg-signature . ,sig)
+              (mu4e-maildir-shortcuts .
+                                      ((,inbox   . ?i)
+                                       (,sent    . ?s)
+                                       (,trash   . ?t)
+                                       (,refile  . ?a)
+                                       (,draft   . ?d)
+                                       (,spam    . ?g)))))))
+#+end_src
+
 *** Mail Contexts
 Declares mu4e contexts for my accounts
 #+begin_src emacs-lisp :tangle (if (executable-find "mu") "yes" "no")
-(add-hook! mu4e-main-mode #'mu4easy-mode)
-(setq mu4easy-signature "")
 (load (concat doom-user-dir "mu4e-accounts.el"))
 #+end_src
