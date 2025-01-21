@@ -56,8 +56,7 @@
       };
     };
 
-  # Make NixOS use the latest Linux Kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.pkgs.linuxPackages_6_12;
 
   # Enable proper Nvidia support for various packages
   nixpkgs.config.cudaSupport = lib.mkForce true;

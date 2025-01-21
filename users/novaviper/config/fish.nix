@@ -37,8 +37,12 @@ in {
         argumentNames = ["prog"];
         description = "List the keybindings for various programs Supported: wezterm, alacritty, tmux";
         body = ''
-          if not test -n $prog;
-              echo "Cannot be blank! Parameters must be wezterm,alacritty,tmux"
+          # First check if argument was provided
+          if test (count $argv) -eq 0
+              echo "Error: Cannot be blank! Parameters must be wezterm,alacritty,tmux"
+              return 1
+          end
+
           else if test $prog = "wezterm";
               xdg-open "https://wezfurlong.org/wezterm/config/default-keys.html" &>/dev/null
           else if test $prog = "alacritty";
@@ -46,7 +50,8 @@ in {
           else if test $prog = "tmux";
               xdg-open "https://gist.github.com/mzmonsour/8791835#file-tmux-default-bindings-txt" &>/dev/null
           else
-              echo "Cannot be blank! Parameters must be wezterm,alacritty,tmux"
+              echo "Error: Available options are:wezterm, alacritty, tmux"
+              return 1
           end
         '';
       };

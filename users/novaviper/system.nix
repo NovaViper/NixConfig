@@ -85,7 +85,7 @@ in {
 
     # Applications
     #"vivaldi"
-    "jellyfin-player"
+    #"jellyfin-player" #Feishin is now EOL
     "borg"
     "discord"
   ];
