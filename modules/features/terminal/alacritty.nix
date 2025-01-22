@@ -220,12 +220,12 @@ myLib.utilMods.mkDesktopModule config "alacritty" {
 
     /*
     shell = {
-      #program = "${pkgs.zsh}/bin/zsh";
+      #program = "${lib.getExe pkgs.zsh}";
       args = [
         "--login"
         #"-c"
-        #"${pkgs.tmux}/bin/tmux attach || ${pkgs.tmuxp}/bin/tmuxp load ~/.config/tmuxp/session.yaml"
-        #"tmux attach || tmux"
+        #"${lib.getExe pkgs.tmux} attach || ${lib.getExe pkgs.tmuxp} load ~/.config/tmuxp/session.yaml"
+        #"${lib.getExe pkgs.tmux} attach || ${lib.getExe pkgs.tmux}"
       ];
     };
     */

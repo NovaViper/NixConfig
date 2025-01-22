@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   myLib,
   pkgs,
   ...
@@ -11,7 +12,7 @@ myLib.utilMods.mkDesktopModule config "borg" {
     Unit.Description = "Vorta";
     Install.WantedBy = ["default.target"];
     Service = {
-      ExecStart = "${pkgs.vorta}/bin/vorta --daemonise";
+      ExecStart = "${lib.getExe pkgs.vorta} --daemonise";
       Restart = "on-failure";
     };
   };

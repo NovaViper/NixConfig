@@ -31,7 +31,7 @@ myLib.utilMods.mkDesktopModule config "kitty" {
   hm.programs.kitty.settings = {
     # Advanced {{{
     term = "xterm-256color";
-    #shell = "${pkgs.zsh}/bin/zsh --login --interactive";
+    #shell = "${lib.getExe pkgs.zsh} --login --interactive";
     #kitty_mod = "ctrl+shift";
     #startup_session = "default.conf";
     repaint_delay = 0;
