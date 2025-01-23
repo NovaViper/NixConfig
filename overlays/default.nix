@@ -47,12 +47,14 @@ in {
         directory = ../pkgs/formats;
       });
       */
+      /*
       tmuxPlugins =
-        (prev.tmuxPlugins or {})
-        // (prev.lib.packagesFromDirectoryRecursive {
-          inherit (final) callPackage;
-          directory = ../pkgs/tmux-plugins;
-        });
+      (prev.tmuxPlugins or {})
+      // (prev.lib.packagesFromDirectoryRecursive {
+        inherit (final) callPackage;
+        directory = ../pkgs/tmux-plugins;
+      });
+      */
     };
 
   # This one contains whatever you want to overlay
