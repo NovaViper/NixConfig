@@ -39,7 +39,7 @@
 
       ### Applications
       "appimage"
-      "waydroid"
+      #"waydroid"
       "virtualization"
       "obs-studio"
 

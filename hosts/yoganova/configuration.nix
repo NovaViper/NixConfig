@@ -33,7 +33,7 @@
 
     ### Applications
     "appimage"
-    "waydroid"
+    #"waydroid"
     "gaming"
 
     ### Locale

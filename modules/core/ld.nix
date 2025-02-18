@@ -93,7 +93,6 @@
     nss
     cups
     libcap
-    SDL2
     libusb1
     dbus
     dbus-glib
@@ -108,8 +107,6 @@
     xorg.libXmu
     libogg
     libvorbis
-    SDL
-    SDL2_image
     glew110
     libidn
     tbb
@@ -136,11 +133,6 @@
     libtiff
     pixman
     speex
-    SDL_image
-    SDL_ttf
-    SDL_mixer
-    SDL2_ttf
-    SDL2_mixer
     libappindicator-gtk2
     libappindicator-gtk3
     libdbusmenu-gtk2
