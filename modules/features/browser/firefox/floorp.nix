@@ -30,7 +30,7 @@ myLib.utilMods.mkDesktopModule config "floorp" {
   hm.programs.floorp.nativeMessagingHosts = with pkgs; [fx-cast-bridge kdePackages.plasma-browser-integration];
 
   hm.programs.floorp.profiles."${username}" = {
-    extensions = import ./extensions.nix {inherit pkgs;};
+    extensions.packages = import ./extensions.nix {inherit pkgs;};
 
     search = {
       force = true;

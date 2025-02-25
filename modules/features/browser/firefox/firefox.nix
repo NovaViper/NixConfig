@@ -30,7 +30,7 @@ myLib.utilMods.mkDesktopModule config "firefox" {
   hm.programs.firefox.nativeMessagingHosts = with pkgs; [fx-cast-bridge];
 
   hm.programs.firefox.profiles."${username}" = {
-    extensions = import ./extensions.nix {inherit pkgs;};
+    extensions.packages = import ./extensions.nix {inherit pkgs;};
 
     search = {
       force = true;
