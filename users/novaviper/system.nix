@@ -90,7 +90,7 @@ in {
     "discord"
   ];
 
-  home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh tmatrix];
+  home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh tmatrix pineflash klipper-estimator];
 
   hm.age.secrets."borg_token" = myLib.secrets.mkSecretFile {
     user = username;

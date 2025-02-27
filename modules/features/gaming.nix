@@ -30,6 +30,7 @@ in
     (lib.mkIf cfg.vr.enable {
       environment.systemPackages = with pkgs; [
         helvum
+        bs-manager
         # For the Quest headsets
         android-tools
         android-udev-rules

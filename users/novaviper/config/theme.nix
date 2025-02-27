@@ -25,7 +25,7 @@ in {
     enable = true;
     polarity = "dark";
     base16Scheme = lib.mkForce "${pkgs.base16-schemes}/share/themes/dracula.yaml";
-    image = "${inputs.wallpapers}/purple-mountains-ai.png";
+    #image = "${inputs.wallpapers}/purple-mountains-ai.png";
     override = {
       scheme = "BetterDracula";
       base00 = "282a36";
@@ -86,6 +86,9 @@ in {
     tmux.enable = false;
     # Disable stylix's KDE module, very broken currently
     kde.enable = false;
+    # TODO: Until kde6 support is added
+    qt.enable = false;
+    #qt.platform = "kde6";
     emacs.enable = false;
   };
 
