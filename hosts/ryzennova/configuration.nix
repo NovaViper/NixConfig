@@ -31,6 +31,7 @@
 
       ### Service
       "flatpak"
+      "iwd"
       "printing"
       "sunshine-server"
       "tailscale"

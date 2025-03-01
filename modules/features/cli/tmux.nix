@@ -147,24 +147,44 @@ in
         plugin = dracula;
         extraConfig = ''
           # Theme settings
-          # available plugins: battery, cpu-usage, git, gpu-usage, ram-usage, tmux-ram-usage, network, network-bandwidth, network-ping, attached-clients, network-vpn, weather, time, spotify-tui, kubernetes-context, synchronize-panes
-          set -g @dracula-plugins "battery cpu-usage ram-usage time"
-
-          # Show powerline symbols
-          set -g @dracula-show-powerline true
-
-          # Enable window flags
+          ## Statusbar options
+          ### Enable window flags
           set -g @dracula-show-flags true
 
-          # Switch left icon, can accept `session`, `smiley`, `window`, or any character.
-          set -g @dracula-show-left-icon smiley
-
-          # Hide empty plugins
+          ### Hide empty plugins
           set -g @dracula-show-empty-plugins false
 
-          # Theme color settings
-          # available colors: white, gray, dark_gray, light_purple, dark_purple, cyan, green, orange, red, pink, yellow
-          # set -g @dracula-[plugin-name]-colors "[background] [foreground]"
+          ## Powerline settings
+          ### Show powerline symbols
+          set -g @dracula-show-powerline true
+          set -g @dracula-left-icon-padding 0
+
+          ### Show edge icons
+          set -g @dracula-show-edge-icons false
+
+          # Left icon settings
+          set -g @dracula-show-left-icon "#h | #S"
+
+          # Theme Plugins
+          set -g @dracula-plugins "ssh-session battery cpu-usage ram-usage time"
+
+          ## SSH Session settings
+          set -g @dracula-show-ssh-only-when-connected true
+
+          ## Battery Settings
+          set -g @dracula-battery-label false
+          set -g @dracula-show-battery-status true
+
+          ## CPU Usage Settings
+          set -g @dracula-cpu-usage-label ""
+
+          ## RAM Usage Settings
+          set -g @dracula-ram-usage-label ""
+
+          ## GPU Info Settings
+          set -g @dracula-gpu-power-label "󰢮"
+          set -g @dracula-gpu-usage-label "󰢮"
+          set -g @dracula-gpu-vram-label "󰢮"
           set -g @dracula-gpu-usage-colors "red white"
         '';
       }

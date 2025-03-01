@@ -98,7 +98,7 @@ in {
       themeConfig = {
         # [General]
         CustomBackground = true;
-        Background = config.stylix.image;
+        Background = "${inputs.wallpapers}/purple-mountains-ai.png";
         DimBackgroundImage = "0.0";
 
         # [Blur Settings]
@@ -128,6 +128,9 @@ in {
         DateFormat = "\"dddd, MMMM d, yyyy\"";
 
         # [Interface Behavior]
+        HideVirtualKeyboard = "false";
+        HideSystemButtons = "false";
+        HideLoginButton = "false";
         #ForceHideVirtualKeyboardButton = "true";
       };
     })

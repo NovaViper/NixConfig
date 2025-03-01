@@ -38,7 +38,7 @@ in {
     hashedPasswordFile = agenixHashedPasswordFile;
   };
 
-  time.timeZone = lib.mkForce "America/Chicago";
+  #time.timeZone = lib.mkForce "America/Chicago";
 
   # User Secrets
   age.secrets."${username}-password" = myLib.secrets.mkSecretFile {
@@ -88,6 +88,7 @@ in {
     #"jellyfin-player" #Feishin is now EOL
     "borg"
     "discord"
+    "location"
   ];
 
   home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh tmatrix pineflash klipper-estimator];

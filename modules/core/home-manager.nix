@@ -52,6 +52,9 @@ in
     };
 
     hm = {
+      # NOTE: fixes https://github.com/danth/stylix/issues/865
+      nixpkgs.overlays = lib.mkForce null;
+
       nix.settings = config.nix.settings;
 
       programs = {

@@ -52,16 +52,6 @@ in {
         };
 
         hm.programs = {
-          rio.settings = {
-            window.opacity = config.stylix.opacity.terminal;
-            fonts = {
-              size = f.sizes.terminal + 3; # Make it larger because fonts are really tiny using default stylix font size
-              family = "${f.monospace.name}";
-              emoji = {
-                family = "${f.emoji.name}";
-              };
-            };
-          };
           plasma = {
             overrideConfig = true;
             workspace.cursor = {

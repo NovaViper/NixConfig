@@ -16,8 +16,8 @@ in {
     initExtraFirst = lib.mkAfter (lib.concatStringsSep "\n" [
       (lib.optionalString hm-config.programs.tmux.enable
         ''
-          # Run Tmux on startup
-          if [ -z "$TMUX" ]; then
+          # Run Tmux on startup OUTSIDE of SSH
+          if [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ]; then
             ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || ${lib.getExe pkgs.tmuxp} load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
             exit
           fi

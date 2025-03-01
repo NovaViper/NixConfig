@@ -28,6 +28,7 @@
 
     ### Service
     "flatpak"
+    "iwd"
     "printing"
     "tailscale"
 
