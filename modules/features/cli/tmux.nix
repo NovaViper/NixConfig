@@ -9,9 +9,6 @@
   hm-config = config.hm;
 in
   myLib.utilMods.mkModule config "tmux" {
-    # Fixes issue where cava can't run under tmux
-    home.shellAliases.cava = lib.mkIf config.modules.cava.enable "TERM=xterm-256color cava";
-
     hm.programs.fzf.tmux.enableShellIntegration = true;
 
     hm.programs.tmux = {
@@ -36,7 +33,7 @@ in
       # -- more settings ---------------------------------------------------------------
       set -s set-clipboard on
       set -g set-titles on
-      set -g set-titles-string "#S / #W / #(pwd)"
+      set -g set-titles-string "#{session_name} / #{window_name} / #(pwd)"
       set -g allow-passthrough on
       set -ga update-environment TERM
       set -ga update-environment TERM_PROGRAM
@@ -47,7 +44,8 @@ in
       set -as terminal-features 'contour:sixel'
 
       # Enable full RGB support
-      set -as terminal-features ",*-256color:RGB"
+      set -g default-terminal "xterm-256color"
+      set -ga terminal-overrides ",xterm-256color:Tc"
 
       # Pane numbers, line messages duration and status line updates
       set -g display-panes-time 800

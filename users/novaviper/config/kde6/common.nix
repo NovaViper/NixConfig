@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
@@ -27,10 +28,7 @@ in {
     configFile = {
       kdeglobals = let
         # Auto switch terminal application desktop file
-        terminal =
-          if builtins.hasAttr "TERMINAL" hm-config.home.sessionVariables
-          then "${hm-config.home.sessionVariables.TERMINAL}"
-          else "org.kde.konsole";
+        terminal = myLib.utils.getTerminalDesktopFile hm-config;
       in {
         General.TerminalApplication = "${terminal}.destop";
         General.TerminalService = "${terminal}.desktop";

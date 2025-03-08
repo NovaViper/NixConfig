@@ -7,8 +7,8 @@ windows:
           -
         focus: true
       -
-      - environment:
-          TERM: "xterm-256color"
-        shell_command: tmatrix -C magenta -s 15
-        #shell_command: cava
+      - shell_command: cava
+      #- environment:
+      #    TERM: "xterm-256color"
+      #shell_command: tmatrix -C magenta -s 15
       #- cmatrix -ba -u 3 -C blue

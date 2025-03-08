@@ -69,7 +69,7 @@ in {
     # Terminal Utils
     "shell-utils"
     "nix"
-    #"cava"
+    "cava"
     "tmux"
     "bat"
     "btop"
@@ -91,7 +91,7 @@ in {
     "location"
   ];
 
-  home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh tmatrix pineflash klipper-estimator];
+  home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh pineflash klipper-estimator];
 
   hm.age.secrets."borg_token" = myLib.secrets.mkSecretFile {
     user = username;
