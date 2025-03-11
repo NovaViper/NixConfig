@@ -47,8 +47,8 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    rebuild-but-less-dumb = {
-      url = "github:llakala/rebuild-but-less-dumb";
+    menu = {
+      url = "github:llakala/menu";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

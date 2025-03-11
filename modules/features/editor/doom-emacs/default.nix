@@ -14,8 +14,8 @@
   email-address = config.variables.user.emailAddress;
   pack =
     if (myLib.conds.isWayland config)
-    then pkgs.emacs29-pgtk
-    else pkgs.emacs29;
+    then pkgs.emacs-pgtk
+    else pkgs.emacs;
   emacsOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.applications * 100));
   f = config.stylix.fonts;
   # FIXME: Work on font sizes per device

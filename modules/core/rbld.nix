@@ -11,12 +11,12 @@ in {
     RBLD_DIRECTORY = myLib.flakePath hm-config;
     UNIFY_DIRECTORY = myLib.flakePath hm-config;
 
-    UNIFY_TRACKED_INPUTS = "nixpkgs nixpkgs-stable home-manager rebuild-but-less-dumb";
+    UNIFY_TRACKED_INPUTS = "nixpkgs nixpkgs-stable home-manager menu";
     UNIFY_COMMIT_MESSAGE = "chore: update flake.lock";
     UNIFY_PRIMARY_BRANCHES = "main master";
   };
 
-  environment.systemPackages = with pkgs.inputs.rebuild-but-less-dumb; [
+  environment.systemPackages = with pkgs.inputs.menu; [
     rbld
     unify
     fuiska

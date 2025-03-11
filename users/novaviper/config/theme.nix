@@ -12,7 +12,6 @@ in {
     packages = with pkgs; [dracula-theme];
     name = "Dracula";
     nameSymbolic = "dracula";
-    #app.rio.name = config.theme.name;
     iconTheme = {
       package = pkgs.papirus-icon-theme.override {
         color = "violet";
