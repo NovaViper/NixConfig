@@ -16,8 +16,6 @@
   inputs = {
     # Core dependencies
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
-    # Pin to last known working commit version before gcc breakage, thanks to llakala
-    #nixpkgs.url = "github:nixos/nixpkgs/d70bd19e0a38ad4790d3913bf08fcbfc9eeca507";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     hardware.url = "github:nixos/nixos-hardware";
     systems.url = "github:nix-systems/default-linux";
@@ -104,22 +102,28 @@
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations =
-      # Run mkHost for each nixosConfiguration, with key passed as host
+      # Run mkHost for each nixosConfiguration, with key passed as hostname
       builtins.mapAttrs myLib.mkHost {
         # Main desktop
         ryzennova = {
-          username = "novaviper";
+          users = ["novaviper"];
           system = "x86_64-linux";
           stateVersion = "24.11";
         };
 
         # Personal laptop
         yoganova = {
-          username = "novaviper";
+          users = ["novaviper"];
           system = "x86_64-linux";
           stateVersion = "24.11";
         };
-        # TODO: Add installer config
+
+        # Installer ISO image
+        installer = {
+          users = ["nixos"];
+          system = "x86_64-linux";
+          stateVersion = "25.05";
+        };
       };
   in {
     # Just inherit everything we made in the let statement
@@ -127,11 +131,11 @@
 
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
-    nixosModules = import ./modules/upstream/nixos;
+    nixosModules.default = myLib.utils.concatImports {path = ./extras/nixosModules;};
 
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
-    homeManagerModules = import ./modules/upstream/home-manager;
+    homeManagerModules.default = myLib.utils.concatImports {path = ./extras/homemanagerModules;};
 
     # Your custom packages and modifications, exported as overlays output
     overlays = import ./overlays {inherit self;};
@@ -150,14 +154,5 @@
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
     formatter = myLib.forEachSystem (pkgs: pkgs.alejandra);
-
-    # Standalone home-manager configuration entrypoint
-    # Available through 'home-manager --flake .#your-username@your-hostname'
-    homeConfigurations =
-      # Run mkHome for each homeConfiguration, with key passed as host
-      builtins.mapAttrs myLib.mkHome {
-        "novaviper@ryzennova" = {inherit nixosConfigurations;};
-        "novaviper@yoganova" = {inherit nixosConfigurations;};
-      };
   };
 }

@@ -4,38 +4,25 @@
   ...
 }: let
   exports = {
-    # Enable all modules in the list elems
-    enable = elems:
-      builtins.listToAttrs (map (name: {
-          inherit name;
-          value.enable = true;
-        })
-        elems);
-
-    # Disable all modules in the list elems
-    disable = elems:
-      builtins.listToAttrs (map (name: {
-          inherit name;
-          value.enable = false;
-        })
-        elems);
-
-    # Conditionally enable/disable all modules in the list elems
-    enableIf = cond: elems:
-      if cond
-      then (exports.enable elems)
-      else (exports.disable elems);
+    importFromPath = {
+      path,
+      dirs ? [],
+      files,
+    }: let
+      filesToImport = builtins.map (f: path + "/${f}.nix") files;
+      dirsToImport = builtins.map (d: path + "/${d}") dirs;
+    in
+      filesToImport ++ dirsToImport;
 
     # GPG command for checking if there is a hardware key present
     isGpgUnlocked = pkgs: "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
     getTerminalDesktopFile = config:
-      if builtins.hasAttr "TERMINAL" config.home.sessionVariables
-      then
-        if (config.home.sessionVariables.TERMINAL != "ghostty")
-        then "${config.home.sessionVariables.TERMINAL}"
-        else "com.mitchellh.ghostty"
-      else "org.kde.konsole";
+      if (config.userVars.defaultTerminal == "ghostty")
+      then "com.mitchellh.ghostty"
+      else if (config.userVars.defaultTerminal == "konsole")
+      then "org.kde.konsole"
+      else "${config.userVars.defaultTerminal}";
 
     # Most of these are left null since I'm piggybacking off of the custom context function I've made
     mkMu4eContext = {
@@ -79,8 +66,8 @@
     }:
       with lib;
       with fileset; let
-        excludedFiles = filter pathIsRegularFile exclude;
-        excludedDirs = filter pathIsDirectory exclude;
+        excludedFiles = filter (path: pathIsRegularFile path) exclude;
+        excludedDirs = filter (path: pathIsDirectory path) exclude;
         isExcluded = path:
           if elem path excludedFiles
           then true
@@ -110,7 +97,7 @@
             ))))
           ++ (
             if recursive
-            then concatMap toList (unique include)
+            then concatMap (path: toList path) (unique include)
             else unique include
           ));
 
@@ -123,7 +110,8 @@
           myFiles));
 
         filteredFiles = builtins.filter (file:
-          ! builtins.elem (builtins.dirOf file) dirsWithDefaultNix
+          builtins.elem (builtins.dirOf file) dirsWithDefaultNix
+          == false
           || builtins.match "default.nix" (builtins.baseNameOf file) != null)
         myFiles;
       in

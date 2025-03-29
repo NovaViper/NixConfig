@@ -6,7 +6,7 @@
 }: let
   hm-config = config.hm;
 in {
-  home.packages = with pkgs; [plasma-panel-colorizer];
+  hm.home.packages = with pkgs; [plasma-panel-colorizer];
 
   hm.programs.plasma.panels = [
     # Windows like panel at the bottom
@@ -34,7 +34,7 @@ in {
             };
             launchers = let
               # Auto switch terminal application desktop file
-              terminal = myLib.utils.getTerminalDesktopFile hm-config;
+              terminal = myLib.utils.getTerminalDesktopFile config;
             in [
               "preferred://browser"
               "applications:systemsettings.desktop"

@@ -7,7 +7,7 @@
 }: let
   hm-config = config.hm;
 in {
-  home.shellAliases.reload-plasma-theming = "~/.local/share/plasma-manager/run_all.sh";
+  hm.home.shellAliases.reload-plasma-theming = "~/.local/share/plasma-manager/run_all.sh";
 
   hm.programs.plasma = {
     enable = true;
@@ -19,6 +19,7 @@ in {
         right = ["keep-above-windows" "on-all-desktops"];
       };
       borderlessMaximizedWindows = true;
+      effects.dimAdminMode.enable = true;
     };
     hotkeys.commands."restart-plasmashell" = {
       name = "Restart Plasmashell";
@@ -28,7 +29,7 @@ in {
     configFile = {
       kdeglobals = let
         # Auto switch terminal application desktop file
-        terminal = myLib.utils.getTerminalDesktopFile hm-config;
+        terminal = myLib.utils.getTerminalDesktopFile config;
       in {
         General.TerminalApplication = "${terminal}.destop";
         General.TerminalService = "${terminal}.desktop";

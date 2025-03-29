@@ -1,7 +1,9 @@
-_: {
+{config, ...}: let
+  userVars = config.userVars;
+in {
   hm.programs.git = {
-    userName = "NovaViper";
-    userEmail = "coder.nova99@mailbox.org";
+    userName = userVars.username;
+    userEmail = userVars.email;
     signing = {
       key = "DEAB6E5298F9C516";
       signByDefault = true;

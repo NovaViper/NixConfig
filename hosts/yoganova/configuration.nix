@@ -5,44 +5,56 @@
   inputs,
   ...
 }: {
-  imports = with inputs; [
-    ### Hardware Modules
-    hardware.nixosModules.common-cpu-intel
-    hardware.nixosModules.common-pc-laptop-ssd
-    hardware.nixosModules.common-hidpi
+  imports = with inputs;
+    [
+      ### Hardware Modules
+      hardware.nixosModules.common-cpu-intel
+      hardware.nixosModules.common-pc-laptop-ssd
+      hardware.nixosModules.common-hidpi
 
-    ### Disko Config
-    disko.nixosModules.disko
-    ./disks.nix
-  ];
-
-  modules = myLib.utils.enable [
+      ### Disko Config
+      disko.nixosModules.disko
+      ./disks.nix
+    ]
     ### Hardware
-    "bluetooth"
-    "hardware-accel"
-    #"howdy"
-
-    ### Base Configs
-    "systemd-boot"
-    "quietboot"
-
+    ++ myLib.utils.importFromPath {
+      path = ../../common/features/hardware;
+      files = [
+        "bluetooth"
+        "hardware-acceleration"
+        "yubikey" #"howdy"
+      ];
+    }
     ### Service
-    "flatpak"
-    "iwd"
-    "printing"
-    "tailscale"
+    ++ myLib.utils.importFromPath {
+      path = ../../common/features/services;
+      files = [
+        "appimage"
+        "flatpak"
+        "location"
+        "printing"
+        "syncthing"
+        "tailscale"
+      ];
+    }
+    ++ myLib.utils.importFromPath {
+      path = ../../common/features;
+      files = [
+        ### Desktop Environment
+        "desktop/plasma6"
 
-    ### Applications
-    "appimage"
-    #"waydroid"
-    "gaming"
+        ### Applications
+        "borg"
+        "discord"
+        "gaming"
+        #"vm/waydroid"
 
-    ### Locale
-    "us-english"
+        ### Boot
+        "plymouth"
+      ];
+    };
 
-    ### Desktop Environment
-    "plasma6"
-  ];
+  programs.localsend.enable = true;
 
   boot.kernelPackages = pkgs.pkgs.linuxPackages_6_12;
 

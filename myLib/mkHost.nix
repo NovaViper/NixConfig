@@ -7,34 +7,28 @@ flake @ {
 }: let
   # Helper function for creating the system config for NixOS
   mkHost = hostname: {
-    username,
-    system,
-    stateVersion ? myLib.conds.defaultStateVersion,
+    users,
+    system ? throw "system must be set for ${hostname}",
+    stateVersion ? throw "stateVersion must be set for ${hostname}",
   }:
     lib.nixosSystem {
       inherit system;
-      specialArgs = flake // {inherit hostname username system stateVersion;};
+      specialArgs = flake // {inherit hostname system stateVersion;};
       modules =
-        if (lib.hasPrefix "installer" hostname)
-        then [
-          ../hosts/installer
-        ]
-        else
-          myLib.utils.concatImports {
-            paths = [
-              ../modules/core
-
-              ../modules/features
-
-              ../users/${username}/system.nix
-              (lib.fileset.maybeMissing ../users/${username}/hosts/${hostname}.nix)
-              (lib.fileset.maybeMissing ../users/${username}/config)
+        myLib.utils.concatImports {
+          paths =
+            [
+              ../common/core
 
               ../hosts/${hostname}/configuration.nix
               ../hosts/${hostname}/hardware-configuration.nix
-              #../hosts/${hostname}/hostVars.nix
-            ];
-          };
+              ../hosts/${hostname}/hostVars.nix
+            ]
+            ++ lib.forEach users (u: ../users/${u}/common.nix)
+            ++ lib.forEach users (u: lib.fileset.maybeMissing ../users/${u}/hosts/${hostname}.nix)
+            ++ lib.forEach users (u: lib.fileset.maybeMissing ../users/${u}/config);
+        }
+        ++ self.nixosModules.default;
     };
 in
   mkHost

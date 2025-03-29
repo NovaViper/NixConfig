@@ -5,11 +5,12 @@
   ...
 }: let
   hm-config = config.hm;
+  myself = config.userVars.username;
 in {
-  create.configFile = lib.mkIf config.modules.alvr.enable {
+  hm.xdg.configFile = lib.mkIf (config.features.vr == "alvr") {
     "alvr/session.json" = myLib.dots.mkDotsSymlink {
       config = hm-config;
-      user = hm-config.home.username;
+      user = myself;
       source = "alvr/session.json";
     };
   };

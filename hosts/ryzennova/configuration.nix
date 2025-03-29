@@ -6,56 +6,61 @@
   inputs,
   ...
 }: {
-  imports = with inputs; [
-    ### Hardware Modules
-    hardware.nixosModules.common-cpu-amd
-    hardware.nixosModules.common-gpu-nvidia-nonprime
-    hardware.nixosModules.common-pc-ssd
+  imports = with inputs;
+    [
+      ### Hardware Modules
+      hardware.nixosModules.common-cpu-amd
+      hardware.nixosModules.common-gpu-nvidia-nonprime
+      hardware.nixosModules.common-pc-ssd
 
-    ### Disko Config
-    disko.nixosModules.disko
-    ./disks.nix
-  ];
-
-  modules =
-    myLib.utils.enable [
-      ### Hardware
-      "openrgb"
-      "bluetooth"
-      "qmk"
-      "hardware-accel"
-
-      ### Base Configs
-      "systemd-boot"
-      "quietboot"
-
-      ### Service
-      "flatpak"
-      "iwd"
-      "printing"
-      "sunshine-server"
-      "tailscale"
-      #"alvr"
-      "wivrn"
-
-      ### Applications
-      "appimage"
-      #"waydroid"
-      "virtualization"
-      "obs-studio"
-
-      ### Locale
-      "us-english"
-
-      ### Desktop Environment
-      "plasma6"
+      ### Disko Config
+      disko.nixosModules.disko
+      ./disks.nix
     ]
-    // {
-      gaming = {
-        enable = true;
-        minecraft-server.enable = true;
-      };
+    ### Hardware
+    ++ myLib.utils.importFromPath {
+      path = ../../common/features/hardware;
+      files = [
+        "bluetooth"
+        "hardware-acceleration"
+        "qmk"
+        "rgb"
+        "yubikey"
+      ];
+    }
+    ### Service
+    ++ myLib.utils.importFromPath {
+      path = ../../common/features/services;
+      files = [
+        "appimage"
+        "flatpak"
+        "location"
+        "printing"
+        "sunshine"
+        "syncthing"
+        "tailscale"
+        "wivrn"
+      ];
+    }
+    ++ myLib.utils.importFromPath {
+      path = ../../common/features;
+      files = [
+        ### Desktop Environment
+        "desktop/plasma6"
+
+        ### Applications
+        "borg"
+        "discord"
+        "gaming"
+        "obs-studio"
+        "vm/virtualization"
+
+        ### Boot
+        "plymouth"
+      ];
     };
+
+  programs.localsend.enable = true;
 
   boot.kernelPackages = pkgs.pkgs.linuxPackages_6_12;
 
