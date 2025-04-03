@@ -26,6 +26,29 @@
       then (exports.enable elems)
       else (exports.disable elems);
 
+    importFromPath = {
+      source,
+      paths,
+    }: let
+      importThings = builtins.map (d: source + "/${d}") paths;
+    in
+      importThings;
+
+    # List everything in a given directory (dir)
+    filesInDir = dir: lib.filesystem.listFilesRecursive dir;
+
+    # List only nix files in a given path (path), if it's a file, then we should return the file itself. Any invalid paths will be skipped
+    listNixFilesForPath = path:
+      if lib.pathIsRegularFile path
+      then path
+      else builtins.filter (lib.hasSuffix ".nix") (exports.filesInDir path);
+
+    # Import all nix files in a given list of directories and/or files (paths)
+    importPaths = paths: lib.flatten (builtins.map exports.listNixFilesForPath paths);
+
+    # Import the given feature folders (dirs) at the given base folder name (baseName)
+    importFeatures = baseName: dirs: exports.importPaths (builtins.map (d: ../modules + "/${baseName}/${d}") dirs);
+
     # GPG command for checking if there is a hardware key present
     isGpgUnlocked = pkgs: "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
@@ -66,6 +89,7 @@
       ])})
     '';
 
+    # DEPRECATED Remove this since now we're using slimports
     # Concatinatinates all file paths in a given directory into one list.
     # It recurses through subdirectories. If it detects a default.nix, only that
     # file will be considered.

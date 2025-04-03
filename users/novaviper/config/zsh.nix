@@ -6,7 +6,7 @@
 }: let
   hm-config = config.hm;
 in {
-  home.packages = with pkgs; [
+  hm.home.packages = with pkgs; [
     # Terminal Decorations
     toilet # Display fancy text in terminal
     dwt1-shell-color-scripts # Display cool graphics in terminal

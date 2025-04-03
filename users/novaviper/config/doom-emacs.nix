@@ -4,16 +4,17 @@
   ...
 }: let
   hm-config = config.hm;
+  myself = "novaviper";
 in {
-  create.configFile = {
+  hm.xdg.configFile = {
     "doom/config.org" = myLib.dots.mkDotsSymlink {
       config = hm-config;
-      user = hm-config.home.username;
+      user = myself;
       source = "doom/config.org";
     };
     "doom/snippets/.keep" = myLib.dots.mkDotsSymlink {
       config = hm-config;
-      user = hm-config.home.username;
+      user = myself;
       source = builtins.toFile "keep" "";
     };
   };

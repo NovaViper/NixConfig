@@ -6,7 +6,7 @@
 }: let
   hm-config = config.hm;
 in {
-  home.packages = with pkgs; [plasma-panel-colorizer];
+  hm.home.packages = with pkgs; [plasma-panel-colorizer];
 
   hm.programs.plasma.panels = [
     # Windows like panel at the bottom

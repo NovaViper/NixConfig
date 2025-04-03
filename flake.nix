@@ -16,8 +16,6 @@
   inputs = {
     # Core dependencies
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
-    # Pin to last known working commit version before gcc breakage, thanks to llakala
-    #nixpkgs.url = "github:nixos/nixpkgs/d70bd19e0a38ad4790d3913bf08fcbfc9eeca507";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     hardware.url = "github:nixos/nixos-hardware";
     systems.url = "github:nix-systems/default-linux";
@@ -104,7 +102,7 @@
     # NixOS configuration entrypoint
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations =
-      # Run mkHost for each nixosConfiguration, with key passed as host
+      # Run mkHost for each nixosConfiguration, with key passed as hostname
       builtins.mapAttrs myLib.mkHost {
         # Main desktop
         ryzennova = {

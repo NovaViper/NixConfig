@@ -5,12 +5,13 @@
   ...
 }: let
   hm-config = config.hm;
+  myself = "novaviper";
 in {
-  create.configFile = lib.mkMerge [
+  hm.xdg.configFile = lib.mkMerge [
     (lib.mkIf config.modules.tmux.enable {
       "tmuxp/session.yaml" = myLib.dots.mkDotsSymlink {
         config = hm-config;
-        user = hm-config.home.username;
+        user = myself;
         source = "tmuxp/session.yaml";
       };
     })

@@ -7,6 +7,46 @@
 }: let
   c = config.lib.stylix.colors.withHashtag;
   f = config.stylix.fonts;
+  sddm-astro = pkgs.sddm-astronaut.override {
+    themeConfig = {
+      # [General]
+      CustomBackground = true;
+      Background = "${inputs.wallpapers}/purple-mountains-ai.png";
+      DimBackgroundImage = "0.0";
+
+      # [Blur Settings]
+      FullBlur = false;
+      PartialBlur = true;
+      BlurRadius = 80;
+
+      # [Design Customizations]
+      ## Form Customizations
+      HaveFormBackground = true;
+      FormPosition = "left";
+
+      Font = f.sansSerif.name;
+      FontSize = f.sizes.applications;
+
+      ## Colors
+      MainColor = c.base05;
+      AccentColor = c.base0F;
+      # Change password placeholder colors
+      placeholderColor = c.base0F;
+      IconColor = c.base05;
+      # Make form use a darker color
+      BackgroundColor = c.base00;
+
+      # [Locale]
+      HourFormat = "\"hh:mm A\"";
+      DateFormat = "\"dddd, MMMM d, yyyy\"";
+
+      # [Interface Behavior]
+      HideVirtualKeyboard = "false";
+      HideSystemButtons = "false";
+      HideLoginButton = "false";
+      #ForceHideVirtualKeyboardButton = "true";
+    };
+  };
 in {
   theme = {
     packages = with pkgs; [dracula-theme];
@@ -92,48 +132,8 @@ in {
   };
 
   services.displayManager.sddm.theme = "sddm-astronaut-theme";
-  environment.systemPackages = with pkgs; [
-    (sddm-astronaut.override {
-      themeConfig = {
-        # [General]
-        CustomBackground = true;
-        Background = "${inputs.wallpapers}/purple-mountains-ai.png";
-        DimBackgroundImage = "0.0";
-
-        # [Blur Settings]
-        FullBlur = false;
-        PartialBlur = true;
-        BlurRadius = 80;
-
-        # [Design Customizations]
-        ## Form Customizations
-        HaveFormBackground = true;
-        FormPosition = "left";
-
-        Font = f.sansSerif.name;
-        FontSize = f.sizes.applications;
-
-        ## Colors
-        MainColor = c.base05;
-        AccentColor = c.base0F;
-        # Change password placeholder colors
-        placeholderColor = c.base0F;
-        IconColor = c.base05;
-        # Make form use a darker color
-        BackgroundColor = c.base00;
-
-        # [Locale]
-        HourFormat = "\"hh:mm A\"";
-        DateFormat = "\"dddd, MMMM d, yyyy\"";
-
-        # [Interface Behavior]
-        HideVirtualKeyboard = "false";
-        HideSystemButtons = "false";
-        HideLoginButton = "false";
-        #ForceHideVirtualKeyboardButton = "true";
-      };
-    })
-  ];
+  environment.systemPackages = with pkgs; [sddm-astro];
+  services.displayManager.sddm.extraPackages = with pkgs; [sddm-astro];
 
   hm.programs = {
     plasma = let
