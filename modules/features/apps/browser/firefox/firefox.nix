@@ -27,12 +27,9 @@
   hm.programs.firefox.nativeMessagingHosts = with pkgs; [fx-cast-bridge];
 
   hm.programs.firefox.profiles."${config.userVars.username}" = {
-    extensions.packages = import ../utils/extensions.nix {inherit pkgs;};
-
     search = {
       force = true;
-      default = "Ecosia";
-      engines = import ../utils/searchEngines.nix {inherit lib pkgs;};
+      default = "ecosia";
     };
 
     settings = {

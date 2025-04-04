@@ -27,12 +27,9 @@
   hm.programs.floorp.nativeMessagingHosts = with pkgs; [fx-cast-bridge kdePackages.plasma-browser-integration];
 
   hm.programs.floorp.profiles."${config.userVars.username}" = {
-    extensions.packages = import ../utils/extensions.nix {inherit pkgs;};
-
     search = {
       force = true;
-      default = "Ecosia";
-      engines = import ../utils/searchEngines.nix {inherit lib pkgs;};
+      default = "ecosia";
     };
   };
 }
