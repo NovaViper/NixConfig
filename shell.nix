@@ -38,7 +38,9 @@ in {
       openssh
 
       # Git setup
-      git
+      gitFull
+      git-extras
+      tig
       just
       git-credential-oauth
       git-crypt
