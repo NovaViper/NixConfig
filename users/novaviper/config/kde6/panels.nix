@@ -34,7 +34,7 @@ in {
             };
             launchers = let
               # Auto switch terminal application desktop file
-              terminal = myLib.utils.getTerminalDesktopFile hm-config;
+              terminal = myLib.utils.getTerminalDesktopFile config;
             in [
               "preferred://browser"
               "applications:systemsettings.desktop"

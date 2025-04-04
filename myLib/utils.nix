@@ -53,12 +53,11 @@
     isGpgUnlocked = pkgs: "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
     getTerminalDesktopFile = config:
-      if builtins.hasAttr "TERMINAL" config.home.sessionVariables
-      then
-        if (config.home.sessionVariables.TERMINAL != "ghostty")
-        then "${config.home.sessionVariables.TERMINAL}"
-        else "com.mitchellh.ghostty"
-      else "org.kde.konsole";
+      if (config.userVars.defaultTerminal == "ghostty")
+      then "com.mitchellh.ghostty"
+      else if (config.userVars.defaultTerminal == "konsole")
+      then "org.kde.konsole"
+      else "${config.userVars.defaultTerminal}";
 
     # Most of these are left null since I'm piggybacking off of the custom context function I've made
     mkMu4eContext = {

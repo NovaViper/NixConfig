@@ -29,7 +29,7 @@ in {
     configFile = {
       kdeglobals = let
         # Auto switch terminal application desktop file
-        terminal = myLib.utils.getTerminalDesktopFile hm-config;
+        terminal = myLib.utils.getTerminalDesktopFile config;
       in {
         General.TerminalApplication = "${terminal}.destop";
         General.TerminalService = "${terminal}.desktop";
