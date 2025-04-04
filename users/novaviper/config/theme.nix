@@ -134,6 +134,7 @@ in {
     plasma = let
       workspace = {
         lookAndFeel = "org.kde.breezedark.desktop";
+        iconTheme = "Papirus-Dark";
         colorScheme = "DraculaPurple";
         #splashScreen = "";
         wallpaperSlideShow = {
