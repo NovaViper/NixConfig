@@ -1,0 +1,14 @@
+{pkgs, ...}:
+{
+  # Fingerprint reader: login and unlock with fingerprint (if you add one with `fprintd-enroll`)
+  # The driver doesn't work so far
+  services.fprintd = {
+    enable = true;
+    tod.enable = true;
+    tod.driver = pkgs.libfprint-2-tod1-goodix;
+  };
+
+  services.udev.packages = with pkgs; [
+    libfprint-goodixtls-55x4
+  ];
+}

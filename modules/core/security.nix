@@ -39,4 +39,10 @@ _: {
     "net.ipv4.tcp_congestion_control" = "bbr";
     "net.core.default_qdisc" = "cake";
   };
+
+  # Enable firmware updates on Linux
+  services.fwupd = {
+    enable = true;
+    extraRemotes = ["lvfs-testing"];
+  };
 }

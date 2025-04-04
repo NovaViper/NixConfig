@@ -5,8 +5,14 @@
   lib,
   myLib,
   inputs,
+  stateVersion,
+  system,
   ...
 }: {
+  # Setup primary variables for the systems
+  system.stateVersion = stateVersion;
+  nixpkgs.hostPlatform = system;
+
   # Config Nixpkgs
   nixpkgs = {
     overlays = builtins.attrValues self.overlays;

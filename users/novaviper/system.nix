@@ -3,25 +3,34 @@
   lib,
   myLib,
   pkgs,
-  username,
   inputs,
   ...
 }: let
   hm-config = config.hm;
-  agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${username}-password".path;
+  myself = "novaviper";
+  agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${myself}-password".path;
 in {
-  variables = {
-    defaultTerminal = "kitty";
-    defaultBrowser = "floorp";
-    defaultTextEditor = "doom-emacs";
-    user = {
-      fullName = "Nova Leary";
-      emailAddress = "coder.nova99@mailbox.org";
-    };
+  imports = myLib.utils.importFeatures "features" [
+    ### Shell
+    "cli/shell/fish"
+
+    ### Terminal Utils
+    "cli/utilities"
+    "cli/prompt/oh-my-posh"
+    "cli/deco"
+    "cli/multiplexer/tmux"
+    "cli/history"
+    #"cli/history/atuin"
+    #"cli/history/mcfly"
+  ];
+
+  userVars = {
+    fullName = "Nova Leary";
+    email = "coder.nova99@mailbox.org";
     userIdentityPaths = myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
   };
 
-  users.users.${username} = {
+  users.users.${myself} = {
     useDefaultShell = true; # Use the shell environment module declaration
     extraGroups = [
       "networkmanager"
@@ -41,61 +50,8 @@ in {
   #time.timeZone = lib.mkForce "America/Chicago";
 
   # User Secrets
-  age.secrets."${username}-password" = myLib.secrets.mkSecretFile {
-    user = username;
+  age.secrets."${myself}-password" = myLib.secrets.mkSecretFile {
+    user = myself;
     source = "passwd.age";
-  };
-
-  # Make CAPS LOCK become CTRL key for Emacs
-  services.xserver.xkb.options = "terminate:ctrl_alt_bksp,caps:ctrl_modifier";
-
-  programs.localsend.enable = true;
-
-  modules = myLib.utils.enable [
-    # Core
-    "git"
-    "doom-emacs"
-    "password-store"
-
-    # Shell
-    "fish"
-
-    # Hardware
-    "yubikey"
-
-    # Services
-    "syncthing"
-
-    # Terminal Utils
-    "shell-utils"
-    "nix"
-    "cava"
-    "tmux"
-    "bat"
-    "btop"
-    "fastfetch"
-    "topgrade"
-
-    # Development Environment
-    "latex"
-    "lua"
-    "markdown"
-    "python"
-    "rust"
-
-    # Applications
-    #"vivaldi"
-    #"jellyfin-player" #Feishin is now EOL
-    "borg"
-    "discord"
-    "location"
-  ];
-
-  home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh pineflash klipper-estimator];
-
-  hm.age.secrets."borg_token" = myLib.secrets.mkSecretFile {
-    user = username;
-    source = "borg.age";
-    destination = "${hm-config.xdg.configHome}/borg/keys/srv_dev_disk_by_uuid_5aaed6a3_d2c7_4623_b121_5ebb8d37d930_Backups";
   };
 }

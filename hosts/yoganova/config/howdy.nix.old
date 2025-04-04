@@ -1,0 +1,15 @@
+_:
+{
+  # Configure Howdy
+  services.howdy.settings = {
+    video = {
+      device_path = "/dev/video2";
+      dark_threshold = 90;
+    };
+    # you may not need these
+    core = {
+      no_confirmation = true;
+      ignore_closed_lid = true;
+    };
+  };
+}

@@ -8,6 +8,8 @@
   hm-config = config.hm;
   myself = "novaviper";
 in {
+  imports = lib.singleton ./base.nix;
+
   hm.home.packages = with pkgs; [digikam];
 
   hm.xdg.configFile = {

@@ -7,7 +7,7 @@
   hm-config = config.hm;
   myself = "novaviper";
 in {
-  hm.xdg.configFile = lib.mkIf config.modules.alvr.enable {
+  hm.xdg.configFile = lib.mkIf (config.features.vr == "alvr") {
     "alvr/session.json" = myLib.dots.mkDotsSymlink {
       config = hm-config;
       user = myself;

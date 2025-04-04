@@ -8,6 +8,8 @@
   hm-config = config.hm;
   mail-secrets = (myLib.secrets.evalSecret hm-config.home.username).mail;
   pass = "${lib.getExe hm-config.programs.password-store.package}";
+  userVars = config.userVars;
+  myselfName = userVars.username;
 in {
   hm.accounts.email = {
     maildirBasePath = "${hm-config.xdg.dataHome}/mail";
@@ -18,7 +20,7 @@ in {
       primary = true;
       inherit address smtp;
       userName = address;
-      realName = "Nova Leary";
+      realName = "${myselfName}";
       aliases = ["code.nova99@mailbox.org" "${mail-secrets.personal-1.alias-work}" "${mail-secrets.personal-1.alias-school}" "${mail-secrets.personal-1.alias-shop}"];
       mu.enable = true;
       imap = {
@@ -47,7 +49,7 @@ in {
     in {
       inherit address smtp;
       userName = address;
-      realName = "Nova Leary";
+      realName = "${myselfName}";
       mu.enable = true;
       # Declaring ports for Gmail breaks it!!
       imap.host = "imap.gmail.com";
@@ -83,11 +85,11 @@ in {
   # Add check to ensure to only run mbsync when my hardware key is inserted
   hm.systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${myLib.utils.isGpgUnlocked pkgs}"'';
 
-  create.configFile = let
+  hm.xdg.configFile = let
     acct = hm-config.accounts.email.accounts;
     aliasElem = a: i: builtins.elemAt a.aliases i;
   in
-    lib.mkIf config.modules.doom-emacs.enable {
+    lib.mkIf (userVars.defaultEditor == "doom-emacs") {
       "doom/mu4e-accounts.el".text = ''
         ;;; mu4e-accounts.el -*- lexical-binding: t; -*-
         (after! mu4e

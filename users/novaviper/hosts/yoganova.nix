@@ -8,6 +8,8 @@
   hm-config = config.hm;
   myself = "novaviper";
 in {
+  imports = lib.singleton ./base.nix;
+
   hm.home.packages = with pkgs; [moonlight-qt];
 
   hm.programs.plasma.input.keyboard.options = ["caps:ctrl_modifier"];

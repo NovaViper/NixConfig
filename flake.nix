@@ -125,11 +125,11 @@
 
     # Reusable nixos modules you might want to export
     # These are usually stuff you would upstream into nixpkgs
-    nixosModules = import ./modules/upstream/nixos;
+    nixosModules.default = myLib.slimports {paths = lib.singleton ./modules/extra/nixosModules;};
 
     # Reusable home-manager modules you might want to export
     # These are usually stuff you would upstream into home-manager
-    homeManagerModules = import ./modules/upstream/home-manager;
+    homeModules.default = myLib.slimports {paths = lib.singleton ./modules/extra/homeModules;};
 
     # Your custom packages and modifications, exported as overlays output
     overlays = import ./overlays {inherit self;};

@@ -23,7 +23,6 @@
     conds = import ./conds.nix flakeNLibs;
     dots = import ./dots.nix flakeNLibs;
     utils = import ./utils.nix flakeNLibs;
-    utilMods = import ./utilMods.nix flakeNLibs;
     mkHost = import ./mkHost.nix flakeNLibs;
     mkHome = import ./mkHome.nix flakeNLibs;
     slimports = import ./slimports.nix flakeNLibs;

@@ -48,17 +48,12 @@
     };
   };
 in {
-  theme = {
-    packages = with pkgs; [dracula-theme];
-    name = "Dracula";
-    nameSymbolic = "dracula";
-    iconTheme = {
-      package = pkgs.papirus-icon-theme.override {
-        color = "violet";
-      };
-      name = "Papirus-Dark";
-    };
-  };
+  hm.home.packages = with pkgs; [
+    dracula-theme
+    (papirus-icon-theme.override {
+      color = "violet";
+    })
+  ];
 
   stylix = {
     enable = true;
