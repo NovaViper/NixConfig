@@ -23,9 +23,9 @@
     conds = import ./conds.nix flakeNLibs;
     dots = import ./dots.nix flakeNLibs;
     utils = import ./utils.nix flakeNLibs;
-    utilMods = import ./utilMods.nix flakeNLibs;
     mkHost = import ./mkHost.nix flakeNLibs;
     mkHome = import ./mkHome.nix flakeNLibs;
+    slimports = import ./slimports.nix flakeNLibs;
     mkUnfreeNixpkgs = import ./mkUnfreeNixpkgs.nix;
 
     # This is a function that generates an attribute by calling function you pass to it, with each system as an argument

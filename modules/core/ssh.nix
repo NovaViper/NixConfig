@@ -5,10 +5,9 @@
   self,
   ...
 }: let
-  desktopW = config.services.desktopManager;
-
+  cfgD = config.features.desktop;
   askpass =
-    if desktopW.plasma6.enable
+    if cfgD == "kde"
     then "${lib.getExe pkgs.kdePackages.ksshaskpass}"
     else "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
 in {
@@ -26,16 +25,17 @@ in {
 
   programs.ssh = {
     startAgent = true;
+    enableAskPassword =
+      if (cfgD != null)
+      then true
+      else false;
     askPassword = "${askpass}";
   };
 
   # Enforce askpass gui when the option is enabled (based on rather x11 is running)
-  /*
-  environment.sessionVariables =
-  lib.mkIf (config.programs.ssh.enableAskPassword) {
+  environment.sessionVariables = lib.mkIf (config.programs.ssh.enableAskPassword) {
     SSH_ASKPASS_REQUIRE = "prefer";
   };
-  */
 
   hm = {
     programs.ssh.enable = true;
@@ -43,20 +43,19 @@ in {
     # Add machines delcared in our outputs to be have ssh hosts so we can use remote builds!
     programs.ssh.matchBlocks = let
       nixosConfigs = builtins.attrNames self.outputs.nixosConfigurations;
-      homeConfigs = map (n: lib.last (lib.splitString "@" n)) (builtins.attrNames self.outputs.homeConfigurations);
-      hostNames =
-        (attrs:
-          builtins.filter (name: (name != "live-image" && name != "iso"))
-          (lib.unique attrs))
-        nixosConfigs
-        ++ homeConfigs;
+      #homeConfigs = map (n: lib.last (lib.splitString "@" n)) (builtins.attrNames self.outputs.homeConfigurations);
+      hostNames = (attrs:
+        builtins.filter (name: (name != "live-image" && name != "iso" && name != "installer"))
+        (lib.unique attrs))
+      nixosConfigs;
+      #++ homeConfigs;
       matchBlocksForHosts = host: [
         {
           name = host;
           value = {
             hostname = "${host}";
             port = 22;
-            identityFile = "${config.hm.home.homeDirectory}/.ssh/id_ed25519_sk_rk_nixbuilder";
+            identityFile = "${config.userVars.homeDirectory}/.ssh/id_ed25519_sk_rk_nixbuilder";
             extraOptions.RequestTTY = "Force";
           };
         }

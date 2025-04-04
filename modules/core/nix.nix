@@ -5,8 +5,14 @@
   lib,
   myLib,
   inputs,
+  stateVersion,
+  system,
   ...
 }: {
+  # Setup primary variables for the systems
+  system.stateVersion = stateVersion;
+  nixpkgs.hostPlatform = system;
+
   # Config Nixpkgs
   nixpkgs = {
     overlays = builtins.attrValues self.overlays;
@@ -15,6 +21,10 @@
       joypixels.acceptLicense = true;
     };
   };
+
+  environment.variables.NIX_SSHOPTS = "-t";
+
+  documentation.nixos.enable = false; # Apparently speeds up rebuild time
 
   nix = {
     # Makes `nix run` commands use unfree
@@ -27,8 +37,6 @@
       unfree-stable.flake = pkgs.callPackage myLib.mkUnfreeNixpkgs {path = inputs.nixpkgs-stable;};
     };
 
-    # Disable channels
-    channel.enable = false;
     # Force latest nix version
     package = pkgs.nixVersions.latest;
 
@@ -80,10 +88,7 @@
       min-free = 128000000; # 128MB
       max-free = 1000000000; # 1GB
       fallback = true; # If binary cache fails, it's okay
+      keep-going = true; # If a derivation fails, build the others. We'll fix the failed one later
     };
   };
-
-  environment.variables.NIX_SSHOPTS = "-t";
-
-  documentation.nixos.enable = false; # Apparently speeds up rebuild time
 }

@@ -31,7 +31,6 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#visual-session-and-window-settings][Visual, Session, and Window Settings]]
     - [[#doom-theme][Doom Theme]]
     - [[#doom-dashboard][Doom Dashboard]]
-    - [[#disable-mixed-pitch-for-cursor][Disable Mixed Pitch for Cursor]]
     - [[#modeline][Modeline]]
     - [[#window-splitting][Window Splitting]]
     - [[#centaur-tabs][Centaur Tabs]]
@@ -63,6 +62,8 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#lua-lsp-mode-configurations][Lua LSP Mode Configurations]]
   - [[#keyboard-integration-with-magit][Keyboard integration with Magit]]
   - [[#make-magit-more-verbose][Make Magit more verbose]]
+  - [[#make-magit-todo-travel-deeper-to-get-more-todos][Make Magit-todo travel deeper to get more TODOs]]
+  - [[#make-magit-show-varients-on-hunks][Make Magit show varients on hunks]]
 - [[#mu4e-configuration][MU4E Configuration]]
     - [[#main-configurations][Main Configurations]]
     - [[#utility-functions][Utility Functions]]
@@ -129,6 +130,9 @@ We start by simply defining the standard headers used by the three files. These 
 ;; To install a package with Doom you must declare them here and run 'doom sync'
 ;; on the command line, then restart Emacs for the changes to take effect -- or
 ;; use 'M-x doom/reload'.
+
+;; To install a package with Doom you must declare them here and run 'doom sync'
+;; on the command line, then restart Emacs for the changes to take effect -- or
 
 
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
@@ -285,7 +289,7 @@ This code is written to ~init.el~ to select which modules to load.
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       ;;(company +childframe)           ; the ultimate code completion backend
+       ;;company           ; the ultimate code completion backend
        (corfu +orderless)  ; complete with cap(f), cape and a flying feather!
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
@@ -331,7 +335,8 @@ This code is written to ~init.el~ to select which modules to load.
        word-wrap         ; soft wrapping with language-aware indent
 
        :emacs
-       (dired +icons)             ; making dired pretty [functional]
+       (dired +icons             ; making dired pretty [functional]
+              +dirvish)
        electric          ; smarter, keyword-based electric-indent
        ;;eww               ; the internet is gross
        ;;ibuffer           ; interactive buffer management
@@ -353,7 +358,7 @@ This code is written to ~init.el~ to select which modules to load.
        ;;ansible
        ;;biblio            ; Writes a PhD for you (citation needed)
        ;;collab            ; buffers with friends
-       (debugger +lsp)         ; FIXME stepping through code, to help you add bugs
+       (debugger +lsp)          ; FIXME stepping through code, to help you add bugs
        direnv
        ;;docker
        editorconfig      ; let someone else argue about tabs vs spaces
@@ -416,19 +421,22 @@ This code is written to ~init.el~ to select which modules to load.
        ;;ledger            ; be audit you can be
        (lua +lsp               ; one-based indices? one-based indices
             +tree-sitter)
-       (markdown +grip)          ; writing docs for people to ignore
+       (markdown +grip)         ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c
        (nix +lsp               ; I hereby declare "nix geht mehr!"
             +tree-sitter)
        ;;ocaml             ; an objective camel
-       (org +dragndrop               ; organize your plain life in plain text
+       (org +brain                ; organize your plain life in plain text
+            +contacts
             +crypt
+            +dragndrop
             +gnuplot
             +journal
             +noter
             +pandoc
             +pomodoro
-            +pretty)
+            +pretty
+            +roam2)
        ;;php               ; perl's insecure younger brother
        ;;plantuml          ; diagrams for confusing people more
        ;;graphviz          ; diagrams for confusing yourself even more
@@ -454,9 +462,8 @@ This code is written to ~init.el~ to select which modules to load.
        ;;solidity          ; do you need a blockchain? No.
        ;;swift             ; who asked for emoji variables?
        ;;terra             ; Earth and Moon in alignment for performance.
-       ;;(web +lsp               ; the tubes
-       ;;     +tree-sitter)
-       (yaml +lsp              ; JSON, but readable
+       ;;web               ; the tubes
+       (yaml +lsp             ; JSON, but readable
              +tree-sitter)
        ;;zig               ; C, but simpler
 
@@ -468,7 +475,7 @@ This code is written to ~init.el~ to select which modules to load.
        :app
        calendar
        ;;emms
-       ;;everywhere        ; *leave* Emacs!? You must be joking
+       everywhere        ; *leave* Emacs!? You must be joking
        ;;irc               ; how neckbeards socialize
        ;;(rss +org)        ; emacs as an RSS reader
 
@@ -495,7 +502,7 @@ Installs several packages I need,
 (package! evil-tutor)
 (package! org-super-agenda)
 (package! org-wild-notifier)
-(package! visual-fill-column)
+;;(package! visual-fill-column)
 (package! exec-path-from-shell)
 (package! platformio-mode)
 (package! numpydoc)
@@ -510,17 +517,16 @@ Installs several packages I need,
 * Editor Configuration
 ** General Configuration
 *** Import Nix Values
-Brings up values from flake (see [[file:~/Documents/NixConfig/home/novaviper/features/emacs/][features/emacs]]). Includes variables such as =user-full-name=, =user-username=, =user-mail-address=, =doom-font= and a few more custom variables used throughout the config
+Brings up values from flake (see [[file:~/Documents/NixConfig/common/features/apps/editor/doom-emacs/doom.nix][features/emacs]]). Includes variables such as =user-full-name=, =user-username=, =user-mail-address=, =doom-font= and a few more custom variables used throughout the config. Also has some Stylix settings to customize Emacs to match the preferences set for Stylix
 #+begin_src emacs-lisp
 ;; Import relevant system variables from flake
 (load (concat doom-user-dir "system-vars.el"))
 #+end_src
 
 *** Global Auto Revert
-A buffer can get out of sync with respect to its visited file on disk if that file is changed by another program. To keep it up to date, you can enable Auto Revert mode by typing M-x auto-revert-mode, or you can set it to be turned on globally with =global-auto-revert-mode=.  I have also turned on Global Auto Revert on non-file buffers, which is especially useful for ~dired~ buffers.
+A buffer can get out of sync with respect to its visited file on disk if that file is changed by another program. To keep it up to date, you can enable Auto Revert mode by typing M-x auto-revert-mode, or you can set it to be turned on globally with =global-auto-revert-mode=. I have also turned on Global Auto Revert on non-file buffers, which is especially useful for ~dired~ buffers.
 #+begin_src emacs-lisp
 (setq global-auto-revert-mode t)
-(setq auto-revert-mode t)
 (setq global-auto-revert-non-file-buffers t)
 (setq auto-revert-use-notify t)
 #+end_src
@@ -588,12 +594,6 @@ Add more entries to Doom Dashboard
                :action =mu4e))
 #+end_src
 
-*** Disable Mixed Pitch for Cursor
-Don't modify the cursor when using =mixed-pitch-mode=
-#+begin_src emacs-lisp
-(setq mixed-pitch-variable-pitch-cursor nil)
-#+end_src
-
 *** Modeline
 **** Word Count
 Show word count on modeline
@@ -633,21 +633,11 @@ Focus on new windows after splitting and enable prompt for window splitting with
 *** Centaur Tabs
 Several changes made to centaur tabs to make it more usable.
 - Set selected style to have an under outline
-- Create custom function that forces centaur tabs to reload when running in daemon mode (fixes [[https://github.com/doomemacs/doomemacs/issues/6647][issue]] where centaur tabs doesn't work properly when using emacsclient)
 - Make the tabs larger to be easier to see
 - Enable navigation buttons in tab bar
 - Make centaur tabs headline font match
 - Group your tabs by Projectile’s project.
 #+begin_src emacs-lisp
-; Fix centaur tabs in Emacs daemon mod
-(defun tdr/fix-centaur-tabs ()
-  (centaur-tabs-mode -1)      ; Disable Centaur Tabs globally
-  (centaur-tabs-mode 1)       ; Re-enable Centaur Tabs globally
-  ; Turn off local instance of centaur tabs (when buffer is either a popup or is the Doom Dashboard)
-  (if (or (+popup-buffer-p (current-buffer)) (+doom-dashboard-p (current-buffer)))
-      (centaur-tabs-local-mode)
-      (doom/reload-theme)))
-
 (use-package! centaur-tabs
   :demand
   :init
@@ -657,9 +647,6 @@ Several changes made to centaur tabs to make it more usable.
         centaur-tabs-set-bar 'under
         ; Make underline bar work properly
         x-underline-at-descent-line t)
-  (if (daemonp)
-      (add-hook 'server-after-make-frame-hook 'tdr/fix-centaur-tabs)
-    (add-hook 'after-init-hook 'tdr/fix-centaur-tabs))
   :config
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project))
@@ -735,7 +722,6 @@ This section contains several important variables for various parts of =org-mode
 - =org-pretty-entities=: Make LaTeX special symbols appear as pretty Unicode characters instead of plain text
 - =org-startup-with-inline-images=: Make org mode show inline images when loading a new org file
 - =org-image-actual-width=: Set the actual image width in org mode to 300px when inlining them
-- =org-emphasis-alist=: Sets colors for emphasis characters
 
 #+begin_src emacs-lisp
 (after! org
@@ -747,6 +733,7 @@ This section contains several important variables for various parts of =org-mode
         org-image-actual-width '(300)
 ))
 #+end_src
+
 *** Disable Electric Mode in Org
 [[https://code.orgmode.org/bzg/org-mode/src/master/etc/ORG-NEWS#L323][electric-mode]] is disabled in org-mode since it is now respected by it! Leaving it on will cause indentations to misbehave when hitting <RET> (Enter) multiple times.
 #+begin_src emacs-lisp
@@ -760,9 +747,9 @@ Adds several configurations to customize the fonts and visual appearance of org-
 - Adjust the text area width and make the text centered for Doom's =zen module= (aka =writeroom=)
 #+begin_src emacs-lisp
 ; Enable variable-pitch-mode and visual-line mode in Org mode by default.
-(add-hook! org-mode :append
-           #'visual-line-mode
-           #'variable-pitch-mode)
+;(add-hook! org-mode :append
+;           #'visual-line-mode
+;           #'variable-pitch-mode)
 
 ; Configure org-appear
 (add-hook! org-mode :append #'org-appear-mode)
@@ -770,10 +757,10 @@ Adds several configurations to customize the fonts and visual appearance of org-
       org-appear-autosubmarkers t)
 
 ; Configure writeroom/Doom zen module
-(after! writeroom
+;(after! writeroom
   ; Center the text and increase the widrh of the visual columns
-  (setq visual-fill-column-center-text t
-        visual-fill-column-width '(60)))
+  ;(setq visual-fill-column-center-text t
+  ;      visual-fill-column-width '(60)))
 ;(setq +zen-window-divider-size 4
 ;      +zen-text-scale 2)
 #+end_src
@@ -814,7 +801,6 @@ This section contains configurations dealing with org tasks and agendas. I use t
                   ("idea" . ?i))
 ))
 #+end_src
-
 
 *** Quality of Life Functions
 This section adds in several really useful and QoL configurations that make using org-agenda and tasks much easier
@@ -874,9 +860,10 @@ Function to list all available org agenda files and switch to them. Create a new
 Make org-agenda open with zen mode activated
 #+begin_src emacs-lisp
 (defun org-agenda-open-hook ()
-(writeroom-mode 1)
-(text-scale-set 0)
-(visual-fill-column-adjust))
+  (writeroom-mode 1)
+  ;(text-scale-set 0)
+  ;(visual-fill-column-adjust)
+  )
 
 (add-hook 'org-agenda-mode-hook 'org-agenda-open-hook)
 #+end_src
@@ -961,6 +948,7 @@ Adds some nicer default values for org-roam and notetaking
         org-default-notes-file (concat org-directory "refile.org")
 ))
 #+end_src
+
 **** Advice for Refiling
 Add advice to save org buffers after refiling them (useful for college agenda)
 #+begin_src emacs-lisp
@@ -1110,6 +1098,16 @@ Enable showing keyword entries inside of Magit buffer
 Make Magit verbose messages
 #+begin_src emacs-lisp
 (setq magit-verbose-messages t)
+#+end_src
+
+** Make Magit-todo travel deeper to get more TODOs
+#+begin_src emacs-lisp
+(setq magit-todos-depth 5)
+#+end_src
+
+** Make Magit show varients on hunks
+#+begin_src emacs-lisp
+(setq magit-ediff-dwim-show-on-hunks t)
 #+end_src
 
 * MU4E Configuration

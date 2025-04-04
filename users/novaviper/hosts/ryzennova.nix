@@ -3,20 +3,22 @@
   lib,
   myLib,
   pkgs,
-  username,
   ...
 }: let
   hm-config = config.hm;
+  myself = "novaviper";
 in {
-  home.packages = with pkgs; [digikam];
+  imports = lib.singleton ./base.nix;
+
+  hm.home.packages = with pkgs; [digikam];
 
   hm.xdg.configFile = {
     "OpenRGB/plugins/settings/effect-profiles/default".source = myLib.dots.getDotsPath {
-      user = username;
+      user = myself;
       path = "openrgb/rgb-default-effect.json";
     };
     "OpenRGB/plugins/settings/EffectSettings.json".source = myLib.dots.getDotsPath {
-      user = username;
+      user = myself;
       path = "openrgb/rgb-effect-settings.json";
     };
   };

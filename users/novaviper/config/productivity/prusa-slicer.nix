@@ -5,6 +5,7 @@
   ...
 }: let
   hm-config = config.hm;
+  myself = "novaviper";
 in {
   hm.xdg.mimeApps = {
     associations = {
@@ -19,38 +20,38 @@ in {
     };
   };
 
-  create.configFile = {
+  hm.xdg.configFile = {
     "PrusaSlicer/printer" = myLib.dots.mkDotsSymlink {
       config = hm-config;
-      user = hm-config.home.username;
+      user = myself;
       source = "PrusaSlicer/printer";
       recursive = true;
     };
     "PrusaSlicer/print" = myLib.dots.mkDotsSymlink {
       config = hm-config;
-      user = hm-config.home.username;
+      user = myself;
       source = "PrusaSlicer/print";
       recursive = true;
     };
     "PrusaSlicer/physical_printer" = myLib.dots.mkDotsSymlink {
       config = hm-config;
-      user = hm-config.home.username;
+      user = myself;
       source = "PrusaSlicer/physical_printer";
       recursive = true;
     };
     "PrusaSlicer/filament" = myLib.dots.mkDotsSymlink {
       config = hm-config;
-      user = hm-config.home.username;
+      user = myself;
       source = "PrusaSlicer/filament";
       recursive = true;
     };
     "PrusaSlicer/bed_models" = myLib.dots.mkDotsSymlink {
       config = hm-config;
-      user = hm-config.home.username;
+      user = myself;
       source = "PrusaSlicer/bed_models";
       recursive = true;
     };
   };
 
-  home.packages = with pkgs; [prusa-slicer];
+  hm.home.packages = with pkgs; [prusa-slicer];
 }

@@ -1,7 +1,19 @@
-_: {
-  networking.firewall.enable = true;
+{
+  config,
+  lib,
+  hostname,
+  ...
+}: {
+  networking = {
+    hostName = hostname;
+    firewall.enable = true;
+  };
+
   systemd.network.wait-online.enable = false;
   systemd.services.NetworkManager-wait-online.enable = false;
+
+  # Make NetworkManager use iwd
+  networking.networkmanager.wifi.backend = "iwd";
 
   # Enable mDNS
   services.avahi = {

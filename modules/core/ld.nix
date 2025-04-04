@@ -1,8 +1,8 @@
-# Taken from https://github.com/ywmaa/dotfiles/blob/main/nix-config/dynamic_binaries_support.nix
-{pkgs, ...}: {
-  # allow running binaries
-  services.envfs.enable = true;
-  programs.nix-ld.enable = true;
+{
+  lib,
+  pkgs,
+  ...
+}: {
   programs.nix-ld.libraries = with pkgs; [
     # Needed for operating system detection until
     # https://github.com/ValveSoftware/steam-for-linux/issues/5909 is resolved
@@ -149,7 +149,6 @@
     # Steam ends up with LD_LIBRARY_PATH=<bunch of runtime stuff>:/usr/lib:<etc>
     # which overrides DT_RUNPATH in our binaries, so it tries to dynload the
     # very old versions of stuff from the runtime.
-    # FIXME: how do we even fix this correctly
     attr
 
     # Not formally in runtime but needed by some games
