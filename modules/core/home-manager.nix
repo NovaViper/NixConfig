@@ -63,13 +63,7 @@ in {
 
     #nix.settings = config.nix.settings;
 
-    programs = {
-      home-manager.enable = true;
-      emacs.enable = lib.mkDefault true;
-      git.enable = lib.mkDefault true;
-      ssh.enable = lib.mkDefault true;
-      gpg.enable = lib.mkDefault true;
-    };
+    programs.home-manager.enable = true;
 
     # (De)activate wanted systemd units when changing configs
     systemd.user.startServices = "sd-switch";
