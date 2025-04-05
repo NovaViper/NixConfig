@@ -47,6 +47,11 @@ in {
         entry = "${checks-in.pre-commit-hooks}/bin/destroyed-symlinks";
         types = ["symlink"];
       };
+      # ensure conventional commits standard
+      commitizen = {
+        enable = true;
+        stages = ["commit-msg"];
+      };
 
       alejandra.enable = true;
 
