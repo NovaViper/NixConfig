@@ -47,7 +47,7 @@
     importPaths = paths: lib.flatten (builtins.map exports.listNixFilesForPath paths);
 
     # Import the given feature folders (dirs) at the given base folder name (baseName)
-    importFeatures = baseName: dirs: exports.importPaths (builtins.map (d: ../modules + "/${baseName}/${d}") dirs);
+    importFeatures = baseName: dirs: exports.importPaths (builtins.map (d: ../. + "/${baseName}/${d}") dirs);
 
     # GPG command for checking if there is a hardware key present
     isGpgUnlocked = pkgs: "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";

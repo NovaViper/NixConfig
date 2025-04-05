@@ -17,7 +17,7 @@ flake @ {
       modules =
         myLib.slimports {
           paths = [
-            ../modules/core
+            ../core
 
             # Host machine
             ../hosts/${hostname}/config
