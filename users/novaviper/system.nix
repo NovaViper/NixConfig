@@ -6,11 +6,11 @@
   inputs,
   ...
 }: let
-  hm-config = config.hm;
   myself = "novaviper";
   agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${myself}-password".path;
 in {
-  imports = myLib.utils.importFeatures "features" [
+  /*
+    imports = myLib.utils.importFeatures "features" [
     ### Shell
     "cli/shell/fish"
 
@@ -23,8 +23,9 @@ in {
     #"cli/history/atuin"
     #"cli/history/mcfly"
   ];
+  */
 
-  userVars = {
+  userVars.${myself} = {
     fullName = "Nova Leary";
     email = "coder.nova99@mailbox.org";
     userIdentityPaths = myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
@@ -42,6 +43,8 @@ in {
       "i2c"
       "git"
       "gamemode"
+      "libvirtd"
+      "docker"
     ];
     openssh.authorizedKeys.keys = lib.singleton "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICkow+KpToZkMbhpqTztf0Hz/OWP/lWPCv47QNtZc6TaAAAADnNzaDpuaXhidWlsZGVy";
     hashedPasswordFile = agenixHashedPasswordFile;

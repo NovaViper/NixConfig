@@ -9,15 +9,18 @@
   myself = "novaviper";
 in {
   imports = lib.singleton ./base.nix;
+  hmUser = lib.singleton (hm: let
+    hm-config = hm.config;
+  in {
+    home.packages = with pkgs; [moonlight-qt];
 
-  hm.home.packages = with pkgs; [moonlight-qt];
+    programs.plasma.input.keyboard.options = ["caps:ctrl_modifier"];
 
-  hm.programs.plasma.input.keyboard.options = ["caps:ctrl_modifier"];
+    #programs.plasma.input.touchpads = [];
 
-  #hm.programs.plasma.input.touchpads = [];
-
-  hm.programs.rio.settings.window = {
-    width = 1200;
-    height = 800;
-  };
+    programs.rio.settings.window = {
+      width = 1200;
+      height = 800;
+    };
+  });
 }

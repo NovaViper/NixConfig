@@ -6,10 +6,9 @@
   inputs,
   stateVersion,
   hostname,
-  username,
+  users,
   ...
 }: let
-  hm-config = config.hm;
   activationScript = let
     commands = builtins.concatStringsSep "\n" (
       map (file: ''rm -fv "${file}" && echo Deleted "${file}"'') config.nukeFiles
@@ -27,7 +26,8 @@ in {
   imports = with inputs; [
     home-manager.nixosModules.home-manager
     # Let us use hm as shorthand for home-manager config
-    (lib.mkAliasOptionModule ["hm"] ["home-manager" "users" username])
+    #(lib.mkAliasOptionModule ["hm"] ["home-manager" "users" username])
+    (lib.mkAliasOptionModule ["hmShared"] ["home-manager" "sharedModules"])
   ];
 
   # Home file nuking script that deletes stuff just before we run home-manager's activation scripts
@@ -36,7 +36,7 @@ in {
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    extraSpecialArgs = {inherit self inputs stateVersion hostname username myLib;};
+    extraSpecialArgs = {inherit self inputs stateVersion hostname users myLib;};
     backupFileExtension = ".bak";
     sharedModules = with inputs;
       [
@@ -46,14 +46,22 @@ in {
       ++ self.homeModules.default;
   };
 
-  hm = {
+  /*
+    hmUser = lib.singleton (hm: let
+    hm-config = hm.config;
+  in {
+  */
+  hmShared = lib.singleton (hm: let
+    hm-config = hm.config;
+  in {
     home = {
       inherit stateVersion;
+      # REVIEW: Look at changing this maybe?
       #inherit (config.userVars.user) homeDirectory;
       preferXdgDirectories = true;
 
       sessionVariables = {
-        FLAKE = "${hm-config.home.homeDirectory}/Documents/NixConfig";
+        FLAKE = "${config.hostVars.configDirectory}";
       };
       sessionPath = ["${config.environment.sessionVariables.XDG_BIN_HOME}"];
     };
@@ -72,15 +80,5 @@ in {
     manual.html.enable = lib.mkForce false;
 
     news.display = "silent";
-
-    # Make sure XDG is enabled
-    xdg.enable = true;
-
-    xresources.path = lib.mkForce "${hm-config.xdg.configHome}/.Xresources";
-
-    gtk = {
-      enable = true;
-      gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
-    };
-  };
+  });
 }

@@ -7,16 +7,16 @@ flake @ {
 }: let
   # Helper function for creating the system config for NixOS
   mkHost = hostname: {
-    username ? throw "username must be set for ${hostname}",
+    users ? throw "users must be set for ${hostname}",
     system ? throw "system must be set for ${hostname}",
     stateVersion ? throw "stateVersion must be set for ${hostname}",
   }:
     lib.nixosSystem {
       inherit system;
-      specialArgs = flake // {inherit hostname username system stateVersion;};
+      specialArgs = flake // {inherit hostname users system stateVersion;};
       modules =
         myLib.slimports {
-          paths = [
+          paths = lib.flatten [
             ../core
 
             # Host machine
@@ -26,12 +26,14 @@ flake @ {
             ../hosts/${hostname}/hostVars.nix
 
             # User
-            ../users/${username}/system.nix
+            (map (user: ../users/${user}/system.nix) users)
           ];
-          optionalPaths = [
-            ../users/${username}/config
-            ../users/${username}/hosts/${hostname}.nix
-          ];
+
+          optionalPaths = lib.flatten (map (user: [
+              #../users/${user}/config
+              ../users/${user}/hosts/${hostname}.nix
+            ])
+            users);
         }
         ++ self.nixosModules.default;
     };

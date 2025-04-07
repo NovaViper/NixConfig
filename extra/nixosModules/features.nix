@@ -108,7 +108,9 @@ in {
         ];
       };
 
-      hm.home.sessionVariables = waylandEnv;
+      hmShared = lib.singleton {
+        home.sessionVariables = waylandEnv;
+      };
     })
 
     # Common
@@ -161,23 +163,25 @@ in {
         extraPortals = with pkgs; [xdg-desktop-portal-gtk];
       };
 
-      hm.xdg = {
-        /*
-          portal = {
-          enable = true;
-          xdgOpenUsePortal = true;
+      hmShared = lib.singleton {
+        xdg = {
+          /*
+            portal = {
+            enable = true;
+            xdgOpenUsePortal = true;
+          };
+          */
+          # Don't generate config at the usual place.
+          # Allow desktop applications to write their file association
+          # preferences to this file.
+          configFile."mimeapps.list".enable = false;
+          # Home-manager also writes xdg-mime-apps configuration to the
+          # "deprecated" location. Desktop applications will look in this
+          # list for associations, if no association was found in the
+          # previous config file.
+          dataFile."applications/mimeapps.list".force = true;
+          mimeApps.enable = true;
         };
-        */
-        # Don't generate config at the usual place.
-        # Allow desktop applications to write their file association
-        # preferences to this file.
-        configFile."mimeapps.list".enable = false;
-        # Home-manager also writes xdg-mime-apps configuration to the
-        # "deprecated" location. Desktop applications will look in this
-        # list for associations, if no association was found in the
-        # previous config file.
-        dataFile."applications/mimeapps.list".force = true;
-        mimeApps.enable = true;
       };
     })
     {

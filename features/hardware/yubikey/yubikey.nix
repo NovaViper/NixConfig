@@ -28,8 +28,11 @@
     ];
 
   # Make Yubikeys work with gnupg
-  hm.programs.gpg.scdaemonSettings = {
-    reader-port = "Yubico Yubi";
-    disable-ccid = true;
-  };
+
+  hmShared = lib.singleton (hm: {
+    programs.gpg.scdaemonSettings = {
+      reader-port = "Yubico Yubi";
+      disable-ccid = true;
+    };
+  });
 }

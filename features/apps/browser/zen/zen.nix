@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
@@ -12,23 +13,28 @@
     };
   });
 in {
-  hm.xdg.mimeApps = let
-    defaultApplications = {
-      "default-web-browser" = ["zen.desktop"];
-      "text/html" = ["zen.desktop"];
-      "x-scheme-handler/http" = ["zen.desktop"];
-      "x-scheme-handler/https" = ["zen.desktop"];
-      "x-scheme-handler/about" = ["zen.desktop"];
-      "x-scheme-handler/unknown" = ["zen.desktop"];
-      "application/xhtml+xml" = ["zen.desktop"];
-      "text/xml" = ["zen.desktop"];
-    };
-  in
-    lib.mkIf (config.userVars.defaultBrowser == "zen") {
-      enable = true;
-      inherit defaultApplications;
-      associations.added = defaultApplications;
-    };
+  hmUser = lib.singleton (hm: let
+    hm-config = hm.config;
+    username = hm-config.home.username;
+  in {
+    xdg.mimeApps = let
+      defaultApplications = {
+        "default-web-browser" = ["zen.desktop"];
+        "text/html" = ["zen.desktop"];
+        "x-scheme-handler/http" = ["zen.desktop"];
+        "x-scheme-handler/https" = ["zen.desktop"];
+        "x-scheme-handler/about" = ["zen.desktop"];
+        "x-scheme-handler/unknown" = ["zen.desktop"];
+        "application/xhtml+xml" = ["zen.desktop"];
+        "text/xml" = ["zen.desktop"];
+      };
+    in
+      lib.mkIf ((myLib.utils.getUserVars "defaultTerminal" hm-config) == "firefox") {
+        enable = true;
+        inherit defaultApplications;
+        associations.added = defaultApplications;
+      };
 
-  home.packages = [updatedZenBrowser];
+    home.packages = [updatedZenBrowser];
+  });
 }

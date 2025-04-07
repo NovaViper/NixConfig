@@ -22,12 +22,24 @@
     # GPG command for checking if there is a hardware key present
     isGpgUnlocked = pkgs: "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
-    getTerminalDesktopFile = config:
-      if (config.userVars.defaultTerminal == "ghostty")
+    # Get the value of a Home-manager.users option (Useful for NixOS-specific configs that can't directly access Home-Manager's config)
+    getHMOption = opt: config: builtins.toString (lib.mapAttrsToList (user: hmConfig: lib.getAttrFromPath (lib.strings.splitString "." opt) hmConfig) config.home-manager.users);
+
+    # Get the value of a user specific variable
+    getUserVars = option: config: let
+      username = myLib.utils.getHMOption "home.username" config;
+    in
+      config.userVars.${username}.${option};
+
+    # Gets the name of the desktop file for a user's preferred terminal emulator application
+    getTerminalDesktopFile = config: let
+      terminal = myLib.utils.getUserVars "defaultTerminal" config;
+    in
+      if (terminal == "ghostty")
       then "com.mitchellh.ghostty"
-      else if (config.userVars.defaultTerminal == "konsole")
+      else if (terminal == "konsole")
       then "org.kde.konsole"
-      else "${config.userVars.defaultTerminal}";
+      else "${terminal}";
 
     # Most of these are left null since I'm piggybacking off of the custom context function I've made
     mkMu4eContext = {

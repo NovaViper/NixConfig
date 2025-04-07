@@ -1,10 +1,8 @@
 {
-  config,
+  lib,
   pkgs,
   ...
-}: let
-  hm-config = config.hm;
-in {
+}: {
   environment.systemPackages = with pkgs; [
     heroic
     protonup-qt
@@ -47,12 +45,16 @@ in {
     addedAssociations."x-scheme-handler/steam" = "steam.desktop";
   };
 
-  hm.xdg = {
-    userDirs.extraConfig.XDG_GAME_DIR = "${hm-config.home.homeDirectory}/Games";
+  hmShared = lib.singleton (hm: let
+    hm-config = hm.config;
+  in {
+    xdg = {
+      userDirs.extraConfig.XDG_GAME_DIR = "${hm-config.home.homeDirectory}/Games";
 
-    mimeApps = {
-      defaultApplications."x-scheme-handler/steam" = "steam.desktop";
-      associations.added."x-scheme-handler/steam" = "steam.desktop";
+      mimeApps = {
+        defaultApplications."x-scheme-handler/steam" = "steam.desktop";
+        associations.added."x-scheme-handler/steam" = "steam.desktop";
+      };
     };
-  };
+  });
 }
