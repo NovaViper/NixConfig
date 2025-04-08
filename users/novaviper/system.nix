@@ -10,7 +10,7 @@
   myself = "novaviper";
   agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${myself}-password".path;
 in {
-  imports = myLib.utils.importFeatures "features" [
+  imports = myLib.utils.importFeatures "features/home" [
     ### Shell
     "cli/shell/fish"
 

@@ -1,5 +1,5 @@
 {myLib, ...}: {
-  imports = myLib.utils.importFeatures "features" [
+  imports = myLib.utils.importFeatures "features/system" [
     ### Hardware
     "hardware/bluetooth"
     "hardware/hard-accel"
@@ -21,8 +21,6 @@
     "desktop/plasma6"
 
     ### Applications
-    "apps/backup"
-    "apps/discord"
     "apps/games"
     "apps/libvirt"
     "apps/obs"

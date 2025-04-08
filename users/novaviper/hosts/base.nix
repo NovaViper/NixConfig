@@ -8,10 +8,12 @@
   hm-config = config.hm;
   myself = "novaviper";
 in {
-  imports = myLib.utils.importFeatures "features" [
+  imports = myLib.utils.importFeatures "features/home" [
     "apps/browser/floorp"
     "apps/editor/doom-emacs"
     "apps/terminal/kitty"
+    "apps/backup"
+    "apps/discord"
 
     "cli/dev"
     "cli/misc/pass"
