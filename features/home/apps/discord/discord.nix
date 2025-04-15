@@ -1,16 +1,16 @@
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   ...
 }: {
-  hm.home.packages = with pkgs;
-    if (config.features.useWayland)
+  home.packages = with pkgs;
+    if (osConfig.features.useWayland)
     then [discord-wayland vesktop]
     else [discord];
 
   # make vesktop autostart properly
-  hm.xdg.configFile."autostart/vesktop.desktop".text = ''
+  xdg.configFile."autostart/vesktop.desktop".text = ''
     [Desktop Entry]
     Type=Application
     Version=1.0

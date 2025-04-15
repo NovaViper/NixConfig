@@ -1,11 +1,6 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+_: {
   # Enable fancy git changelogs
-  hm.programs.git-cliff = {
+  programs.git-cliff = {
     enable = true;
 
     settings = {

@@ -4,34 +4,20 @@
   myLib,
   pkgs,
   ...
-}: let
-  hm-config = config.hm;
-in {
+}: {
   imports = [./zshAbbr.nix];
   features.shell = "zsh";
 
-  # Make the default shell for users be zsh
-  users.defaultUserShell = pkgs.zsh;
-
-  # Forcibly Disable .zshenv
-  home-manager.sharedModules = [{home.file.".zshenv".enable = false;}];
-  programs.zsh.enable = true;
-  # Source zshenv without ~/.zshenv
-  environment.etc."zshenv".text = ''export ZDOTDIR="$HOME"/.config/zsh'';
-  # Make zsh-completions work
-  environment.pathsToLink = ["/share/zsh"];
-
-  # Most of the configuration is done in Home-Manager
-  hm.xdg.configFile = {
+  xdg.configFile = {
     "zsh/functions" = myLib.dots.mkDotsSymlink {
-      config = hm-config;
-      user = config.userVars.username;
+      config = config;
+      user = config.home.username;
       source = "zsh/functions";
     };
   };
 
   # The shell itself
-  hm.programs.zsh = {
+  programs.zsh = {
     enable = true;
     enableCompletion = true;
     autosuggestion = {
@@ -44,7 +30,7 @@ in {
     dotDir = ".config/zsh";
     defaultKeymap = "viins";
     autocd = true;
-    history.path = "${hm-config.xdg.configHome}/zsh/.zsh_history";
+    history.path = "${config.xdg.configHome}/zsh/.zsh_history";
     localVariables = {
       # Make ZSH notifications expire, in miliseconds
       AUTO_NOTIFY_EXPIRE_TIME = 5000;
@@ -85,14 +71,14 @@ in {
         # set list-colors to enable filename colorizing
         zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
       ''
-      (lib.optionalString hm-config.programs.pyenv.enable ''
+      (lib.optionalString config.programs.pyenv.enable ''
         ### Pyenv command
         if command -v pyenv 1>/dev/null 2>&1; then
           eval "$(pyenv init -)"
         fi
       '')
       (
-        lib.optionalString hm-config.programs.fzf.enable ''
+        lib.optionalString config.programs.fzf.enable ''
           # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
           zstyle ':completion:*' menu no
 
@@ -153,7 +139,7 @@ in {
             '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out) || (out=$(which "$word") && echo $out) || echo "''${(P)word}"'
 
           ${
-            lib.optionalString hm-config.programs.eza.enable ''
+            lib.optionalString config.programs.eza.enable ''
               # preview directory's content with eza when completing cd or any path
               zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
               zstyle ':fzf-tab:complete:*:*' fzf-preview 'eza -1 --color=always ''${(Q)realpath}'
@@ -161,7 +147,7 @@ in {
           }
 
           ${
-            lib.optionalString hm-config.programs.tmux.enable ''
+            lib.optionalString config.programs.tmux.enable ''
               # Enable fzf-tab integration with tmux
               zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
               zstyle ':fzf-tab:*' popup-min-size 100 20
@@ -181,7 +167,7 @@ in {
 
       # Append HISTFILE before running autin import to make it work properly
       atuin-import =
-        lib.mkIf hm-config.programs.atuin.enable
+        lib.mkIf config.programs.atuin.enable
         "export HISTFILE && atuin import auto && unset HISTFILE";
     };
     antidote = {
@@ -201,7 +187,7 @@ in {
         "olets/zsh-autosuggestions-abbreviations-strategy"
 
         # Tmux integration
-        (lib.mkIf hm-config.programs.tmux.enable
+        (lib.mkIf config.programs.tmux.enable
           "ohmyzsh/ohmyzsh path:plugins/tmux")
 
         # Make ZLE use system clipboard

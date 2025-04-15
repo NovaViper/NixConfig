@@ -4,9 +4,7 @@
   myLib,
   pkgs,
   ...
-}: let
-  hm-config = config.hm;
-in {
+}: {
   features.desktop = "kde";
   features.useWayland = true;
 
@@ -27,14 +25,16 @@ in {
   programs.partition-manager.enable = true;
   programs.kdeconnect.enable = true;
 
-  hm.services.kdeconnect = {
-    enable = true;
-    package = pkgs.kdePackages.kdeconnect-kde;
-  };
+  home-manager.sharedModules = lib.singleton {
+    services.kdeconnect = {
+      enable = true;
+      package = pkgs.kdePackages.kdeconnect-kde;
+    };
 
-  hm.xdg.mimeApps = {
-    defaultApplications."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
-    associations.added."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
+    xdg.mimeApps = {
+      defaultApplications."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
+      associations.added."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
+    };
   };
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [elisa];

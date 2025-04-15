@@ -106,14 +106,14 @@
       builtins.mapAttrs myLib.mkHost {
         # Main desktop
         ryzennova = {
-          username = "novaviper";
+          primaryUser = "novaviper";
           system = "x86_64-linux";
           stateVersion = "24.11";
         };
 
         # Personal laptop
         yoganova = {
-          username = "novaviper";
+          primaryUser = "novaviper";
           system = "x86_64-linux";
           stateVersion = "24.11";
         };

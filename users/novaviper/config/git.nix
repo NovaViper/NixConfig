@@ -1,7 +1,11 @@
-_: {
-  hm.programs.git = {
+{
+  config,
+  myLib,
+  ...
+}: {
+  programs.git = {
     userName = "NovaViper";
-    userEmail = "coder.nova99@mailbox.org";
+    userEmail = myLib.utils.getUserVars "email" config;
     signing = {
       key = "DEAB6E5298F9C516";
       signByDefault = true;

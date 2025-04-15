@@ -1,5 +1,6 @@
 {
   config,
+  osConfig,
   lib,
   pkgs,
   options,
@@ -7,14 +8,9 @@
 }: let
   inherit (lib) mkEnableOption mkIf mkOption types;
   cfg = config.userVars;
-  cfgFeat = config.features;
+  cfgFeat = osConfig.features;
 in {
   options.userVars = {
-    username = mkOption {
-      type = types.str;
-      description = "The name of the current user";
-      default = "";
-    };
     fullName = mkOption {
       type = types.str;
       description = "Your first and last name";
@@ -25,36 +21,36 @@ in {
       description = "Your email address";
       default = "";
     };
-    homeDirectory = mkOption {
-      type = types.str;
-      description = ''
-        The directory for the user's folders. This should only be set if it's in a non-default location.
-      '';
-      default = "/home/${cfg.username}";
+    userIdentityPaths = mkOption {
+      #TODO Test
+      type = types.nullOr (types.listOf types.path);
+      description = "List of secret identity paths for the user";
+      default = null;
     };
     defaultTerminal = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
+      description = "The preferred terminal app";
       default = null;
     };
-
     defaultBrowser = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
+      description = "The preferred internet browser app";
       default = null;
     };
-
     defaultEditor = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
+      description = "The preferred text editor app";
       default = null;
     };
   };
 
   config.assertions = [
     {
-      assertion = (cfg.defaultTerminal != null) -> (cfgFeat.desktop != "none");
+      assertion = (cfg.defaultTerminal != null) -> (cfgFeat.desktop != null);
       message = "variables.defaultTerminal must be defined when modules.desktop is enabled!";
     }
     {
-      assertion = (cfg.defaultBrowser != null) -> (cfgFeat.desktop != "none");
+      assertion = (cfg.defaultBrowser != null) -> (cfgFeat.desktop != null);
       message = "variables.defaultBrowser must be defined when modules.desktop is enabled!";
     }
   ];

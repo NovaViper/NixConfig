@@ -1,8 +1,8 @@
 _: {
   # Fancy resource monitor for CLI, replaces top
-  hm.programs.btop.enable = true;
+  programs.btop.enable = true;
 
-  hm.programs.btop.settings = {
+  programs.btop.settings = {
     #* Set to True to enable "h,j,k,l,g,G" keys for directional control in lists.
     #* Conflicting keys for h:"help" and k:"kill" is accessible while holding shift.
     vim_keys = true;

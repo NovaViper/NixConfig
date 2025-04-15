@@ -1,7 +1,7 @@
 {lib, ...}: {
   # Credit to Frestein for the original code that this is taken from
   # https://github.com/JanDeDobbeleer/oh-my-posh/issues/5438#issuecomment-2488593826
-  hm.programs.zsh.initExtra = lib.mkBefore ''
+  programs.zsh.initExtra = lib.mkBefore ''
     # OMP zsh-vi-mode integration
     _omp_redraw-prompt() {
       local precmd
@@ -35,7 +35,7 @@
     }
   '';
 
-  hm.programs.fish = {
+  programs.fish = {
     shellInit = lib.concatStringsSep "\n" [
       ''
         # Load function to make oh-my-posh detect the bind variable and update cursor based on its value

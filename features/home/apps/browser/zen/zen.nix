@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
@@ -12,7 +13,7 @@
     };
   });
 in {
-  hm.xdg.mimeApps = let
+  xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["zen.desktop"];
       "text/html" = ["zen.desktop"];
@@ -24,7 +25,7 @@ in {
       "text/xml" = ["zen.desktop"];
     };
   in
-    lib.mkIf (config.userVars.defaultBrowser == "zen") {
+    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" config == "zen") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;

@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  hm.programs.git.aliases = {
+  programs.git.aliases = {
     p = "pull --ff-only";
     ff = "merge --ff-only";
     graph = "log --decorate --oneline --graph";

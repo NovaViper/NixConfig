@@ -5,11 +5,11 @@
   ...
 }: {
   # The much better shell history database
-  hm.programs.atuin.enable = true;
+  programs.atuin.enable = true;
 
-  hm.home.packages = with pkgs; [atuin-export-fish-history];
+  home.packages = with pkgs; [atuin-export-fish-history];
 
-  hm.programs.atuin.settings = {
+  programs.atuin.settings = {
     auto_sync = true;
     sync_frequency = "10m";
     search_mode = "fuzzy";

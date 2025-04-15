@@ -1,9 +1,13 @@
-{pkgs, ...}: {
+{
+  lib,
+  pkgs,
+  ...
+}: {
   programs.gnupg.agent.enable = true;
 
   environment.systemPackages = with pkgs; [gnupg];
 
-  hm = {
+  home-manager.sharedModules = lib.singleton {
     # Make gpg use pinentry
     services.gpg-agent = {
       enable = true;

@@ -4,21 +4,21 @@
   myLib,
   ...
 }: {
-  hm.xdg.mimeApps = let
+  xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "alacritty.desktop";
       "application/x-terminal-emulator" = "alacritty.desktop";
       "x-terminal-emulator" = "alacritty.desktop";
     };
   in
-    lib.mkIf (config.userVars.defaultTerminal == "alacritty") {
+    lib.mkIf (myLib.utils.getUserVars "defaultTerminal" config == "alacritty") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;
     };
 
-  hm.programs.alacritty.enable = true;
-  hm.programs.alacritty.settings = {
+  programs.alacritty.enable = true;
+  programs.alacritty.settings = {
     env = {
       TERM = "xterm-256color";
       COLORTERM = "truecolor";

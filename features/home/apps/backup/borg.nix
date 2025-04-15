@@ -4,9 +4,9 @@
   pkgs,
   ...
 }: {
-  hm.home.packages = with pkgs; [borgbackup vorta];
+  home.packages = with pkgs; [borgbackup vorta];
 
-  hm.systemd.user.services.vorta = {
+  systemd.user.services.vorta = {
     Unit.Description = "Vorta";
     Install.WantedBy = ["default.target"];
     Service = {

@@ -8,28 +8,27 @@
 }: let
   wezterm = pkgs.inputs.wezterm;
 in {
-  /*
-    xdg.configFile = mkIf (builtins.pathExists ./dotfiles/wezterm) (mkMerge [
-    {"wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";}
-    (mkIf (!config.programs.tmux.enable) {
-      "wezterm/on.lua".source = utils.linkDots "wezterm/on.lua";
-    })
-  ]);
-  */
-  hm.xdg.mimeApps = let
+  #   xdg.configFile = mkIf (builtins.pathExists ./dotfiles/wezterm) (mkMerge [
+  #   {"wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";}
+  #   (mkIf (!config.programs.tmux.enable) {
+  #     "wezterm/on.lua".source = utils.linkDots "wezterm/on.lua";
+  #   })
+  # ]);
+
+  xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "wezterm.desktop";
       "application/x-terminal-emulator" = "wezterm.desktop";
       "x-terminal-emulator" = "wezterm.desktop";
     };
   in
-    lib.mkIf (config.userVars.defaultTerminal == "wezterm") {
+    lib.mkIf (myLib.utils.getUserVars "defaultTerminal" config == "wezterm") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;
     };
 
-  hm.programs.wezterm = {
+  programs.wezterm = {
     enable = true;
     package = wezterm;
     enableZshIntegration = true;

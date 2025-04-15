@@ -20,13 +20,13 @@
   '';
 in {
   options.nukeFiles = mkOption {
-    default = null;
     type = types.listOf types.str;
     description = "Files to nuke to pave the way for Home Manager. Requires full path to file or ~/ path";
+    default = null;
   };
 
   config = mkIf (config.nukeFiles != null) {
     # Home file nuking script that deletes stuff just before we run home-manager's activation scripts
-    system.userActivationScripts.home-conflict-file-nuker = activationScript;
+    home.activation.home-conflict-file-nuker = lib.hm.dag.entryAfter ["checkLinkTargets"] activationScript;
   };
 }

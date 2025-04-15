@@ -37,7 +37,9 @@ in {
     SSH_ASKPASS_REQUIRE = "prefer";
   };
 
-  hm = {
+  home-manager.sharedModules = lib.singleton (hm: let
+    hm-config = hm.config;
+  in {
     programs.ssh.enable = true;
 
     # Add machines delcared in our outputs to be have ssh hosts so we can use remote builds!
@@ -55,7 +57,7 @@ in {
           value = {
             hostname = "${host}";
             port = 22;
-            identityFile = "${config.userVars.homeDirectory}/.ssh/id_ed25519_sk_rk_nixbuilder";
+            identityFile = "${hm-config.home.homeDirectory}/.ssh/id_ed25519_sk_rk_nixbuilder";
             extraOptions.RequestTTY = "Force";
           };
         }
@@ -75,5 +77,5 @@ in {
       # List all SSH keys in the agent
       list-ssh-key = "ssh-add -L";
     };
-  };
+  });
 }

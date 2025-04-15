@@ -1,9 +1,9 @@
 {pkgs, ...}: {
-  hm.programs.java.enable = true;
+  programs.java.enable = true;
 
-  hm.home.sessionVariables.JDTLS_PATH = "${pkgs.jdt-language-server}/share/java";
+  home.sessionVariables.JDTLS_PATH = "${pkgs.jdt-language-server}/share/java";
 
-  hm.home.packages = with pkgs; [
+  home.packages = with pkgs; [
     # :tools lsp
     java-language-server
 

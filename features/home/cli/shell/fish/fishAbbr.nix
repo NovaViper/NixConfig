@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  hm.programs.fish.shellAbbrs = {
+  programs.fish.shellAbbrs = {
     m = "man";
     py = "python";
     ja = "java";

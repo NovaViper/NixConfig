@@ -4,12 +4,11 @@
   pkgs,
   ...
 }: let
-  cfg = config.hm.programs.tmux;
-  hm-config = config.hm;
+  cfg = config.programs.tmux;
 in {
-  hm.programs.fzf.tmux.enableShellIntegration = true;
+  programs.fzf.tmux.enableShellIntegration = true;
 
-  hm.programs.tmux = {
+  programs.tmux = {
     enable = true;
     aggressiveResize = true;
     customPaneNavigationAndResize = true;
@@ -27,7 +26,7 @@ in {
     #which-key.enable = true;
   };
 
-  hm.programs.tmux.extraConfig = ''
+  programs.tmux.extraConfig = ''
     # -- more settings ---------------------------------------------------------------
     set -s set-clipboard on
     set -g set-titles on
@@ -69,7 +68,7 @@ in {
     # -- keybindings -----------------------------------------------------------------
     # reload config file (change file location to your the tmux.conf you want to use)
     unbind R
-    bind -N "Reload configuration" r source-file ${hm-config.xdg.configHome}/tmux/tmux.conf \; display "Reloaded!"
+    bind -N "Reload configuration" r source-file ${config.xdg.configHome}/tmux/tmux.conf \; display "Reloaded!"
 
     unbind C-p
     unbind C-n
@@ -126,7 +125,7 @@ in {
     # -------------------------------------------------------------------------------------
   '';
 
-  hm.programs.tmux.plugins = with pkgs.tmuxPlugins; [
+  programs.tmux.plugins = with pkgs.tmuxPlugins; [
     sensible
     {
       plugin = yank;
@@ -138,7 +137,7 @@ in {
     open
     fuzzback
     extrakto
-    (lib.mkIf hm-config.programs.fzf.enable tmux-fzf)
+    (lib.mkIf config.programs.fzf.enable tmux-fzf)
     {
       plugin = dracula;
       extraConfig = ''

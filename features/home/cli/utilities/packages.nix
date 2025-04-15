@@ -1,12 +1,10 @@
 {
-  config,
+  osConfig,
   lib,
   pkgs,
   ...
-}: let
-  hm-config = config.hm;
-in {
-  hm.home.packages = with pkgs;
+}: {
+  home.packages = with pkgs;
     [
       # Fancy utilities
       timer # Cooler timer in terminal
@@ -17,8 +15,8 @@ in {
       dust # Better du and df
       libnotify
     ]
-    ++ lib.optionals (config.features.useWayland) [wl-clipboard wl-clipboard-x11]
-    ++ lib.optionals (!config.features.useWayland) [
+    ++ lib.optionals (osConfig.features.useWayland) [wl-clipboard wl-clipboard-x11]
+    ++ lib.optionals (!osConfig.features.useWayland) [
       xclip
       xsel
       xdotool

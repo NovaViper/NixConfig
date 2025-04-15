@@ -5,9 +5,9 @@
   ...
 }: {
   # Make zsh-abbr set the cursor via % syntax
-  environment.variables.ABBR_SET_EXPANSION_CURSOR = 1;
+  #environment.variables.ABBR_SET_EXPANSION_CURSOR = 1;
 
-  hm.programs.zsh.zsh-abbr = {
+  programs.zsh.zsh-abbr = {
     enable = true;
     abbreviations = {
       m = "man";

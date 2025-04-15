@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: let
@@ -47,12 +48,14 @@ in {
     addedAssociations."x-scheme-handler/steam" = "steam.desktop";
   };
 
-  hm.xdg = {
-    userDirs.extraConfig.XDG_GAME_DIR = "${hm-config.home.homeDirectory}/Games";
+  home-manager.sharedModules = lib.singleton (hm: let
+    hm-config = hm.config;
+  in {
+    xdg.userDirs.extraConfig.XDG_GAME_DIR = "${hm-config.home.homeDirectory}/Games";
 
-    mimeApps = {
+    xdg.mimeApps = {
       defaultApplications."x-scheme-handler/steam" = "steam.desktop";
       associations.added."x-scheme-handler/steam" = "steam.desktop";
     };
-  };
+  });
 }

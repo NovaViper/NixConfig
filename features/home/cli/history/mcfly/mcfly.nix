@@ -4,9 +4,9 @@
   pkgs,
   ...
 }: {
-  hm.programs.mcfly.enable = true;
-  hm.programs.mcfly.fzf.enable = true;
-  hm.programs.mcfly.keyScheme = "vim";
-  hm.programs.mcfly.fuzzySearchFactor = 2;
-  #hm.programs.mcfly.settings = {};
+  programs.mcfly.enable = true;
+  programs.mcfly.fzf.enable = true;
+  programs.mcfly.keyScheme = "vim";
+  programs.mcfly.fuzzySearchFactor = 2;
+  #programs.mcfly.settings = {};
 }

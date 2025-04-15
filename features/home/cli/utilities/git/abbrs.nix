@@ -33,7 +33,7 @@ _: let
     grba = "git rebase --abort";
   };
 in {
-  hm.programs.fish.shellAbbrs =
+  programs.fish.shellAbbrs =
     abbrs
     // {
       # `grbi 2` will rebase from last 2 commits
@@ -43,7 +43,7 @@ in {
       };
     };
 
-  hm.programs.zsh.zsh-abbr.abbreviations =
+  programs.zsh.zsh-abbr.abbreviations =
     abbrs
     // {
       # `grbi 2` will rebase from last 2 commits

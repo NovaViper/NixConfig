@@ -1,11 +1,11 @@
 {
   lib,
-  config,
+  osConfig,
   ...
 }: let
-  globalLessOpts = config.programs.less.envVariables.LESS;
+  globalLessOpts = osConfig.programs.less.envVariables.LESS;
 in {
-  hm.programs.git.diff-so-fancy = {
+  programs.git.diff-so-fancy = {
     enable = true;
     markEmptyLines = false; # So nothing else looks like `red reverse`
 
@@ -13,7 +13,7 @@ in {
     pagerOpts = lib.splitString " " globalLessOpts;
   };
 
-  hm.programs.git.iniContent = {
+  programs.git.iniContent = {
     # Auto-select the start of each diffed file, so `n` and `N` will go between them
     pager.diff = "diff-so-fancy | less ${globalLessOpts} --pattern '^(Date|added|deleted|modified|renamed):'";
   };

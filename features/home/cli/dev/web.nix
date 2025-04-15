@@ -1,5 +1,5 @@
 {pkgs, ...}: {
-  hm.home.packages = with pkgs; [
+  home.packages = with pkgs; [
     # :editor format
     html-tidy
 

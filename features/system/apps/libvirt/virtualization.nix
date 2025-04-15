@@ -3,8 +3,6 @@
   pkgs,
   ...
 }: {
-  users.users.${config.userVars.username}.extraGroups = ["libvirtd" "docker"];
-
   # Enable dconf (System Management Tool)
   #programs.dconf.enable = true;
 

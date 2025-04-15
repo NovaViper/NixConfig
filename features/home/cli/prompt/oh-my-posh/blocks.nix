@@ -44,9 +44,9 @@
       };
   };
 in {
-  hm.programs.oh-my-posh.settings.var.PromptChar = "${internals.ucode "276F"}";
+  programs.oh-my-posh.settings.var.PromptChar = "${internals.ucode "276F"}";
 
-  hm.programs.oh-my-posh.settings.blocks = [
+  programs.oh-my-posh.settings.blocks = [
     {
       type = "prompt";
       alignment = "left";

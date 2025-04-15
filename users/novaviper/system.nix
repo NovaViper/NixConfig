@@ -6,51 +6,30 @@
   inputs,
   ...
 }: let
-  hm-config = config.hm;
   myself = "novaviper";
-  agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."${myself}-password".path;
+  agenixHashedPasswordFile = lib.optionalString (lib.hasAttr "agenix" inputs) config.age.secrets."novaviper-password".path;
 in {
-  imports = myLib.utils.importFeatures "features/home" [
-    ### Shell
-    "cli/shell/fish"
-
-    ### Terminal Utils
-    "cli/utilities"
-    "cli/prompt/oh-my-posh"
-    "cli/deco"
-    "cli/multiplexer/tmux"
-    "cli/history"
-    #"cli/history/atuin"
-    #"cli/history/mcfly"
-  ];
-
-  userVars = {
-    fullName = "Nova Leary";
-    email = "coder.nova99@mailbox.org";
-    userIdentityPaths = myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
-  };
-
   users.users.${myself} = {
-    useDefaultShell = true; # Use the shell environment module declaration
     extraGroups = [
-      "networkmanager"
       "wheel"
       "video"
       "audio"
-      "libvirtd"
       "scanner"
       "i2c"
       "git"
       "gamemode"
+      "networkmanager"
+      "libvirtd"
+      "docker"
     ];
     openssh.authorizedKeys.keys = lib.singleton "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICkow+KpToZkMbhpqTztf0Hz/OWP/lWPCv47QNtZc6TaAAAADnNzaDpuaXhidWlsZGVy";
     hashedPasswordFile = agenixHashedPasswordFile;
   };
 
-  #time.timeZone = lib.mkForce "America/Chicago";
+  age.identityPaths = lib.mkOptionDefault (myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"]);
 
   # User Secrets
-  age.secrets."${myself}-password" = myLib.secrets.mkSecretFile {
+  age.secrets."novaviper-password" = myLib.secrets.mkSecretFile {
     user = myself;
     source = "passwd.age";
   };

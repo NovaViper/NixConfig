@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: let
@@ -19,31 +20,31 @@
     '';
   };
 in {
-  hm.xdg.mimeApps = let
+  xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "kitty.desktop";
       "application/x-terminal-emulator" = "kitty.desktop";
       "x-terminal-emulator" = "kitty.desktop";
     };
   in
-    lib.mkIf (config.userVars.defaultTerminal == "kitty") {
+    lib.mkIf (myLib.utils.getUserVars "defaultTerminal" config == "kitty") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;
     };
 
   # Add aliseas for kitty
-  hm.programs.zsh.initExtra = shellAliases.zsh;
-  hm.programs.fish.shellInit = shellAliases.fish;
+  programs.zsh.initExtra = shellAliases.zsh;
+  programs.fish.shellInit = shellAliases.fish;
 
-  hm.programs.kitty.enable = true;
+  programs.kitty.enable = true;
 
-  hm.programs.kitty.environment = {
+  programs.kitty.environment = {
     COLORTERM = "truecolor";
     WINIT_X11_SCALE_FACTOR = "1";
   };
 
-  hm.programs.kitty.settings = {
+  programs.kitty.settings = {
     # Advanced {{{
     #shell = "${lib.getExe pkgs.zsh} --login --interactive";
     #startup_session = "default.conf";
@@ -104,7 +105,7 @@ in {
     # }}}
   };
 
-  hm.programs.kitty.keybindings = {
+  programs.kitty.keybindings = {
     #: Window management {{{
     #: New window
     #"kitty_mod+enter" = "new_window";

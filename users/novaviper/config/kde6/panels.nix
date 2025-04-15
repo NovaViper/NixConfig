@@ -3,12 +3,10 @@
   myLib,
   pkgs,
   ...
-}: let
-  hm-config = config.hm;
-in {
-  hm.home.packages = with pkgs; [plasma-panel-colorizer];
+}: {
+  home.packages = with pkgs; [plasma-panel-colorizer];
 
-  hm.programs.plasma.panels = [
+  programs.plasma.panels = [
     # Windows like panel at the bottom
     {
       location = "bottom";

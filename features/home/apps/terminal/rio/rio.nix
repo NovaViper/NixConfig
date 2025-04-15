@@ -1,33 +1,32 @@
 {
   config,
   lib,
+  myLib,
   ...
-}: let
-  hm-config = config.hm;
-in {
-  hm.xdg.mimeApps = let
+}: {
+  xdg.mimeApps = let
     defaultApplications = {
       "mimetype" = "rio.desktop";
       "application/x-terminal-emulator" = "rio.desktop";
       "x-terminal-emulator" = "rio.desktop";
     };
   in
-    lib.mkIf (config.userVars.defaultTerminal == "rio") {
+    lib.mkIf (myLib.utils.getUserVars "defaultTerminal" config == "rio") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;
     };
 
-  hm.programs.rio.enable = true;
+  programs.rio.enable = true;
 
-  hm.programs.rio.settings = {
-    editor.program = hm-config.home.sessionVariables.EDITOR;
+  programs.rio.settings = {
+    editor.program = config.home.sessionVariables.EDITOR;
     editor.args = [];
 
     cursor.shape = "block";
     cursor.blinking = true;
 
-    working-dir = config.userVars.homeDirectory;
+    working-dir = config.home.homeDirectory;
 
     env-vars = [
       "TERM=xterm-256color"
@@ -58,6 +57,6 @@ in {
     };
 
     # Rio has multiple styles of showing navigation/tabs
-    navigation.mode = lib.mkIf hm-config.programs.tmux.enable "Plain";
+    navigation.mode = lib.mkIf config.programs.tmux.enable "Plain";
   };
 }

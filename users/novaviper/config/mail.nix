@@ -5,14 +5,13 @@
   pkgs,
   ...
 }: let
-  hm-config = config.hm;
-  mail-secrets = (myLib.secrets.evalSecret hm-config.home.username).mail;
-  pass = "${lib.getExe hm-config.programs.password-store.package}";
-  userVars = config.userVars;
-  myselfName = userVars.username;
+  mail-secrets = (myLib.secrets.evalSecret "novaviper").mail;
+  pass = "${lib.getExe config.programs.password-store.package}";
+  userVars = opt: myLib.utils.getUserVars opt config;
+  myselfName = "novaviper";
 in {
-  hm.accounts.email = {
-    maildirBasePath = "${hm-config.xdg.dataHome}/mail";
+  accounts.email = {
+    maildirBasePath = "${config.xdg.dataHome}/mail";
     accounts.personal-1 = let
       address = "${mail-secrets.personal-1.address}";
       smtp.host = "smtp.mailbox.org";
@@ -70,26 +69,26 @@ in {
     };
   };
 
-  hm.programs = {
+  programs = {
     mu.enable = true;
     mbsync.enable = true;
   };
 
-  hm.services.mbsync = {
+  services.mbsync = {
     enable = true;
     frequency = "*:0/10";
-    preExec = "${lib.getExe hm-config.programs.mbsync.package} -Ha";
-    postExec = "${lib.getExe hm-config.programs.mu.package} index";
+    preExec = "${lib.getExe config.programs.mbsync.package} -Ha";
+    postExec = "${lib.getExe config.programs.mu.package} index";
   };
 
   # Add check to ensure to only run mbsync when my hardware key is inserted
-  hm.systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${myLib.utils.isGpgUnlocked pkgs}"'';
+  systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${myLib.utils.isGpgUnlocked pkgs}"'';
 
-  hm.xdg.configFile = let
-    acct = hm-config.accounts.email.accounts;
+  xdg.configFile = let
+    acct = config.accounts.email.accounts;
     aliasElem = a: i: builtins.elemAt a.aliases i;
   in
-    lib.mkIf (userVars.defaultEditor == "doom-emacs") {
+    lib.mkIf (userVars "defaultEditor" == "doom-emacs") {
       "doom/mu4e-accounts.el".text = ''
         ;;; mu4e-accounts.el -*- lexical-binding: t; -*-
         (after! mu4e

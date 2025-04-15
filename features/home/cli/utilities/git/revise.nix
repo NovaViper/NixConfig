@@ -13,9 +13,9 @@
     grvuma = "git revise upstream/master";
   };
 in {
-  environment.systemPackages = lib.singleton pkgs.git-revise;
+  home.packages = lib.singleton pkgs.git-revise;
 
-  hm.programs.fish.shellAbbrs =
+  programs.fish.shellAbbrs =
     abbrs
     // {
       # `grvi 2` will revise from last 2 commits
@@ -25,7 +25,7 @@ in {
       };
     };
 
-  hm.programs.zsh.zsh-abbr.abbreviations =
+  programs.zsh.zsh-abbr.abbreviations =
     abbrs
     // {
       # `grvi 2` will revise from last 2 commits

@@ -1,8 +1,8 @@
 _: {
   # CLI audio visualizer
-  hm.programs.cava.enable = true;
+  programs.cava.enable = true;
 
-  hm.programs.cava.settings = {
+  programs.cava.settings = {
     # Enable alacritty syncronized updates, removes flickering in alacritty
     output.alacritty_sync = 1;
 

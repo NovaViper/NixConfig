@@ -5,7 +5,7 @@
   pkgs,
   ...
 }: {
-  hm.xdg.mimeApps = let
+  xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["vivaldi.desktop"];
       "text/html" = ["vivaldi.desktop"];
@@ -17,15 +17,15 @@
       "text/xml" = ["vivaldi.desktop"];
     };
   in
-    lib.mkIf (config.userVars.defaultBrowser == "vivaldi") {
+    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" config == "vivaldi") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;
     };
 
-  hm.programs.vivaldi.enable = true;
-  hm.programs.vivaldi.dictionaries = with pkgs; [hunspellDictsChromium.en_US];
-  hm.programs.vivaldi.extensions = [
+  programs.vivaldi.enable = true;
+  programs.vivaldi.dictionaries = with pkgs; [hunspellDictsChromium.en_US];
+  programs.vivaldi.extensions = [
     {id = "cjpalhdlnbpafiamejdnhcphjbkeiagm";} # UBlock Origin
     {id = "gebbhagfogifgggkldgodflihgfeippi";} # Return Dislikes
     {id = "mnjggcdmjocbbbhaepdhchncahnbgone";} # Sponsor Block

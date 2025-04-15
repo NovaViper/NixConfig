@@ -17,17 +17,36 @@
     importPaths = paths: lib.flatten (builtins.map exports.listNixFilesForPath paths);
 
     # Import the given feature folders (dirs) at the given base folder name (baseName)
-    importFeatures = baseName: dirs: exports.importPaths (builtins.map (d: ../. + "/${baseName}/${d}") dirs);
+    importFeatures = baseName: dirs: exports.importPaths (builtins.map (d: ../features + "/${baseName}/${d}") dirs);
 
     # GPG command for checking if there is a hardware key present
     isGpgUnlocked = pkgs: "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
-    getTerminalDesktopFile = config:
-      if (config.userVars.defaultTerminal == "ghostty")
+    getUserVars = option: config: builtins.toString config.userVars.${option};
+
+    getTerminalDesktopFile = config: let
+      terminal = exports.getUserVars "defaultTerminal" config;
+    in
+      if terminal == "ghostty"
       then "com.mitchellh.ghostty"
-      else if (config.userVars.defaultTerminal == "konsole")
+      else if terminal == "konsole"
       then "org.kde.konsole"
-      else "${config.userVars.defaultTerminal}";
+      else terminal;
+
+    getUserHMVar' = opt: user: config: lib.getAttrFromPath (lib.strings.splitString "." opt) config.home-manager.users.${user};
+
+    getMainUserHMVar = opt: config: exports.getUserHMVar' opt config.hostVars.primaryUser config;
+
+    filterUsers = fn: cfg:
+      lib.filter fn (
+        if cfg ? home-manager
+        then lib.attrValues cfg.home-manager.users
+        else []
+      );
+
+    #getHMOption' = opt: config: lib.mapAttrsToList (user: hmConfig: lib.getAttrFromPath (lib.strings.splitString "." opt) hmConfig) config.home-manager.users;
+
+    #getHMOption = opt: config: builtins.toString (exports.getHMOption' opt config);
 
     # Most of these are left null since I'm piggybacking off of the custom context function I've made
     mkMu4eContext = {

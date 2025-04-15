@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: {
-  hm.xdg.mimeApps = let
+  xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["floorp.desktop"];
       "text/html" = ["floorp.desktop"];
@@ -16,17 +17,17 @@
       "text/xml" = ["floorp.desktop"];
     };
   in
-    lib.mkIf (config.userVars.defaultBrowser == "floorp") {
+    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" config == "floorp") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;
     };
 
-  hm.programs.floorp.enable = true;
+  programs.floorp.enable = true;
 
-  hm.programs.floorp.nativeMessagingHosts = with pkgs; [fx-cast-bridge kdePackages.plasma-browser-integration];
+  programs.floorp.nativeMessagingHosts = with pkgs; [fx-cast-bridge kdePackages.plasma-browser-integration];
 
-  hm.programs.floorp.profiles."${config.userVars.username}" = {
+  programs.floorp.profiles."${config.home.username}" = {
     search = {
       force = true;
       default = "ecosia";

@@ -1,10 +1,5 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
-  hm.programs.git.extraConfig = {
+_: {
+  programs.git.extraConfig = {
     init.defaultBranch = "main";
     pull.rebase = true;
     fetch.prune = true;

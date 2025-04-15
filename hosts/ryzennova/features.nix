@@ -1,5 +1,5 @@
 {myLib, ...}: {
-  imports = myLib.utils.importFeatures "features/system" [
+  imports = myLib.utils.importFeatures "system" [
     ### Hardware
     "hardware/bluetooth"
     "hardware/hard-accel"
@@ -13,7 +13,6 @@
     "services/packaging"
     "services/printing"
     "services/sunshine-server"
-    "services/syncthing"
     "services/tailscale"
     "services/vr/wivrn"
 
@@ -28,6 +27,9 @@
 
     ### Locale
     "lang/us-english"
+
+    ### Theme
+    "theme/dracula"
 
     ### Boot
     "services/pretty-boot"

@@ -3,9 +3,9 @@
   pkgs,
   ...
 }: {
-  hm.home.packages = with pkgs; [feishin];
+  home.packages = with pkgs; [feishin];
 
-  hm.xdg.mimeApps = {
+  xdg.mimeApps = {
     associations.added = {
       "x-scheme-handler/ame" = "feishin.desktop";
       "x-scheme-handler/feishin" = "feishin.desktop";

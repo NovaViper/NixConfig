@@ -1,6 +1,6 @@
 _: {
   # Much better ls replacement
-  hm.programs.eza = {
+  programs.eza = {
     enable = true;
     git = true;
     icons = "auto";

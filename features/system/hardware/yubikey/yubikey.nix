@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  programs.yubikey-touch-detector.enable = lib.mkIf (config.features.desktop != "none") true;
+  programs.yubikey-touch-detector.enable = lib.mkIf (config.features.desktop != null) true;
 
   # Allows PKCS11 Keys on Yubikey to be used for ssh authentication
   programs.ssh.agentPKCS11Whitelist = "${pkgs.opensc}/lib/opensc-pkcs11.so";
@@ -23,7 +23,7 @@
 
   environment.systemPackages = with pkgs;
     [yubikey-personalization yubikey-manager yubico-piv-tool]
-    ++ lib.optionals (config.features.desktop != "none") [
+    ++ lib.optionals (config.features.desktop != null) [
       yubioath-flutter
     ];
 

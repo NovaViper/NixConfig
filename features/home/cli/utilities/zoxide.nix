@@ -5,5 +5,5 @@
   ...
 }: {
   # smart cd command, inspired by z and autojump
-  hm.programs.zoxide.enable = true;
+  programs.zoxide.enable = true;
 }

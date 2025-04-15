@@ -1,9 +1,4 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+_: {
   # Custom colors for ls, grep and more
-  hm.programs.dircolors.enable = true;
+  programs.dircolors.enable = true;
 }

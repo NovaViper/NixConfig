@@ -80,6 +80,10 @@
     };
   };
 in {
-  hm.programs.firefox.profiles."${config.userVars.username}".search.engines = searchEngines;
-  hm.programs.floorp.profiles."${config.userVars.username}".search.engines = searchEngines;
+  hmUser = lib.singleton (hm: let
+    hm-config = hm.config;
+  in {
+    programs.floorp.profiles."${hm-config.home.username}".search.engines = searchEngines;
+    programs.firefox.profiles."${hm-config.home.username}".search.engines = searchEngines;
+  });
 }

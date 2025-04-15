@@ -1,10 +1,11 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   ...
 }: {
-  hm.xdg.mimeApps = let
+  xdg.mimeApps = let
     defaultApplications = {
       "default-web-browser" = ["firefox.desktop"];
       "text/html" = ["firefox.desktop"];
@@ -16,17 +17,17 @@
       "text/xml" = ["firefox.desktop"];
     };
   in
-    lib.mkIf (config.userVars.defaultBrowser == "firefox") {
+    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" config == "firefox") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;
     };
 
-  hm.programs.firefox.enable = true;
+  programs.firefox.enable = true;
 
-  hm.programs.firefox.nativeMessagingHosts = with pkgs; [fx-cast-bridge];
+  programs.firefox.nativeMessagingHosts = with pkgs; [fx-cast-bridge];
 
-  hm.programs.firefox.profiles."${config.userVars.username}" = {
+  programs.firefox.profiles."${config.home.username}" = {
     search = {
       force = true;
       default = "ecosia";

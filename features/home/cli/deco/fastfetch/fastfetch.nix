@@ -1,7 +1,7 @@
 _: {
-  hm.programs.fastfetch.enable = true;
+  programs.fastfetch.enable = true;
 
-  hm.programs.fastfetch.settings = {
+  programs.fastfetch.settings = {
     logo.type = "none";
     display.separator = "-> ";
     modules = [

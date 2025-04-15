@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: let
@@ -16,6 +17,10 @@
     canvasblocker
   ];
 in {
-  hm.programs.floorp.profiles."${config.userVars.username}".extensions.packages = extensions;
-  hm.programs.firefox.profiles."${config.userVars.username}".extensions.packages = extensions;
+  hmUser = lib.singleton (hm: let
+    hm-config = hm.config;
+  in {
+    programs.floorp.profiles."${hm-config.home.username}".extensions.packages = extensions;
+    programs.firefox.profiles."${hm-config.home.username}".extensions.packages = extensions;
+  });
 }

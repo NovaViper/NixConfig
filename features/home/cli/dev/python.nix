@@ -3,13 +3,13 @@
   pkgs,
   ...
 }: {
-  hm.programs.pyenv.enable = true;
+  programs.pyenv.enable = true;
 
-  hm.home.sessionVariables.PYENV_ROOT = "${config.hm.xdg.dataHome}/pyenv";
+  home.sessionVariables.PYENV_ROOT = "${config.xdg.dataHome}/pyenv";
 
-  hm.home.sessionPath = ["${config.hm.home.sessionVariables.PYENV_ROOT}/bin"];
+  home.sessionPath = ["${config.home.sessionVariables.PYENV_ROOT}/bin"];
 
-  hm.home.packages = with pkgs; let
+  home.packages = with pkgs; let
     myPythonPackages = ps:
       with ps; [
         debugpy

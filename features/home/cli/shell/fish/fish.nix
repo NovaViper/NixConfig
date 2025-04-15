@@ -4,29 +4,11 @@
   myLib,
   pkgs,
   ...
-}: let
-  hm-config = config.hm;
-in {
+}: {
   imports = [./fishAbbr.nix];
   features.shell = "fish";
 
-  # Make the default shell for users be fish
-  users.defaultUserShell = pkgs.fish;
-
-  programs.command-not-found.enable = false; # Broken
-
-  # Enable NixOS module
   programs.fish = {
-    enable = true;
-    # Translate bash scripts to fish
-    useBabelfish = true;
-  };
-
-  environment.pathsToLink = ["/share/fish"];
-
-  # Most of the configuration is done in Home-Manager
-
-  hm.programs.fish = {
     enable = true;
     shellInit = lib.concatStringsSep "\n" [
       ''

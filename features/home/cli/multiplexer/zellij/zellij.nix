@@ -4,13 +4,12 @@
   pkgs,
   ...
 }: let
-  cfg = config.hm.programs.zellij;
-  hm-config = config.hm;
+  cfg = config.programs.zellij;
 in {
-  hm.programs.zellij.enable = true;
+  programs.zellij.enable = true;
 
   /*
-    hm.programs.zellij.settings = {
+    programs.zellij.settings = {
 
   };
   */

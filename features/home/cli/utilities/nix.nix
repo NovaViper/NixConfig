@@ -1,11 +1,11 @@
 {pkgs, ...}: let
   alejandra-quiet = pkgs.writeShellScriptBin "alejandra-quiet" ''alejandra --quiet "$@"'';
 in {
-  hm.programs.nix-index-database.comma.enable = true;
+  programs.nix-index-database.comma.enable = true;
 
-  hm.programs.nix-your-shell.enable = true;
+  programs.nix-your-shell.enable = true;
 
-  hm.home.packages = with pkgs; [
+  home.packages = with pkgs; [
     nh # Nice wrapper for NixOS and HM
     alejandra # Nix formatter
     nix-output-monitor # Monitor Nix compilation

@@ -1,11 +1,6 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}: {
+_: {
   # Fancy 'find' replacement
-  hm.programs.fd = {
+  programs.fd = {
     enable = true;
     hidden = true;
     ignores = [".git/" "*.bak"];
