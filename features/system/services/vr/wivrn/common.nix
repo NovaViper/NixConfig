@@ -20,7 +20,7 @@
     autoStart = true;
 
     extraPackages = with pkgs; [
-      (config.hardware.nvidia.package)
+      config.hardware.nvidia.package
     ];
   };
 

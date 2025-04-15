@@ -21,6 +21,7 @@ in {
       description = "Your email address";
       default = "";
     };
+    # TODO: This needs to be reworked
     userIdentityPaths = mkOption {
       #TODO Test
       type = types.nullOr (types.listOf types.path);

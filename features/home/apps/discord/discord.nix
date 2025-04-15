@@ -5,7 +5,7 @@
   ...
 }: {
   home.packages = with pkgs;
-    if (osConfig.features.useWayland)
+    if osConfig.features.useWayland
     then [discord-wayland vesktop]
     else [discord];
 

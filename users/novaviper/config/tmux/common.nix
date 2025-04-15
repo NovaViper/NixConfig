@@ -9,7 +9,7 @@ in {
   xdg.configFile = lib.mkMerge [
     (lib.mkIf config.programs.tmux.enable {
       "tmuxp/session.yaml" = myLib.dots.mkDotsSymlink {
-        config = config;
+        inherit config;
         user = myself;
         source = "tmuxp/session.yaml";
       };

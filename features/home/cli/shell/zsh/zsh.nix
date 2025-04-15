@@ -10,7 +10,7 @@
 
   xdg.configFile = {
     "zsh/functions" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = config.home.username;
       source = "zsh/functions";
     };

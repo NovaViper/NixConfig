@@ -33,7 +33,7 @@ in {
   };
 
   # Enforce askpass gui when the option is enabled (based on rather x11 is running)
-  environment.sessionVariables = lib.mkIf (config.programs.ssh.enableAskPassword) {
+  environment.sessionVariables = lib.mkIf config.programs.ssh.enableAskPassword {
     SSH_ASKPASS_REQUIRE = "prefer";
   };
 

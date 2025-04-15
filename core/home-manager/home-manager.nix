@@ -27,6 +27,7 @@
       in {
         home = {
           inherit stateVersion;
+          # REVIEW: Maybe implement this variable for hostVars?
           #homeDirectory = "${config.hostVars.homeBaseDirectory}/${hm-config.home.username}";
           preferXdgDirectories = true;
 

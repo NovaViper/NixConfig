@@ -9,7 +9,7 @@
 in {
   xdg.configFile = lib.mkIf (osConfig.features.vr == "alvr") {
     "alvr/session.json" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = myself;
       source = "alvr/session.json";
     };

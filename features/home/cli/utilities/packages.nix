@@ -15,7 +15,7 @@
       dust # Better du and df
       libnotify
     ]
-    ++ lib.optionals (osConfig.features.useWayland) [wl-clipboard wl-clipboard-x11]
+    ++ lib.optionals osConfig.features.useWayland [wl-clipboard wl-clipboard-x11]
     ++ lib.optionals (!osConfig.features.useWayland) [
       xclip
       xsel

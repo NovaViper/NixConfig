@@ -22,8 +22,16 @@
     # GPG command for checking if there is a hardware key present
     isGpgUnlocked = pkgs: "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
+    # Get an option from the userVars module
     getUserVars = option: config: builtins.toString config.userVars.${option};
 
+    # Get the given home-manager option (opt) from a given user
+    getUserHMVar' = opt: user: config: lib.getAttrFromPath (lib.strings.splitString "." opt) config.home-manager.users.${user};
+
+    # Get the given home-manager option (opt) from the host's primary user
+    getMainUserHMVar = opt: config: exports.getUserHMVar' opt config.hostVars.primaryUser config;
+
+    # Pick the name of the .desktop file for the default terminal
     getTerminalDesktopFile = config: let
       terminal = exports.getUserVars "defaultTerminal" config;
     in
@@ -32,21 +40,6 @@
       else if terminal == "konsole"
       then "org.kde.konsole"
       else terminal;
-
-    getUserHMVar' = opt: user: config: lib.getAttrFromPath (lib.strings.splitString "." opt) config.home-manager.users.${user};
-
-    getMainUserHMVar = opt: config: exports.getUserHMVar' opt config.hostVars.primaryUser config;
-
-    filterUsers = fn: cfg:
-      lib.filter fn (
-        if cfg ? home-manager
-        then lib.attrValues cfg.home-manager.users
-        else []
-      );
-
-    #getHMOption' = opt: config: lib.mapAttrsToList (user: hmConfig: lib.getAttrFromPath (lib.strings.splitString "." opt) hmConfig) config.home-manager.users;
-
-    #getHMOption = opt: config: builtins.toString (exports.getHMOption' opt config);
 
     # Most of these are left null since I'm piggybacking off of the custom context function I've made
     mkMu4eContext = {

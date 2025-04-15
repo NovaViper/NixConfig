@@ -21,31 +21,31 @@ in {
 
   xdg.configFile = {
     "PrusaSlicer/printer" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = myself;
       source = "PrusaSlicer/printer";
       recursive = true;
     };
     "PrusaSlicer/print" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = myself;
       source = "PrusaSlicer/print";
       recursive = true;
     };
     "PrusaSlicer/physical_printer" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = myself;
       source = "PrusaSlicer/physical_printer";
       recursive = true;
     };
     "PrusaSlicer/filament" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = myself;
       source = "PrusaSlicer/filament";
       recursive = true;
     };
     "PrusaSlicer/bed_models" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = myself;
       source = "PrusaSlicer/bed_models";
       recursive = true;

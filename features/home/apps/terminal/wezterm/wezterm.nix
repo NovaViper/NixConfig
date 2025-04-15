@@ -6,7 +6,7 @@
   inputs,
   ...
 }: let
-  wezterm = pkgs.inputs.wezterm;
+  inherit (pkgs.inputs) wezterm;
 in {
   #   xdg.configFile = mkIf (builtins.pathExists ./dotfiles/wezterm) (mkMerge [
   #   {"wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";}

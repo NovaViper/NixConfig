@@ -8,7 +8,7 @@
   ...
 }: let
   # Utility variables
-  username = config.home.username;
+  inherit (config.home) username;
   userVars = opt: myLib.utils.getUserVars opt config;
 
   EMDOTDIR_VAR = config.home.sessionVariables.EMDOTDIR;
@@ -18,7 +18,7 @@
   full-name = userVars "fullName";
   email-address = userVars "email";
   pack =
-    if (osConfig.features.useWayland)
+    if osConfig.features.useWayland
     then pkgs.emacs-pgtk
     else pkgs.emacs;
   emacsOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.applications * 100));
@@ -74,19 +74,19 @@ in {
     };
 
     "doom/config.el" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = username;
       source = "doom/config.el";
     };
 
     "doom/packages.el" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = username;
       source = "doom/packages.el";
     };
 
     "doom/init.el" = myLib.dots.mkDotsSymlink {
-      config = config;
+      inherit config;
       user = username;
       source = "doom/init.el";
     };
