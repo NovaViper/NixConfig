@@ -10,6 +10,7 @@ in {
     src = ../.;
     default_stages = ["pre-commit"];
     hooks = {
+      # ------------- general -------------
       check-added-large-files.enable = true;
       check-case-conflicts.enable = true;
       check-executables-have-shebangs = {
@@ -47,23 +48,18 @@ in {
         entry = "${checks-in.pre-commit-hooks}/bin/destroyed-symlinks";
         types = ["symlink"];
       };
-      # ensure conventional commits standard
-      commitizen = {
-        enable = true;
-        stages = ["commit-msg"];
-      };
 
+      # ------------- nix -------------
+      flake-checker.enable = true;
       alejandra.enable = true;
 
-      /*
-        deadnix = {
+      deadnix = {
         enable = true;
         settings = {
           noLambdaArg = true;
           noLambdaPatternNames = true;
         };
       };
-      */
 
       statix = {
         enable = true;
@@ -76,6 +72,9 @@ in {
         };
       };
 
+      nil.enable = true;
+
+      # ------------- shellscripts -------------
       shfmt = {
         enable = true;
         excludes = [".p10k.zsh"];
@@ -86,6 +85,7 @@ in {
         excludes = [".*/dotfiles/.*" "secrets/.*" "flake.lock"];
       };
 
+      # ------------- secrets -------------
       check-git-crypt = {
         enable = true;
         name = "check git-crypt files";
