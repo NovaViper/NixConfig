@@ -21,9 +21,8 @@
     if (osConfig.features.useWayland)
     then pkgs.emacs-pgtk
     else pkgs.emacs;
-  # FIXME: Work on Stylix
-  #emacsOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.applications * 100));
-  #f = config.stylix.fonts;
+  emacsOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.applications * 100));
+  f = config.stylix.fonts;
 in {
   services.emacs = {
     enable = true;
@@ -41,21 +40,6 @@ in {
   xdg.configFile = {
     # Doom Emacs
     "doom/system-vars.el".text = ''
-      ;;; ~/.config/emacs/config.el -*- lexical-binding: t; -*-
-
-      ;; Import relevant variables from flake into emacs
-      (setq user-emacs-directory "${EMDOTDIR_VAR}" ; Path to emacs config folder
-            ${lib.optionalString (full-name != "") ''user-full-name "${full-name}" ; Name''}
-            user-username "${username}" ; username
-            ${lib.optionalString (email-address != "") ''user-mail-address "${email-address}" ; Email''}
-            mail_directory "${config.accounts.email.maildirBasePath}" ; Path to mail directory (for mu4e)
-            flake-directory "${myLib.flakePath config}" ; Path to NixOS Flake
-      )
-    '';
-
-    # FIXME: Figure out what to do with Stylix
-    /*
-      "doom/system-vars.el".text = ''
        ;;; ~/.config/emacs/config.el -*- lexical-binding: t; -*-
 
        ;; Import relevant variables from flake into emacs
@@ -81,16 +65,13 @@ in {
         (add-to-list 'default-frame-alist '(alpha-background . ${emacsOpacity}))
       ''}
     '';
-    */
 
-    /*
-      "doom/themes/doom-stylix-theme.el" = lib.mkIf config.theme.stylix.enable {
+    "doom/themes/doom-stylix-theme.el" = lib.mkIf config.stylix.enable {
       source = config.lib.stylix.colors {
         template = builtins.readFile ./doom-stylix-theme.el.mustache;
         extension = ".el";
       };
     };
-    */
 
     "doom/config.el" = myLib.dots.mkDotsSymlink {
       config = config;
