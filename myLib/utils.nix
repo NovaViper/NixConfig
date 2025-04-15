@@ -17,17 +17,29 @@
     importPaths = paths: lib.flatten (builtins.map exports.listNixFilesForPath paths);
 
     # Import the given feature folders (dirs) at the given base folder name (baseName)
-    importFeatures = baseName: dirs: exports.importPaths (builtins.map (d: ../. + "/${baseName}/${d}") dirs);
+    importFeatures = baseName: dirs: exports.importPaths (builtins.map (d: ../features + "/${baseName}/${d}") dirs);
 
     # GPG command for checking if there is a hardware key present
     isGpgUnlocked = pkgs: "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
-    getTerminalDesktopFile = config:
-      if (config.userVars.defaultTerminal == "ghostty")
+    # Get an option from the userVars module
+    getUserVars = option: config: builtins.toString config.userVars.${option};
+
+    # Get the given home-manager option (opt) from a given user
+    getUserHMVar' = opt: user: config: lib.getAttrFromPath (lib.strings.splitString "." opt) config.home-manager.users.${user};
+
+    # Get the given home-manager option (opt) from the host's primary user
+    getMainUserHMVar = opt: config: exports.getUserHMVar' opt config.hostVars.primaryUser config;
+
+    # Pick the name of the .desktop file for the default terminal
+    getTerminalDesktopFile = config: let
+      terminal = exports.getUserVars "defaultTerminal" config;
+    in
+      if terminal == "ghostty"
       then "com.mitchellh.ghostty"
-      else if (config.userVars.defaultTerminal == "konsole")
+      else if terminal == "konsole"
       then "org.kde.konsole"
-      else "${config.userVars.defaultTerminal}";
+      else terminal;
 
     # Most of these are left null since I'm piggybacking off of the custom context function I've made
     mkMu4eContext = {

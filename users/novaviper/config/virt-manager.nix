@@ -1,5 +1,5 @@
 _: {
-  hm.dconf.settings = {
+  dconf.settings = {
     "org/virt-manager/virt-manager" = {
       system-tray = true;
       xmleditor-enabled = true;

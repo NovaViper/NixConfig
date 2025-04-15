@@ -14,7 +14,7 @@ diff:
 
 iso:
     rm -rf result
-    nix build .\#nixosConfigurations.live-image.config.system.build.isoImage |& nom
+    nix build .\#nixosConfigurations.installer.config.system.build.isoImage |& nom
 
 eval-package HOST PACKAGE:
     nix eval --raw .\#nixosConfigurations.{{HOST}}.pkgs.{{PACKAGE}}

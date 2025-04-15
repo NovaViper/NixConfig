@@ -3,22 +3,20 @@
   lib,
   pkgs,
   ...
-}: let
-  hm-config = config.hm;
-in {
-  hm.home.packages = with pkgs; [
+}: {
+  home.packages = with pkgs; [
     # Terminal Decorations
     toilet # Display fancy text in terminal
     dwt1-shell-color-scripts # Display cool graphics in terminal
   ];
 
-  hm.programs.zsh = {
+  programs.zsh = {
     initExtraFirst = lib.mkAfter (lib.concatStringsSep "\n" [
-      (lib.optionalString hm-config.programs.tmux.enable
+      (lib.optionalString config.programs.tmux.enable
         ''
           # Run Tmux on startup OUTSIDE of SSH
           if [ -z "$TMUX" ] && [ -z "$SSH_CONNECTION" ]; then
-            ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || ${lib.getExe pkgs.tmuxp} load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
+            ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || ${lib.getExe pkgs.tmuxp} load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
             exit
           fi
         '')

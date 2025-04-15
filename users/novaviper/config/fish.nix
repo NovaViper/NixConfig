@@ -4,16 +4,14 @@
   myLib,
   pkgs,
   ...
-}: let
-  hm-config = config.hm;
-in {
-  hm.programs.fish = {
+}: {
+  programs.fish = {
     interactiveShellInit = lib.mkAfter (lib.concatStringsSep "\n" [
-      (lib.optionalString hm-config.programs.tmux.enable
+      (lib.optionalString config.programs.tmux.enable
         ''
           # Run Tmux on startup OUTSIDE of SSH
           if test -z "$TMUX" && test -z "$SSH_CONNECTION"
-            ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || ${lib.getExe pkgs.tmuxp} load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
+            ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || ${lib.getExe pkgs.tmuxp} load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
             exit
           end
         '')

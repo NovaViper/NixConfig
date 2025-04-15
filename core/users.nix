@@ -1,18 +1,42 @@
 {
   config,
   lib,
-  username,
+  myLib,
+  primaryUser,
+  extraUsers,
+  allUsers,
+  inputs,
+  pkgs,
+  hostname,
   ...
 }: let
-  cfg = config.userVars;
+  userPath = path: user: ../users/${user}/${path};
 in {
-  userVars.username = username;
+  # NixOS user setup
+  users.users = let
+    userOpts = user: {
+      isNormalUser = lib.mkDefault true;
+      useDefaultShell = true; # Use the shell environment module declaration
+      description = myLib.utils.getUserHMVar' "userVars.fullName" user config;
+    };
+    userConfigs = builtins.listToAttrs (map (user: lib.nameValuePair user (userOpts user)) allUsers);
+  in
+    userConfigs;
 
-  users.users.${cfg.username} = {
-    isNormalUser = true;
-    useDefaultShell = true; # Use the shell environment module declaration
-    description = cfg.fullName;
-  };
+  # Home-manager user setup
+  home-manager.users = let
+    userOpts = user: {
+      imports = myLib.slimports {
+        optionalPaths = [
+          (userPath "home.nix" user) # Common user definitions that gets imported for all hosts
+          (userPath "hosts/${hostname}.nix" user) # Host specific user configurations that get imported for a particular host
+          (userPath "config" user) # Folder containing many user configurations that get imported for all hosts
+        ];
+      };
+    };
+    userConfigs = builtins.listToAttrs (map (user: lib.nameValuePair user (userOpts user)) allUsers);
+  in
+    userConfigs;
 
   time = {
     hardwareClockInLocalTime = lib.mkDefault true;

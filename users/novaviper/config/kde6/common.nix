@@ -4,12 +4,10 @@
   myLib,
   pkgs,
   ...
-}: let
-  hm-config = config.hm;
-in {
-  hm.home.shellAliases.reload-plasma-theming = "~/.local/share/plasma-manager/run_all.sh";
+}: {
+  home.shellAliases.reload-plasma-theming = "~/.local/share/plasma-manager/run_all.sh";
 
-  hm.programs.plasma = {
+  programs.plasma = {
     enable = true;
     session.general.askForConfirmationOnLogout = true;
     session.sessionRestore.restoreOpenApplicationsOnLogin = "startWithEmptySession";

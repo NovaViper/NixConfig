@@ -4,18 +4,16 @@
   myLib,
   ...
 }: let
-  hm-config = config.hm;
   myself = "novaviper";
 in {
-  hm.xdg.configFile = lib.mkMerge [
-    (lib.mkIf hm-config.programs.tmux.enable {
+  xdg.configFile = lib.mkMerge [
+    (lib.mkIf config.programs.tmux.enable {
       "tmuxp/session.yaml" = myLib.dots.mkDotsSymlink {
-        config = hm-config;
+        inherit config;
         user = myself;
         source = "tmuxp/session.yaml";
       };
     })
   ];
-
-  #hm.programs.tmux.which-key.settings = import ./which-key-config.nix;
+  #programs.tmux.which-key.settings = import ./which-key-config.nix;
 }

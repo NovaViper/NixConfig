@@ -48,7 +48,7 @@
   };
 in {
   options.features = {
-    shell = mkFeature "shell, which provides some form of initExtra access";
+    #shell = mkFeature "shell, which provides some form of initExtra access";
 
     desktop = mkEnumFeature {
       desc = "desktop environment";
@@ -62,15 +62,15 @@ in {
       opts = ["alvr" "wivrn"];
     };
 
-    prompt = mkFeature "shell prompt";
+    #prompt = mkFeature "shell prompt";
 
-    abbreviations = mkFeature "provider of abbreviations";
+    #abbreviations = mkFeature "provider of abbreviations";
 
-    direnv = mkFeature "program for providing direnv functionality";
+    #direnv = mkFeature "program for providing direnv functionality";
 
-    browser = mkFeature "browser";
+    #browser = mkFeature "browser";
 
-    terminal = mkFeature "terminal";
+    #terminal = mkFeature "terminal";
 
     #files = mkFeature "file manager";
 
@@ -80,16 +80,13 @@ in {
 
     #videos = mkFeature "video viewer";
 
-    discord = mkFeature "Discord client";
+    #discord = mkFeature "Discord client";
 
     #music = mkFeature "music player";
 
     includeMinecraftServer = mkBoolFeature "minecraft server";
 
     #math = mkFeature "math notes";
-
-    #usingKittab = mkBoolFeature "kittab";
-    #
   };
 
   config = mkMerge [
@@ -107,8 +104,9 @@ in {
           qt6.qtwayland
         ];
       };
-
-      hm.home.sessionVariables = waylandEnv;
+      home-manager.sharedModules = lib.singleton {
+        home.sessionVariables = waylandEnv;
+      };
     })
 
     # Common
@@ -161,23 +159,25 @@ in {
         extraPortals = with pkgs; [xdg-desktop-portal-gtk];
       };
 
-      hm.xdg = {
-        /*
-          portal = {
-          enable = true;
-          xdgOpenUsePortal = true;
+      home-manager.sharedModules = lib.singleton {
+        xdg = {
+          /*
+            portal = {
+            enable = true;
+            xdgOpenUsePortal = true;
+          };
+          */
+          # Don't generate config at the usual place.
+          # Allow desktop applications to write their file association
+          # preferences to this file.
+          configFile."mimeapps.list".enable = false;
+          # Home-manager also writes xdg-mime-apps configuration to the
+          # "deprecated" location. Desktop applications will look in this
+          # list for associations, if no association was found in the
+          # previous config file.
+          dataFile."applications/mimeapps.list".force = true;
+          mimeApps.enable = true;
         };
-        */
-        # Don't generate config at the usual place.
-        # Allow desktop applications to write their file association
-        # preferences to this file.
-        configFile."mimeapps.list".enable = false;
-        # Home-manager also writes xdg-mime-apps configuration to the
-        # "deprecated" location. Desktop applications will look in this
-        # list for associations, if no association was found in the
-        # previous config file.
-        dataFile."applications/mimeapps.list".force = true;
-        mimeApps.enable = true;
       };
     })
     {
