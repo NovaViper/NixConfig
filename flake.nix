@@ -117,7 +117,13 @@
           system = "x86_64-linux";
           stateVersion = "24.11";
         };
-        # TODO: Add installer config
+
+        # Live-image installer
+        installer = {
+          primaryUser = "nixos";
+          system = "x86_64-linux";
+          stateVersion = "25.05";
+        };
       };
   in {
     # Just inherit everything we made in the let statement
@@ -156,6 +162,7 @@
       builtins.mapAttrs myLib.mkHome {
         "novaviper@ryzennova" = {inherit nixosConfigurations;};
         "novaviper@yoganova" = {inherit nixosConfigurations;};
+        "nixos@installer" = {inherit nixosConfigurations;};
       };
   };
 }
