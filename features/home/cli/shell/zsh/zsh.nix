@@ -20,6 +20,8 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    # Fix for https://discourse.nixos.org/t/zsh-compinit-warning-on-every-shell-session/22735/6
+    completionInit = "autoload -U compinit && compinit -i";
     autosuggestion = {
       enable = true;
       # We're using an local variable for this
@@ -43,42 +45,44 @@
       # Add more Zsh Autosuggestion strategies
       ZSH_AUTOSUGGEST_STRATEGY = ["abbreviations" "completion" "history"];
     };
-    initExtraFirst = lib.concatStringsSep "\n" [
-      ''
+    initContent = lib.mkMerge [
+      # Place before everything (except for zprof)
+      (lib.mkOrder 450 ''
         # If not running interactively, don't do anything
         [[ $- != *i* ]] && return
-      ''
-    ];
-
-    initExtra = lib.concatStringsSep "\n" [
-      ''
-        # Append extra variables
-        AUTO_NOTIFY_IGNORE+=("atuin" "yadm" "emacs" "nix-shell" "nix")
-
-        setopt beep CORRECT # Enable terminal bell and autocorrect
-        autoload -U colors && colors # Enable colors
-
-        # Check if sudo-command-line function is available
-        if typeset -f sudo-command-line > /dev/null; then
-          zle -N sudo-command-line
-          bindkey "^B" sudo-command-line
-          bindkey -M vicmd '^B' sudo-command-line
-        fi
-
-        # set descriptions format to enable group support
-        zstyle ':completion:*:descriptions' format '[%d]'
-
-        # set list-colors to enable filename colorizing
-        zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
-      ''
-      (lib.optionalString config.programs.pyenv.enable ''
-        ### Pyenv command
-        if command -v pyenv 1>/dev/null 2>&1; then
-          eval "$(pyenv init -)"
-        fi
       '')
-      (
-        lib.optionalString config.programs.fzf.enable ''
+
+      # Place where other setopts are declared in home-manager
+      (lib.mkOrder 900 (
+        ''
+          setopt beep CORRECT # Enable terminal bell and autocorrect
+          autoload -U colors && colors # Enable colors
+
+          # Check if sudo-command-line function is available
+          if typeset -f sudo-command-line > /dev/null; then
+            zle -N sudo-command-line
+            bindkey "^B" sudo-command-line
+            bindkey -M vicmd '^B' sudo-command-line
+          fi
+        ''
+        + (lib.optionalString config.programs.pyenv.enable ''
+          ### Pyenv command
+          if command -v pyenv 1>/dev/null 2>&1; then
+            eval "$(pyenv init -)"
+          fi
+        '')
+      ))
+
+      # Z Style Customizations
+      (lib.mkOrder 2000 (
+        ''
+          # set descriptions format to enable group support
+          zstyle ':completion:*:descriptions' format '[%d]'
+
+          # set list-colors to enable filename colorizing
+          zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+        ''
+        + (lib.optionalString config.programs.fzf.enable ''
           # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
           zstyle ':completion:*' menu no
 
@@ -137,24 +141,19 @@
           # Show command preview
           zstyle ':fzf-tab:complete:-command-:*' fzf-preview \
             '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out) || (out=$(which "$word") && echo $out) || echo "''${(P)word}"'
+        '')
+        + (lib.optionalString config.programs.eza.enable ''
+          # preview directory's content with eza when completing cd or any path
+          zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+          zstyle ':fzf-tab:complete:*:*' fzf-preview 'eza -1 --color=always ''${(Q)realpath}'
 
-          ${
-            lib.optionalString config.programs.eza.enable ''
-              # preview directory's content with eza when completing cd or any path
-              zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-              zstyle ':fzf-tab:complete:*:*' fzf-preview 'eza -1 --color=always ''${(Q)realpath}'
-            ''
-          }
-
-          ${
-            lib.optionalString config.programs.tmux.enable ''
-              # Enable fzf-tab integration with tmux
-              zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
-              zstyle ':fzf-tab:*' popup-min-size 100 20
-            ''
-          }
-        ''
-      )
+        '')
+        + (lib.optionalString config.programs.tmux.enable ''
+          # Enable fzf-tab integration with tmux
+          zstyle ':fzf-tab:*' fzf-command ftb-tmux-popup
+          zstyle ':fzf-tab:*' popup-min-size 100 20
+        '')
+      ))
     ];
 
     shellAliases = {

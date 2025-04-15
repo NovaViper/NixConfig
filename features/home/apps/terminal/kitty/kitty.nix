@@ -7,7 +7,7 @@
 }: let
   shellAliases = {
     zsh = ''
-      if [[ "$TERM" = "xterm-kitty" ]]
+      if [[ "$TERM" == "xterm-kitty" ]]; then
           alias icat="kitty +kitten icat"
           alias ssh="kitty +kitten ssh"
       fi
@@ -34,7 +34,7 @@ in {
     };
 
   # Add aliseas for kitty
-  programs.zsh.initExtra = shellAliases.zsh;
+  programs.zsh.initContent = lib.mkOrder 1100 shellAliases.zsh;
   programs.fish.shellInit = shellAliases.fish;
 
   programs.kitty.enable = true;

@@ -5,7 +5,7 @@
   ...
 }: {
   # Make zsh-abbr set the cursor via % syntax
-  #environment.variables.ABBR_SET_EXPANSION_CURSOR = 1;
+  programs.zsh.localVariables.ABBR_SET_EXPANSION_CURSOR = 1;
 
   programs.zsh.zsh-abbr = {
     enable = true;

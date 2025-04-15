@@ -1,7 +1,7 @@
 {lib, ...}: {
   # Credit to Frestein for the original code that this is taken from
   # https://github.com/JanDeDobbeleer/oh-my-posh/issues/5438#issuecomment-2488593826
-  programs.zsh.initExtra = lib.mkBefore ''
+  programs.zsh.initContent = lib.mkBefore ''
     # OMP zsh-vi-mode integration
     _omp_redraw-prompt() {
       local precmd
