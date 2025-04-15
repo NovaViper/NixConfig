@@ -9,7 +9,7 @@
 in {
   imports = lib.singleton ./base.nix;
 
-  home.packages = with pkgs; [digikam];
+  #home.packages = with pkgs; [digikam];
 
   xdg.configFile = {
     "OpenRGB/plugins/settings/effect-profiles/default".source = myLib.dots.getDotsPath {
