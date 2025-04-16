@@ -53,13 +53,15 @@ in {
       flake-checker.enable = true;
       alejandra.enable = true;
 
-      deadnix = {
+      /*
+        deadnix = {
         enable = true;
         settings = {
           noLambdaArg = true;
           noLambdaPatternNames = true;
         };
       };
+      */
 
       statix = {
         enable = true;
