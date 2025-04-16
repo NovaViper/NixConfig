@@ -7,16 +7,16 @@
 }: {
   imports = myLib.utils.importFeatures "home" [
     ### Shell
-    "cli/shell/fish"
+    "cli/shell/zsh"
 
     ### Terminal Utils
     "cli/utilities"
     "cli/prompt/oh-my-posh"
     "cli/deco"
     "cli/multiplexer/tmux"
-    "cli/history"
+    #"cli/history"
     "cli/history/atuin"
-    "cli/history/mcfly"
+    #"cli/history/mcfly"
   ];
 
   userVars = {
