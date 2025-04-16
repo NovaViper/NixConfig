@@ -463,16 +463,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1744755812,
-        "narHash": "sha256-/8tT/ZebDJP6aKLMQ4aNIG4uSpZ6WJtvZkq5bDsHqH0=",
-        "owner": "NovaViper",
+        "lastModified": 1744820898,
+        "narHash": "sha256-gUldr3LtCm/OfEnbH6sFFlyyxqPMCsfMs2Ha+0fdPDs=",
+        "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "8d4d6a9a3bc040e67368efbac716e45da4483aa1",
+        "rev": "7ede02c32a729db0d6340bdb41d10e73ec511ca0",
         "type": "github"
       },
       "original": {
-        "owner": "NovaViper",
-        "ref": "mcfly-fzf-fix",
+        "owner": "nix-community",
         "repo": "home-manager",
         "type": "github"
       }

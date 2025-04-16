@@ -24,9 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      #url = "github:nix-community/home-manager";
-      # TOOD: Until https://github.com/nix-community/home-manager/pull/6827 is merged
-      url = "github:NovaViper/home-manager/mcfly-fzf-fix";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-index-database = {
