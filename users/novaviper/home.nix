@@ -25,5 +25,5 @@
     #  userIdentityPaths = myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
   };
 
-  age.identityPaths = lib.mkOptionDefault (myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"]);
+  #age.identityPaths = lib.mkOptionDefault (myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"]);
 }
