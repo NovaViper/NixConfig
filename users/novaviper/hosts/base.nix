@@ -18,7 +18,7 @@
 
     ### CLI
     "cli/dev"
-    "cli/misc/pass"
+    #"cli/misc/pass"
     "cli/misc/topgrade"
   ];
 
