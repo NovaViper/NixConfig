@@ -673,6 +673,7 @@
         "nur": "nur",
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
+        "sops-upstream": "sops-upstream",
         "stylix": "stylix",
         "systems": "systems_2",
         "wallpapers": "wallpapers",
@@ -708,16 +709,33 @@
         ]
       },
       "locked": {
-        "lastModified": 1743910657,
-        "narHash": "sha256-zr2jmWeWyhCD8WmO2aWov2g0WPPuZfcJDKzMJZYGq3Y=",
-        "owner": "Mic92",
+        "lastModified": 1735643466,
+        "narHash": "sha256-dCae9SDn0O7UKy26jlPf6ZLwSrsLzleEA5qh5ROGY6o=",
+        "owner": "brianmcgee",
         "repo": "sops-nix",
-        "rev": "523f58a4faff6c67f5f685bed33a7721e984c304",
+        "rev": "268afb11b5928986f13983f86befdde85e7a7f98",
         "type": "github"
       },
       "original": {
-        "owner": "Mic92",
+        "owner": "brianmcgee",
+        "ref": "feat/age-plugins",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "sops-upstream": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1744656621,
+        "narHash": "sha256-IdQnxVBMAQpSAYB2S3D3lSULelFMBpjiBGOxeTgC10I=",
+        "owner": "getsops",
+        "repo": "sops",
+        "rev": "a95e5258b42c3aa91d2e745996f0c87e9c4af172",
+        "type": "github"
+      },
+      "original": {
+        "owner": "getsops",
+        "repo": "sops",
         "type": "github"
       }
     },
