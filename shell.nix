@@ -29,18 +29,16 @@ in {
       statix
       home-manager
 
-      # Encryption tools
-      vim # Needed for agenix
-      age-plugin-yubikey
-      age-plugin-tpm
-      ssh-to-age
-      (sops.withAgePlugins (p: [
-        p.age-plugin-tpm
-        p.age-plugin-ledger
-        p.age-plugin-yubikey
-      ]))
+      # Encryption tools/Secrets bootstrapping
       gnupg
       openssh
+      vim # Needed for age/sops
+      sops # This one is from the overlay
+      ssh-to-age
+      age-plugin-fido2-hmac
+      age-plugin-yubikey
+      age-plugin-tpm
+      age-plugin-ledger
 
       # Git setup
       gitFull

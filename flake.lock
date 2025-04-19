@@ -708,15 +708,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1743910657,
-        "narHash": "sha256-zr2jmWeWyhCD8WmO2aWov2g0WPPuZfcJDKzMJZYGq3Y=",
-        "owner": "Mic92",
+        "lastModified": 1745544433,
+        "narHash": "sha256-eldxE/lOEZjE6dZHL2uizQ3Q9frZSQH4FyK8m8XyoEM=",
+        "owner": "NovaViper",
         "repo": "sops-nix",
-        "rev": "523f58a4faff6c67f5f685bed33a7721e984c304",
+        "rev": "7678b2defcb0e022c6860b51e5404e4e13bb6211",
         "type": "github"
       },
       "original": {
-        "owner": "Mic92",
+        "owner": "NovaViper",
+        "ref": "age-plugin",
         "repo": "sops-nix",
         "type": "github"
       }
