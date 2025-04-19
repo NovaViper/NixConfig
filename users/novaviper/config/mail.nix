@@ -5,12 +5,14 @@
   pkgs,
   ...
 }: let
+  # TODO: Rework evaluation secrets
   mail-secrets = (myLib.secrets.evalSecret "novaviper").mail;
-  pass = "${lib.getExe config.programs.password-store.package}";
   userVars = opt: myLib.utils.getUserVars opt config;
   myselfName = "novaviper";
+  passwordCmd = smtpHost: email: "gpg -q --for-your-eyes-only --no-tty -d ~/.authinfo.gpg | awk '/machine ${smtpHost} login ${email}/ {print $NF}'";
 in {
-  accounts.email = {
+  /*
+    accounts.email = {
     maildirBasePath = "${config.xdg.dataHome}/mail";
     accounts.personal-1 = let
       address = "${mail-secrets.personal-1.address}";
@@ -26,7 +28,8 @@ in {
         host = "imap.mailbox.org";
         tls.useStartTls = true;
       };
-      passwordCommand = "${pass} Mail/${smtp.host}/${address}";
+      #passwordCommand = "${pass} Mail/${smtp.host}/${address}";
+      passwordCommand = passwordCmd smtp.host address;
       mbsync = {
         enable = true;
         create = "both";
@@ -52,7 +55,8 @@ in {
       mu.enable = true;
       # Declaring ports for Gmail breaks it!!
       imap.host = "imap.gmail.com";
-      passwordCommand = "${pass} Mail/${smtp.host}/${address}";
+      #passwordCommand = "${pass} Mail/${smtp.host}/${address}";
+      passwordCommand = passwordCmd smtp.host address;
       mbsync = {
         enable = true;
         create = "both";
@@ -68,6 +72,7 @@ in {
       };
     };
   };
+  */
 
   programs = {
     mu.enable = true;
@@ -84,7 +89,8 @@ in {
   # Add check to ensure to only run mbsync when my hardware key is inserted
   systemd.user.services.mbsync.Service.ExecCondition = ''/bin/sh -c "${myLib.utils.isGpgUnlocked pkgs}"'';
 
-  xdg.configFile = let
+  /*
+    xdg.configFile = let
     acct = config.accounts.email.accounts;
     aliasElem = a: i: builtins.elemAt a.aliases i;
   in
@@ -136,4 +142,5 @@ in {
         ;;; mu4e-accounts.el ends here
       '';
     };
+  */
 }

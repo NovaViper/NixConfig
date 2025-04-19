@@ -31,11 +31,15 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    agenix = {
-      url = "github:ryantm/agenix";
+    sops-nix = {
+      # TODO: It works but is causing the devshell to fail
+      #url = "github:Mic92/sops-nix";
+      url = "github:brianmcgee/sops-nix/feat/age-plugins";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-      inputs.systems.follows = "systems";
+    };
+    sops-upstream = {
+      url = "github:getsops/sops";
+      flake = false;
     };
     disko = {
       url = "github:nix-community/disko";
@@ -78,6 +82,12 @@
       url = "github:NovaViper/Wallpapers";
       flake = false;
     };
+    /*
+      nix-secrets = {
+      url = "git+ssh://git@github.com:NovaViper/nix-secrets.git?ref=main&shallow=1";
+      inputs = {};
+    };
+    */
     # Nixpkgs PRs
     # TODO: https://github.com/NixOS/nixpkgs/pull/216245
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
