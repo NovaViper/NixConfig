@@ -37,6 +37,10 @@
       inputs.home-manager.follows = "home-manager";
       inputs.systems.follows = "systems";
     };
+    agenix-rekey = {
+      url = "github:oddlama/agenix-rekey";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -88,6 +92,7 @@
     self,
     nixpkgs,
     home-manager,
+    agenix-rekey,
     ...
   } @ inputs: let
     inherit (nixpkgs) lib;
@@ -164,5 +169,13 @@
         "novaviper@yoganova" = {inherit nixosConfigurations;};
         "nixos@installer" = {inherit nixosConfigurations;};
       };
+
+    agenix-rekey = agenix-rekey.configure {
+      userFlake = self;
+      nixosConfigurations = {
+        # Don't include the installer
+        inherit (self.nixosConfigurations) ryzennova yoganova;
+      };
+    };
   };
 }

@@ -33,7 +33,19 @@ in {
       vim # Needed for agenix
       age
       age-plugin-yubikey
-      agenix
+      age-plugin-tpm
+      ssh-to-age
+      agenix-rekey
+      (sops.withAgePlugins (p: [
+        p.age-plugin-tpm
+        p.age-plugin-ledger
+        p.age-plugin-yubikey
+      ]))
+      (age.withPlugins (p: [
+        p.age-plugin-tpm
+        p.age-plugin-ledger
+        p.age-plugin-yubikey
+      ]))
       gnupg
       openssh
 

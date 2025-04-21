@@ -33,6 +33,8 @@
 
     ### Boot
     "services/pretty-boot"
+
+    "secrets"
   ];
 
   features.includeMinecraftServer = true;

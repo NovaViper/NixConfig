@@ -26,7 +26,7 @@ in {
     hashedPasswordFile = agenixHashedPasswordFile;
   };
 
-  age.identityPaths = lib.mkOptionDefault (myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"]);
+  age.identityPaths = lib.mkOptionDefault (myLib.secrets.mkSecretIdentities ["age-yubikey-identity-4416b57b.pub"]);
 
   # User Secrets
   age.secrets."novaviper-password" = myLib.secrets.mkSecretFile {

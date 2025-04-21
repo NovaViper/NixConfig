@@ -28,5 +28,7 @@
 
     ### Boot
     "services/pretty-boot"
+
+    "secrets"
   ];
 }
