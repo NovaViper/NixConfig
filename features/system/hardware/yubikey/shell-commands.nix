@@ -3,20 +3,25 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  pkcs11 = lib.getExe' pkgs.opensc "pkcs11.so";
+in {
   home-manager.sharedModules = lib.singleton {
     home.shellAliases = {
       # Make gpg switch Yubikey
-      gpg-switch-yubikey = ''gpg-connect-agent "scd serialno" "learn --force" /bye'';
+      switch-yubikey-gpg = ''gpg-connect-agent "scd serialno" "learn --force" /bye'';
 
       # Make gpg smartcard functionality work again
-      fix-gpg-smartcard = "pkill gpg-agent && sudo systemctl restart pcscd.service && sudo systemctl restart pcscd.socket && gpg-connect-agent /bye";
-      # Load PKCS11 keys into ssh-agent
-      load-pkcs-key = "ssh-add -s ${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
+      reload-gpg-smartcard = "pkill gpg-agent && sudo systemctl restart pcscd.service && sudo systemctl restart pcscd.socket && gpg-connect-agent /bye";
+
+      # Load PKCS11/PIV keys into ssh-agent
+      load-piv-keys = "ssh-add -s ${pkcs11}";
+
       # Remove PKCS11 keys into ssh-agent
-      remove-pkcs-key = "ssh-add -e ${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
+      remove-piv-keys = "ssh-add -e ${pkcs11}";
+
       # Make resident ssh keys import from Yubikey
-      load-res-keys = "ssh-keygen -K";
+      load-resident-keys = "ssh-keygen -K";
     };
   };
 }
