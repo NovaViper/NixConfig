@@ -34,6 +34,7 @@ in {
       age
       age-plugin-yubikey
       age-plugin-tpm
+      age-plugin-fido2-hmac
       ssh-to-age
       agenix-rekey
       (sops.withAgePlugins (p: [

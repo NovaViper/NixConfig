@@ -6,68 +6,59 @@
   inputs,
   ...
 }: let
-  identities = lib.mapAttrsToList (user: hmConfig: hmConfig.userVars.userIdentityPaths) config.home-manager.users;
-  flattenId = lib.unique (lib.flatten identities);
-  idList = lib.toList (builtins.toString identities);
-  #idList = lib.toList identities;
-in {
-  imports = with inputs; [agenix.nixosModules.default agenix-rekey.nixosModules.default];
+  conf = {
+    nixos =
+      lib.recursiveUpdate {
+        imports = with inputs; [agenix.nixosModules.default agenix-rekey.nixosModules.default];
+        environment.systemPackages = with pkgs; [agenix age age-plugin-yubikey];
+        services.pcscd.enable = lib.mkForce true;
 
-  environment.systemPackages = with pkgs; [agenix age age-plugin-yubikey];
-  #age.identityPaths = lib.mkOptionDefault flattenId;
+        age.rekey = {
+          #localStorageDir = myLib.secrets.getRekeyedPath "${config.networking.hostName}";
+          hostPubkey = lib.mkDefault ../../../hosts/${config.networking.hostName}/ssh_host_ed25519_key.pub;
+        };
+      }
+      conf.common;
 
-  services.pcscd.enable = lib.mkForce true;
+    home = hm: let
+      hm-config = hm.config;
+    in
+      lib.recursiveUpdate {
+        imports = with inputs; [agenix.homeManagerModules.default agenix-rekey.homeManagerModules.default];
 
-  age.rekey = {
-    #storageMode = "derivation";
-    #
-    storageMode = "local";
-    localStorageDir = ../../../secrets/rekeyed/${config.networking.hostName};
-    hostPubkey = ../../../hosts/${config.networking.hostName}/ssh_host_ed25519_key.pub;
-    /*
-      agePlugins = with pkgs; [
-      age-plugin-yubikey
-      age-plugin-tpm
-      age-plugin-ledger
-    ];
-    */
+        # Add custom ssh key identity path specifically used for agenix
+        age.identityPaths = lib.mkOptionDefault ["${hm-config.home.homeDirectory}/.ssh/nix-secret"];
 
-    # The path to the master identity used for decryption. See the option's description for more information.
-    masterIdentities = myLib.secrets.mkSecretIdentities [
-      "age-yubikey-identity-4416b57b.pub" # USB A
-      "age-yubikey-identity-2c8a1039.pub" # USB C
-    ];
+        age.rekey = {
+          #localStorageDir = myLib.secrets.getRekeyedPath "${hm-config.home.username}/${config.networking.hostName}";
+          hostPubkey = lib.mkDefault ../../../users/${hm-config.home.username}/ssh.pub;
+        };
+      }
+      conf.common;
 
-    #extraEncryptionPubkeys = [];
-  };
-
-  home-manager.sharedModules = lib.singleton (hm: {
-    imports = with inputs; [agenix.homeManagerModules.default agenix-rekey.homeManagerModules.default];
-
-    age.identityPaths = myLib.secrets.mkSecretIdentities [
-      "age-yubikey-identity-4416b57b.pub"
-    ];
-
-    age.rekey = {
-      #storageMode = "derivation";
-      #
-      storageMode = "local";
-      localStorageDir = ../../../secrets/rekeyed/${hm.config.home.username}/${config.networking.hostName};
-      hostPubkey = ../../../hosts/${config.networking.hostName}/ssh_host_ed25519_key.pub;
-      /*
+    common = {
+      age.rekey = {
+        storageMode = "derivation";
+        #storageMode = "local";
         agePlugins = with pkgs; [
-        age-plugin-yubikey
-        age-plugin-tpm
-        age-plugin-ledger
-      ];
-      */
+          age-plugin-yubikey
+          age-plugin-tpm
+          age-plugin-ledger
+          age-plugin-fido2-hmac
+        ];
 
-      # The path to the master identity used for decryption. See the option's description for more information.
-      masterIdentities = myLib.secrets.mkSecretIdentities [
-        "age-yubikey-identity-4416b57b.pub"
-      ];
+        # The path to the master identity used for decryption. See the option's description for more information.
+        masterIdentities = myLib.secrets.mkSecretIdentities [
+          "age-yubikey-identity-62397011.pub" # USB A
+          "age-yubikey-identity-33fd18f7.pub" # USB C
+        ];
 
-      #extraEncryptionPubkeys = [];
+        #extraEncryptionPubkeys = [];
+      };
     };
-  });
-}
+  };
+in
+  conf.nixos
+  // {
+    home-manager.sharedModules = lib.singleton (hm: (conf.home hm));
+  }

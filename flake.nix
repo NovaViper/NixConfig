@@ -78,10 +78,21 @@
       url = "github:MarceColl/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Personal Repositories
+    # Wallpapers
     wallpapers = {
       url = "github:NovaViper/Wallpapers";
       flake = false;
     };
+    # Private secrets repo
+    # Authenticate via ssh and use shallow clone
+    nix-secrets = {
+      url = "git+ssh://git@github.com/NovaViper/nix-secrets.git?ref=main&shallow=1";
+      #url = "git+file:///home/novaviper/Documents/nix-secrets?ref=main&shallow=1";
+      inputs = {};
+    };
+
     # Nixpkgs PRs
     # TODO: https://github.com/NixOS/nixpkgs/pull/216245
     nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";

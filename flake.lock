@@ -680,20 +680,37 @@
         "type": "github"
       }
     },
+    "nix-secrets": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1745354132,
+        "narHash": "sha256-uI8gJCe5h7ltCVplM1Ko7Q+yDO5sHgtRoudNKNc3PPA=",
+        "ref": "main",
+        "rev": "59c95621017f0e5d6740c8ebafd7aca8ce507fbc",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/NovaViper/nix-secrets.git"
+      },
+      "original": {
+        "ref": "main",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/NovaViper/nix-secrets.git"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1744731498,
         "narHash": "sha256-9hPNwvnjAh7NNyt/F0FCK1uNGgWeFhEvkTZTLx8kQts=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
+        "path": "/nix/store/lfi38xy85xji8vmfjkqrq6lpy4g0sai2-source",
         "rev": "35482917cb383a356ad5404ea11d75a91201f3b9",
-        "type": "github"
+        "type": "path"
       },
       "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable-small",
-        "repo": "nixpkgs",
-        "type": "github"
+        "id": "nixpkgs",
+        "type": "indirect"
       }
     },
     "nixpkgs-howdy": {
@@ -739,6 +756,22 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-24.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1744731498,
+        "narHash": "sha256-9hPNwvnjAh7NNyt/F0FCK1uNGgWeFhEvkTZTLx8kQts=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "35482917cb383a356ad5404ea11d75a91201f3b9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable-small",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -845,7 +878,8 @@
         "menu": "menu",
         "nix-gaming": "nix-gaming",
         "nix-index-database": "nix-index-database",
-        "nixpkgs": "nixpkgs",
+        "nix-secrets": "nix-secrets",
+        "nixpkgs": "nixpkgs_2",
         "nixpkgs-howdy": "nixpkgs-howdy",
         "nixpkgs-stable": "nixpkgs-stable",
         "nur": "nur",

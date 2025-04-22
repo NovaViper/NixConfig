@@ -23,6 +23,4 @@
     fullName = "Nova Leary";
     email = "coder.nova99@mailbox.org";
   };
-
-  age.identityPaths = lib.mkOptionDefault (myLib.secrets.mkSecretIdentities ["age-yubikey-identity-4416b57b.pub"]);
 }
