@@ -21,20 +21,22 @@ Note: There are upcoming changes being actively made so documentation will chang
 - Multiple NixOS configurations, including laptop and desktop
 - Install and partitioning commands via [[https://github.com/casey/just][just]]
 - Declarative partitioning with [[https://github.com/nix-community/disko][disko]].
-- Flexible NixOS/Home Manager with module options**, easily toggle options with =modules.OPTION.enable=
-- Automatically append users to multiple hosts along with specific user settings for each user
+- Flexible NixOS and Home Manager configs through importable **feature flags**
+- Automatically append users to multiple hosts along with specific user settings for each user with a primary user and extra users
 - Modular configuration, easily add new users and machines
 - Wayland/X11 Setups
 - Multiple fully featured desktop environments (KDE Plasma 6)
-- Live image ISO build with Nvidia drivers, experimental nix features already enabled, unfree software usage, and some nice options for cli and emacs
-- Declarative themes with *theme* module and [[https://github.com/danth/stylix][stylix]]
-- Deployment of secrets using *agenix (with yubikey)* and evaluation secrets with *git-crypt*
+- Live image ISO build with Nvidia drivers, experimental nix features already enabled, unfree software usage, and some nice options for cli
+- Declarative themes with [[https://github.com/danth/stylix][stylix]]
+- Deployment of secrets using [[https://github.com/ryantm/agenix][agenix]] and [[https://github.com/oddlama/agenix-rekey][agenix-rekey]] (with yubikey)* via a private repository called =nix-secrets=
 - Includes [[https://github.com/pre-commit/pre-commit][pre-commit]] scripts to make sure flake is correctly setup and ready to be published to a git repository
+- Remote building with desktop configurations
+- Built-in development shell via =direnv=
 
 * References
 - [[https://github.com/runarsf/dotfiles][Runarsf's dotfiles]] and [[https://github.com/imatpot/dotfiles][imatpot's dotfiles]] - Custom library and inspiration for more traditional flake layout
 - [[https://github.com/llakala/nixos][Llakala's nixos config]] - Additional libraries for home-manager cli integration and inspiration for integrating more HM stuff into the NixOS-specific configs
-- [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Original inspiration for flake, now mostly using some opinionated settings and overlay/devshell setup
+- [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Original inspiration for flake, opinionated settings, overlay/devshell setup, and better home-manager/nixos split layout
 - [[https://github.com/hlissner/dotfiles][Hlissner's dotfiles]] - Security hardening configs
 - [[https://github.com/Baitinq/nixos-config][Baitinq's nixos-config]] - Partitioning scripts
 - [[https://github.com/theopn/dotfiles/tree/main][Theopn's]] and [[https://github.com/yutkat/dotfiles/tree/main][yutkat's dotfiles]] - Wezterm settings
@@ -43,7 +45,7 @@ Note: There are upcoming changes being actively made so documentation will chang
 - [[https://github.com/archer-65/nix-dotfiles][archer-65's nix-dotfiles]] - Structure of host configurations
 - [[https://lgug2z.com/articles/handling-secrets-in-nixos-an-overview/#managing-your-own-physical-machines][lgug2z Handling Secrets in NixOS Blogpost]] - Git-crypt implementation for secrets required during flake evaluation
 - [[https://github.com/Lillian-Violet/NixOS-Configuration][Lillian-Violet's NixOS-Configuration]] - some ISO/live-image settings
-- [[https://github.com/EmergentMind/nix-config/][EmergentMind's nix-config]] - just file integration and helpful secret tips
+- [[https://github.com/EmergentMind/nix-config/][EmergentMind's nix-config]] and [[https://github.com/EmergentMind/nix-secrets-reference][nix-secrets-reference]] - just file integration and helpful secret tips and nix-secrets deployment inspiration
 - [[https://github.com/x0ba/dotfiles][x0ba's dotfiles]] - Agenix NixOS/Home-Manager setup with Yubikey-support
 - [[https://github.com/Kranzes/nix-config][Kranzes' nix-config]] - Agenix formatting
 - [[https://github.com/babeuh/nix-config][Babeuh's nix-config]] - Yubikey secrets setup with age (most importantly, pcsd service startup during boot process)
@@ -53,107 +55,178 @@ Note: There are upcoming changes being actively made so documentation will chang
 Here's an overview of the repo's file structure (Generated with =eza --icons=never --tree=):
 #+begin_src
 ./
-├── documentation/
+├── checks/
+├── core/
+│   ├── extras/
+│   ├── home-manager/
+│   ├── stylix/
+│   ├── ...
+├── extra/
+│   ├── documentation/
+│   ├── homeModules/
+│   └── nixosModules/
+├── features/
+│   ├── home/
+│   │   ├── apps/
+│   │   │   ├── backup/
+│   │   │   ├── browser/
+│   │   │   │   ├── firefox/
+│   │   │   │   ├── floorp/
+│   │   │   │   ├── vivaldi/
+│   │   │   │   └── zen/
+│   │   │   ├── discord/
+│   │   │   ├── editor/
+│   │   │   │   └── doom-emacs/
+│   │   │   ├── music-player/
+│   │   │   └── terminal/
+│   │   │       ├── alacritty/
+│   │   │       ├── ghostty/
+│   │   │       ├── kitty/
+│   │   │       ├── konsole/
+│   │   │       ├── rio/
+│   │   │       └── wezterm/
+│   │   ├── cli/
+│   │   │   ├── deco/
+│   │   │   │   ├── cava/
+│   │   │   │   └── fastfetch/
+│   │   │   ├── dev/
+│   │   │   ├── history/
+│   │   │   │   ├── atuin/
+│   │   │   │   └── mcfly/
+│   │   │   ├── misc/
+│   │   │   │   ├── pass/
+│   │   │   │   └── topgrade/
+│   │   │   ├── multiplexer/
+│   │   │   │   ├── tmux/
+│   │   │   │   └── zellij/
+│   │   │   ├── prompt/
+│   │   │   │   └── oh-my-posh/
+│   │   │   ├── shell/
+│   │   │   │   ├── fish/
+│   │   │   │   └── zsh/
+│   │   │   └── utilities/
+│   │   │       ├── git/
+│   │   │       ├── ...
+│   │   └── services/
+│   │       └── syncthing/
+│   └── system/
+│       ├── apps/
+│       │   ├── android-vm/
+│       │   ├── games/
+│       │   ├── libvirt/
+│       │   └── obs/
+│       ├── desktop/
+│       │   └── plasma6/
+│       ├── hardware/
+│       │   ├── bluetooth/
+│       │   ├── hard-accel/
+│       │   ├── qmk/
+│       │   ├── rgb/
+│       │   └── yubikey/
+│       ├── lang/
+│       │   └── us-english/
+│       ├── secrets/
+│       ├── services/
+│       │   ├── gps/
+│       │   ├── localsend/
+│       │   ├── packaging/
+│       │   ├── pretty-boot/
+│       │   ├── printing/
+│       │   ├── sunshine-server/
+│       │   ├── tailscale/
+│       │   └── vr/
+│       │       ├── alvr/
+│       │       └── wivrn/
+│       └── theme/
+│           └── dracula/
 ├── hosts/
-│  ├── live-image/
-│  │  └── configuration.nix
-│  ├── ryzennova/
-│  │  ├── configuration.nix
-│  │  ├── disks.nix
-│  │  ├── hardware-configuration.nix
-│  └── yoganova/
-│     ├── configuration.nix
-│     ├── disks.nix
-│     ├── hardware-configuration.nix
-├── lib/
-├── modules/
-│  ├── home-manager/
-│  │  ├── default-config.nix
-│  │  ├── shared.nix
-│  │  ├── submodule.nix
-│  │  └── system-config-support.nix
-│  ├── linux/
-│  │  ├── core/
-│  │  ├── graphical/
-│  │  ├── hardware/
-│  │  ├── locales/
-│  │  ├── services/
-│  │  ├── default-config.nix
-│  │  ├── user-nixos-configs.nix
-│  ├── nix/
-│  │  ├── legacy-consistency.nix
-│  │  ├── nix-config.nix
-│  │  ├── nix.nix
-│  │  ├── nixpkgs-config.nix
-│  │  └── nixpkgs.nix
-│  └── users/
-│     ├── desktop/
-│     │  ├── displayManager/
-│     ├── development/
-│     ├── doom-emacs/
-│     ├── gaming/
-│     ├── gpg/
-│     ├── theme/
+│   ├── installer/
+│   │   ├── config/
+│   │   ├── features.nix
+│   │   ├── hardware-configuration.nix
+│   │   └── hostVars.nix
+│   ├── ryzennova/
+│   │   ├── config/
+│       │   ├── disko.nix*
+│       │   ├── ...
+│   │   ├── features.nix
+│   │   ├── hardware-configuration.nix
+│   │   ├── hostVars.nix
+│   │   └── ssh_host_ed25519_key.pub
+│   └── yoganova/
+│       ├── config/
+│       │   ├── disko.nix*
+│       │   ├── ...
+│       ├── features.nix
+│       ├── hardware-configuration.nix
+│       ├── hostVars.nix
+│       └── ssh_host_ed25519_key.pub
+├── myLib/
 ├── overlays/
 ├── pkgs/
+│   └── common/
 ├── scripts/
-├── secrets/
-│  ├── identities/
-│  └── secrets.nix
 ├── users/
-│  ├── nixos/
-│  │  ├── config/
-│  │  └── default.nix
-│  └── novaviper/
-│     ├── config/
-│     ├── dotfiles/
-│     └── default.nix
+│   ├── nixos/
+│   │   ├── config/
+│   │   ├── home.nix
+│   │   └── system.nix
+│   └── novaviper/
+│       ├── config/
+│       ├── dotfiles/
+│       ├── hosts/
+│       │   ├── base.nix
+│       │   ├── ryzennova.nix
+│       │   └── yoganova.nix
+│       ├── home.nix
+│       ├── ssh.pub
+│       └── system.nix
 ├── flake.lock
 ├── flake.nix
 ├── justfile
+├── LICENSE
 ├── README.org
-└── shell.nix
+├── shell.nix
+└── statix.toml
 #+end_src
 
 
 - =flake.nix=: Entrypoint for host and home configurations. Also exposes a devshell for boostrapping the system (=nix develop= or =nix shell=).
-- =lib=: Custom library functions for various parts of the flake, imported into HomeManager and NixOS
+- =myLib=: Custom library functions for various parts of the flake, imported into HomeManager and NixOS
 - =hosts=: Configurations for each machine, accessible via =nixos-rebuild --flake=.
   - =ryzennova=: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6
   - =yoganova=: Lenovo Yoga 7i 16IRL8 (Type 82YN) - 8GB RAM, Intel i5 1335U | KDE Plasma 6
-  - =live-image=: ISO configuration | Nvidia drivers included | KDE Plasma 6
+  - =installer=: ISO configuration | Nvidia drivers included | KDE Plasma 6
 - =users=: Configurations for each user, includes both host OS specific (NixOS or Darwin) and Home Manager configurations. Built together with the =hosts= configurations via =nixos-rebuild --flake= (or the darwin equivalent)
-- =modules=: Modules for various configuration definitions, all settings are defined here
-  - =home-manager=: Base configurations for Home-Manager, contains default configurations and helper modules that help setup the flake.
-  - =linux=: Configurations applied to Linux based systems, contains default configurations and helper modules that help setup the flake.
-    - =core=: Configurations applied across all hosts
-    - =locales=: Language configurations
-  - =nix=: Base configurations for the Nix package manager
-  - =users=: Configurations imported as modules for the user to toggle via =modules.OPTION.enable=
-- =overlay=: Patches and version overrides for some packages, applied to all systems and even the devshell. Accessible via =nix build=.
-- =pkgs=: Custom nix packages defined similarly to nixpkg ones. Also accessible via =nix build=. You can compose these into your own configuration by using my flake's overlay, or consume them through NUR.
-- =secrets=: All user/host age secrets are located here
+- =extra=: Extra stuff like custom modules and flake documentation
+- =core=: Shared configurations that are applied to all hosts and users
+- =features=: Opt-in configurations/feature flags that one or more users/hosts can use
+  - =home=: NixOS specific feature flags (some features contain some shared Home-manager options that get applied to all users)
+  - =system=: Home-Manager specific feature flags
+- =checks=: Flake evaluation tools for ensuring the flake is properly formatted and builds successfully. Also contains git-hooks to ensure the repository is properly setup. Accessible via =nix flake check=
+- =overlays=: Patches and version overrides for some packages, applied to all systems and even the devshell. Accessible via =nix build=.
+- =pkgs=: Custom nix packages defined similarly to the nixpkgs ones. Also accessible via =nix build=. You can compose these into your own configuration by using my flake's overlay, or consume them through NUR.
 - =scripts=: Bash/Posix scripts needed for various =precommit= and =just= commands
 - =justfile=: Command recipe file for =just=, contains various helpful commands for the flake
-- =shell.nix=: Declaration of nix-shell, used for =nix-shell= and =nix develop=
+- =shell.nix=: Declaration of nix-shell, used for =nix-shell= and =nix develop=. Used for bootstrapping the system
 
 * Installation/Usage
-For installation, check out the installation guide located under [[file:documentation/installation.org][documentation/installation.org]]! Check out [[file:documentation/tips.org][documentation/tips.org]] for some tips and important information regarding how the entire flake works.
+For installation, check out the installation guide located under [[file:extra/documentation/installation.org][documentation/installation.org]]! Check out [[file:extra/documentation/tips.org][documentation/tips.org]] for some tips and important information regarding how the entire flake works.
 
 * Tooling and Applications I Use
 Main user relevant apps
 - kde plasma 6
 - doom emacs
-- zsh + atuin + fzf + powerlevel10k
+- zsh + atuin + fzf + oh-my-posh
 - floorp
-- keepassxc/pass
-- gpg + ssh-agent + yubikey
+- keepassxc
+- agenix + gpg + ssh-agent + yubikey
 - tailscale
 - kdeconnect
 - krita
 - libreoffice
-- jellyfin (feishin)
-- rio + tmux
+- kitty + tmux
+- prusa-slicer
 - and quite a bit more...
 
 Nix stuff

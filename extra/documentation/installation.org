@@ -12,21 +12,42 @@ Home-manager is configured as a [[https://nix-community.github.io/home-manager/i
    - =nix-shell= is available on any version of nix. However, in order to use =nix develop=, you must have nix v2.4+, git, and have enabled the =flakes= and =nix-command= experimental features. If you are using the custom ISO as stated previously, you can use =nix develop= without having to do anything additional as the configs already have the needed configurations and dependencies.
    - JUNE 2024: =nix develop= is the recommended way to utilize the devshell, as it directly pulls the flake's overlays into itself without errors along with its other inputs, =nix-shell= **DOES NOT** important any of the flake's inputs thus causing errors when loading into it.
 5. Drag a pre-configured or your own disko config into =hosts/HOSTNAME= named as =disks.nix= and import into your hardware default nix file.
-   - Make sure the =hosts/HOSTNAME/disks.nix= file to your designed partition configurations (see [[https://github.com/nix-community/disko/blob/master/docs/quickstart.md][disko's getting started guide]] for more!)
+   - Make sure the =hosts/HOSTNAME/config/disko.nix= file to your designed partition configurations (see [[https://github.com/nix-community/disko/blob/master/docs/quickstart.md][disko's getting started guide]] for more!)
    - Most importantly, make sure to edit the =disk= and =swapSize= variables at the top of the file to point to your drive's id (using =sudo blkid=).
 6. Run =just disko #HOSTNAME= to automatically partition the system's disks according to your =disks.nix= for the host you specified
 7. Run =nixos-generate-config --show-hardware-config --no-filesystems --root /mnt= to create a base configuration file that the installer provides.
    - It is important to include =--no-filesystems= in the command, as since disko handles the filesystem configurations for you (including them along with disko will cause conflicts which will make the install fail).
 8. Add any of the additional kernel modules as exactly as they appear into the =hosts/HOSTNAME/hardware-configuration= file.
-9. Change the =FLAKE= variable located under =modules/home-manager/default-config.nix=. Some dotfiles are sym-links that aren't located on nix store and not having the repo in the location that the variable specifies will cause the links to break. This would in turn result in some apps malfunctioning or not have your settings.
-10. *IMPORTANT*: Make sure to be aware of the following caveats:
-    - For modules that include =evaluation secrets= (secrets that used during the flake's evaluation; which *DOES NOT* include the secrets from =sops-nix= or =agenix=), you will not be able to directly use said modules without removing them along with git-crypt and change them to be your own. For your own version of the repo, you simply transfer the GPG private key used to encrypt the secrets onto the machine you are installing to and run the command =git-crypt unlock=.
-    - For modules that include secrets from =sops-nix= or =agenix=, you will also need to change out those secrets (aswell as generate keys for each new host).
+9. You will need to edit the =flake.nix= to include your new hosts under =nixosConfigurations= and =homeConfigurations=.
+   - The new host must be declared like the following example
+#+begin_src nix
+nixosConfigurations = builtins.mapAttrs myLib.mkHost {
+
+  example-hostname = { # This line must be the hostname of the machine
+    primaryUser = "user"; # This is required
+    extraUsers = ["extra1" "extra2"] # This, however, is optional
+    system = "x86_64-linux"; # This is also required
+    stateVersion = "24.11"; # and so is this
+  };
+
+};
+#+end_src
+   - Each host machine must include the following:
+     - =config= folder, which is stores all configurations that would've normally gone inside of a =configuration.nix= file
+     - =features.nix=, which includes all feature flags you want to use
+     - =hardware-configuration.nix=, which was covered above
+     - =hostVars.nix=, which is where host specific options are declared (such as display scaling and the configuration directory, aka the FLAKE path)
+   - Each user must include a =system.nix= file, which is used to declare the NixOS configs for the user
+     - Users can also include a =home.nix= fuke, =hosts/HOSTNAME= folder, and =config= folder for the equivalent Home-Manager configurations
+10. Make sure to change the =hostVars.configDirectory= variable located under =hosts/HOSTNAME/hostVars=, as it is used in place of the =FLAKE= environment variable. Some dotfiles are sym-links that aren't located on nix store and not having the repo in the location that the variable specifies will cause the links to break. This would in turn result in some apps malfunctioning or not have your settings.
+11. *IMPORTANT*: Make sure to be aware of the following caveats:
+    - For modules that include =secrets=, you will **NOT** be able to directly use said modules without commenting out whatever code uses them and/or replacing them with your own secrets.
+    - You could also deploy your own =nix-secrets= repo based on [[https://github.com/EmergentMind/nix-secrets-reference][EmergentMind's nix-secrets template]].
     - See more under [[file:tips.org][Tips]] for more information regarding these caveats
-11. Run =nixos-install --flake .#HOSTNAME --root /mnt= to install NixOS with the configuration (or run =just nixos-install HOSTNAME=)
-12. If you did not set a user password in the flake, make sure you use =nixos-enter= to set a password for the user!
-13. Move repo into the folder located on /mnt that matches your =FLAKE= environment variable
-14. Restart and the system will boot up into NixOS!
+12. Run =nixos-install --flake .#HOSTNAME --root /mnt= to install NixOS with the configuration (or run =just nixos-install HOSTNAME=)
+13. If you did not set a user password in the flake, make sure you use =nixos-enter= to set a password for the user!
+14. Move repo into the folder located on /mnt that matches your =FLAKE= environment variable
+15. Restart and the system will boot up into NixOS!
 
 * Post Install
 Once your system boots, check out [[file:post-install.org][Post Install]] for instructions for system and application setup steps that can only be done once the system is installed and booted.
