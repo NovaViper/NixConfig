@@ -9,7 +9,7 @@ My current NixOS (and constant changing) configuration
 
 Note: There are upcoming changes being actively made so documentation will change and may not necessarily be update to date!
 
-* Table of Contents :TOC_3:noexport:
+* Table of Contents :TOC:
 - [[#highlights][Highlights]]
 - [[#references][References]]
 - [[#structure][Structure]]
@@ -147,7 +147,7 @@ Here's an overview of the repo's file structure (Generated with =eza --icons=nev
 │   │   └── hostVars.nix
 │   ├── ryzennova/
 │   │   ├── config/
-│       │   ├── disko.nix*
+│       │   ├── disko.nix
 │       │   ├── ...
 │   │   ├── features.nix
 │   │   ├── hardware-configuration.nix
@@ -155,7 +155,7 @@ Here's an overview of the repo's file structure (Generated with =eza --icons=nev
 │   │   └── ssh_host_ed25519_key.pub
 │   └── yoganova/
 │       ├── config/
-│       │   ├── disko.nix*
+│       │   ├── disko.nix
 │       │   ├── ...
 │       ├── features.nix
 │       ├── hardware-configuration.nix

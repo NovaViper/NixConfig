@@ -6,7 +6,6 @@
   inputs,
   ...
 }: let
-  # TODO: Rework evaluation secrets
   myselfName = "novaviper";
   secrets = inputs.nix-secrets.${myselfName}.email;
   userVars = opt: myLib.utils.getUserVars opt config;
