@@ -9,7 +9,7 @@ My current NixOS (and constant changing) configuration
 
 Note: There are upcoming changes being actively made so documentation will change and may not necessarily be update to date!
 
-* Table of Contents :TOC:
+* Table of Contents :TOC:noexport:
 - [[#highlights][Highlights]]
 - [[#references][References]]
 - [[#structure][Structure]]
@@ -64,7 +64,8 @@ Here's an overview of the repo's file structure (Generated with =eza --icons=nev
 ├── extra/
 │   ├── documentation/
 │   ├── homeModules/
-│   └── nixosModules/
+│   ├── nixosModules/
+│   └── scripts/
 ├── features/
 │   ├── home/
 │   │   ├── apps/
@@ -165,7 +166,6 @@ Here's an overview of the repo's file structure (Generated with =eza --icons=nev
 ├── overlays/
 ├── pkgs/
 │   └── common/
-├── scripts/
 ├── users/
 │   ├── nixos/
 │   │   ├── config/
@@ -199,6 +199,9 @@ Here's an overview of the repo's file structure (Generated with =eza --icons=nev
   - =installer=: ISO configuration | Nvidia drivers included | KDE Plasma 6
 - =users=: Configurations for each user, includes both host OS specific (NixOS or Darwin) and Home Manager configurations. Built together with the =hosts= configurations via =nixos-rebuild --flake= (or the darwin equivalent)
 - =extra=: Extra stuff like custom modules and flake documentation
+  - =nixosModules=: Custom NixOS modules used throughout the flake (and some being upstreamable)
+  - =homeModules=: Custom Home-Manager modules used throughout the flake (and some being upstreamable)
+  - =scripts=: Bash/Posix scripts needed for various =precommit= and =just= commands
 - =core=: Shared configurations that are applied to all hosts and users
 - =features=: Opt-in configurations/feature flags that one or more users/hosts can use
   - =home=: NixOS specific feature flags (some features contain some shared Home-manager options that get applied to all users)
@@ -206,7 +209,6 @@ Here's an overview of the repo's file structure (Generated with =eza --icons=nev
 - =checks=: Flake evaluation tools for ensuring the flake is properly formatted and builds successfully. Also contains git-hooks to ensure the repository is properly setup. Accessible via =nix flake check=
 - =overlays=: Patches and version overrides for some packages, applied to all systems and even the devshell. Accessible via =nix build=.
 - =pkgs=: Custom nix packages defined similarly to the nixpkgs ones. Also accessible via =nix build=. You can compose these into your own configuration by using my flake's overlay, or consume them through NUR.
-- =scripts=: Bash/Posix scripts needed for various =precommit= and =just= commands
 - =justfile=: Command recipe file for =just=, contains various helpful commands for the flake
 - =shell.nix=: Declaration of nix-shell, used for =nix-shell= and =nix develop=. Used for bootstrapping the system
 

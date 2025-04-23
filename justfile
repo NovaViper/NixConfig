@@ -25,7 +25,7 @@ eval-package HOST PACKAGE:
 
 [doc('Check if secrets have been loaded (sops-nix or agenix)')]
 check-secrets:
-    scripts/check-secrets.sh
+    extra/scripts/check-secrets.sh
 
 
 ########## NixOS Installation tools ##########

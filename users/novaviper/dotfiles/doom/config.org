@@ -11,7 +11,7 @@
 
 This is my Doom Emacs configuration. From this org file, all of the necessary Doom Emacs configuration files are generated.
 
-* Table of Contents :TOC_3:
+* Table of Contents :TOC_3:noexport:
 - [[#references][References]]
 - [[#doom-config-file-overview][Doom Config File Overview]]
   - [[#config-file-headers][Config File Headers]]
@@ -790,6 +790,10 @@ This section contains configurations dealing with org tasks and agendas. I use t
                 '((:startgroup)
                   ("TOC" . ?2) ; TOC-org (default 2 levels deep)
                   ("TOC_3" . ?3) ; TOC-org (3 levels deep)
+                  (:endgroup)
+                  (:startgroup)
+                  ("noexport" . ?n) ; Exclude outline tree from export
+                  ("export" . ?x) ; Export outline Tree
                   (:endgroup)
                   ("@errand" . ?E)
                   ("@home" . ?H)
