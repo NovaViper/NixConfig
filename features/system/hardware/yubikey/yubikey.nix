@@ -7,7 +7,7 @@
   programs.yubikey-touch-detector.enable = lib.mkIf (config.features.desktop != null) true;
 
   # Allows PKCS11 Keys on Yubikey to be used for ssh authentication
-  programs.ssh.agentPKCS11Whitelist = lib.getExe' pkgs.opensc "pkcs11.so";
+  programs.ssh.agentPKCS11Whitelist = "${pkgs.opensc}/lib/opensc-pkcs11.so";
 
   # Enable gpg smart cards
   hardware.gpgSmartcards.enable = true;

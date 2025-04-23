@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: {
@@ -25,10 +24,10 @@
       port = 22;
     };
     "yubikey-hosts" = {
+      user = "git";
       host = "github.com gitlab.com codeberg.org";
       identitiesOnly = true;
-      extraOptions.PKCS11Provider = lib.getExe' pkgs.opensc "pkcs11.so";
-      user = "git";
+      extraOptions.PKCS11Provider = "${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
     };
   };
 }

@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  pkcs11 = lib.getExe' pkgs.opensc "pkcs11.so";
+  pkcs11 = "${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
 in {
   home-manager.sharedModules = lib.singleton {
     home.shellAliases = {

@@ -18,7 +18,7 @@
 in {
   default = pkgs.mkShell {
     NIX_CONFIG = "use-xdg-base-directories = true\nextra-experimental-features = nix-command flakes";
-    PKCS = pkgs.lib.getExe' pkgs.opensc "pkcs11.so";
+    PKCS = "${pkgs.opensc}/lib/opensc-pkcs11.so";
     buildInputs = checks-lib.pre-commit-check.enabledPackages;
     nativeBuildInputs = with pkgs; [
       # Nix toolkit
