@@ -7,7 +7,7 @@ Some of these steps require an active internet connection! So it is recommended 
 Some apps may need additional commands to be ran in order to be fully functional.
 
 ** Emacs
-*NOTE*: I also have included some ZSH aliases for managing Doom Emacs:
+*NOTE*: I also have included some ZSH/Fish aliases for managing Doom Emacs:
 - =doom= - Nickname for the Doom Emacs cli so you don't have to repeatedly type =~/.config/emacs/bin/doom=
 - =doom-download= - Downloads the Doom Emacs Github repo
 - =doom-org-tangle= - Easily run Doom's org tangle script to tangle the config.org file for Doom Emacs (use only if you have a literate configuration similar to the one I use)

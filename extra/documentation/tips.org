@@ -8,20 +8,20 @@ This file lists some notable information that helps further explain the rather o
 - [[#rebuilding-nixoshome-manager][Rebuilding NixOS+Home-Manager]]
 - [[#update-the-flakes-lock-file][Update the flake's lock file]]
 - [[#flakes-and-trusted-config-values][Flakes and Trusted Config Values]]
-- [[#evaluation-secrets][Evaluation Secrets]]
-- [[#more-flake-secrets][More Flake Secrets]]
+- [[#secrets-management][Secrets Management]]
+  - [[#soft-and-hard-secrets][Soft and Hard Secrets]]
 
 * Notable Hints
-Peppered throughout my configuration, I have a set of *special variables from the user-vars module [[file:../modules/nixos/user-vars.nix][(nixos)]] [[file:../modules/home-manager/user-vars.nix][(home-manager)]]* that all of my configs include. These variables used throughout the flake to switch between different settings per config and allows for more fine control over what settings your system will have in the resultant builds.
+Peppered throughout my configuration, I have a set of *special variables from the features module [[file:../nixosModules/features.nix][(nixos)]] [[file:../homeModules/features.nix][(home-manager)]], [[file:../nixosModules/hostVars.nix][hostVars]], and [[file:../homeModules/userVars.nix][userVars]]* that all of my configs include. These variables used throughout the flake to switch between different settings per config and allows for more fine control over what settings your system will have in the resultant builds. The =features= are declared inside each feature flag import and are included when you import the relevant flag. The =hostVars= and =userVars= must be manually defined in their respective host and user configs.
 
 My iso/vm configurations do not have explicitly defined variables as my other configs do, since null values for them assumes you are trying to build either one of these configs. The only special variables that included are those that are from any of the =host opt-in configurations that lie under hosts/common=, which includes the desktop environment, theme, rather to use KDE Konsole, and the stylix theming.
 
-Anytime I mention the =$FLAKE= variable, I mean the variable that is set in  the Home-Manager configuration (which points to where you installed the flake!). The default value of the =FLAKE= variable is =/home/USERNAME/Documents/NixConfig=.
+Anytime I mention the =$FLAKE= variable, I mean the variable that is set in  the Home-Manager configuration (which points to where you installed the flake!). The default value of the =FLAKE= variable is whatever value =hostVars.configDirectory= is; which is null so you will need to make sure to declare it in your host!. For my systems, it's set to =/home/USERNAME/Documents/NixConfig=.
 
 * Building a NixOS ISO with the ISO config
 1. Download the repo onto your computer (it must have nix or NixOS already!).
 2. Open the terminal and enter the repo directory.
-3. Run =nix build .#nixosConfigurations.live-image.config.system.build.isoImage= to build the iso (or run =just iso=)
+3. Run =nix build .#nixosConfigurations.installer.config.system.build.isoImage= to build the iso (or run =just iso=)
 4. Locate the *result* folder located in the directory, and the iso will be in *result/iso*.
 
 * Rebuilding NixOS+Home-Manager
@@ -30,15 +30,20 @@ In order to commit new changes that you made to the flake, run the command =nixo
 * Update the flake's lock file
 The nix dependencies/flake inputs (such as =nixpkgs=) used by the flake will strictly follow the =flake.lock= file, using the commits written into it when you (re)generate the profiles. Simply run =nix flake update --flake $FLAKE= to update the flake inputs. If you want to save the update message and have it committed to the repo's git history, then run =nix flake update --commit-lock-file --flake $FLAKE=. Keeping this updated is key to obtain the latest packages and modules
 
+The repository also includes llakala's =unify= and =rbld= utilities (available from [[https://github.com/llakala/menu]]), which you can use to automatically update, rebuild, and commit flake.lock updates
+
 * Flakes and Trusted Config Values
 Nix will ask you to accept the =extra-substituter= and =extra-trusted-public-key= values that the flake adds (for retrieving packages from extra binary caches like [[https://nix-community.cachix.org]] and [[https://nix-gaming.cachix.org]]); this is for speeding up evaluation time. Make sure to read through the prompts and hit 'Y' if you want to allow those changes. Otherwise, if you want to come back later and make the values trusted, you can modify the =~/.local/share/nix/trusted-settings.json= or just delete it and restart the nix daemon via =systemctl restart nix-daemon.service=.
 
-* Evaluation Secrets
-Any secret that starts with the =esecrets= function from the =utils.nix= module are secrets that are evaluation while the flake is being built. These secrets in particular are for hiding sensitive information that are in the nix module files. These are particularly useful for when you want to share your configs without directly revealing the secrets in places that are require the secrets as soon as nix evaluates the flake. These secrets are placed in the =eval-secrets.json= file under =secrets/USERNAME=.
+* Secrets Management
+*NOTE*: Details here are still being worked out so they change!
 
-These secrets are encrypted with [[https://www.agwa.name/projects/git-crypt][git-crypt]], which when you clone the repo, you will need to either delete the secrets or decrypt them with the GPG key that was used to encrypt them.
+Repository secrets are managed via a dedicated private flake input named =nix-secrets=, with all secret data encrypted using =sops-nix=. The nix-secrets repository follows [[https://github.com/EmergentMind/nix-secrets-reference][EmergentMind's nix-secrets template]], which serves as the primary reference for implementation details.
 
-* More Flake Secrets
-Any secret that is located under =secrets/= are secrets generated by =agenix=, these secrets will require an user key (a key that the user will use) and the ssh host keys (keys located under =/etc/ssh=). For existing systems, all that needs to be done is add the ssh host key's public key into =secrets/secrets.nix= and rekey the secrets you want to use with said public key using =just rekey-host= or =just rekey-multikey=. For new systems, you will need to create the ssh keys in the installer with =ssh-keyscan -t ed25519= or simply copy the already generated ssh keys from the live-image's =/etc/ssh/= into the newly mounted disks, =/mnt/etc/ssh/=; then follow the same rekey steps as mentioned previously.
+For the host keys, I use the automatically generated ssh host keys that NixOS generates on first boot (the keys live in =/etc/ssh=) and I created an ssh key for my user that is only used for dealing with the secrets and nothing else. The public ssh key identities are under their respective user and host configs. These ssh keys decrypt their respective secret associated with the host and user. There are also master keys, which live on my Yubikey(s), are used to modify and encrypt the secrets, these can manage the secrets even if we lose the host keys! Rekeying is done with =sops updatekeys= inside the nix-secrets repository.
+For new systems, you will need to create the ssh keys in the installer with =ssh-keyscan -t ed25519= or simply copy the already generated ssh keys from the live-image's =/etc/ssh/= into the newly mounted disks, =/mnt/etc/ssh/=; then rekey the secrets again.
 
-Refer to [[https://github.com/ryantm/agenix?tab=readme-ov-file#tutorial][agenix's tutorial]] for more information and some advanced functions.
+For more information on how sops-nix works in general and for more advanced functionality, refer to the [[https://github.com/Mic92/sops-nix/tree/master?tab=readme-ov-file#sops-nix][sops-nix README]].
+
+** Soft and Hard Secrets
+Soft secrets are evaluation-time variables that I don't want in my public nix-config, but don't need to be encrypted. These secrets are easily referred by =inputs.nix-secrets.SOFT_SECRET=. Thus you can use them directly in strings and filenames. An example of a soft secret is a work email for mbsync. Hard secrets are things like passwords and API tokens that needs to be encrypted with sops-nix.
