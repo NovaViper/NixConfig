@@ -1,11 +1,13 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   inputs,
+  primaryUser,
+  allUsers,
   ...
 }: let
-  #secretspath = builtins.toString inputs.nix-secrets;
   isEd25519 = k: k.type == "ed25519";
   getKeyPath = k: k.path;
   keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
@@ -21,10 +23,11 @@
     nixos =
       lib.recursiveUpdate {
         imports = lib.singleton inputs.sops-nix.nixosModules.sops;
+        # sops.defaultSopsFile = myLib.secrets.mkSecretFile {
+        #   source = "secrets.yaml";
+        #   subDir = ["hosts" "${config.networking.hostName}"];
+        # };
 
-        #sops.defaultSopsFile = "${secretspath}/secrets.yaml";
-        sops.defaultSopsFile = ../secrets.yaml;
-        sops.validateSopsFiles = false;
         sops.age = {
           # Automatically import host SSH keys as age keys
           sshKeyPaths = map getKeyPath keys;
@@ -33,6 +36,17 @@
           # Generate a new key if the key specified above does not exist
           generateKey = false;
         };
+
+        sops.secrets = lib.mkMerge [
+          # Create user password secrets
+          (lib.listToAttrs (map (user:
+            lib.nameValuePair "passwords/${user}" (myLib.secrets.mkSecretFile {
+              source = "secrets.yaml";
+              subDir = "hosts";
+              neededForUsers = true;
+            }))
+          allUsers))
+        ];
       }
       conf.common;
 
@@ -42,16 +56,29 @@
     in
       lib.recursiveUpdate {
         imports = lib.singleton inputs.sops-nix.homeManagerModules.sops;
+        # sops.defaultSopsFile = myLib.secrets.mkSecretFile {
+        #   source = "secrets.yaml";
+        #   subDir = ["users" "${hm-config.home.username}"];
+        # };
         sops.age = {
           sshKeyPaths = ["${hm-config.home.homeDirectory}/.ssh/nix-secret"];
           keyFile = "${hm-config.home.homeDirectory}/.config/sops/age/keys.txt";
           plugins = pluginsList;
+        };
+
+        sops.secrets = {
+          "keys/${hm-config.home.username}" = myLib.secrets.mkSecretFile {
+            destination = "${hm-config.home.homeDirectory}/.ssh/nix-secret";
+            source = "secrets.yaml";
+            subDir = "users";
+          };
         };
       }
       conf.common;
 
     # Shared Configs
     common = {
+      sops.validateSopsFiles = false;
       sops.gnupg.sshKeyPaths = [];
       sops.age.plugins = pluginsList;
     };

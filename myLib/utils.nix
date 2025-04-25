@@ -19,6 +19,9 @@
     # Import the given feature folders (dirs) at the given base folder name (baseName)
     importFeatures = baseName: dirs: exports.importPaths (builtins.map (d: ../features + "/${baseName}/${d}") dirs);
 
+    # Take a base path (baseDir) and a list of subfolders/subfiles (breadcrumbs) and combine them into a normalized path
+    mkPath = baseDir: breadcrumbs: lib.removeSuffix "/" (baseDir + "/${lib.strings.concatStringsSep "/" (lib.filter (x: x != null) breadcrumbs)}");
+
     # GPG command for checking if there is a hardware key present
     isGpgUnlocked = pkgs: "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 

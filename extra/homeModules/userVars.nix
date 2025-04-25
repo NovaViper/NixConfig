@@ -21,13 +21,6 @@ in {
       description = "Your email address";
       default = "";
     };
-    # TODO: This needs to be reworked
-    userIdentityPaths = mkOption {
-      #TODO Test
-      type = types.nullOr (types.listOf types.path);
-      description = "List of secret identity paths for the user";
-      default = null;
-    };
     defaultTerminal = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       description = "The preferred terminal app";
