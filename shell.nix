@@ -29,13 +29,16 @@ in {
       statix
       home-manager
 
-      # Encryption tools
-      vim # Needed for agenix
-      age
-      age-plugin-yubikey
-      agenix
+      # Encryption tools/Secrets bootstrapping
       gnupg
       openssh
+      vim # Needed for age/sops
+      sops # This one is from the overlay
+      ssh-to-age
+      age-plugin-fido2-hmac
+      age-plugin-yubikey
+      age-plugin-tpm
+      age-plugin-ledger
 
       # Git setup
       gitFull

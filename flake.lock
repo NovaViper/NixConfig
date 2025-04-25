@@ -1,32 +1,5 @@
 {
   "nodes": {
-    "agenix": {
-      "inputs": {
-        "darwin": "darwin",
-        "home-manager": [
-          "home-manager"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "systems": [
-          "systems"
-        ]
-      },
-      "locked": {
-        "lastModified": 1736955230,
-        "narHash": "sha256-uenf8fv2eG5bKM8C/UvFaiJMZ4IpUFaQxk9OH5t/1gA=",
-        "owner": "ryantm",
-        "repo": "agenix",
-        "rev": "e600439ec4c273cf11e06fe4d9d906fb98fa097c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ryantm",
-        "repo": "agenix",
-        "type": "github"
-      }
-    },
     "base16": {
       "inputs": {
         "fromYaml": "fromYaml"
@@ -91,28 +64,6 @@
         "owner": "tinted-theming",
         "repo": "base16-vim",
         "rev": "577fe8125d74ff456cf942c733a85d769afe58b7",
-        "type": "github"
-      }
-    },
-    "darwin": {
-      "inputs": {
-        "nixpkgs": [
-          "agenix",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1700795494,
-        "narHash": "sha256-gzGLZSiOhf155FW7262kdHo2YDeugp3VuIFb4/GGng0=",
-        "owner": "lnl7",
-        "repo": "nix-darwin",
-        "rev": "4b9b83d5a92e8c1fbfd8eb27eda375908c11ec4d",
-        "type": "github"
-      },
-      "original": {
-        "owner": "lnl7",
-        "ref": "master",
-        "repo": "nix-darwin",
         "type": "github"
       }
     },
@@ -576,6 +527,31 @@
         "type": "github"
       }
     },
+    "nix-secrets": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": [
+          "systems"
+        ]
+      },
+      "locked": {
+        "lastModified": 1745606735,
+        "narHash": "sha256-xeZSvppqCbJRU3b1YUZ5kJG+oTabRxMgHl+W3mM8TeE=",
+        "ref": "main",
+        "rev": "f81484faa9baa7e955421973c0595a322f20f7c6",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/NovaViper/nix-secrets.git"
+      },
+      "original": {
+        "ref": "main",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://git@github.com/NovaViper/nix-secrets.git"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1744731498,
@@ -709,7 +685,6 @@
     },
     "root": {
       "inputs": {
-        "agenix": "agenix",
         "disko": "disko",
         "git-hooks": "git-hooks",
         "hardware": "hardware",
@@ -717,11 +692,13 @@
         "menu": "menu",
         "nix-gaming": "nix-gaming",
         "nix-index-database": "nix-index-database",
+        "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs",
         "nixpkgs-howdy": "nixpkgs-howdy",
         "nixpkgs-stable": "nixpkgs-stable",
         "nur": "nur",
         "plasma-manager": "plasma-manager",
+        "sops-nix": "sops-nix",
         "stylix": "stylix",
         "systems": "systems_2",
         "wallpapers": "wallpapers",
@@ -747,6 +724,27 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "sops-nix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1745544433,
+        "narHash": "sha256-eldxE/lOEZjE6dZHL2uizQ3Q9frZSQH4FyK8m8XyoEM=",
+        "owner": "NovaViper",
+        "repo": "sops-nix",
+        "rev": "7678b2defcb0e022c6860b51e5404e4e13bb6211",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NovaViper",
+        "ref": "age-plugin",
+        "repo": "sops-nix",
         "type": "github"
       }
     },

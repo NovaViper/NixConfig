@@ -31,11 +31,12 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    agenix = {
-      url = "github:ryantm/agenix";
+    sops-nix = {
+      # TODO: Waiting til https://github.com/Mic92/sops-nix/pull/781 is merged
+      #url = "github:Mic92/sops-nix";
+      url = "github:NovaViper/sops-nix/age-plugin";
+      #url = "git+file:///home/novaviper/Documents/sops-nix?ref=age-plugin";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-      inputs.systems.follows = "systems";
     };
     disko = {
       url = "github:nix-community/disko";
@@ -77,6 +78,12 @@
     wallpapers = {
       url = "github:NovaViper/Wallpapers";
       flake = false;
+    };
+    nix-secrets = {
+      url = "git+ssh://git@github.com/NovaViper/nix-secrets.git?ref=main&shallow=1";
+      #url = "git+file:///home/novaviper/Documents/nix-secrets?ref=main&shallow=1";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
     };
     # Nixpkgs PRs
     # TODO: https://github.com/NixOS/nixpkgs/pull/216245

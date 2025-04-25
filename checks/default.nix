@@ -86,15 +86,6 @@ in {
         enable = true;
         excludes = [".*/dotfiles/.*" "secrets/.*" "flake.lock"];
       };
-
-      # ------------- secrets -------------
-      check-git-crypt = {
-        enable = true;
-        name = "check git-crypt files";
-        description = "Check if there are unencrypted files that are suppose to be encrypted";
-        language = "script";
-        entry = "scripts/check-git-crypt.sh";
-      };
     };
   };
 }
