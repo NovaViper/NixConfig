@@ -39,7 +39,7 @@ Home-manager is configured as a [[https://nix-community.github.io/home-manager/i
      - Users can also include a =home.nix= file, =hosts/HOSTNAME= folder, and =config= folder for the equivalent Home-Manager configurations
 10. Make sure to change the =hostVars.configDirectory= variable located under =hosts/HOSTNAME/hostVars=, as it is used in place of the =FLAKE= environment variable. Some dotfiles are sym-links that aren't located on nix store and not having the repo in the location that the variable specifies will cause the links to break. This would in turn result in some apps malfunctioning or not have your settings.
 11. *IMPORTANT*: Make sure to be aware of the following caveats:
-    - For modules that include =secrets=, you will **NOT** be able to directly use said modules without commenting out whatever code uses them and/or replacing them with your own secrets.
+    - For modules that include =secrets=, you will *NOT* be able to directly use said modules without commenting out whatever code uses them and/or replacing them with your own secrets.
     - You could also deploy your own =nix-secrets= repo based on [[https://github.com/EmergentMind/nix-secrets-reference][EmergentMind's nix-secrets template]].
     - See more under [[file:tips.org][Tips]] for more information regarding these caveats
 12. Run =nixos-install --flake .#HOSTNAME --root /mnt= to install NixOS with the configuration (or run =just nixos-install HOSTNAME=)

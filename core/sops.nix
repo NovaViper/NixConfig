@@ -31,7 +31,7 @@
         sops.age = {
           # Automatically import host SSH keys as age keys
           sshKeyPaths = map getKeyPath keys;
-          # This will use an age key that is expected  to already be in the filesystem
+          # This will make sops use an age key that is expected to already be in the filesystem (aka the access key)
           keyFile = "/var/lib/sops/keys.txt"; # Use age-key present on filesystem
           # Generate a new key if the key specified above does not exist
           generateKey = false;
@@ -62,6 +62,7 @@
         # };
         sops.age = {
           sshKeyPaths = ["${hm-config.home.homeDirectory}/.ssh/nix-secret"];
+          # Access key for users
           keyFile = "${hm-config.home.homeDirectory}/.config/sops/age/keys.txt";
           plugins = pluginsList;
         };

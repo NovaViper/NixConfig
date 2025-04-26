@@ -788,8 +788,11 @@ This section contains configurations dealing with org tasks and agendas. I use t
                   (sequence "MEETING(m)"))
         org-tag-alist
                 '((:startgroup)
-                ; Put mutually exclusive tags here
+                  ("TOC" . ?2) ; TOC-org (default 2 levels deep)
+                  ("TOC_3" . ?3) ; TOC-org (3 levels deep)
+                  ("TOC_4" . ?4) ; TOC-org (3 levels deep)
                   (:endgroup)
+                  ("noexport" . ?n)
                   ("@errand" . ?E)
                   ("@home" . ?H)
                   ("@work" . ?W)
