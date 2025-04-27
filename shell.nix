@@ -17,6 +17,8 @@
   checks-lib = checks.${pkgs.system};
 in {
   default = pkgs.mkShell {
+    FLAKE = ".";
+    NH_FLAKE = ".";
     NIX_CONFIG = "use-xdg-base-directories = true\nextra-experimental-features = nix-command flakes";
     PKCS = "${pkgs.opensc}/lib/opensc-pkcs11.so";
     buildInputs = checks-lib.pre-commit-check.enabledPackages;

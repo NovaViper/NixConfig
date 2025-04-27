@@ -32,6 +32,7 @@
           preferXdgDirectories = true;
 
           sessionVariables.FLAKE = "${config.hostVars.configDirectory}";
+          sessionVariables.NH_FLAKE = "${config.hostVars.configDirectory}";
           sessionPath = ["${config.environment.sessionVariables.XDG_BIN_HOME}"];
         };
 
