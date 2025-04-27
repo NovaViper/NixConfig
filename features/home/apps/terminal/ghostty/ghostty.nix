@@ -20,6 +20,8 @@
 
   programs.ghostty.enable = true;
 
+  programs.ghostty.package = pkgs.inputs.ghostty.ghostty;
+
   programs.ghostty.installVimSyntax = true;
 
   programs.ghostty.settings = {

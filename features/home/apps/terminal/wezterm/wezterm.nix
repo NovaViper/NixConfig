@@ -5,9 +5,7 @@
   pkgs,
   inputs,
   ...
-}: let
-  inherit (pkgs.inputs) wezterm;
-in {
+}: {
   #   xdg.configFile = mkIf (builtins.pathExists ./dotfiles/wezterm) (mkMerge [
   #   {"wezterm/keybinds.lua".source = utils.linkDots "wezterm/keybinds.lua";}
   #   (mkIf (!config.programs.tmux.enable) {
@@ -30,7 +28,7 @@ in {
 
   programs.wezterm = {
     enable = true;
-    package = wezterm;
+    package = pkgs.inputs.wezterm.wezterm;
     enableZshIntegration = true;
   };
 
