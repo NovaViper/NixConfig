@@ -13,6 +13,22 @@
       hash = "sha256-s5lvs1FKIQbOf83U5tzJ4VSV0rfdtVq1XIwKGWKTe04=";
     };
   in [
+    # Useful utilitizes
+    {
+      name = "you-should-use";
+      #file = "you-should-use.plugin.zsh";
+      src = pkgs.fetchFromGitHub {
+        owner = "MichaelAquilina";
+        repo = "zsh-you-should-use";
+        rev = "56616de037082f7dc0a143eb244ea27e5a697ef9";
+        hash = "sha256-XbTZpyUIpALsVezqnIfz7sV26hMi8z+2dW0mL2QbVIE=";
+      };
+    }
+    {
+      name = "omz-extract";
+      file = "plugins/extract/extract.plugin.zsh";
+      src = omz;
+    }
     # Docs https://github.com/jeffreytse/zsh-vi-mode#-usage
     {
       name = "zsh-vi-mode";
@@ -76,6 +92,16 @@
         hash = "sha256-hYl9zplPpMoCsGmxX+NQtECZ5dHgQYqZfTGdV0vcZPk=";
       };
     }
+    {
+      name = "omz-sudo";
+      file = "plugins/sudo/sudo.plugin.zsh";
+      src = omz;
+    }
+    {
+      name = "omz-fancy-ctrl-z";
+      file = "plugins/fancy-ctrl-z/fancy-ctrl-z.plugin.zsh";
+      src = omz;
+    }
 
     # Tmux integration
     (lib.mkIf config.programs.tmux.enable {
@@ -92,6 +118,16 @@
         repo = "zsh-system-clipboard";
         rev = "8b4229000d31e801e6458a3dfa2d60720c110d11";
         hash = "sha256-phsIdvuqcwtAVE1dtQyXcMgNdRMNY03/mIzsvHWPS1Y=";
+      };
+    }
+    {
+      name = "zhooks";
+      #file = "zhooks.plugin.zsh";
+      src = pkgs.fetchFromGitHub {
+        owner = "agkozak";
+        repo = "zhooks";
+        rev = "e6616b4a2786b45a56a2f591b79439836e678d22";
+        hash = "sha256-zahXMPeJ8kb/UZd85RBcMbomB7HjfEKzQKjF2NnumhQ=";
       };
     }
   ];
