@@ -5,7 +5,6 @@
   pkgs,
   ...
 }: {
-  imports = [./fishAbbr.nix];
   features.shell = "fish";
 
   programs.fish = {
@@ -19,24 +18,6 @@
         set fish_cursor_replace_one underscore blink
         set fish_cursor_visual      block
       ''
-    ];
-    plugins = [
-      {
-        name = "autopair";
-        inherit (pkgs.fishPlugins.autopair) src;
-      }
-      {
-        name = "fzf.fish";
-        inherit (pkgs.fishPlugins.fzf-fish) src;
-      }
-      {
-        name = "pufferfish";
-        inherit (pkgs.fishPlugins.puffer) src;
-      }
-      {
-        name = "done";
-        inherit (pkgs.fishPlugins.done) src;
-      }
     ];
   };
 }
