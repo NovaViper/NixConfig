@@ -20,15 +20,12 @@
     "cli/deco"
     "cli/multiplexer/tmux"
     #"cli/history"
-    #"cli/history/atuin"
-    "cli/history/mcfly"
+    "cli/history/atuin"
+    #"cli/history/mcfly"
   ];
 
   userVars = {
     defaultTerminal = "ghostty";
     defaultBrowser = "floorp";
   };
-
-  # Force atuin off
-  programs.atuin.enable = lib.mkForce false;
 }

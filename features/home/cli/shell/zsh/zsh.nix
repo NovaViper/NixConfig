@@ -7,13 +7,17 @@
 }: {
   features.shell = "zsh";
 
-  xdg.configFile = {
-    "zsh/functions" = myLib.dots.mkDotsSymlink {
-      inherit config;
-      user = config.home.username;
-      source = "zsh/functions";
+  # Only execute when the user actually has a functions folder
+  xdg.configFile = let
+    user = config.home.username;
+    path = "zsh/functions";
+  in
+    lib.mkIf (builtins.pathExists (myLib.dots.getDotsPath {inherit user path;})) {
+      "zsh/functions" = myLib.dots.mkDotsSymlink {
+        inherit config user;
+        source = path;
+      };
     };
-  };
 
   # The shell itself
   programs.zsh = {
