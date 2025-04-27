@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: {
-  home.packages = with pkgs; [plasma-panel-colorizer];
+  home.packages = with pkgs; [plasma-panel-colorizer plasma-panel-spacer-extended];
 
   programs.plasma.panels = [
     # Windows like panel at the bottom
