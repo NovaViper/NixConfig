@@ -13,8 +13,6 @@
       tmux.enable = false;
       # Disable stylix's KDE module, very broken currently
       kde.enable = false;
-      # TODO: Until kde6 support is added
-      qt.enable = false;
       #qt.platform = "kde6";
       emacs.enable = false;
     };
