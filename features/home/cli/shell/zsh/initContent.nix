@@ -61,18 +61,45 @@
         zstyle ':fzf-tab:*' accept-line enter
 
         #### FZF-TAB SUGGESTION ADDITIONS ####
+        # Command completion preview
+        zstyle ':fzf-tab:complete:(-command-:|command:option-(v|V)-rest)' fzf-preview \
+        'case $group in
+        'external command')
+          less =$word
+          ;;
+        'executable file')
+          less ''${realpath#--*=}
+          ;;
+        'builtin command')
+          run-help $word | bat -lman
+          ;;
+        parameter)
+          echo ''${(P)word}
+          ;;
+        esac'
+
+        # preview environment vars
+        zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview \
+        'echo ''${(P)word}'
+
         # give a preview of commandline arguments when completing `kill`
         zstyle ':completion:*:*:*:*:processes' command "ps -u $USER -o pid,user,comm -w -w"
         zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-preview \
           '[[ $group == "[process ID]" ]] && ps --pid=$word -o cmd --no-headers -w -w'
         zstyle ':fzf-tab:complete:(kill|ps):argument-rest' fzf-flags --preview-window=down:3:wrap
 
-        # preview environment variable
-        zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' \
-          fzf-preview 'echo ''${(P)word}'
+        ### Systemctl
+        zstyle ':fzf-tab:complete:systemctl-cat:*' fzf-preview 'SYSTEMD_COLORS=false systemctl cat -- $word | bat -lini'
+        zstyle ':fzf-tab:complete:systemctl-help:*' fzf-preview 'systemctl help -- $word 2>/dev/null | bat -lhelp'
+        zstyle ':fzf-tab:complete:(\\|*/|)systemctl-list-dependencies:*' fzf-preview \
+          'case $group in
+          unit)
+            systemctl list-dependencies -- $word
+            ;;
+          esac'
+        zstyle ':fzf-tab:complete:systemctl-show:*' fzf-preview 'systemctl show $word | bat -lini'
+        zstyle ':fzf-tab:complete:systemctl-(status|(re|)start|(dis|en)able):*' fzf-preview 'systemctl status -- $word'
 
-        # Show systemd unit status
-        zstyle ':fzf-tab:complete:systemctl-*:*' fzf-preview 'SYSTEMD_COLORS=1 systemctl status $word'
 
         # Show git
         # it is an example. you can change it
@@ -93,19 +120,12 @@
           "recent commit object name") git show --color=always $word | delta ;;
           *) git log --color=always $word ;;
           esac'
-
-        # Preview tldr
-        zstyle ':fzf-tab:complete:tldr:argument-1' fzf-preview 'tldr --color always $word'
-
-        # Show command preview
-        zstyle ':fzf-tab:complete:-command-:*' fzf-preview \
-          '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out) || (out=$(which "$word") && echo $out) || echo "''${(P)word}"'
       '')
       + (lib.optionalString config.programs.eza.enable ''
         # preview directory's content with eza when completing cd or any path
-        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-        zstyle ':fzf-tab:complete:*:*' fzf-preview 'eza -1 --color=always ''${(Q)realpath}'
-
+        zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --group-directories-first --color=always $realpath'
+        zstyle ':fzf-tab:complete:z:*' fzf-preview 'eza -1 --group-directories-first --color=always $realpath'
+        zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --color=always $realpath'
       '')
       + (lib.optionalString config.programs.tmux.enable ''
         # Enable fzf-tab integration with tmux
