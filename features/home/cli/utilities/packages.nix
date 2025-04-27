@@ -4,6 +4,7 @@
   pkgs,
   ...
 }: {
+  # A bunch of extra packages too small for their own file
   home.packages = with pkgs;
     [
       # Fancy utilities

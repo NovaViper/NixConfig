@@ -13,7 +13,7 @@
       tmux.enable = false;
       # Disable stylix's KDE module, very broken currently
       kde.enable = false;
-      #qt.platform = "kde6";
+      # Using the doom-emacs theme
       emacs.enable = false;
     };
 
