@@ -22,8 +22,5 @@
   userVars = {
     fullName = "Nova Leary";
     email = "coder.nova99@mailbox.org";
-    #  userIdentityPaths = myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"];
   };
-
-  #age.identityPaths = lib.mkOptionDefault (myLib.secrets.mkSecretIdentities ["age-yubikey-identity-a38cb00a-usba.txt"]);
 }

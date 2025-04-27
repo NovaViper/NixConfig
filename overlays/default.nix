@@ -6,7 +6,6 @@
 in {
   # Third party overlays
   nur = self.inputs.nur.overlays.default;
-  #agenix-overlay = self.inputs.agenix.overlays.default;
   sops-overlay = self.inputs.sops-nix.overlays.default;
 
   # For every flake input, aliases 'pkgs.inputs.${flake}' to

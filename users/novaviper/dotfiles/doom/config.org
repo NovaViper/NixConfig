@@ -58,7 +58,6 @@ This is my Doom Emacs configuration. From this org file, all of the necessary Do
   - [[#numpydoc-configuration][Numpydoc Configuration]]
   - [[#dap-mode][Dap-Mode]]
   - [[#lsp-mode-nerd-icon-fix][Lsp-mode Nerd Icon Fix]]
-  - [[#agenix-integration][Agenix Integration]]
   - [[#lua-lsp-mode-configurations][Lua LSP Mode Configurations]]
   - [[#keyboard-integration-with-magit][Keyboard integration with Magit]]
   - [[#make-magit-more-verbose][Make Magit more verbose]]
@@ -496,7 +495,6 @@ Installs several packages I need,
 - =zoxide=: Fancy find-file command, companion for [[https://github.com/ajeetdsouza/zoxide][zoxide]]
 - =justl=: Major mode for driving justfiles
 - =just-mode=: Emacs mode for justfiles
-- =agenix=: Transparent editing for [[https://github.com/ryantm/agenix][agenix]] secrets inside Emacs
 - =magit-todos=: Show keyword entries from source code comments and Org files in the Magit status buffer
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-tutor)
@@ -509,7 +507,6 @@ Installs several packages I need,
 (package! zoxide)
 (package! justl)
 (package! just-mode)
-(package! agenix)
 (package! magit-todos)
 (package! nose :disable t) ; Disable nosetests since it is heavily discouraged (and outright removed from NixOS)
 #+end_src
@@ -1076,13 +1073,6 @@ Configures dap mode configurations for different languages
 #+begin_src emacs-lisp
 (setq lsp-modeline-code-action-fallback-icon "󰌵"
       lsp-progress-prefix "")
-#+end_src
-
-** Agenix Integration
-Integrate agenix for editing secrets for NixOS inside of Emacs
-#+begin_src emacs-lisp
-(setq agenix-key-files (append `,(doom-files-in (concat flake-directory "/secrets/identities")) `("~/.ssh/id_ed25519" "~/.ssh/id_rsa")))
-(add-hook 'agenix-pre-mode-hook #'envrc-mode)
 #+end_src
 
 ** Lua LSP Mode Configurations

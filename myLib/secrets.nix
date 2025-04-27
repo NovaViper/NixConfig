@@ -11,7 +11,7 @@
   };
 
   exports = {
-    # Helper function for creating secrets for agenix/sops-nix, links the source file given to the user's secrets location
+    # Helper function for creating secrets for sops-nix, links the source file given to the user's secrets location
     mkSecretFile = {
       subDir ? null,
       source,

@@ -36,7 +36,7 @@ Note: There are upcoming changes being actively made so documentation will chang
 * References
 - [[https://github.com/runarsf/dotfiles][Runarsf's dotfiles]] and [[https://github.com/imatpot/dotfiles][imatpot's dotfiles]] - Custom library and inspiration for more traditional flake layout
 - [[https://github.com/llakala/nixos][Llakala's nixos config]] - Additional libraries for home-manager cli integration and inspiration for integrating more HM stuff into the NixOS-specific configs
-- [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Original inspiration for flake, opinionated settings, overlay/devshell setup, and better home-manager/nixos split layout
+- [[https://github.com/Misterio77/nix-config][Mistero77's nix-config]] and [[https://github.com/Misterio77/nix-starter-configs][nix starter configs]] - Original inspiration for flake, opinionated settings, overlay/devshell setup, sops-nix setup, and better home-manager/nixos split layout
 - [[https://github.com/hlissner/dotfiles][Hlissner's dotfiles]] - Security hardening configs
 - [[https://github.com/Baitinq/nixos-config][Baitinq's nixos-config]] - Partitioning scripts
 - [[https://github.com/theopn/dotfiles/tree/main][Theopn's]] and [[https://github.com/yutkat/dotfiles/tree/main][yutkat's dotfiles]] - Wezterm settings
@@ -45,9 +45,7 @@ Note: There are upcoming changes being actively made so documentation will chang
 - [[https://github.com/archer-65/nix-dotfiles][archer-65's nix-dotfiles]] - Structure of host configurations
 - [[https://lgug2z.com/articles/handling-secrets-in-nixos-an-overview/#managing-your-own-physical-machines][lgug2z Handling Secrets in NixOS Blogpost]] - Git-crypt implementation for secrets required during flake evaluation
 - [[https://github.com/Lillian-Violet/NixOS-Configuration][Lillian-Violet's NixOS-Configuration]] - some ISO/live-image settings
-- [[https://github.com/EmergentMind/nix-config/][EmergentMind's nix-config]] and [[https://github.com/EmergentMind/nix-secrets-reference][nix-secrets-reference]] - just file integration and helpful secret tips and nix-secrets deployment inspiration
-- [[https://github.com/x0ba/dotfiles][x0ba's dotfiles]] - Agenix NixOS/Home-Manager setup with Yubikey-support
-- [[https://github.com/Kranzes/nix-config][Kranzes' nix-config]] - Agenix formatting
+- [[https://github.com/EmergentMind/nix-config/][EmergentMind's nix-config]] and [[https://github.com/EmergentMind/nix-secrets-reference][nix-secrets-reference]] - just file integration and helpful secret tips and nix-secrets + sops-nix deployment inspiration
 - [[https://github.com/sickle-phin/dots-nix/][sickle-phin's dots-nix]] - Extra Nvidia environment variables
 
 * Structure
