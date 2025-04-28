@@ -14,7 +14,8 @@
     # Place where other setopts are declared in home-manager
     (lib.mkOrder 900 (
       ''
-        setopt beep CORRECT # Enable terminal bell and autocorrect
+        setopt BEEP # Enable terminal bell
+        setopt CORRECT # Enable autocorrect
         autoload -U colors && colors # Enable colors
 
         # Check if sudo-command-line function is available
@@ -40,13 +41,16 @@
 
         # set list-colors to enable filename colorizing
         zstyle ':completion:*' list-colors ''${(s.:.)LS_COLORS}
+
+        # make directory list first
+        zstyle ':completion:*' list-dirs-first true
+
+        # don't complete unavailable commands.
+        zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
       ''
       + (lib.optionalString config.programs.fzf.enable ''
         # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
         zstyle ':completion:*' menu no
-
-        # disable sorting when completing any command
-        zstyle ':completion:complete:*:options' sort false
 
         # switch group using `<` and `>`
         zstyle ':fzf-tab:*' switch-group '<' '>'
@@ -62,21 +66,8 @@
 
         #### FZF-TAB SUGGESTION ADDITIONS ####
         # Command completion preview
-        zstyle ':fzf-tab:complete:(-command-:|command:option-(v|V)-rest)' fzf-preview \
-        'case $group in
-        'external command')
-          less =$word
-          ;;
-        'executable file')
-          less ''${realpath#--*=}
-          ;;
-        'builtin command')
-          run-help $word | bat -lman
-          ;;
-        parameter)
-          echo ''${(P)word}
-          ;;
-        esac'
+        zstyle ':fzf-tab:complete:-command-:*' fzf-preview \
+          '(out=$(tldr --color always "$word") 2>/dev/null && echo $out) || (out=$(MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word") 2>/dev/null && echo $out) || (out=$(which "$word") && echo $out) || echo "''${(P)word}"'
 
         # preview environment vars
         zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview \

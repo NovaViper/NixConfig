@@ -35,10 +35,19 @@ in {
     ++ lib.optional ((primaryUserOpts "features.shell") == "zsh") "/share/zsh";
 
   # Enable NixOS module for Fish
-  programs.zsh.enable =
-    if (primaryUserOpts "features.shell") == "zsh"
-    then true
-    else false;
+  programs.zsh = let
+    value =
+      if (primaryUserOpts "features.shell") == "zsh"
+      then true
+      else false;
+  in {
+    enable = value;
+
+    # Since we handle Zsh completion in home.nix via home-manager, we set this
+    # to false to avoid calling compinit multiple times.
+    enableCompletion = lib.mkForce (!value);
+  };
+
   # Source zshenv without ~/.zshenv
   environment.etc."zshenv" = lib.mkIf ((primaryUserOpts "features.shell") == "zsh") {text = ''export ZDOTDIR="$HOME"/.config/zsh'';};
 }

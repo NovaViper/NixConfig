@@ -23,19 +23,39 @@
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    # Set keymap to vi-insert mode
+    defaultKeymap = "viins";
+    # Make zsh config live in ~/.config
+    dotDir = ".config/zsh";
+    # Automatically enter into a directory if typed directly into shell
+    autocd = true;
+    # Save timestamp into the history file.
+    history.extended = true;
     # Fix for https://discourse.nixos.org/t/zsh-compinit-warning-on-every-shell-session/22735/6
     completionInit = "autoload -U compinit && compinit -i";
+
     autosuggestion = {
       enable = true;
       # We're using an local variable for this
       strategy = lib.mkForce [];
-      #highlight = "underline";
+      highlight = "fg=8,underline";
     };
-    syntaxHighlighting.enable = true;
-    dotDir = ".config/zsh";
-    defaultKeymap = "viins";
-    autocd = true;
-    history.path = "${config.xdg.configHome}/zsh/.zsh_history";
+
+    syntaxHighlighting = {
+      enable = true;
+      highlighters = [
+        "main"
+        "brackets"
+        "pattern"
+        "regexp"
+        "cursor"
+        "line"
+      ];
+      patterns = {
+        "rm -rf *" = "fg=white,bold,bg=red";
+      };
+    };
+
     localVariables = {
       # Make ZSH notifications expire, in miliseconds
       AUTO_NOTIFY_EXPIRE_TIME = 5000;
@@ -48,6 +68,7 @@
       # Add more Zsh Autosuggestion strategies
       ZSH_AUTOSUGGEST_STRATEGY = ["abbreviations" "completion" "history"];
     };
+
     shellAliases = {
       # ZSH globbing interferes with flake notation for all nix commands
       nix = "noglob nix";
