@@ -60,7 +60,7 @@ in {
         })
         (internals.mkPowerlineSeg "path" {
           foreground = "transparent";
-          background = "17";
+          background = "#BD93F9";
           template = " {{ if eq .Path \"~\" }}${internals.ucode "F015"}{{ else if .Writable }}${internals.ucode "F07C"}{{ else }}${internals.ucode "F023"}{{ end }} {{ .Path }} ";
           properties = {
             home_icon = "~";
@@ -72,7 +72,7 @@ in {
           foreground = "transparent";
           background = "10";
           background_templates = [
-            "{{ if or (.Working.Changed) (.Staging.Changed) }}16{{ end }}"
+            "{{ if or (.Working.Changed) (.Staging.Changed) }}#FFB86C{{ end }}"
             "{{ if and (gt .Ahead 0) (gt .Behind 0) }}1{{ end }}"
             "{{ if gt .Ahead 0 }}14{{ end }}"
             "{{ if gt .Behind 0 }}1{{ end }}"
