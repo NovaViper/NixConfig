@@ -18,7 +18,7 @@ in {
     mouse = true;
     #escapeTime = 0;
     shortcut = "a";
-    terminal = "tmux-256color";
+    terminal = "xterm-256color";
     resizeAmount = 15;
     tmuxp.enable = true;
     #newSession = true;
@@ -41,8 +41,7 @@ in {
     set -as terminal-features 'contour:sixel'
 
     # Enable full RGB support
-    set -g default-terminal "xterm-256color"
-    set -ga terminal-overrides ",xterm-256color:Tc"
+    set -ga terminal-overrides ",xterm*:RGB:Tc"
 
     # Pane numbers, line messages duration and status line updates
     set -g display-panes-time 800

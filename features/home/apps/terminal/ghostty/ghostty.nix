@@ -20,14 +20,23 @@
 
   programs.ghostty.enable = true;
 
-  programs.ghostty.package = pkgs.inputs.ghostty.ghostty;
+  programs.ghostty.package = pkgs.inputs.ghostty.default;
 
   programs.ghostty.installVimSyntax = true;
+
+  programs.ghostty.installBatSyntax = true;
 
   programs.ghostty.settings = {
     cursor-click-to-move = true;
     mouse-hide-while-typing = true;
     desktop-notifications = true;
+
     shell-integration-features = true;
+
+    cursor-style-blink = true;
+    # Prompt on clipboard paste
+    clipboard-paste-protection = true;
+    # Show when a new update is out (since i'm using nightly)
+    auto-update = "check";
   };
 }

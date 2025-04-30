@@ -28,7 +28,7 @@
 
   programs.wezterm = {
     enable = true;
-    package = pkgs.inputs.wezterm.wezterm;
+    package = pkgs.inputs.wezterm.default;
     enableZshIntegration = true;
   };
 
