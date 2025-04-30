@@ -166,7 +166,7 @@
 
     # Formatter for your nix files, available through 'nix fmt'
     # Other options beside 'alejandra' include 'nixpkgs-fmt'
-    formatter = myLib.forEachSystem (pkgs: pkgs.alejandra);
+    formatter = myLib.forEachSystem (pkgs: pkgs.nixfmt-tree);
 
     # Standalone home-manager configuration entrypoint
     # Available through 'home-manager --flake .#your-username@your-hostname'

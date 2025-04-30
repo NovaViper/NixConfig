@@ -51,7 +51,7 @@ in {
 
       # ------------- nix -------------
       flake-checker.enable = true;
-      alejandra.enable = true;
+      nixfmt-rfc-style.enable = true;
 
       /*
         deadnix = {

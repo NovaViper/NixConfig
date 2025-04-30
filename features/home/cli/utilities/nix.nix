@@ -1,13 +1,11 @@
-{pkgs, ...}: let
-  alejandra-quiet = pkgs.writeShellScriptBin "alejandra-quiet" ''alejandra --quiet "$@"'';
-in {
+{pkgs, ...}: {
   programs.nix-index-database.comma.enable = true;
 
   programs.nix-your-shell.enable = true;
 
   home.packages = with pkgs; [
     nh # Nice wrapper for NixOS and HM
-    alejandra # Nix formatter
+    nixfmt-rfc-style # Nix formatter
     nix-output-monitor # Monitor Nix compilation
     nvd # Nix/NixOS package version diff tool
     nixpkgs-review # Review nixpkgs
@@ -17,7 +15,5 @@ in {
     nil # Nix LSP
     deadnix # Deadcode finder for NIx
     statix # Anti-pattern detector
-
-    alejandra-quiet # Wrapper for Emacs
   ];
 }
