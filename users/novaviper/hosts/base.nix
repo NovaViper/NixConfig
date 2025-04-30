@@ -12,7 +12,7 @@
     ### Applications
     "apps/browser/floorp"
     "apps/editor/doom-emacs"
-    "apps/terminal/kitty"
+    "apps/terminal/ghostty"
     "apps/backup"
     "apps/discord"
 
@@ -23,7 +23,7 @@
   ];
 
   userVars = {
-    defaultTerminal = "kitty";
+    defaultTerminal = "ghostty";
     defaultBrowser = "floorp";
     defaultEditor = "doom-emacs";
   };
@@ -35,5 +35,5 @@
     format = "binary";
   };
 
-  home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh pineflash klipper-estimator];
+  home.packages = with pkgs; [openscad freecad rpi-imager blisp libreoffice-qt6-fresh keepassxc krita kdePackages.tokodon smassh pineflash];
 }
