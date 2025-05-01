@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   programs.ssh.matchBlocks = {
     "knoxpi-*" = {
       hostname = "192.168.1.101";

@@ -4,9 +4,11 @@
   lib,
   myLib,
   ...
-}: let
+}:
+let
   myself = "novaviper";
-in {
+in
+{
   xdg.configFile = lib.mkIf (osConfig.features.vr == "alvr") {
     "alvr/session.json" = myLib.dots.mkDotsSymlink {
       inherit config;

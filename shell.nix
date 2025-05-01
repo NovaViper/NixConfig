@@ -2,20 +2,22 @@
 # You can enter it through 'nix develop' or (legacy) 'nix-shell'
 {
   pkgs ?
-  # If pkgs is not defined, instantiate nixpkgs from locked commit
-  let
-    lock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
-    nixpkgs = fetchTarball {
-      url = "https://github.com/nixos/nixpkgs/archive/${lock.rev}.tar.gz";
-      sha256 = lock.narHash;
-    };
-  in
-    import nixpkgs {},
+    # If pkgs is not defined, instantiate nixpkgs from locked commit
+    let
+      lock = (builtins.fromJSON (builtins.readFile ./flake.lock)).nodes.nixpkgs.locked;
+      nixpkgs = fetchTarball {
+        url = "https://github.com/nixos/nixpkgs/archive/${lock.rev}.tar.gz";
+        sha256 = lock.narHash;
+      };
+    in
+    import nixpkgs { },
   checks,
   ...
-}: let
+}:
+let
   checks-lib = checks.${pkgs.system};
-in {
+in
+{
   default = pkgs.mkShell {
     FLAKE = ".";
     NH_FLAKE = ".";

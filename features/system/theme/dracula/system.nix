@@ -4,7 +4,8 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   c = config.lib.stylix.colors.withHashtag;
   f = config.stylix.fonts;
   sddm-astro = pkgs.sddm-astronaut.override {
@@ -47,7 +48,8 @@
       #ForceHideVirtualKeyboardButton = "true";
     };
   };
-in {
+in
+{
   stylix = {
     enable = true;
     polarity = "dark";
@@ -77,27 +79,37 @@ in {
       name = "capitaine-cursors-white";
       size = 24;
     };
-    fonts = let
-      sansSerif = {
-        package = pkgs.nerd-fonts.noto;
-        name = "NotoSans Nerd Font";
+    fonts =
+      let
+        sansSerif = {
+          package = pkgs.nerd-fonts.noto;
+          name = "NotoSans Nerd Font";
+        };
+        serif = sansSerif;
+        monospace = {
+          package = pkgs.nerd-fonts._0xproto;
+          name = "0xProto Nerd Font Mono";
+        };
+        emoji = {
+          package = pkgs.noto-fonts-color-emoji;
+          name = "Noto Color Emoji";
+        };
+        sizes = {
+          applications = 10;
+          desktop = 10;
+          popups = 10;
+          terminal = 11;
+        };
+      in
+      {
+        inherit
+          sansSerif
+          serif
+          monospace
+          emoji
+          sizes
+          ;
       };
-      serif = sansSerif;
-      monospace = {
-        package = pkgs.nerd-fonts._0xproto;
-        name = "0xProto Nerd Font Mono";
-      };
-      emoji = {
-        package = pkgs.noto-fonts-color-emoji;
-        name = "Noto Color Emoji";
-      };
-      sizes = {
-        applications = 10;
-        desktop = 10;
-        popups = 10;
-        terminal = 11;
-      };
-    in {inherit sansSerif serif monospace emoji sizes;};
     opacity = {
       applications = 1.0;
       desktop = 1.0;

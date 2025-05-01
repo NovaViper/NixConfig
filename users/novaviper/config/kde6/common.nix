@@ -4,7 +4,8 @@
   myLib,
   pkgs,
   ...
-}: {
+}:
+{
   home.shellAliases.reload-plasma-theming = "~/.local/share/plasma-manager/run_all.sh";
 
   programs.plasma = {
@@ -13,8 +14,15 @@
     session.sessionRestore.restoreOpenApplicationsOnLogin = "startWithEmptySession";
     kwin = {
       titlebarButtons = {
-        left = ["close" "maximize" "minimize"];
-        right = ["keep-above-windows" "on-all-desktops"];
+        left = [
+          "close"
+          "maximize"
+          "minimize"
+        ];
+        right = [
+          "keep-above-windows"
+          "on-all-desktops"
+        ];
       };
       borderlessMaximizedWindows = true;
       effects.dimAdminMode.enable = true;
@@ -25,13 +33,15 @@
       command = "${lib.getExe pkgs.restart-plasma}";
     };
     configFile = {
-      kdeglobals = let
-        # Auto switch terminal application desktop file
-        terminal = myLib.utils.getTerminalDesktopFile config;
-      in {
-        General.TerminalApplication = "${terminal}.destop";
-        General.TerminalService = "${terminal}.desktop";
-      };
+      kdeglobals =
+        let
+          # Auto switch terminal application desktop file
+          terminal = myLib.utils.getTerminalDesktopFile config;
+        in
+        {
+          General.TerminalApplication = "${terminal}.destop";
+          General.TerminalService = "${terminal}.desktop";
+        };
       kservicemenurc.Show = {
         "compressfileitemaction" = true;
         "extractfileitemaction" = true;

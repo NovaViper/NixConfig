@@ -3,11 +3,17 @@
   lib,
   pkgs,
   ...
-}: {
-  home.packages = with pkgs;
-    if osConfig.features.useWayland
-    then [discord-wayland vesktop]
-    else [discord];
+}:
+{
+  home.packages =
+    with pkgs;
+    if osConfig.features.useWayland then
+      [
+        discord-wayland
+        vesktop
+      ]
+    else
+      [ discord ];
 
   # make vesktop autostart properly
   xdg.configFile."autostart/vesktop.desktop".text = ''

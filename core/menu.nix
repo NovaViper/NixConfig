@@ -4,7 +4,8 @@
   myLib,
   pkgs,
   ...
-}: {
+}:
+{
   environment.sessionVariables = {
     RBLD_DIRECTORY = config.hostVars.configDirectory;
     UNIFY_DIRECTORY = config.hostVars.configDirectory;

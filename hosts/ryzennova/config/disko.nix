@@ -3,8 +3,9 @@
   swapSize ? "32",
   inputs,
   ...
-}: {
-  imports = with inputs; [disko.nixosModules.disko];
+}:
+{
+  imports = with inputs; [ disko.nixosModules.disko ];
 
   disko.devices.disk = {
     nvme0n1 = {
@@ -22,7 +23,11 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              mountOptions = ["defaults" "relatime" "umask=0077"];
+              mountOptions = [
+                "defaults"
+                "relatime"
+                "umask=0077"
+              ];
             };
           };
           root = {
@@ -33,7 +38,10 @@
               type = "filesystem";
               format = "ext4";
               mountpoint = "/";
-              mountOptions = ["defaults" "noatime"];
+              mountOptions = [
+                "defaults"
+                "noatime"
+              ];
             };
           };
           swap = {

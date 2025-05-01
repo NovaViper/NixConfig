@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfgUser = config.userVars;
-in {
+in
+{
   programs.gamemode = {
     enable = true;
     enableRenice = true;

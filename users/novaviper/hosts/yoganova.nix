@@ -4,14 +4,16 @@
   myLib,
   pkgs,
   ...
-}: let
+}:
+let
   myself = "novaviper";
-in {
+in
+{
   imports = lib.singleton ./base.nix;
 
-  home.packages = with pkgs; [moonlight-qt];
+  home.packages = with pkgs; [ moonlight-qt ];
 
-  programs.plasma.input.keyboard.options = ["caps:ctrl_modifier"];
+  programs.plasma.input.keyboard.options = [ "caps:ctrl_modifier" ];
 
   #programs.plasma.input.touchpads = [];
 

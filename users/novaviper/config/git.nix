@@ -2,7 +2,8 @@
   config,
   myLib,
   ...
-}: {
+}:
+{
   programs.git = {
     userName = "NovaViper";
     userEmail = myLib.utils.getUserVars "email" config;

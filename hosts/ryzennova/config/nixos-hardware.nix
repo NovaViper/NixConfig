@@ -1,4 +1,5 @@
-{inputs, ...}: {
+{ inputs, ... }:
+{
   imports = with inputs; [
     ### Hardware Modules
     hardware.nixosModules.common-cpu-amd

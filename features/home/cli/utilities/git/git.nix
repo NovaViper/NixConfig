@@ -3,14 +3,18 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.git = {
     enable = true;
     package = pkgs.gitFull;
     userEmail = lib.mkDefault (throw "programs.git.userEmail is not set");
     userName = lib.mkDefault (throw "programs.git.userName is not set");
     lfs.enable = true;
-    ignores = [".direnv" "result"];
+    ignores = [
+      ".direnv"
+      "result"
+    ];
   };
 
   home.packages = with pkgs; [

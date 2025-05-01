@@ -4,28 +4,38 @@
   pkgs,
   options,
   ...
-}: let
-  inherit (lib) mkEnableOption mkIf mkOption types mkMerge;
+}:
+let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    mkMerge
+    ;
   cfg = config.features;
-  mkFeature = description:
+  mkFeature =
+    description:
     mkOption {
       type = types.str;
       description = "The chosen ${description}.";
       default = null;
     };
 
-  mkEnumFeature = {
-    desc,
-    opts,
-    default ? null,
-  }:
+  mkEnumFeature =
+    {
+      desc,
+      opts,
+      default ? null,
+    }:
     mkOption {
       type = types.nullOr (types.enum opts);
       description = "The chosen ${desc}.";
       inherit default;
     };
 
-  mkBoolFeature = description:
+  mkBoolFeature =
+    description:
     mkOption {
       type = types.bool;
       default = false;
@@ -46,20 +56,24 @@
     # GDK_SCALE = "2";
     # ELECTRON_OZONE_PLATFORM_HINT = "wayland";
   };
-in {
+in
+{
   options.features = {
     #shell = mkFeature "shell, which provides some form of initExtra access";
 
     desktop = mkEnumFeature {
       desc = "desktop environment";
-      opts = ["kde"];
+      opts = [ "kde" ];
     };
 
     useWayland = mkBoolFeature "wayland";
 
     vr = mkEnumFeature {
       desc = "virtual-reality desktop streamer";
-      opts = ["alvr" "wivrn"];
+      opts = [
+        "alvr"
+        "wivrn"
+      ];
     };
 
     #prompt = mkFeature "shell prompt";
@@ -156,16 +170,16 @@ in {
         enable = true;
         xdgOpenUsePortal = true;
         wlr.enable = true;
-        extraPortals = with pkgs; [xdg-desktop-portal-gtk];
+        extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
       };
 
       home-manager.sharedModules = lib.singleton {
         xdg = {
           /*
-            portal = {
-            enable = true;
-            xdgOpenUsePortal = true;
-          };
+              portal = {
+              enable = true;
+              xdgOpenUsePortal = true;
+            };
           */
           # Don't generate config at the usual place.
           # Allow desktop applications to write their file association

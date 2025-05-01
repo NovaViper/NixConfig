@@ -1,4 +1,5 @@
-{myLib, ...}: {
+{ myLib, ... }:
+{
   imports = myLib.utils.importFeatures "system" [
     ### Hardware
     "hardware/bluetooth"

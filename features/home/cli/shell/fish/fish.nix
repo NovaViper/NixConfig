@@ -4,7 +4,8 @@
   myLib,
   pkgs,
   ...
-}: {
+}:
+{
   features.shell = "fish";
 
   programs.fish = {

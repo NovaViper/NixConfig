@@ -4,7 +4,8 @@
   myLib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.plasma.enable = true;
 
   programs.plasma.panels = [
@@ -26,15 +27,17 @@
               indicateAudioStreams = true;
               fill = true;
             };
-            launchers = let
-              # Auto switch terminal application desktop file
-              terminal = myLib.utils.getTerminalDesktopFile config;
-            in [
-              "preferred://browser"
-              "applications:systemsettings.desktop"
-              "preferred://filemanager"
-              "applications:${terminal}.desktop"
-            ];
+            launchers =
+              let
+                # Auto switch terminal application desktop file
+                terminal = myLib.utils.getTerminalDesktopFile config;
+              in
+              [
+                "preferred://browser"
+                "applications:systemsettings.desktop"
+                "preferred://filemanager"
+                "applications:${terminal}.desktop"
+              ];
           };
         }
         "org.kde.plasma.marginsseparator"

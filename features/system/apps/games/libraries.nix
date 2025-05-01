@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.nix-ld.libraries = with pkgs; [
     # Needed for operating system detection until
     # https://github.com/ValveSoftware/steam-for-linux/issues/5909 is resolved

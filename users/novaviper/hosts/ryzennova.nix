@@ -4,9 +4,11 @@
   myLib,
   pkgs,
   ...
-}: let
+}:
+let
   myself = "novaviper";
-in {
+in
+{
   imports = lib.singleton ./base.nix;
 
   #home.packages = with pkgs; [digikam];

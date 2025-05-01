@@ -2,8 +2,9 @@
   config,
   pkgs,
   ...
-}: {
-  home.packages = with pkgs; [feishin];
+}:
+{
+  home.packages = with pkgs; [ feishin ];
 
   xdg.mimeApps = {
     associations.added = {

@@ -3,9 +3,11 @@
   myLib,
   pkgs,
   ...
-}: let
+}:
+let
   myself = "novaviper";
-in {
+in
+{
   xdg.mimeApps = {
     associations = {
       added = {
@@ -52,5 +54,5 @@ in {
     };
   };
 
-  home.packages = with pkgs; [prusa-slicer];
+  home.packages = with pkgs; [ prusa-slicer ];
 }

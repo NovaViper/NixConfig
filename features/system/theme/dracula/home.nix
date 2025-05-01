@@ -4,7 +4,8 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   home-manager.sharedModules = lib.singleton {
     stylix.targets = lib.mkForce {
       # Enable 256 colors for kitty
@@ -25,22 +26,24 @@
     ];
 
     programs = {
-      plasma = let
-        workspace = {
-          lookAndFeel = "org.kde.breezedark.desktop";
-          iconTheme = "Papirus-Dark";
-          colorScheme = "DraculaPurple";
-          #splashScreen = "";
-          wallpaperSlideShow = {
-            path = ["${inputs.wallpapers}/"];
-            interval = 300;
+      plasma =
+        let
+          workspace = {
+            lookAndFeel = "org.kde.breezedark.desktop";
+            iconTheme = "Papirus-Dark";
+            colorScheme = "DraculaPurple";
+            #splashScreen = "";
+            wallpaperSlideShow = {
+              path = [ "${inputs.wallpapers}/" ];
+              interval = 300;
+            };
           };
+        in
+        {
+          overrideConfig = true;
+          inherit workspace;
+          kscreenlocker.appearance.wallpaperSlideShow = workspace.wallpaperSlideShow;
         };
-      in {
-        overrideConfig = true;
-        inherit workspace;
-        kscreenlocker.appearance.wallpaperSlideShow = workspace.wallpaperSlideShow;
-      };
       cava.settings.color = {
         gradient = 1;
         gradient_count = 8;

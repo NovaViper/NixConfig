@@ -3,12 +3,21 @@
   lib,
   modulesPath,
   ...
-}: {
-  imports = [(modulesPath + "/installer/scan/not-detected.nix")];
+}:
+{
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
     initrd = {
-      availableKernelModules = ["xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" "sr_mod"];
+      availableKernelModules = [
+        "xhci_pci"
+        "ahci"
+        "nvme"
+        "usb_storage"
+        "usbhid"
+        "sd_mod"
+        "sr_mod"
+      ];
       kernelModules = [
         "nvidia"
         "nvidia_modeset"
@@ -16,10 +25,13 @@
         "nvidia_drm"
       ];
     };
-    kernelModules = ["kvm-amd"];
+    kernelModules = [ "kvm-amd" ];
     # Include beta nvidia x11 driver
-    extraModulePackages = [config.boot.kernelPackages.nvidia_x11_beta];
-    blacklistedKernelModules = ["i915" "amdgpu"];
+    extraModulePackages = [ config.boot.kernelPackages.nvidia_x11_beta ];
+    blacklistedKernelModules = [
+      "i915"
+      "amdgpu"
+    ];
 
     kernelParams = [
       "nvidia_drm.fbdev=1"

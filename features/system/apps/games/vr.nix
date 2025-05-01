@@ -3,10 +3,13 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfgFeat = config.features;
-in {
-  environment.systemPackages = with pkgs;
+in
+{
+  environment.systemPackages =
+    with pkgs;
     lib.optionals (cfgFeat.vr != null) [
       helvum
       bs-manager

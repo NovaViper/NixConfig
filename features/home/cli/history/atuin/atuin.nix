@@ -3,11 +3,12 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # The much better shell history database
   programs.atuin.enable = true;
 
-  home.packages = with pkgs; [atuin-export-fish-history];
+  home.packages = with pkgs; [ atuin-export-fish-history ];
 
   programs.atuin.settings = {
     auto_sync = true;

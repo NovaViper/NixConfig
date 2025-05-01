@@ -1,6 +1,7 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   home.packages = with pkgs; [
     # :editor format
-    texlive.combined.scheme-medium #LaTex
+    texlive.combined.scheme-medium # LaTex
   ];
 }

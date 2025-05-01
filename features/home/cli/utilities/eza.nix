@@ -4,6 +4,10 @@ _: {
     enable = true;
     git = true;
     icons = "auto";
-    extraOptions = ["--color=always" "--group-directories-first" "--classify=always"];
+    extraOptions = [
+      "--color=always"
+      "--group-directories-first"
+      "--classify=always"
+    ];
   };
 }

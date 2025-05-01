@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.java.enable = true;
 
   home.sessionVariables.JDTLS_PATH = "${pkgs.jdt-language-server}/share/java";

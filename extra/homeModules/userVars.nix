@@ -5,11 +5,18 @@
   pkgs,
   options,
   ...
-}: let
-  inherit (lib) mkEnableOption mkIf mkOption types;
+}:
+let
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
   cfg = config.userVars;
   cfgFeat = osConfig.features;
-in {
+in
+{
   options.userVars = {
     fullName = mkOption {
       type = types.str;

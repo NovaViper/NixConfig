@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # Enable proper Nvidia support for various packages
   nixpkgs.config.cudaSupport = lib.mkForce true;
 
@@ -16,13 +17,13 @@
   };
 
   programs.nix-ld.libraries =
-    [config.hardware.nvidia.package]
+    [ config.hardware.nvidia.package ]
     ++ (with pkgs; [
       nvidia-vaapi-driver
     ]);
 
   environment = {
-    systemPackages = with pkgs; [nvtopPackages.full];
+    systemPackages = with pkgs; [ nvtopPackages.full ];
     sessionVariables = {
       # Necessary to make Minecraft Wayland GLFW work with Wayland+Nvidia
       __GL_THREADED_OPTIMIZATIONS = "0";

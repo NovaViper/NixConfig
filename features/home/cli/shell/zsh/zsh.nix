@@ -4,15 +4,17 @@
   myLib,
   pkgs,
   ...
-}: {
+}:
+{
   features.shell = "zsh";
 
   # Only execute when the user actually has a functions folder
-  xdg.configFile = let
-    user = config.home.username;
-    path = "zsh/functions";
-  in
-    lib.mkIf (builtins.pathExists (myLib.dots.getDotsPath {inherit user path;})) {
+  xdg.configFile =
+    let
+      user = config.home.username;
+      path = "zsh/functions";
+    in
+    lib.mkIf (builtins.pathExists (myLib.dots.getDotsPath { inherit user path; })) {
       "zsh/functions" = myLib.dots.mkDotsSymlink {
         inherit config user;
         source = path;
@@ -37,7 +39,7 @@
     autosuggestion = {
       enable = true;
       # We're using an local variable for this
-      strategy = lib.mkForce [];
+      strategy = lib.mkForce [ ];
       highlight = "fg=8,underline";
     };
 
@@ -66,7 +68,11 @@
       # Prompt message for auto correct
       SPROMPT = "Correct $fg[red]%R$reset_color to $fg[green]%r$reset_color? [ny] ";
       # Add more Zsh Autosuggestion strategies
-      ZSH_AUTOSUGGEST_STRATEGY = ["abbreviations" "completion" "history"];
+      ZSH_AUTOSUGGEST_STRATEGY = [
+        "abbreviations"
+        "completion"
+        "history"
+      ];
     };
 
     shellAliases = {
@@ -78,9 +84,7 @@
       nh = "noglob nh";
 
       # Append HISTFILE before running autin import to make it work properly
-      atuin-import =
-        lib.mkIf config.programs.atuin.enable
-        "export HISTFILE && atuin import auto && unset HISTFILE";
+      atuin-import = lib.mkIf config.programs.atuin.enable "export HISTFILE && atuin import auto && unset HISTFILE";
     };
   };
 }

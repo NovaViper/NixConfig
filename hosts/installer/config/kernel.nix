@@ -2,7 +2,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Forcibly disable zfs for latest Linux firmware

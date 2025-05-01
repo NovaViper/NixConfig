@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   pkcs11 = "${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
-in {
+in
+{
   home-manager.sharedModules = lib.singleton {
     home.shellAliases = {
       # Make gpg switch Yubikey

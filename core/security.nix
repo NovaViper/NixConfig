@@ -2,7 +2,7 @@ _: {
   # Make /tmp clean itself on remote. /tmp should be volatile storage!
   boot.tmp.cleanOnBoot = true;
 
-  boot.kernelModules = ["tcp_bbr"];
+  boot.kernelModules = [ "tcp_bbr" ];
 
   ## TCP hardening
   boot.kernel.sysctl = {
@@ -43,6 +43,6 @@ _: {
   # Enable firmware updates on Linux
   services.fwupd = {
     enable = true;
-    extraRemotes = ["lvfs-testing"];
+    extraRemotes = [ "lvfs-testing" ];
   };
 }

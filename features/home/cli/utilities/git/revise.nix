@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   abbrs = {
     grv = "git revise";
     grvm = "git revise main";
@@ -12,23 +13,20 @@
     grvum = "git revise upstream/main";
     grvuma = "git revise upstream/master";
   };
-in {
+in
+{
   home.packages = lib.singleton pkgs.git-revise;
 
-  programs.fish.shellAbbrs =
-    abbrs
-    // {
-      # `grvi 2` will revise from last 2 commits
-      grvi = {
-        setCursor = true;
-        expansion = "git revise -i HEAD~%";
-      };
+  programs.fish.shellAbbrs = abbrs // {
+    # `grvi 2` will revise from last 2 commits
+    grvi = {
+      setCursor = true;
+      expansion = "git revise -i HEAD~%";
     };
+  };
 
-  programs.zsh.zsh-abbr.abbreviations =
-    abbrs
-    // {
-      # `grvi 2` will revise from last 2 commits
-      grvi = "git revise -i HEAD~%";
-    };
+  programs.zsh.zsh-abbr.abbreviations = abbrs // {
+    # `grvi 2` will revise from last 2 commits
+    grvi = "git revise -i HEAD~%";
+  };
 }

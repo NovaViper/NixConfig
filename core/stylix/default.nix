@@ -4,16 +4,24 @@
   pkgs,
   inputs,
   ...
-}: {
-  imports = with inputs; [stylix.nixosModules.stylix];
+}:
+{
+  imports = with inputs; [ stylix.nixosModules.stylix ];
 
-  home-manager.sharedModules = lib.singleton (hm: let
-    hm-config = hm.config;
-    c = hm-config.lib.stylix.colors.withHashtag;
-    f = hm-config.stylix.fonts;
-  in
+  home-manager.sharedModules = lib.singleton (
+    hm:
+    let
+      hm-config = hm.config;
+      c = hm-config.lib.stylix.colors.withHashtag;
+      f = hm-config.stylix.fonts;
+    in
     lib.mkIf hm-config.stylix.enable {
-      nukeFiles = ["${hm-config.home.homeDirectory}/.config/gtk-2.0/gtkrc" "${hm-config.home.homeDirectory}/.config/gtk-3.0/gtk.css" "${hm-config.home.homeDirectory}/.config/gtk-4.0/gtk.css" "${hm-config.home.homeDirectory}/.gtkrc-2.0"];
+      nukeFiles = [
+        "${hm-config.home.homeDirectory}/.config/gtk-2.0/gtkrc"
+        "${hm-config.home.homeDirectory}/.config/gtk-3.0/gtk.css"
+        "${hm-config.home.homeDirectory}/.config/gtk-4.0/gtk.css"
+        "${hm-config.home.homeDirectory}/.gtkrc-2.0"
+      ];
 
       # gtk = lib.mkIf (config.stylix.polarity == "dark") {
       #   enable = true;
@@ -22,7 +30,7 @@
       #   gtk4.extraConfig = {gtk-application-prefer-dark-theme = true;};
       # };
 
-      stylix.targets.floorp.profileNames = ["${hm-config.home.username}"];
+      stylix.targets.floorp.profileNames = [ "${hm-config.home.username}" ];
 
       xdg.dataFile = {
         "konsole/Stylix.colorscheme".source = hm-config.lib.stylix.colors {
@@ -54,25 +62,27 @@
           theme = "${hm-config.stylix.cursor.name}";
           inherit (hm-config.stylix.cursor) size;
         };
-        fonts = let
-          general = {
-            family = "${f.sansSerif.name}";
-            pointSize = f.sizes.applications;
+        fonts =
+          let
+            general = {
+              family = "${f.sansSerif.name}";
+              pointSize = f.sizes.applications;
+            };
+            small = {
+              inherit (general) family;
+              pointSize = f.sizes.desktop;
+            };
+          in
+          {
+            inherit general small;
+            fixedWidth = {
+              family = "${f.monospace.name}";
+              pointSize = f.sizes.terminal;
+            };
+            toolbar = small;
+            menu = small;
+            windowTitle = small;
           };
-          small = {
-            inherit (general) family;
-            pointSize = f.sizes.desktop;
-          };
-        in {
-          inherit general small;
-          fixedWidth = {
-            family = "${f.monospace.name}";
-            pointSize = f.sizes.terminal;
-          };
-          toolbar = small;
-          menu = small;
-          windowTitle = small;
-        };
       };
 
       programs.zsh.syntaxHighlighting.styles = {
@@ -143,5 +153,6 @@
         default = "fg=${c.base05}";
         cursor = "fg=${c.base05}";
       };
-    });
+    }
+  );
 }

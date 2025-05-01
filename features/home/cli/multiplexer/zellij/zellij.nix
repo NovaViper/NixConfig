@@ -3,14 +3,16 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.programs.zellij;
-in {
+in
+{
   programs.zellij.enable = true;
 
   /*
-    programs.zellij.settings = {
+      programs.zellij.settings = {
 
-  };
+    };
   */
 }

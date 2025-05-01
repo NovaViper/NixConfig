@@ -3,7 +3,8 @@
   pkgs,
   username,
   ...
-}: {
+}:
+{
   features.vr = "alvr";
 
   # Actually enable the program

@@ -1,4 +1,5 @@
-{lib, ...}: {
+{ lib, ... }:
+{
   services.tailscale = {
     enable = true;
     useRoutingFeatures = lib.mkDefault "client";
@@ -6,6 +7,6 @@
 
   networking.firewall = {
     checkReversePath = "loose";
-    allowedUDPPorts = [41641]; # Facilitate firewall punching
+    allowedUDPPorts = [ 41641 ]; # Facilitate firewall punching
   };
 }

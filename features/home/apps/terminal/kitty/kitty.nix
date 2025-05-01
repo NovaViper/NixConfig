@@ -4,7 +4,8 @@
   myLib,
   pkgs,
   ...
-}: let
+}:
+let
   shellAliases = {
     zsh = ''
       if [[ "$TERM" == "xterm-kitty" ]]; then
@@ -19,14 +20,16 @@
       end
     '';
   };
-in {
-  xdg.mimeApps = let
-    defaultApplications = {
-      "mimetype" = "kitty.desktop";
-      "application/x-terminal-emulator" = "kitty.desktop";
-      "x-terminal-emulator" = "kitty.desktop";
-    };
-  in
+in
+{
+  xdg.mimeApps =
+    let
+      defaultApplications = {
+        "mimetype" = "kitty.desktop";
+        "application/x-terminal-emulator" = "kitty.desktop";
+        "x-terminal-emulator" = "kitty.desktop";
+      };
+    in
     lib.mkIf (myLib.utils.getUserVars "defaultTerminal" config == "kitty") {
       enable = true;
       inherit defaultApplications;
@@ -87,14 +90,14 @@ in {
     remember_window_size = "yes";
     # FIXME: Add fonts for machine types
     /*
-      initial_window_width =
-      if (config.variables.machine.buildType == "laptop")
-      then 1000
-      else 1920;
-    initial_window_height =
-      if (config.variables.machine.buildType == "laptop")
-      then 700
-      else 1080;
+        initial_window_width =
+        if (config.variables.machine.buildType == "laptop")
+        then 1000
+        else 1920;
+      initial_window_height =
+        if (config.variables.machine.buildType == "laptop")
+        then 700
+        else 1080;
     */
 
     #enabled_layouts = "tall:bias=65;full_size=1;mirrored=false";

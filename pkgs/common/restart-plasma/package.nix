@@ -1,9 +1,8 @@
-{writeShellApplication, ...}:
-writeShellApplication
-{
+{ writeShellApplication, ... }:
+writeShellApplication {
   name = "restart-plasma";
 
-  runtimeInputs = [];
+  runtimeInputs = [ ];
 
   text = ''
     # Restart script for kde

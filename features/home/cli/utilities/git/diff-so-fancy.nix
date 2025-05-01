@@ -2,9 +2,11 @@
   lib,
   osConfig,
   ...
-}: let
+}:
+let
   globalLessOpts = osConfig.programs.less.envVariables.LESS;
-in {
+in
+{
   programs.git.diff-so-fancy = {
     enable = true;
     markEmptyLines = false; # So nothing else looks like `red reverse`

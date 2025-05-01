@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # Make zsh-abbr set the cursor via % syntax
   programs.zsh.localVariables.ABBR_SET_EXPANSION_CURSOR = 1;
 

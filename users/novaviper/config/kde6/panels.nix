@@ -3,8 +3,12 @@
   myLib,
   pkgs,
   ...
-}: {
-  home.packages = with pkgs; [plasma-panel-colorizer plasma-panel-spacer-extended];
+}:
+{
+  home.packages = with pkgs; [
+    plasma-panel-colorizer
+    plasma-panel-spacer-extended
+  ];
 
   programs.plasma.panels = [
     # Windows like panel at the bottom
@@ -30,18 +34,20 @@
               indicateAudioStreams = true;
               fill = true;
             };
-            launchers = let
-              # Auto switch terminal application desktop file
-              terminal = myLib.utils.getTerminalDesktopFile config;
-            in [
-              "preferred://browser"
-              "applications:systemsettings.desktop"
-              "preferred://filemanager"
-              "applications:${terminal}.desktop"
-              "applications:emacsclient.desktop"
-              "applications:org.kde.krita.desktop"
-              "applications:writer.desktop"
-            ];
+            launchers =
+              let
+                # Auto switch terminal application desktop file
+                terminal = myLib.utils.getTerminalDesktopFile config;
+              in
+              [
+                "preferred://browser"
+                "applications:systemsettings.desktop"
+                "preferred://filemanager"
+                "applications:${terminal}.desktop"
+                "applications:emacsclient.desktop"
+                "applications:org.kde.krita.desktop"
+                "applications:writer.desktop"
+              ];
           };
         }
         "org.kde.plasma.marginsseparator"
@@ -56,7 +62,7 @@
       widgets = [
         {
           applicationTitleBar = {
-            layout.elements = [];
+            layout.elements = [ ];
             windowControlButtons = {
               iconSource = "breeze";
               buttonsAspectRatio = 95;
@@ -73,7 +79,13 @@
             };
             overrideForMaximized = {
               enable = true;
-              elements = ["windowCloseButton" "windowMaximizeButton" "windowMinimizeButton" "windowIcon" "windowTitle"];
+              elements = [
+                "windowCloseButton"
+                "windowMaximizeButton"
+                "windowMinimizeButton"
+                "windowIcon"
+                "windowTitle"
+              ];
               source = "appName";
             };
           };

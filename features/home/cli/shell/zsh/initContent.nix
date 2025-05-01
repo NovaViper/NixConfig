@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.zsh.initContent = lib.mkMerge [
     # Place before everything (except for zprof)
     (lib.mkOrder 450 ''

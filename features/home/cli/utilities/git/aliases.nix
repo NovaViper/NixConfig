@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.git.aliases = {
     p = "pull --ff-only";
     ff = "merge --ff-only";
@@ -41,9 +42,7 @@
     # https://esc.sh/blog/switch-git-branches-fzf/
     # https://github.com/erees1/dotfiles/blob/b29a94e/git/aliases.zsh#L85-L97
     pswitch =
-      /*
-      bash
-      */
+      # bash
       ''
         !git pbranch --color | \
         fzf --delimiter='\|' --preview-window='bottom' \

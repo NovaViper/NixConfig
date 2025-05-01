@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.mcfly.enable = true;
   programs.mcfly.fzf.enable = true;
   programs.mcfly.keyScheme = "vim";

@@ -4,14 +4,16 @@
   myLib,
   pkgs,
   ...
-}: {
-  xdg.mimeApps = let
-    defaultApplications = {
-      "mimetype" = "com.mitchellh.ghostty.desktop";
-      "application/x-terminal-emulator" = "com.mitchellh.ghostty.desktop";
-      "x-terminal-emulator" = "com.mitchellh.ghostty.desktop";
-    };
-  in
+}:
+{
+  xdg.mimeApps =
+    let
+      defaultApplications = {
+        "mimetype" = "com.mitchellh.ghostty.desktop";
+        "application/x-terminal-emulator" = "com.mitchellh.ghostty.desktop";
+        "x-terminal-emulator" = "com.mitchellh.ghostty.desktop";
+      };
+    in
     lib.mkIf (myLib.utils.getUserVars "defaultTerminal" config == "ghostty") {
       enable = true;
       inherit defaultApplications;

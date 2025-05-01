@@ -4,7 +4,8 @@
   myLib,
   pkgs,
   ...
-}: {
+}:
+{
   imports = myLib.utils.importFeatures "home" [
     ### Applications
     "apps/browser/floorp"

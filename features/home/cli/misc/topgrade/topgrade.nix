@@ -3,7 +3,8 @@
   lib,
   myLib,
   ...
-}: {
+}:
+{
   programs.topgrade.enable = true;
   programs.topgrade.settings = {
     misc = {
@@ -15,7 +16,10 @@
     };
     linux = {
       nix_arguments = "--flake ${myLib.flakePath config}";
-      home_manager_arguments = ["--flake" "${myLib.flakePath config}"];
+      home_manager_arguments = [
+        "--flake"
+        "${myLib.flakePath config}"
+      ];
     };
   };
 }

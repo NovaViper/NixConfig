@@ -2,9 +2,11 @@
   config,
   myLib,
   ...
-}: let
+}:
+let
   user = "novaviper";
-in {
+in
+{
   xdg.configFile = {
     "doom/config.org" = myLib.dots.mkDotsSymlink {
       inherit config user;

@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.fish.plugins = [
     {
       name = "autopair";

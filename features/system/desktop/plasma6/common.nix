@@ -4,7 +4,8 @@
   myLib,
   pkgs,
   ...
-}: {
+}:
+{
   features.desktop = "kde";
   features.useWayland = true;
 
@@ -32,14 +33,15 @@
     };
 
     xdg.mimeApps = {
-      defaultApplications."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
-      associations.added."x-scheme-handler/tel" = ["org.kde.kdeconnect.handler.desktop"];
+      defaultApplications."x-scheme-handler/tel" = [ "org.kde.kdeconnect.handler.desktop" ];
+      associations.added."x-scheme-handler/tel" = [ "org.kde.kdeconnect.handler.desktop" ];
     };
   };
 
-  environment.plasma6.excludePackages = with pkgs.kdePackages; [elisa];
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [ elisa ];
 
-  environment.systemPackages = with pkgs;
+  environment.systemPackages =
+    with pkgs;
     [
       # Apps
       krename

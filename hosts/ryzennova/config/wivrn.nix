@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # Config for WiVRn (https://github.com/WiVRn/WiVRn/blob/master/docs/configuration.md)
   # Steam launch args: PRESSURE_VESSEL_FILESYSTEMS_RW=$XDG_RUNTIME_DIR/wivrn_comp_ipc %command%
   services.wivrn.config.json = {
@@ -23,6 +24,6 @@
         offset_y = 0.0;
       }
     ];
-    application = [pkgs.wlx-overlay-s];
+    application = [ pkgs.wlx-overlay-s ];
   };
 }

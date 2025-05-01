@@ -8,7 +8,8 @@
   stateVersion,
   system,
   ...
-}: {
+}:
+{
   # Setup primary variables for the systems
   system.stateVersion = stateVersion;
   nixpkgs.hostPlatform = system;
@@ -33,8 +34,8 @@
       nixpkgs-stable.flake = inputs.nixpkgs-stable;
 
       # Allow running unfree packages with nix3 commands via `nix run unfree#steam`
-      unfree.flake = pkgs.callPackage myLib.mkUnfreeNixpkgs {path = inputs.nixpkgs;};
-      unfree-stable.flake = pkgs.callPackage myLib.mkUnfreeNixpkgs {path = inputs.nixpkgs-stable;};
+      unfree.flake = pkgs.callPackage myLib.mkUnfreeNixpkgs { path = inputs.nixpkgs; };
+      unfree-stable.flake = pkgs.callPackage myLib.mkUnfreeNixpkgs { path = inputs.nixpkgs-stable; };
     };
 
     # Force latest nix version
@@ -43,7 +44,7 @@
     # Perform nix store optimisation weekly to maintain low disk usage
     optimise = {
       automatic = true;
-      dates = ["daily"]; # Optional; allows customizing optimisation schedule
+      dates = [ "daily" ]; # Optional; allows customizing optimisation schedule
     };
 
     # Perform garbage collection weekly to maintain low disk usage
@@ -56,7 +57,10 @@
 
     settings = {
       # Make sure flakes is enabled
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
 
       # No warnings if git isn't pushed
       warn-dirty = false;
@@ -65,10 +69,10 @@
       use-xdg-base-directories = true;
 
       # for Nix path
-      nix-path = ["nixpkgs=${pkgs.path}"];
+      nix-path = [ "nixpkgs=${pkgs.path}" ];
 
       # Make root and any user in the wheel group trusted
-      trusted-users = ["@wheel"];
+      trusted-users = [ "@wheel" ];
 
       substituters = [
         "https://nix-community.cachix.org"

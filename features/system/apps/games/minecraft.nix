@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfgFeat = config.features;
-in {
+in
+{
   environment.systemPackages = with pkgs; [
     # Minecraft
     prismlauncher
@@ -14,7 +16,10 @@ in {
   ];
 
   # Allow Minecraft server ports
-  networking.firewall.allowedTCPPorts = lib.mkIf cfgFeat.includeMinecraftServer [25565 24454];
+  networking.firewall.allowedTCPPorts = lib.mkIf cfgFeat.includeMinecraftServer [
+    25565
+    24454
+  ];
 
   hmUser = lib.singleton {
     programs.java.enable = true;

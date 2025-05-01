@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.ssh.matchBlocks = {
     "yubikey-hosts" = {
       host = "github.com gitlab.com codeberg.org";

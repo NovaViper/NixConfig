@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.fish.shellAbbrs = {
     m = "man";
     py = "python";

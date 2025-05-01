@@ -4,15 +4,14 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfgFeat = osConfig.features;
-in {
+in
+{
   services.syncthing.enable = true;
 
-  services.syncthing.tray.enable =
-    if (cfgFeat.desktop != null)
-    then true
-    else false;
+  services.syncthing.tray.enable = if (cfgFeat.desktop != null) then true else false;
 
   services.syncthing.extraOptions = [
     "--config=${config.xdg.configHome}/syncthing"

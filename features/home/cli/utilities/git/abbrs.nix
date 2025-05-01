@@ -1,4 +1,5 @@
-_: let
+_:
+let
   abbrs = {
     g = "git";
     gcl = "git clone";
@@ -32,21 +33,18 @@ _: let
     grbc = "git rebase --continue";
     grba = "git rebase --abort";
   };
-in {
-  programs.fish.shellAbbrs =
-    abbrs
-    // {
-      # `grbi 2` will rebase from last 2 commits
-      grbi = {
-        setCursor = true;
-        expansion = "git rebase -i HEAD~%";
-      };
+in
+{
+  programs.fish.shellAbbrs = abbrs // {
+    # `grbi 2` will rebase from last 2 commits
+    grbi = {
+      setCursor = true;
+      expansion = "git rebase -i HEAD~%";
     };
+  };
 
-  programs.zsh.zsh-abbr.abbreviations =
-    abbrs
-    // {
-      # `grbi 2` will rebase from last 2 commits
-      grbi = "git rebase -i HEAD~%";
-    };
+  programs.zsh.zsh-abbr.abbreviations = abbrs // {
+    # `grbi 2` will rebase from last 2 commits
+    grbi = "git rebase -i HEAD~%";
+  };
 }

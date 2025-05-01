@@ -4,18 +4,20 @@
   myLib,
   pkgs,
   ...
-}: {
+}:
+{
   programs.fish = {
-    interactiveShellInit = lib.mkAfter (lib.concatStringsSep "\n" [
-      (lib.optionalString config.programs.tmux.enable
-        ''
+    interactiveShellInit = lib.mkAfter (
+      lib.concatStringsSep "\n" [
+        (lib.optionalString config.programs.tmux.enable ''
           # Run Tmux on startup OUTSIDE of SSH
           if test -z "$TMUX" && test -z "$SSH_CONNECTION"
             ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || ${lib.getExe pkgs.tmuxp} load ${config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
             exit
           end
         '')
-    ]);
+      ]
+    );
 
     functions = {
       fish_greeting = ''
@@ -32,7 +34,7 @@
         '';
       };
       list-keys = {
-        argumentNames = ["prog"];
+        argumentNames = [ "prog" ];
         description = "List the keybindings for various programs Supported: wezterm, alacritty, tmux";
         body = ''
           # First check if argument was provided

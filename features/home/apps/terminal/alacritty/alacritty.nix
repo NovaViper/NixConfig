@@ -3,14 +3,16 @@
   lib,
   myLib,
   ...
-}: {
-  xdg.mimeApps = let
-    defaultApplications = {
-      "mimetype" = "alacritty.desktop";
-      "application/x-terminal-emulator" = "alacritty.desktop";
-      "x-terminal-emulator" = "alacritty.desktop";
-    };
-  in
+}:
+{
+  xdg.mimeApps =
+    let
+      defaultApplications = {
+        "mimetype" = "alacritty.desktop";
+        "application/x-terminal-emulator" = "alacritty.desktop";
+        "x-terminal-emulator" = "alacritty.desktop";
+      };
+    in
     lib.mkIf (myLib.utils.getUserVars "defaultTerminal" config == "alacritty") {
       enable = true;
       inherit defaultApplications;
@@ -218,15 +220,15 @@
     live_config_reload = true;
 
     /*
-    shell = {
-      #program = "${lib.getExe pkgs.zsh}";
-      args = [
-        "--login"
-        #"-c"
-        #"${lib.getExe pkgs.tmux} attach || ${lib.getExe pkgs.tmuxp} load ~/.config/tmuxp/session.yaml"
-        #"${lib.getExe pkgs.tmux} attach || ${lib.getExe pkgs.tmux}"
-      ];
-    };
+      shell = {
+        #program = "${lib.getExe pkgs.zsh}";
+        args = [
+          "--login"
+          #"-c"
+          #"${lib.getExe pkgs.tmux} attach || ${lib.getExe pkgs.tmuxp} load ~/.config/tmuxp/session.yaml"
+          #"${lib.getExe pkgs.tmux} attach || ${lib.getExe pkgs.tmux}"
+        ];
+      };
     */
 
     # Startup directory

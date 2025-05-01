@@ -2,7 +2,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   # Enable dconf (System Management Tool)
   #programs.dconf.enable = true;
 
@@ -26,7 +27,7 @@
     qemu.swtpm.enable = true;
     qemu.ovmf = {
       enable = true;
-      packages = with pkgs; [OVMFFull.fd];
+      packages = with pkgs; [ OVMFFull.fd ];
     };
   };
 

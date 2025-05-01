@@ -6,7 +6,8 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   # Utility variables
   inherit (config.home) username;
   userVars = opt: myLib.utils.getUserVars opt config;
@@ -17,13 +18,11 @@
   # Shorthand references
   full-name = userVars "fullName";
   email-address = userVars "email";
-  pack =
-    if osConfig.features.useWayland
-    then pkgs.emacs-pgtk
-    else pkgs.emacs;
+  pack = if osConfig.features.useWayland then pkgs.emacs-pgtk else pkgs.emacs;
   emacsOpacity = builtins.toString (builtins.ceil (config.stylix.opacity.applications * 100));
   f = config.stylix.fonts;
-in {
+in
+{
   services.emacs = {
     enable = true;
     defaultEditor = lib.mkIf (userVars "defaultEditor" == "doom-emacs") true;
@@ -34,7 +33,15 @@ in {
   programs.emacs = {
     enable = true;
     package = pack;
-    extraPackages = epkgs: with epkgs; [tramp pdf-tools vterm] ++ lib.optionals config.programs.mu.enable [mu4e];
+    extraPackages =
+      epkgs:
+      with epkgs;
+      [
+        tramp
+        pdf-tools
+        vterm
+      ]
+      ++ lib.optionals config.programs.mu.enable [ mu4e ];
   };
 
   xdg.configFile = {
@@ -51,12 +58,14 @@ in {
              flake-directory "${myLib.flakePath config}" ; Path to NixOS Flake
 
              ${lib.optionalString config.stylix.enable ''
-        ; Setup Fonts from Stylix
-        doom-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 3)})
-        doom-variable-pitch-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 3)})
-        doom-big-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 5)})
-        doom-symbol-font (font-spec :family "${f.emoji.name}")
-      ''}
+               ; Setup Fonts from Stylix
+               doom-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 3)})
+               doom-variable-pitch-font (font-spec :family "${f.monospace.name}" :size ${
+                 toString (f.sizes.terminal + 3)
+               })
+               doom-big-font (font-spec :family "${f.monospace.name}" :size ${toString (f.sizes.terminal + 5)})
+               doom-symbol-font (font-spec :family "${f.emoji.name}")
+             ''}
        )
 
       ${lib.optionalString config.stylix.enable ''
@@ -93,7 +102,9 @@ in {
   };
 
   xdg.mimeApps = {
-    associations.added = {"x-scheme-handler/mailto" = "emacs-mail.desktop";};
+    associations.added = {
+      "x-scheme-handler/mailto" = "emacs-mail.desktop";
+    };
     defaultApplications = {
       "x-scheme-handler/mailto" = "emacs-mail.desktop";
       "text/plain" = "emacsclient.desktop";
@@ -101,24 +112,26 @@ in {
     };
   };
 
-  home.sessionPath = ["${config.xdg.configHome}/emacs/bin"];
+  home.sessionPath = [ "${config.xdg.configHome}/emacs/bin" ];
 
-  home.shellAliases = let
-    # Easy access to accessing Doom cli
-    doom = "${EMDOTDIR_VAR}/bin/doom";
-  in {
-    inherit doom;
-    # Refresh Doom configurations and Reload Doom Emacs
-    doom-config-reload = "${doom} +org tangle ${DOOMDIR_VAR}/config.org && ${doom} sync && systemctl --user restart emacs";
-    # Download Doom Emacs frameworks
-    doom-download = ''
-      ${lib.getExe pkgs.git} clone https://github.com/hlissner/doom-emacs.git ${EMDOTDIR_VAR}
-    '';
-    # Create Emacs config.el from my Doom config.org
-    doom-org-tangle = "${doom} +org tangle ${DOOMDIR_VAR}/config.org";
-  };
+  home.shellAliases =
+    let
+      # Easy access to accessing Doom cli
+      doom = "${EMDOTDIR_VAR}/bin/doom";
+    in
+    {
+      inherit doom;
+      # Refresh Doom configurations and Reload Doom Emacs
+      doom-config-reload = "${doom} +org tangle ${DOOMDIR_VAR}/config.org && ${doom} sync && systemctl --user restart emacs";
+      # Download Doom Emacs frameworks
+      doom-download = ''
+        ${lib.getExe pkgs.git} clone https://github.com/hlissner/doom-emacs.git ${EMDOTDIR_VAR}
+      '';
+      # Create Emacs config.el from my Doom config.org
+      doom-org-tangle = "${doom} +org tangle ${DOOMDIR_VAR}/config.org";
+    };
 
-  home.activation.installDoomEmacs = lib.hm.dag.entryAfter ["writeBoundary"] ''
+  home.activation.installDoomEmacs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
     export DOOM="${EMDOTDIR_VAR}"
     if [ ! -d "$DOOM" ]; then
       ${lib.getExe pkgs.git} clone https://github.com/hlissner/doom-emacs.git $DOOM
@@ -133,7 +146,7 @@ in {
   home.packages = with pkgs; [
     # Doom Dependencies
     binutils
-    (ripgrep.override {withPCRE2 = true;})
+    (ripgrep.override { withPCRE2 = true; })
     gnutls
     emacs-all-the-icons-fonts
 
@@ -160,7 +173,13 @@ in {
     gnumake
 
     # :checkers spell
-    (aspellWithDicts (dicts: with dicts; [en en-computers en-science]))
+    (aspellWithDicts (
+      dicts: with dicts; [
+        en
+        en-computers
+        en-science
+      ]
+    ))
     hunspell
     hunspellDicts.en_US
 

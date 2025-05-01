@@ -1,6 +1,11 @@
-{pkgs, ...}: let
-  printers = with pkgs; [hplipWithPlugin cnijfilter2];
-in {
+{ pkgs, ... }:
+let
+  printers = with pkgs; [
+    hplipWithPlugin
+    cnijfilter2
+  ];
+in
+{
   # Address CUPS vulnerability CVE-2024-47076
   systemd.services.cups-browsed.enable = false;
 
@@ -13,7 +18,7 @@ in {
   # Scanner Setup
   hardware.sane = {
     enable = true;
-    extraBackends = with pkgs; [sane-airscan] ++ printers;
+    extraBackends = with pkgs; [ sane-airscan ] ++ printers;
   };
 
   # Install installation

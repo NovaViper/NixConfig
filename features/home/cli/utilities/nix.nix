@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs.nix-index-database.comma.enable = true;
 
   programs.nix-your-shell.enable = true;

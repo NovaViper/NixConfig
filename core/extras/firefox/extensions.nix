@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   extensions = with pkgs.nur.repos.rycee.firefox-addons; [
     ublock-origin
     sponsorblock
@@ -16,11 +17,16 @@
     stylus
     canvasblocker
   ];
-in {
-  hmUser = lib.singleton (hm: let
-    hm-config = hm.config;
-  in {
-    programs.floorp.profiles."${hm-config.home.username}".extensions.packages = extensions;
-    programs.firefox.profiles."${hm-config.home.username}".extensions.packages = extensions;
-  });
+in
+{
+  hmUser = lib.singleton (
+    hm:
+    let
+      hm-config = hm.config;
+    in
+    {
+      programs.floorp.profiles."${hm-config.home.username}".extensions.packages = extensions;
+      programs.firefox.profiles."${hm-config.home.username}".extensions.packages = extensions;
+    }
+  );
 }

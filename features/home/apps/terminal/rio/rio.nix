@@ -3,14 +3,16 @@
   lib,
   myLib,
   ...
-}: {
-  xdg.mimeApps = let
-    defaultApplications = {
-      "mimetype" = "rio.desktop";
-      "application/x-terminal-emulator" = "rio.desktop";
-      "x-terminal-emulator" = "rio.desktop";
-    };
-  in
+}:
+{
+  xdg.mimeApps =
+    let
+      defaultApplications = {
+        "mimetype" = "rio.desktop";
+        "application/x-terminal-emulator" = "rio.desktop";
+        "x-terminal-emulator" = "rio.desktop";
+      };
+    in
     lib.mkIf (myLib.utils.getUserVars "defaultTerminal" config == "rio") {
       enable = true;
       inherit defaultApplications;
@@ -21,7 +23,7 @@
 
   programs.rio.settings = {
     editor.program = config.home.sessionVariables.EDITOR;
-    editor.args = [];
+    editor.args = [ ];
 
     cursor.shape = "block";
     cursor.blinking = true;
@@ -37,14 +39,14 @@
     window = {
       # FIXME: Add fonts for machine types
       /*
-        width =
-        if (config.variables.machine.buildType == "laptop")
-        then 1000
-        else 1200;
-      height =
-        if (config.variables.machine.buildType == "laptop")
-        then 600
-        else 800;
+          width =
+          if (config.variables.machine.buildType == "laptop")
+          then 1000
+          else 1200;
+        height =
+          if (config.variables.machine.buildType == "laptop")
+          then 600
+          else 800;
       */
       mode = "Windowed";
       blur = true;

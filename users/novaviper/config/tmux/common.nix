@@ -3,9 +3,11 @@
   lib,
   myLib,
   ...
-}: let
+}:
+let
   myself = "novaviper";
-in {
+in
+{
   xdg.configFile = lib.mkMerge [
     (lib.mkIf config.programs.tmux.enable {
       "tmuxp/session.yaml" = myLib.dots.mkDotsSymlink {

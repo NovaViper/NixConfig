@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   hm-config = config.hm;
-in {
+in
+{
   environment.systemPackages = with pkgs; [
     heroic
     protonup-qt
@@ -31,7 +33,7 @@ in {
     enable = true;
     # Make Steam folder spawn in ~/.config instead of /home/USER
     package = pkgs.steam.override {
-      extraLibraries = pkgs: [pkgs.xorg.libxcb];
+      extraLibraries = pkgs: [ pkgs.xorg.libxcb ];
       extraBwrapArgs = [
         "--bind $HOME/.config/.steam $HOME"
         "--unsetenv XDG_CACHE_HOME"
@@ -48,14 +50,18 @@ in {
     addedAssociations."x-scheme-handler/steam" = "steam.desktop";
   };
 
-  home-manager.sharedModules = lib.singleton (hm: let
-    hm-config = hm.config;
-  in {
-    xdg.userDirs.extraConfig.XDG_GAME_DIR = "${hm-config.home.homeDirectory}/Games";
+  home-manager.sharedModules = lib.singleton (
+    hm:
+    let
+      hm-config = hm.config;
+    in
+    {
+      xdg.userDirs.extraConfig.XDG_GAME_DIR = "${hm-config.home.homeDirectory}/Games";
 
-    xdg.mimeApps = {
-      defaultApplications."x-scheme-handler/steam" = "steam.desktop";
-      associations.added."x-scheme-handler/steam" = "steam.desktop";
-    };
-  });
+      xdg.mimeApps = {
+        defaultApplications."x-scheme-handler/steam" = "steam.desktop";
+        associations.added."x-scheme-handler/steam" = "steam.desktop";
+      };
+    }
+  );
 }

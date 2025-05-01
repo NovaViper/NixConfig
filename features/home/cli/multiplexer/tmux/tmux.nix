@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.programs.tmux;
-in {
+in
+{
   programs.fzf.tmux.enableShellIntegration = true;
 
   programs.tmux = {
@@ -107,16 +109,17 @@ in {
     bind -N "Jump to marked session" \` switch-client -t'{marked}'
     unbind &
     ${
-      if cfg.disableConfirmationPrompt
-      then ''
-        bind -N "Kill the active pane" x kill-pane
-        bind -N "Kill the current window" X kill-window
-        bind -N "Kill the current session" C-x kill-session
-      ''
-      else ''
-        bind -N "Kill the current window" X confirm-before -p "kill-window #W? (y/n)" kill-window
-        bind -N "Kill the current session" C-x confirm-before -p "kill-session #W? (y/n)" kill-session
-      ''
+      if cfg.disableConfirmationPrompt then
+        ''
+          bind -N "Kill the active pane" x kill-pane
+          bind -N "Kill the current window" X kill-window
+          bind -N "Kill the current session" C-x kill-session
+        ''
+      else
+        ''
+          bind -N "Kill the current window" X confirm-before -p "kill-window #W? (y/n)" kill-window
+          bind -N "Kill the current session" C-x confirm-before -p "kill-session #W? (y/n)" kill-session
+        ''
     }
 
     #Example

@@ -3,11 +3,13 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # TODO https://codeberg.org/adamcstephens/apple-fonts.nix/src/branch/main
   fonts.enableDefaultPackages = true;
 
-  fonts.packages = with pkgs;
+  fonts.packages =
+    with pkgs;
     [
       # Icon fonts
       material-symbols

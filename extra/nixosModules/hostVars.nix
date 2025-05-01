@@ -4,10 +4,17 @@
   options,
   primaryUser,
   ...
-}: let
+}:
+let
   cfg = config.hostVars;
-  inherit (lib) mkEnableOption mkIf mkOption types;
-in {
+  inherit (lib)
+    mkEnableOption
+    mkIf
+    mkOption
+    types
+    ;
+in
+{
   options.hostVars = {
     configDirectory = lib.mkOption {
       type = lib.types.str;
@@ -31,8 +38,8 @@ in {
   };
 
   config.assertions = [
-    {assertion = options.hostVars.configDirectory.isDefined;}
-    {assertion = options.hostVars.scalingFactor.isDefined;}
-    {assertion = options.hostVars.primaryUser.isDefined;}
+    { assertion = options.hostVars.configDirectory.isDefined; }
+    { assertion = options.hostVars.scalingFactor.isDefined; }
+    { assertion = options.hostVars.primaryUser.isDefined; }
   ];
 }

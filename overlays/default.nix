@@ -1,9 +1,13 @@
 # This file defines overlays
-{self, ...}: let
-  addPatches = pkg: patches:
-    pkg.overrideAttrs
-    (oldAttrs: {patches = (oldAttrs.patches or []) ++ patches;});
-in {
+{ self, ... }:
+let
+  addPatches =
+    pkg: patches:
+    pkg.overrideAttrs (oldAttrs: {
+      patches = (oldAttrs.patches or [ ]) ++ patches;
+    });
+in
+{
   # Third party overlays
   nur = self.inputs.nur.overlays.default;
   sops-overlay = self.inputs.sops-nix.overlays.default;
@@ -12,14 +16,14 @@ in {
   # 'inputs.${flake}.packages.${pkgs.system}' or
   # 'inputs.${flake}.legacyPackages.${pkgs.system}'
   flake-inputs = final: _: {
-    inputs = builtins.mapAttrs (_: flake: let
-      legacyPackages = (flake.legacyPackages or {}).${final.system} or {};
-      packages = (flake.packages or {}).${final.system} or {};
-    in
-      if legacyPackages != {}
-      then legacyPackages
-      else packages)
-    self.inputs;
+    inputs = builtins.mapAttrs (
+      _: flake:
+      let
+        legacyPackages = (flake.legacyPackages or { }).${final.system} or { };
+        packages = (flake.packages or { }).${final.system} or { };
+      in
+      if legacyPackages != { } then legacyPackages else packages
+    ) self.inputs;
   };
 
   # Adds pkgs.stable == inputs.nixpkgs-stable.legacyPackages.${pkgs.system}
@@ -33,27 +37,28 @@ in {
 
   # This one brings our custom packages from the 'pkgs' directory, use the new fancy lib.packagesFromDirectoryRecursive to import out packages!
   # See: https://noogle.dev/f/lib/packagesFromDirectoryRecursive
-  additions = final: prev:
+  additions =
+    final: prev:
     (prev.lib.packagesFromDirectoryRecursive {
       inherit (final) callPackage;
       directory = ../pkgs/common;
     })
     // {
       /*
-      formats =
-      (prev.formats or {})
-      // (prev.lib.packagesFromDirectoryRecursive {
-        callPackage = prev.lib.callPackageWith final;
-        directory = ../pkgs/formats;
-      });
+        formats =
+        (prev.formats or {})
+        // (prev.lib.packagesFromDirectoryRecursive {
+          callPackage = prev.lib.callPackageWith final;
+          directory = ../pkgs/formats;
+        });
       */
       /*
-      tmuxPlugins =
-      (prev.tmuxPlugins or {})
-      // (prev.lib.packagesFromDirectoryRecursive {
-        inherit (final) callPackage;
-        directory = ../pkgs/tmux-plugins;
-      });
+        tmuxPlugins =
+        (prev.tmuxPlugins or {})
+        // (prev.lib.packagesFromDirectoryRecursive {
+          inherit (final) callPackage;
+          directory = ../pkgs/tmux-plugins;
+        });
       */
     };
 
@@ -70,50 +75,53 @@ in {
       (prev.vivaldi.overrideAttrs (oldAttrs: {
         buildPhase =
           builtins.replaceStrings
-          ["for f in libGLESv2.so libqt5_shim.so ; do"]
-          ["for f in libGLESv2.so libqt5_shim.so libqt6_shim.so ; do"]
-          oldAttrs.buildPhase;
-      }))
-      .override {
-        qt5 = prev.qt6;
-        commandLineArgs = [
-          "--ozone-platform=wayland"
-          "--force-dark-mode"
-          "--enable-force-dark"
-        ];
-        # The following two are just my preference, feel free to leave them out
-        proprietaryCodecs = true;
-        enableWidevine = true;
-      };
+            [ "for f in libGLESv2.so libqt5_shim.so ; do" ]
+            [ "for f in libGLESv2.so libqt5_shim.so libqt6_shim.so ; do" ]
+            oldAttrs.buildPhase;
+      })).override
+        {
+          qt5 = prev.qt6;
+          commandLineArgs = [
+            "--ozone-platform=wayland"
+            "--force-dark-mode"
+            "--enable-force-dark"
+          ];
+          # The following two are just my preference, feel free to leave them out
+          proprietaryCodecs = true;
+          enableWidevine = true;
+        };
 
     vesktop = prev.vesktop.overrideAttrs {
-      desktopItems = prev.lib.optionals final.stdenv.isLinux (prev.makeDesktopItem {
-        name = "vesktop";
-        desktopName = "Vesktop";
-        exec = "vesktop --disable-features=UseMultiPlaneFormatForSoftwareVideo %U";
-        icon = "vesktop";
-        startupWMClass = "Vesktop";
-        genericName = "Internet Messenger";
-        keywords = [
-          "discord"
-          "vencord"
-          "electron"
-          "chat"
-        ];
-        categories = [
-          "Network"
-          "InstantMessaging"
-          "Chat"
-        ];
-      });
+      desktopItems = prev.lib.optionals final.stdenv.isLinux (
+        prev.makeDesktopItem {
+          name = "vesktop";
+          desktopName = "Vesktop";
+          exec = "vesktop --disable-features=UseMultiPlaneFormatForSoftwareVideo %U";
+          icon = "vesktop";
+          startupWMClass = "Vesktop";
+          genericName = "Internet Messenger";
+          keywords = [
+            "discord"
+            "vencord"
+            "electron"
+            "chat"
+          ];
+          categories = [
+            "Network"
+            "InstantMessaging"
+            "Chat"
+          ];
+        }
+      );
     };
 
-    discord-wayland = let
-      discord = prev.discord.override {
-        withOpenASAR = true;
-        withVencord = true;
-      };
-    in
+    discord-wayland =
+      let
+        discord = prev.discord.override {
+          withOpenASAR = true;
+          withVencord = true;
+        };
+      in
       prev.symlinkJoin {
         name = "Discord";
         paths = [

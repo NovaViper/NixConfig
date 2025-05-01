@@ -2,48 +2,59 @@
   lib,
   config,
   ...
-}: let
+}:
+let
   internals = {
     # Pass unicode symbols correctly
     ucode = code: builtins.fromJSON "\"\\u${code}\"";
 
-    mkSeg' = {
-      type,
-      style,
-      opts,
-    }:
-      {inherit type style;} // opts;
+    mkSeg' =
+      {
+        type,
+        style,
+        opts,
+      }:
+      { inherit type style; } // opts;
 
     # Make a plain segment
-    mkSeg = type: opts:
+    mkSeg =
+      type: opts:
       internals.mkSeg' {
         inherit type opts;
         style = "plain";
       };
 
     # Make a Powerline segment that's on the corner of the screen
-    mkPowerlineSegCorner = type: opts:
+    mkPowerlineSegCorner =
+      type: opts:
       internals.mkSeg' {
         inherit type opts;
         style = "powerline";
       };
 
     # Make a powerline segment that has the arrows (for left side)
-    mkPowerlineSeg = type: opts:
+    mkPowerlineSeg =
+      type: opts:
       internals.mkSeg' {
         inherit type;
         style = "powerline";
-        opts = opts // {powerline_symbol = "${internals.ucode "E0B0"}";};
+        opts = opts // {
+          powerline_symbol = "${internals.ucode "E0B0"}";
+        };
       };
     # Make a diamond segment that has the arrow (for right side)
-    mkDiamondSeg = type: opts:
+    mkDiamondSeg =
+      type: opts:
       internals.mkSeg' {
         inherit type;
         style = "diamond";
-        opts = opts // {leading_diamond = "${internals.ucode "E0B2"}";};
+        opts = opts // {
+          leading_diamond = "${internals.ucode "E0B2"}";
+        };
       };
   };
-in {
+in
+{
   programs.oh-my-posh.settings.var.PromptChar = "${internals.ucode "276F"}";
 
   programs.oh-my-posh.settings.blocks = [
@@ -127,9 +138,10 @@ in {
             "{{if eq .Code 0}}10{{end}}"
           ];
           template =
-            if (config.features.shell == "fish")
-            then "{{ if eq .Env.FISH__BIND_MODE \"default\" }}<1>[N]</>{{ else if eq .Env.FISH__BIND_MODE \"insert\" }}<10>[I]</>{{ else if eq .Env.FISH__BIND_MODE \"replace_one\" }}<1>[R]</>{{ else if eq .Env.FISH__BIND_MODE \"visual\"}}<13>[V]</>{{ else }}<10>[?]</>{{ end }} {{.Var.PromptChar}}"
-            else "{{ if .Env.POSH_VI_MODE }}{{ .Env.POSH_VI_MODE }}{{ else }}{{.Var.PromptChar}}{{ end }}";
+            if (config.features.shell == "fish") then
+              "{{ if eq .Env.FISH__BIND_MODE \"default\" }}<1>[N]</>{{ else if eq .Env.FISH__BIND_MODE \"insert\" }}<10>[I]</>{{ else if eq .Env.FISH__BIND_MODE \"replace_one\" }}<1>[R]</>{{ else if eq .Env.FISH__BIND_MODE \"visual\"}}<13>[V]</>{{ else }}<10>[?]</>{{ end }} {{.Var.PromptChar}}"
+            else
+              "{{ if .Env.POSH_VI_MODE }}{{ .Env.POSH_VI_MODE }}{{ else }}{{.Var.PromptChar}}{{ end }}";
         })
       ];
     }

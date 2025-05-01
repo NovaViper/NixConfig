@@ -1,4 +1,5 @@
-_: let
+_:
+let
   default = [
     "vim"
     "nvim"
@@ -13,6 +14,14 @@ _: let
     "ssh"
     "nano"
   ];
-in {
-  programs.zsh.localVariables.AUTO_NOTIFY_IGNORE = default ++ ["atuin" "yadm" "emacs" "nix-shell" "nix" "nix develop"];
+in
+{
+  programs.zsh.localVariables.AUTO_NOTIFY_IGNORE = default ++ [
+    "atuin"
+    "yadm"
+    "emacs"
+    "nix-shell"
+    "nix"
+    "nix develop"
+  ];
 }
