@@ -17,6 +17,7 @@
       ''
         setopt BEEP # Enable terminal bell
         setopt CORRECT # Enable autocorrect
+        setopt completealiases # Autcomplete aliases
         autoload -U colors && colors # Enable colors
 
         # Check if sudo-command-line function is available
