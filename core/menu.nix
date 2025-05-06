@@ -10,7 +10,7 @@
     RBLD_DIRECTORY = config.hostVars.configDirectory;
     UNIFY_DIRECTORY = config.hostVars.configDirectory;
 
-    UNIFY_TRACKED_INPUTS = "nixpkgs nixpkgs-stable home-manager menu nix-secrets";
+    UNIFY_TRACKED_INPUTS = "nixpkgs nixpkgs-stable home-manager menu nix-secrets novavim";
     UNIFY_COMMIT_MESSAGE = "chore: update flake.lock";
     UNIFY_PRIMARY_BRANCHES = "main master";
   };

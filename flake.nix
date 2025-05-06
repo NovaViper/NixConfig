@@ -97,6 +97,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
     };
+    novavim = {
+      url = "github:NovaViper/novavim";
+      #url = "git+file:///home/novaviper/Documents/novavim";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.systems.follows = "systems";
+    };
     #######
 
     # Nixpkgs PRs

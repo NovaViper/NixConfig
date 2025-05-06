@@ -15,7 +15,6 @@
       py = "python";
       ja = "java";
 
-      n = "nix";
       nd = "nix develop";
       nr = "nix run";
       ni = "nix-inspect";
