@@ -93,13 +93,13 @@
     };
     nix-secrets = {
       url = "git+ssh://git@github.com/NovaViper/nix-secrets.git?ref=main&shallow=1";
-      #url = "git+file:///home/novaviper/Documents/nix-secrets?ref=main&shallow=1";
+      #url = "git+file:///home/novaviper/Documents/Projects/nix-secrets?ref=main&shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
     };
     novavim = {
       url = "github:NovaViper/novavim";
-      #url = "git+file:///home/novaviper/Documents/novavim";
+      #url = "git+file:///home/novaviper/Documents/Projects/novavim";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.systems.follows = "systems";
     };
