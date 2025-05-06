@@ -1,7 +1,7 @@
 default:
     @just --list
 
-########## Flake/Nix Managemnt tools ##########
+########## Flake/Nix Management tools ##########
 [doc('Update and refresh all flake.lock file')]
 update:
     nix flake update --refresh |& nom
