@@ -2,6 +2,7 @@ default:
     @just --list
 
 ########## Flake/Nix Management tools ##########
+
 [doc('Update and refresh all flake.lock file')]
 update:
     nix flake update --refresh |& nom
@@ -27,8 +28,8 @@ eval-package HOST PACKAGE:
 check-secrets:
     extra/scripts/check-secrets.sh
 
-
 ########## NixOS Installation tools ##########
+
 [doc('Run NixOS installer for HOST, monitored with nom and forcibly accept flake configs. Runs with sudo')]
 nixos-install HOST:
     sudo nixos-install --flake '.#{{ HOST }}' --root /mnt --option accept-flake-config true |& nom
@@ -43,8 +44,6 @@ disko HOST:
 show-hardware-config:
     nixos-generate-config --show-hardware-config --root /mnt
 
-
-########## sops-nix tools ##########
 [doc('Update the nix-secrets flake input')]
 update-secret-flake:
     nix flake update nix-secrets
