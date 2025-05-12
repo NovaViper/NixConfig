@@ -14,7 +14,6 @@
       tldr # better man pages
       entr # run commands when files change!
       procs # Better ps
-      ventoy-full # bootable USB solution
       dust # Better du and df
       libnotify
     ]
