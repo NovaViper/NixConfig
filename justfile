@@ -32,7 +32,7 @@ check-secrets:
 
 [doc('Run NixOS installer for HOST, monitored with nom and forcibly accept flake configs. Runs with sudo')]
 nixos-install HOST:
-    sudo nixos-install --flake '.#{{ HOST }}' --root /mnt --option accept-flake-config true |& nom
+    sudo nixos-install --flake '.#{{ HOST }}' --root /mnt --option accept-flake-config true --no-root-passwd |& nom
 
 [doc('Create disko file for HOST')]
 disko HOST:

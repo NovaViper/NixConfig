@@ -1,8 +1,8 @@
-{
-  disk ? "/dev/disk/by-id/nvme-Sabrent_Rocket_Q_BE72071303B600060935",
-  swapSize ? "32",
-  ...
-}:
+_:
+let
+  disk = "/dev/disk/by-id/nvme-Sabrent_Rocket_Q_BE72071303B600060935";
+  swapSize = "32";
+in
 {
   disko.devices.disk = {
     nvme0n1 = {
