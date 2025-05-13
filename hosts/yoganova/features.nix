@@ -28,6 +28,7 @@
     "theme/dracula"
 
     ### Boot
-    "services/pretty-boot"
+    "boot/pretty-boot"
+    "boot/disko"
   ];
 }

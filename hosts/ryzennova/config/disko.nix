@@ -1,12 +1,9 @@
 {
   disk ? "/dev/disk/by-id/nvme-Sabrent_Rocket_Q_BE72071303B600060935",
   swapSize ? "32",
-  inputs,
   ...
 }:
 {
-  imports = with inputs; [ disko.nixosModules.disko ];
-
   disko.devices.disk = {
     nvme0n1 = {
       device = disk;
