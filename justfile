@@ -47,3 +47,22 @@ show-hardware-config:
 [doc('Update the nix-secrets flake input')]
 update-secret-flake:
     nix flake update nix-secrets
+
+[doc('Generate the age keys.txt file needed for looking up Yubikey master identities with sops-nix CONTEXT determines if the keys.txt should be generated for nixos-install or just put in the current folder. SERIALNO is a string list of Yubikey serial numbers')]
+generate-age-keys-list CONTEXT *SERIALNO:
+    #!/usr/bin/env sh
+    # Validate CONTEXT is either "host" or "installer"
+    if [ "{{ CONTEXT }}" != "host" ] && [ "{{ CONTEXT }}" != "installer" ]; then \
+        echo "Error: CONTEXT must be 'host' or 'installer' (got '{{ CONTEXT }}')"; \
+        echo "Usage: just generate-age-keys-list CONTEXT \"12345678 87654321\"" >&2
+        exit 1; \
+    fi
+
+    # Ensure SERIALNO is not empty (we will do more validation inside the script)
+    trun=$(echo '{{ SERIALNO }}' | tr -d '[:space:]')
+    if [ -z "{{ SERIALNO }}" ] || [ $trun = "" ]; then \
+      echo "Error: -s option is required and cannot be empty." >&2; \
+      echo "Usage: just generate-age-keys-list CONTEXT \"12345678 87654321\"" >&2
+      exit 1; \
+    fi
+    extra/scripts/get-yubikey-age.sh {{ CONTEXT }} -s "{{ SERIALNO }}"
