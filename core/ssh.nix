@@ -71,7 +71,15 @@ in
             }
           ];
         in
-        builtins.listToAttrs (lib.flatten (map matchBlocksForHosts hostNames));
+        builtins.listToAttrs (lib.flatten (map matchBlocksForHosts hostNames))
+        // {
+          "yubikey-hosts" = {
+            host = "github.com gitlab.com codeberg.org";
+            user = "git";
+            identitiesOnly = true;
+            extraOptions.PKCS11Provider = "${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
+          };
+        };
 
       # NOTE https://github.com/nix-community/home-manager/issues/322#issuecomment-1856128020
       home.file.".ssh/config" = {
