@@ -23,5 +23,8 @@ in
     "nix-shell"
     "nix"
     "nix develop"
+    "fg"
+    "yazi"
+    "tmux"
   ];
 }
