@@ -15,16 +15,19 @@ let
 in
 {
   # NixOS user setup
-  users.users =
-    let
-      userOpts = user: {
-        isNormalUser = lib.mkDefault true;
-        useDefaultShell = true; # Use the shell environment module declaration
-        description = myLib.utils.getUserHMVar' "userVars.fullName" user config;
-      };
-      userConfigs = builtins.listToAttrs (map (user: lib.nameValuePair user (userOpts user)) allUsers);
-    in
-    userConfigs;
+  users = {
+    mutableUsers = false; # Only allow declarative credentials; Required for password to be set via sops during system activation!
+    users =
+      let
+        userOpts = user: {
+          isNormalUser = lib.mkDefault true;
+          useDefaultShell = true; # Use the shell environment module declaration
+          description = myLib.utils.getUserHMVar' "userVars.fullName" user config;
+        };
+        userConfigs = builtins.listToAttrs (map (user: lib.nameValuePair user (userOpts user)) allUsers);
+      in
+      userConfigs;
+  };
 
   # Home-manager user setup
   home-manager.users =

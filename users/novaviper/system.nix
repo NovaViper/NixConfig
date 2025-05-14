@@ -8,9 +8,9 @@
 }:
 let
   myself = "novaviper";
-  sopsHashedPasswordFile =
-    lib.optionalString (lib.hasAttr "sops-nix" inputs)
-      config.sops.secrets."passwords/novaviper".path;
+  sopsHashedPasswordFile = lib.mkIf (
+    config.sops.secrets ? "passwords/novaviper"
+  ) config.sops.secrets."passwords/novaviper".path;
 in
 {
   users.users.${myself} = {
