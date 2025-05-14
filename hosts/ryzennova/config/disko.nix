@@ -1,12 +1,12 @@
 _:
 let
-  disk = "/dev/disk/by-id/nvme-Sabrent_Rocket_Q_BE72071303B600060935";
+  device = "/dev/disk/by-id/nvme-Sabrent_Rocket_Q_BE72071303B600060935";
   swapSize = "32";
 in
 {
   disko.devices.disk = {
     nvme0n1 = {
-      device = disk;
+      inherit device;
       type = "disk";
       name = "nvme0n1";
       content = {

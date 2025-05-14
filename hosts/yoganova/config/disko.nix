@@ -1,12 +1,12 @@
 _:
 let
-  disk = "/dev/disk/by-id/nvme-WD_PC_SN740_SDDPMQD-512G-1101_22452M447518";
+  device = "/dev/disk/by-id/nvme-WD_PC_SN740_SDDPMQD-512G-1101_22452M447518";
   swapSize = "16";
 in
 {
   disko.devices.disk = {
     nvme0n1 = {
-      device = disk;
+      inherit device;
       type = "disk";
       name = "nvme0n1";
       content = {
