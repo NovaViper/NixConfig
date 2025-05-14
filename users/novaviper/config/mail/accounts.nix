@@ -87,10 +87,10 @@ in
           create = "both";
           expunge = "both";
           patterns = [
-            "Inbox"
+            "INBOX"
             "Sent"
             "Drafts"
-            "Spam"
+            "Junk"
             "Trash"
           ];
           extraConfig.account.TLSVersions = [ "+1.3" ];
