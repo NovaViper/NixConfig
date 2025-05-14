@@ -12,7 +12,7 @@
 
     ### Applications
     "apps/browser/floorp"
-    "apps/editor/doom-emacs"
+    "apps/editor/neovim"
     "apps/terminal/ghostty"
     "apps/backup"
     "apps/discord"
@@ -26,7 +26,7 @@
   userVars = {
     defaultTerminal = "ghostty";
     defaultBrowser = "floorp";
-    defaultEditor = "doom-emacs";
+    defaultEditor = "neovim";
   };
 
   sops.secrets."borg_token" = myLib.secrets.mkSecretFile {

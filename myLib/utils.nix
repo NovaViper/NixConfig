@@ -59,6 +59,19 @@ let
       else
         terminal;
 
+    # Pick the name of the .desktop file for the default editor
+    getEditorDesktopFile =
+      config:
+      let
+        editor = exports.getUserVars "defaultEditor" config;
+      in
+      if editor == "doom-emacs" then
+        "emacsclient"
+      else if editor == "neovim" then
+        "neovide"
+      else
+        editor;
+
     # Most of these are left null since I'm piggybacking off of the custom context function I've made
     mkMu4eContext =
       {

@@ -38,13 +38,15 @@
               let
                 # Auto switch terminal application desktop file
                 terminal = myLib.utils.getTerminalDesktopFile config;
+                # Auto switch editor application desktop file
+                editor = myLib.utils.getEditorDesktopFile config;
               in
               [
                 "preferred://browser"
                 "applications:systemsettings.desktop"
                 "preferred://filemanager"
                 "applications:${terminal}.desktop"
-                "applications:emacsclient.desktop"
+                "applications:${editor}.desktop"
                 "applications:org.kde.krita.desktop"
                 "applications:writer.desktop"
               ];
