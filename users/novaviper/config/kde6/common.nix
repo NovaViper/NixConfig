@@ -37,9 +37,10 @@
         let
           # Auto switch terminal application desktop file
           terminal = myLib.utils.getTerminalDesktopFile config;
+          termApp = myLib.utils.getTerminalApp config;
         in
         {
-          General.TerminalApplication = "${terminal}.destop";
+          General.TerminalApplication = "${termApp}";
           General.TerminalService = "${terminal}.desktop";
         };
       kservicemenurc.Show = {

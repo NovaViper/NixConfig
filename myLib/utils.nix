@@ -59,6 +59,14 @@ let
       else
         terminal;
 
+    # Pick the name for the executable binary of the default terminal (for the exe)
+    getTerminalApp =
+      config:
+      let
+        terminal = exports.getUserVars "defaultTerminal" config;
+      in
+      terminal;
+
     # Pick the name of the .desktop file for the default editor
     getEditorDesktopFile =
       config:
