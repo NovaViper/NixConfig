@@ -31,9 +31,9 @@ in
     };
 
     scalingFactor = mkOption {
-      type = types.int;
+      type = types.number;
       description = "The scaling factor for the desktop. A scalingFactor of 1 --> 100% scaling.";
-      default = null;
+      default = 1;
     };
   };
 

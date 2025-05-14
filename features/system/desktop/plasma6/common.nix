@@ -27,6 +27,8 @@
   programs.kdeconnect.enable = true;
 
   home-manager.sharedModules = lib.singleton {
+    programs.plasma.configFile."kwinrc"."Xwayland"."Scale" = config.hostVars.scalingFactor;
+
     services.kdeconnect = {
       enable = true;
       package = pkgs.kdePackages.kdeconnect-kde;
