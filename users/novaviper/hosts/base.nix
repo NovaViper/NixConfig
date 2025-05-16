@@ -50,5 +50,6 @@
     kdePackages.tokodon
     smassh
     pineflash
+    kdePackages.isoimagewriter
   ];
 }
