@@ -677,10 +677,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1747364138,
-        "narHash": "sha256-JIITpd6EuW5DjKdovoTeiibGdE1RGkm/FTNWjcuWY20=",
+        "lastModified": 1747459733,
+        "narHash": "sha256-BiHKq+tDYoV17++/+LSEBIhScNsSqU2egrksOTpiI50=",
         "ref": "main",
-        "rev": "1c8091ee4839b55276461557c5621345ce6d658a",
+        "rev": "d43ffb1c34a90e2bee7342f5633ff3767c825734",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/NovaViper/nix-secrets.git"
