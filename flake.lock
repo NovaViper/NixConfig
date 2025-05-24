@@ -545,11 +545,11 @@
     },
     "mnw": {
       "locked": {
-        "lastModified": 1746926137,
-        "narHash": "sha256-I3FQYMN/k4dUZJNULHS6ba1A3OClEkJbZYr1+7q6mpo=",
+        "lastModified": 1747615842,
+        "narHash": "sha256-pAh9ndf+GdoCfsWaNATFDjgiax9fOYdWzguYV1H/W0E=",
         "owner": "Gerg-L",
         "repo": "mnw",
-        "rev": "cd1904d9ea0132c06dee86b8759ba8e5bd2e9d9d",
+        "rev": "b62120999410eb4a4e27359a3e1c0a22fcc0baff",
         "type": "github"
       },
       "original": {
@@ -568,11 +568,11 @@
         "poetry2nix": "poetry2nix"
       },
       "locked": {
-        "lastModified": 1746714522,
-        "narHash": "sha256-mHUa+c/7uCslyvZNwwI/4V34MTAQUlW0lOr65pPZ2XA=",
+        "lastModified": 1747924174,
+        "narHash": "sha256-Ng5G+QJ6DBTkvVMjML71HSkDW694jQ6o3s/JRQjPFv4=",
         "owner": "NixNeovim",
         "repo": "NixNeovimPlugins",
-        "rev": "592fe8c21570ab4fc66c0f8744c67debeb7f48c4",
+        "rev": "3d39323ea3bd9b9a8074eb7f4761f467ef0ff900",
         "type": "github"
       },
       "original": {
@@ -655,10 +655,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1747459733,
-        "narHash": "sha256-BiHKq+tDYoV17++/+LSEBIhScNsSqU2egrksOTpiI50=",
+        "lastModified": 1748032315,
+        "narHash": "sha256-fUOYAe+QJZFGx/WE5wbQy6NwkQ/GgoSeTYTqnG2ZCoM=",
         "ref": "main",
-        "rev": "d43ffb1c34a90e2bee7342f5633ff3767c825734",
+        "rev": "48ad73eb336c88abe84c34b3e099707e9641c1f7",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/NovaViper/nix-secrets.git"
@@ -745,11 +745,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747376227,
-        "narHash": "sha256-T8gNP2XHxhs0idLLhluI0Ji9WHa0EhVUuXUtMBtNONI=",
+        "lastModified": 1748032249,
+        "narHash": "sha256-CNpn3CndPvHdWj4W8Kr/N0BN4llA33PFnOy0A5wUKfg=",
         "owner": "NovaViper",
         "repo": "novavim",
-        "rev": "3856b513fd0716ee9db049a30321179018cf1f9a",
+        "rev": "507cb01f1880a620d5bb7783a4c5f6c7c63d8309",
         "type": "github"
       },
       "original": {
@@ -910,18 +910,18 @@
         ]
       },
       "locked": {
-        "lastModified": 1747682077,
-        "narHash": "sha256-jVoUgFvz1l1a+HXwiWF6T8v0G02lDEJtT0wW4q1raPs=",
-        "ref": "age-plugin",
-        "rev": "7b57ebd35f5a8528c6802345286d200fe9988d63",
-        "revCount": 998,
-        "type": "git",
-        "url": "file:///home/novaviper/Documents/Repos/sops-nix"
+        "lastModified": 1747425030,
+        "narHash": "sha256-keC9E+AFe5vLhur8rz1NRLZJiWHR44l0JLhxNvgkSJI=",
+        "owner": "NovaViper",
+        "repo": "sops-nix",
+        "rev": "0e66d0cc0719b177b71ef554f61e76757d4a71d0",
+        "type": "github"
       },
       "original": {
+        "owner": "NovaViper",
         "ref": "age-plugin",
-        "type": "git",
-        "url": "file:///home/novaviper/Documents/Repos/sops-nix"
+        "repo": "sops-nix",
+        "type": "github"
       }
     },
     "stylix": {
