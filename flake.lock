@@ -910,11 +910,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1747425030,
-        "narHash": "sha256-keC9E+AFe5vLhur8rz1NRLZJiWHR44l0JLhxNvgkSJI=",
+        "lastModified": 1748279271,
+        "narHash": "sha256-jVoUgFvz1l1a+HXwiWF6T8v0G02lDEJtT0wW4q1raPs=",
         "owner": "NovaViper",
         "repo": "sops-nix",
-        "rev": "0e66d0cc0719b177b71ef554f61e76757d4a71d0",
+        "rev": "162aec01440132b0963f78e8344808577239fac3",
         "type": "github"
       },
       "original": {
