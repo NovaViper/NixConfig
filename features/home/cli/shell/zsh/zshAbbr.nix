@@ -45,44 +45,6 @@
 
       sc = "systemctl";
       scu = "systemctl --user";
-
-      g = "git";
-      gst = "git status";
-      glg = "git log";
-      gan = "git add -AN"; # Add all untracked files
-      gcl = "git clone";
-      gin = "git init";
-
-      gc = "git commit";
-      gcm = "git commit -m \"%\"";
-
-      gbr = "git branch";
-      gbrd = "git branch -d";
-
-      gps = "git push";
-      gpl = "git pull";
-      gpa = "git push origin && git push --mirror mirror1 && git push --mirror mirror2";
-      gpm = "git push --mirror mirror1 && git push --mirror mirror2";
-
-      gsw = "git switch";
-      gswm = "git switch main";
-      gswma = "git switch master";
-      gswc = "git switch -c";
-
-      grb = "git rebase";
-      grbi = "git rebase -i HEAD~%"; # `grbi 2` will rebase from last 2 commits
-      grbc = "git rebase --continue";
-      grba = "git rebase --abort";
-
-      gfs = "git force";
-
-      grw = "git reword";
-      grwm = "git reword --message"; # Get ready with me :3
-
-      gam = "git amend";
-      gamp = "git amend --patch";
-
-      ghs = "git history";
     };
   };
 }
