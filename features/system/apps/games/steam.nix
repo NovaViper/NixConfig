@@ -34,13 +34,6 @@ in
     # Make Steam folder spawn in ~/.config instead of /home/USER
     package = pkgs.steam.override {
       extraLibraries = pkgs: [ pkgs.xorg.libxcb ];
-      extraBwrapArgs = [
-        "--bind $HOME/.config/Steam $HOME" # Make sure this folder exists, otherwise Steam won't start!
-        "--unsetenv XDG_CACHE_HOME"
-        "--unsetenv XDG_CONFIG_HOME"
-        "--unsetenv XDG_DATA_HOME"
-        "--unsetenv XDG_STATE_HOME"
-      ];
     };
     remotePlay.openFirewall = true;
   };
@@ -56,10 +49,6 @@ in
       hm-config = hm.config;
     in
     {
-      # Ensures the new Steam folder exist
-      home.activation.generateSteamFolder = ''
-        mkdir -p "''${XDG_CONFIG_HOME:-$HOME/.config}/Steam"
-      '';
       xdg.userDirs.extraConfig.XDG_GAME_DIR = "${hm-config.home.homeDirectory}/Games";
 
       xdg.mimeApps = {
