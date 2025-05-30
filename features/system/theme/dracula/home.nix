@@ -16,6 +16,8 @@
       kde.enable = false;
       # Using the doom-emacs theme
       emacs.enable = false;
+      # Enable rainbow mode for cava
+      cava.rainbow.enable = true;
     };
 
     home.packages = with pkgs; [
@@ -25,37 +27,74 @@
       })
     ];
 
-    programs = {
-      plasma =
-        let
-          workspace = {
-            lookAndFeel = "org.kde.breezedark.desktop";
-            iconTheme = "Papirus-Dark";
-            colorScheme = "DraculaPurple";
-            #splashScreen = "";
-            wallpaperSlideShow = {
-              path = [ "${inputs.wallpapers}/" ];
-              interval = 300;
-            };
+    programs.plasma =
+      let
+        workspace = {
+          lookAndFeel = "org.kde.breezedark.desktop";
+          iconTheme = "Papirus-Dark";
+          colorScheme = "DraculaPurple";
+          #splashScreen = "";
+          wallpaperSlideShow = {
+            path = [ "${inputs.wallpapers}/" ];
+            interval = 300;
           };
-        in
-        {
-          overrideConfig = true;
-          inherit workspace;
-          kscreenlocker.appearance.wallpaperSlideShow = workspace.wallpaperSlideShow;
         };
-      cava.settings.color = {
-        gradient = 1;
-        gradient_count = 8;
-        gradient_color_1 = "'#8BE9FD'";
-        gradient_color_2 = "'#9AEDFE'";
-        gradient_color_3 = "'#CAA9FA'";
-        gradient_color_4 = "'#BD93F9'";
-        gradient_color_5 = "'#FF92D0'";
-        gradient_color_6 = "'#FF79C6'";
-        gradient_color_7 = "'#FF6E67'";
-        gradient_color_8 = "'#FF5555'";
+      in
+      {
+        overrideConfig = true;
+        inherit workspace;
+        kscreenlocker.appearance.wallpaperSlideShow = workspace.wallpaperSlideShow;
       };
-    };
+    programs.tmux.plugins =
+      with pkgs.tmuxPlugins;
+      lib.mkBefore [
+        {
+          plugin = dracula;
+          extraConfig =
+            # tmux
+            ''
+              # Theme settings
+              ## Statusbar options
+              ### Enable window flags
+              set -g @dracula-show-flags true
+
+              ### Hide empty plugins
+              set -g @dracula-show-empty-plugins false
+
+              ## Powerline settings
+              ### Show powerline symbols
+              set -g @dracula-show-powerline true
+              set -g @dracula-left-icon-padding 0
+
+              ### Show edge icons
+              set -g @dracula-show-edge-icons false
+
+              # Left icon settings
+              set -g @dracula-show-left-icon "#h | #S"
+
+              # Theme Plugins
+              set -g @dracula-plugins "ssh-session battery cpu-usage ram-usage time"
+
+              ## SSH Session settings
+              set -g @dracula-show-ssh-only-when-connected true
+
+              ## Battery Settings
+              set -g @dracula-battery-label false
+              set -g @dracula-show-battery-status true
+
+              ## CPU Usage Settings
+              set -g @dracula-cpu-usage-label ""
+
+              ## RAM Usage Settings
+              set -g @dracula-ram-usage-label ""
+
+              ## GPU Info Settings
+              set -g @dracula-gpu-power-label "󰢮"
+              set -g @dracula-gpu-usage-label "󰢮"
+              set -g @dracula-gpu-vram-label "󰢮"
+              set -g @dracula-gpu-usage-colors "red white"
+            '';
+        }
+      ];
   };
 }

@@ -28,6 +28,25 @@ in
     #which-key.enable = true;
   };
 
+  programs.tmux.plugins = with pkgs.tmuxPlugins; [
+    sensible
+    weather
+    battery
+    cpu
+    online-status
+    {
+      plugin = yank;
+      extraConfig = ''
+        # Enable Mouse support for tmux-yank
+        set -g @yank_with_mouse on
+      '';
+    }
+    open
+    fuzzback
+    extrakto
+    (lib.mkIf config.programs.fzf.enable tmux-fzf)
+  ];
+
   programs.tmux.extraConfig = ''
     # -- more settings ---------------------------------------------------------------
     set -s set-clipboard on
@@ -126,64 +145,4 @@ in
     #bind -N "Example note" h split-window -h "vim ~/scratch/notes.md"
     # -------------------------------------------------------------------------------------
   '';
-
-  programs.tmux.plugins = with pkgs.tmuxPlugins; [
-    sensible
-    {
-      plugin = yank;
-      extraConfig = ''
-        # Enable Mouse support for tmux-yank
-        set -g @yank_with_mouse on
-      '';
-    }
-    open
-    fuzzback
-    extrakto
-    (lib.mkIf config.programs.fzf.enable tmux-fzf)
-    {
-      plugin = dracula;
-      extraConfig = ''
-        # Theme settings
-        ## Statusbar options
-        ### Enable window flags
-        set -g @dracula-show-flags true
-
-        ### Hide empty plugins
-        set -g @dracula-show-empty-plugins false
-
-        ## Powerline settings
-        ### Show powerline symbols
-        set -g @dracula-show-powerline true
-        set -g @dracula-left-icon-padding 0
-
-        ### Show edge icons
-        set -g @dracula-show-edge-icons false
-
-        # Left icon settings
-        set -g @dracula-show-left-icon "#h | #S"
-
-        # Theme Plugins
-        set -g @dracula-plugins "ssh-session battery cpu-usage ram-usage time"
-
-        ## SSH Session settings
-        set -g @dracula-show-ssh-only-when-connected true
-
-        ## Battery Settings
-        set -g @dracula-battery-label false
-        set -g @dracula-show-battery-status true
-
-        ## CPU Usage Settings
-        set -g @dracula-cpu-usage-label ""
-
-        ## RAM Usage Settings
-        set -g @dracula-ram-usage-label ""
-
-        ## GPU Info Settings
-        set -g @dracula-gpu-power-label "󰢮"
-        set -g @dracula-gpu-usage-label "󰢮"
-        set -g @dracula-gpu-vram-label "󰢮"
-        set -g @dracula-gpu-usage-colors "red white"
-      '';
-    }
-  ];
 }

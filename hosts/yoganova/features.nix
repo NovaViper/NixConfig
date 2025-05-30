@@ -25,7 +25,8 @@
     "lang/us-english"
 
     ### Theme
-    "theme/dracula"
+    #"theme/dracula"
+    "theme/catppuccin"
 
     ### Boot
     "boot/pretty-boot"
