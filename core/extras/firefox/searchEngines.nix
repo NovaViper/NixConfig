@@ -37,6 +37,15 @@ let
       };
     };
 
+    home-opts = {
+      icon = nix-icon;
+      name = "Home-Manager Options";
+      definedAliases = "@ho";
+      urls = lib.singleton {
+        template = "https://home-manager-options.extranix.com/?release=master&query={searchTerms}";
+      };
+    };
+
     nixos-wiki = {
       icon = nix-icon;
       name = "NixOS Wiki";
@@ -49,6 +58,13 @@ let
       name = "Nixpkgs PR Tracker";
       definedAliases = [ "@nprt" ];
       urls = lib.singleton { template = "https://nixpk.gs/pr-tracker.html?pr={searchTerms}"; };
+    };
+
+    nix-hydra = {
+      icon = nix-icon;
+      name = "Nix Hydra Builds";
+      definedAliases = "@nh";
+      url = lib.singleton { template = "https://hydra.nixos.org/search?query={searchTerms}"; };
     };
 
     # All these after all from llakala
@@ -85,6 +101,25 @@ let
           "q" = "lang:nix NOT is:fork {searchTerms}";
         };
       };
+    };
+    # Some Extra Stuff
+    github-code = {
+      definedAliases = [ "@ghr" ];
+      name = "Github Code";
+      urls = lib.singleton { template = "https://github.com/search?type=code&q={searchTerms}"; };
+    };
+
+    github-repo = {
+      definedAliases = [ "@gh" ];
+      name = "Github Code";
+      urls = lib.singleton { template = "https://github.com/search?type=repositories&q={searchTerms}"; };
+    };
+
+    # Social
+    youtube = {
+      name = "YouTube";
+      definedAliases = [ "@yt" ];
+      urls = lib.singleton { template = "https://www.youtube.com/results?search_query={searchTerms}"; };
     };
   };
 in
