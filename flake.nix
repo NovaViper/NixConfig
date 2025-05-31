@@ -18,7 +18,7 @@
   inputs = {
     # Core dependencies
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     hardware.url = "github:nixos/nixos-hardware";
     systems.url = "github:nix-systems/default-linux";
     nur = {
@@ -37,7 +37,7 @@
       # TODO: Waiting til https://github.com/Mic92/sops-nix/pull/781 is merged
       #url = "github:Mic92/sops-nix";
       url = "github:NovaViper/sops-nix/age-plugin";
-      #url = "git+file:///home/novaviper/Documents/sops-nix?ref=age-plugin";
+      #url = "git+file:///home/novaviper/Documents/Repos/sops-nix?ref=age-plugin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
