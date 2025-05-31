@@ -25,8 +25,14 @@ in
       hm-config = hm.config;
     in
     {
-      programs.floorp.profiles."${hm-config.home.username}".extensions.packages = extensions;
-      programs.firefox.profiles."${hm-config.home.username}".extensions.packages = extensions;
+      programs.floorp.profiles."${hm-config.home.username}".extensions = {
+        packages = extensions;
+        force = true;
+      };
+      programs.firefox.profiles."${hm-config.home.username}".extensions = {
+        packages = extensions;
+        force = true;
+      };
     }
   );
 }
