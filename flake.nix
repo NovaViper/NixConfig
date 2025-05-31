@@ -72,8 +72,7 @@
     # Access the nightly builds
     ghostty = {
       url = "github:ghostty-org/ghostty";
-      inputs.nixpkgs-unstable.follows = "nixpkgs";
-      inputs.nixpkgs-stable.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     wezterm = {
       url = "github:wez/wezterm?dir=nix";
