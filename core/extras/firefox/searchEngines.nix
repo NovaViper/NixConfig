@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -10,7 +9,7 @@ let
   searchEngines = {
     ecosia = {
       name = "Ecosia";
-      icon = "https://www.ecosia.org/static/icons/favicon.ico";
+      iconMapObj."16" = "https://www.ecosia.org/static/icons/favicon.ico";
       updateInterval = 24 * 60 * 60 * 1000; # Every day
       definedAliases = [
         "@e"
@@ -20,7 +19,7 @@ let
     };
 
     nix-packages = {
-      icon = nix-icon;
+      iconMapObj."16" = nix-icon;
       name = "Nix Packages";
       definedAliases = lib.singleton "@np";
       urls = lib.singleton {
@@ -29,7 +28,7 @@ let
     };
 
     nixos-opts = {
-      icon = nix-icon;
+      iconMapObj."16" = nix-icon;
       name = "NixOS Options";
       definedAliases = lib.singleton "@no";
       urls = lib.singleton {
@@ -38,47 +37,47 @@ let
     };
 
     home-opts = {
-      icon = nix-icon;
+      iconMapObj."16" = nix-icon;
       name = "Home-Manager Options";
-      definedAliases = "@ho";
+      definedAliases = lib.singleton "@ho";
       urls = lib.singleton {
         template = "https://home-manager-options.extranix.com/?release=master&query={searchTerms}";
       };
     };
 
     nixos-wiki = {
-      icon = nix-icon;
+      iconMapObj."16" = nix-icon;
       name = "NixOS Wiki";
       definedAliases = lib.singleton "@nw";
       urls = lib.singleton { template = "https://wiki.nixos.org/w/index.php?search={searchTerms}"; };
     };
 
     nixpkgs-tracker = {
-      icon = nix-icon;
+      iconMapObj."16" = nix-icon;
       name = "Nixpkgs PR Tracker";
-      definedAliases = [ "@nprt" ];
+      definedAliases = lib.singleton "@nprt";
       urls = lib.singleton { template = "https://nixpk.gs/pr-tracker.html?pr={searchTerms}"; };
     };
 
     nix-hydra = {
-      icon = nix-icon;
+      iconMapObj."16" = nix-icon;
       name = "Nix Hydra Builds";
-      definedAliases = "@nh";
-      url = lib.singleton { template = "https://hydra.nixos.org/search?query={searchTerms}"; };
+      definedAliases = lib.singleton "@nh";
+      urls = lib.singleton { template = "https://hydra.nixos.org/search?query={searchTerms}"; };
     };
 
     # All these after all from llakala
     noogle = {
-      icon = nix-icon;
+      iconMapObj."16" = nix-icon;
       name = "Noogle";
-      definedAliases = [ "@nog" ];
+      definedAliases = lib.singleton "@nog";
       urls = lib.singleton { template = "https://noogle.dev/q?term={searchTerms}"; };
     };
 
     nixpkgs-search = {
-      icon = "https://github.com/favicon.ico";
+      iconMapObj."16" = "https://github.com/favicon.ico";
       name = "Nixpkgs Search";
-      definedAliases = [ "@npkgs" ];
+      definedAliases = lib.singleton "@npkgs";
       urls = lib.singleton {
         template = "https://github.com/search";
         # Thanks to xunuwu on github for being a reference to use of these functions
@@ -89,10 +88,10 @@ let
       };
     };
 
-    git-nix = {
-      icon = "https://github.com/favicon.ico";
+    github-nix = {
+      iconMapObj."16" = "https://github.com/favicon.ico";
       name = "Github Nix Code";
-      definedAliases = [ "@ghn" ];
+      definedAliases = lib.singleton "@ghn";
       urls = lib.singleton {
         template = "https://github.com/search";
         # Thanks to xunuwu on github for being a reference to use of these functions
@@ -104,21 +103,27 @@ let
     };
     # Some Extra Stuff
     github-code = {
-      definedAliases = [ "@ghr" ];
+      iconMapObj."16" = "https://github.com/favicon.ico";
       name = "Github Code";
+      definedAliases = lib.singleton "@gh";
       urls = lib.singleton { template = "https://github.com/search?type=code&q={searchTerms}"; };
     };
 
     github-repo = {
-      definedAliases = [ "@gh" ];
-      name = "Github Code";
+      iconMapObj."16" = "https://github.com/favicon.ico";
+      name = "Github Repositories";
+      definedAliases = lib.singleton "@ghr";
       urls = lib.singleton { template = "https://github.com/search?type=repositories&q={searchTerms}"; };
     };
 
     # Social
     youtube = {
+      iconMapObj."16" = "https://youtube.com/favicon.ico";
       name = "YouTube";
-      definedAliases = [ "@yt" ];
+      definedAliases = [
+        "@youtube"
+        "@yt"
+      ];
       urls = lib.singleton { template = "https://www.youtube.com/results?search_query={searchTerms}"; };
     };
   };
