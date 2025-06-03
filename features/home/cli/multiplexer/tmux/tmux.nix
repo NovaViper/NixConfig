@@ -15,21 +15,22 @@ in
     aggressiveResize = true;
     customPaneNavigationAndResize = true;
     baseIndex = 1;
-    historyLimit = 5000;
+    historyLimit = 50000;
     keyMode = "vi";
+    focusEvents = true;
     mouse = true;
-    #escapeTime = 0;
+    escapeTime = 0;
     shortcut = "a";
-    terminal = "xterm-256color";
+    terminal = "tmux-256color";
     resizeAmount = 15;
     tmuxp.enable = true;
+    sensibleOnTop = false; # Disable tmux-sensible plugin
     #newSession = true;
     #secureSocket = false;
     #which-key.enable = true;
   };
 
   programs.tmux.plugins = with pkgs.tmuxPlugins; [
-    sensible
     weather
     battery
     cpu
@@ -55,77 +56,75 @@ in
     set -g allow-passthrough on
     set -ga update-environment TERM
     set -ga update-environment TERM_PROGRAM
+    set -g status-right-length 100
 
-    set-option -g status-right-length 100
-
-    # Enable sixel support
+    # enable sixel support
     set -as terminal-features 'contour:sixel'
 
-    # Enable full RGB support
+    # enable full RGB support
+    set -ga terminal-overrides ",tmux*:RGB:Tc"
     set -ga terminal-overrides ",xterm*:RGB:Tc"
 
-    # Pane numbers, line messages duration and status line updates
-    set -g display-panes-time 800
-    set -g display-time 2000
-    set -g status-interval 5
+    # pane numbers, line messages duration and status line updates
+    set -g display-panes-time 800 # slightly longer pane indicators display time
+    set -g display-time 2000 # Increase tmux messages display duration from 750ms to 2s
+    set -g status-interval 5 # Refresh left and right statusbars more often, from every 15s to 5s
 
-    # Monitor for terminal activity changes, and manage how the alerts are displayed
+    # monitor for terminal activity changes, and manage how the alerts are displayed
     set -g monitor-activity on
     set -g visual-activity both
 
-    # update files on focus
-    set -g focus-events on
-
     setw -g automatic-rename on
-    # Renumber windows
+    # renumber windows
     set -g renumber-windows on
 
-    # Change status bar position
+    # change status bar position
     set -g status-position bottom
     # -------------------------------------------------------------------------------------
 
 
     # -- keybindings -----------------------------------------------------------------
     # reload config file (change file location to your the tmux.conf you want to use)
-    unbind R
-    bind -N "Reload configuration" r source-file ${config.xdg.configHome}/tmux/tmux.conf \; display "Reloaded!"
+    bind -N "Reload configuration" r source-file ${config.xdg.configHome}/tmux/tmux.conf \; display "Sourced ${config.xdg.configHome}/tmux/tmux.conf!"
 
-    unbind C-p
-    unbind C-n
+    # setup clipboard binding keys
+    #unbind p
+    #bind -N "Paste the most recent paste buffer" p paste-buffer
 
-    # Setup clipboard binding keys
-    unbind p
-    bind -N "Paste the most recent paste buffer" p paste-buffer
-    bind -N "Go back to previous window" P previous-window
-
-    # Tmux-copycat functionality
+    # tmux-copycat functionality
     # https://github.com/tmux-plugins/tmux-copycat/issues/148#issuecomment-997929971
     bind -N "Copy selection" -T copy-mode-vi y send -X copy-selection-no-clear
     bind -N "Search backwards" / copy-mode \; send ?
     # Somewhat tmux-copycat select url functionality (requires 3.1+)
     bind -N "Select URL" C-u copy-mode \; send -X search-backward "(https?://|git@|git://|ssh://|ftp://|file:///)[[:alnum:]?=%/_.:,;~@!#$&()*+-]*"
 
-    # Join pane bindings
+    # window Navigation
+    # unbind n and p, since we can use C-p and C-n for navigating windows
+    #unbind n
+    #unbind p
+    # easier and faster switching between next/prev window
+    bind C-p previous-window
+    bind C-n next-window
+
+    # join pane bindings
     bind -N "Join panes horizitonally" = choose-window 'join-pane -h -s "%%"'
     bind -N "Join panes vertically" + choose-window 'join-pane -s "%%"'
 
-    # Split pane bindings
+    # split pane bindings
+    # unbind " and %, these are kinda unreasonable imo
     unbind '"'
     unbind %
-    unbind n
-    unbind p
     bind -N "Split panes horizontally" \\ split-window -h -c "#{pane_current_path}"
     bind -N "Split panes horizontally, full window length" | split-window -fh -c "#{pane_current_path}"
     bind -N "Split panes vertically" - split-window -v -c "#{pane_current_path}"
     bind -N "Split panes vertically, full window length" _ split-window -fv -c "#{pane_current_path}"
 
-    # Manage Session/Window
-    bind -N "Switch to next window" > next-window
-    bind -N "Switch to previous window" < previous-window
+    # manage Session/Window
     bind -N "Create new window" c new-window -c "#{pane_current_path}"
     bind -N "Create new session" C-c new-session
     bind -N "Toggle between current and previous session" C-Space switch-client -l
     bind -N "Jump to marked session" \` switch-client -t'{marked}'
+    # unbind old kill window keybind.. easier to remember the new one
     unbind &
     ${
       if cfg.disableConfirmationPrompt then
@@ -137,7 +136,7 @@ in
       else
         ''
           bind -N "Kill the current window" X confirm-before -p "kill-window #W? (y/n)" kill-window
-          bind -N "Kill the current session" C-x confirm-before -p "kill-session #W? (y/n)" kill-session
+          bind -N "Kill the current session" C-x confirm-before -p "kill-session #S? (y/n)" kill-session
         ''
     }
 
