@@ -11,12 +11,12 @@
       omz = pkgs.fetchFromGitHub {
         owner = "ohmyzsh";
         repo = "ohmyzsh";
-        rev = "959b6cf5eed78f108dc6e0f46b53816f5168dd3a";
-        hash = "sha256-s5lvs1FKIQbOf83U5tzJ4VSV0rfdtVq1XIwKGWKTe04=";
+        rev = "95ef2516697aa764d1d4bb93ad3490584cc118ec";
+        hash = "sha256-rjN+/5P/q7uXSVGf/jypOCYLvoGYGPMZTy1dL9+E4Uc=";
       };
     in
     [
-      # Useful utilitizes
+      # Useful utilities
       {
         name = "you-should-use";
         #file = "you-should-use.plugin.zsh";
@@ -81,8 +81,8 @@
         src = pkgs.fetchFromGitHub {
           owner = "MichaelAquilina";
           repo = "zsh-auto-notify";
-          rev = "cac2c193d9f227c99178ca7cf9e25152a36dd4ac";
-          hash = "sha256-8r5RsyldJIzlWr9+G8lrkHvJ8KxTVO859M//wDnYOUY=";
+          rev = "2abe1f2f1cbcb3d3c6b879d849d683de5688111f";
+          hash = "sha256-zc9Sc1WQIbJ132hw73oiS1ExvxCRHagi6vMkCLd4ZhI=";
         };
       }
       {
