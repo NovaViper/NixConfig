@@ -80,7 +80,7 @@
                 set -g @dracula-show-edge-icons false
 
                 # Left icon settings
-                set -g @dracula-show-left-icon "#h | #S"
+                set -g @dracula-show-left-icon "#h |#{?#{N/s:_popup_#S}, +, }#S"
 
                 # Theme Plugins
                 set -g @dracula-plugins "ssh-session battery cpu-usage ram-usage time"

@@ -67,7 +67,7 @@ in
 
     # pane numbers, line messages duration and status line updates
     set -g display-panes-time 800 # slightly longer pane indicators display time
-    set -g display-time 2000 # Increase tmux messages display duration from 750ms to 2s
+    set -g display-time 2000 # increase tmux messages display duration from 750ms to 2s
     set -g status-interval 5 # Refresh left and right statusbars more often, from every 15s to 5s
 
     # monitor for terminal activity changes, and manage how the alerts are displayed
@@ -140,8 +140,18 @@ in
         ''
     }
 
-    #Example
-    #bind -N "Example note" h split-window -h "vim ~/scratch/notes.md"
+    # popup shell
+    bind -n M-a display-popup -h 75% -w 75% -T ' +#S ' -E ${lib.getExe pkgs.tmux-popup}
+    # support detaching from nested session with the same shortcut
+    bind -T popup M-a detach
+    bind -T popup M-[ copy-mode
+    # break popup session into parent session as a new window
+    bind -T popup M-! run 'tmux move-window -a -t $TMUX_PARENT_SESSION:{next}'
+    # hide all popup sessions
+    bind -n M-s choose-tree -Zs -f '#{?#{m:_popup_*,#S},0,1}' -O name
+
+    # example
+    # bind -N "Example note" h split-window -h "vim ~/scratch/notes.md"
     # -------------------------------------------------------------------------------------
   '';
 }

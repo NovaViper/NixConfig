@@ -146,7 +146,7 @@ in
                 ## Left Statusline
                 set -g status-left-length 100
                 set -g status-left ""
-                set -ag status-left "#[bg=#{@thm_bg},fg=#{?client_prefix,#{@thm_red},#{?#{==:#{pane_mode},copy-mode},#{@thm_yellow},#{@thm_lavender}}}]█#[reverse]  #S #[noreverse]#[none]"
+                set -ag status-left "#[bg=#{@thm_bg},fg=#{?client_prefix,#{@thm_red},#{?#{==:#{pane_mode},copy-mode},#{@thm_yellow},#{@thm_lavender}}}]█#[reverse] #{?#{N/s:_popup_#S}, +, }#S #[noreverse]#[none]"
 
                 ## Right Status
                 set -g status-right-length 100
