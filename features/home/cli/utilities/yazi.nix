@@ -9,7 +9,7 @@
   programs.yazi = {
     enable = true;
     settings = {
-      manager = {
+      mgr = {
         sort_dir_first = true;
         show_hidden = true;
         show_symlink = true;
