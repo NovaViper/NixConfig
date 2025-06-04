@@ -1,4 +1,5 @@
 {
+  osConfig,
   config,
   lib,
   pkgs,
@@ -6,6 +7,11 @@
 }:
 let
   cfg = config.programs.tmux;
+  clipboardPkg =
+    if osConfig.features.useWayland then
+      "${lib.getExe' pkgs.wl-clipboard "wl-copy"}"
+    else
+      "${lib.getExe pkgs.xsel} -b";
 in
 {
   programs.fzf.tmux.enableShellIntegration = true;
@@ -50,7 +56,15 @@ in
 
   programs.tmux.extraConfig = ''
     # -- more settings ---------------------------------------------------------------
-    set -s set-clipboard on
+    ${
+      if osConfig.features.desktop != null then
+        ''
+          set -s set-clipboard external
+          set -g copy-command "${clipboardPkg}"
+        ''
+      else
+        "set -s set-clipboard on"
+    }
     set -g set-titles on
     set -g set-titles-string "#{session_name} / #{window_name} / #(pwd)"
     set -g allow-passthrough on
