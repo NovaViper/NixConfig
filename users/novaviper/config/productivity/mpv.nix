@@ -24,7 +24,7 @@
       # Video format/quality that is directly passed to youtube-dl
       ytdl-format = "bestvideo+bestaudio";
       # Controls which type of graphics APIs will be accepted
-      gpu-api = "opengl";
+      gpu-api = "vulkan";
       # The value auto (the default) selects the GPU context
       gpu-context = "auto";
       # Specify the hardware video decoding API that should be used if possible
