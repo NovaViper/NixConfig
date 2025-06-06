@@ -9,8 +9,7 @@
     enable = true;
     defaultOptions = [
       "--height 40%"
-      "--width 60%"
-      "--extact"
+      "--exact"
       "--multi"
     ] ++ lib.optionals config.programs.tmux.enable [ "--tmux 75%,50%" ];
     # Alt-C command options
