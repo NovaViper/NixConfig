@@ -11,8 +11,8 @@
       inherit (pkgs.fishPlugins.autopair) src;
     }
     {
-      name = "fzf.fish";
-      inherit (pkgs.fishPlugins.fzf-fish) src;
+      name = "sponge";
+      inherit (pkgs.fishPlugins.sponge) src;
     }
     {
       name = "pufferfish";
