@@ -1,5 +1,10 @@
 _:
 let
+  cursorAbbr = expansion: {
+    inherit expansion;
+    setCursor = true;
+  };
+
   abbrs = {
     g = "git";
     gcl = "git clone";
@@ -75,26 +80,16 @@ let
     gud = "git undo";
     gpr = "git pr";
 
-    gpa = "git push origin && git push --mirror mirror1 && git push --mirror mirror2";
-    gpm = "git push --mirror mirror1 && git push --mirror mirror2";
+    gpa = "git push origin && git push mirror1 && git push mirror2";
+    gpm = "git push mirror1 && git push mirror2";
   };
 in
 {
   programs.fish.shellAbbrs = abbrs // {
-    gcm = {
-      setCursor = true;
-      expansion = "git commit -m \"%\"";
-    };
-
+    gcm = cursorAbbr "git commit -m \"%\"";
     # `grbi 2` will rebase from last 2 commits
-    grbi = {
-      setCursor = true;
-      expansion = "git rebase -i HEAD~%";
-    };
-    gpru = {
-      setCursor = true;
-      expansion = "git pr % upstream";
-    };
+    grbi = cursorAbbr "git rebase -i HEAD~%";
+    gpru = cursorAbbr "git pr % upstream";
   };
 
   programs.zsh.zsh-abbr.abbreviations = abbrs // {
