@@ -162,7 +162,7 @@ in
     # break popup session into parent session as a new window
     bind -T popup M-! run 'tmux move-window -a -t $TMUX_PARENT_SESSION:{next}'
     # hide all popup sessions
-    bind -n M-s choose-tree -Zs -f '#{?#{m:_popup_*,#S},0,1}' -O name
+    bind -N "Choose session excluding popups" S choose-tree -Zs -f '#{?#{m:_popup_*,#S},0,1}' -O name
 
     # example
     # bind -N "Example note" h split-window -h "vim ~/scratch/notes.md"
