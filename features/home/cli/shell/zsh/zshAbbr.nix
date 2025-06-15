@@ -5,8 +5,13 @@
   ...
 }:
 {
-  # Make zsh-abbr set the cursor via % syntax
-  programs.zsh.localVariables.ABBR_SET_EXPANSION_CURSOR = 1;
+  programs.zsh.localVariables = {
+    # Enable reminders
+    ABBR_GET_AVAILABLE_ABBREVIATION = 1;
+    ABBR_LOG_AVAILABLE_ABBREVIATION = 1;
+    # Make zsh-abbr set the cursor via % syntax
+    ABBR_SET_EXPANSION_CURSOR = 1;
+  };
 
   programs.zsh.zsh-abbr = {
     enable = true;
