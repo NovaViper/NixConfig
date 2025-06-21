@@ -88,7 +88,6 @@
     xorg.libXi
     xorg.libSM
     xorg.libICE
-    gnome2.GConf
     curlWithGnuTls
     nspr
     nss
