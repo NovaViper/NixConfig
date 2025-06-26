@@ -11,7 +11,7 @@
     "services/syncthing"
 
     ### Applications
-    "apps/browser/floorp"
+    "apps/browser/firefox"
     "apps/editor/neovim"
     "apps/terminal/ghostty"
     "apps/backup"
@@ -25,7 +25,7 @@
 
   userVars = {
     defaultTerminal = "ghostty";
-    defaultBrowser = "floorp";
+    defaultBrowser = "firefox";
     defaultEditor = "neovim";
   };
 
