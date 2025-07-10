@@ -6,13 +6,13 @@
 }:
 stdenv.mkDerivation rec {
   pname = "zsh-abbr";
-  version = "6.2.1-unstable";
+  version = "6.3.1";
 
   src = fetchFromGitHub {
-    owner = "NovaViper";
+    owner = "olets";
     repo = "zsh-abbr";
-    rev = "088d4e5a33595a93936cb2d7cad4c296fcb9a8f2";
-    hash = "sha256-ovb8ZGk3yEY2ZvXB+XKgukluVKCA+41QIfsaudI+Rlo=";
+    rev = "1e97c6fcc680186f32791cb7c51e95808d7c7c1b";
+    hash = "sha256-jumrUkz8L2UETKSipcDPkjstrPsHx4cwPH9sOXKnd0k=";
     fetchSubmodules = true;
   };
 
@@ -20,13 +20,13 @@ stdenv.mkDerivation rec {
   nativeBuildInputs = [ installShellFiles ];
 
   installPhase = ''
-    runHook preInstall
+        runHook preInstall
 
-    install *.zsh -Dt $out/share/zsh/zsh-abbr/
-    install completions/* -Dt $out/share/zsh/zsh-abbr/completions/
+        install *.zsh -Dt $out/share/zsh/zsh-abbr/
+        install completions/* -Dt $out/share/zsh/zsh-abbr/completions/
 
-    install zsh-job-queue/*.zsh -Dt $out/share/zsh/zsh-abbr/zsh-job-queue/
-    install zsh-job-queue/completions/* -Dt $out/share/zsh/zsh-abbr/zsh-job-queue/completions/
+                              install zsh-job-queue/*.zsh -Dt $out/share/zsh/zsh-abbr/zsh-job-queue/
+                              install zsh-job-queue/completions/* -Dt $out/share/zsh/zsh-abbr/zsh-job-queue/completions/
 
     # Required for `man` to find the manpage of abbr, since it looks via PATH
     installManPage man/man1/*
