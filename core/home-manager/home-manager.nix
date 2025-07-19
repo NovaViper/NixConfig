@@ -33,7 +33,7 @@
   home-manager.sharedModules =
     with inputs;
     [
-      nix-index-database.hmModules.nix-index
+      nix-index-database.homeModules.nix-index
       plasma-manager.homeManagerModules.plasma-manager
       (
         hm:
