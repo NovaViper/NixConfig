@@ -48,7 +48,6 @@
     keepassxc
     krita
     kdePackages.tokodon
-    smassh
     pineflash
     kdePackages.isoimagewriter
   ];
