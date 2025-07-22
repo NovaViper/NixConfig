@@ -224,7 +224,7 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 
 # Installation/Usage
 
-For installation, check out the installation guide located under [documentation/installation.org](extra/documentation/installation.md)! Check out [documentation/tips.org](extra/documentation/tips.md) for some tips and important information regarding how the entire flake works.
+For installation, check out the installation guide located under [documentation/installation.md](extra/documentation/installation.md)! Check out [documentation/tips.md](extra/documentation/tips.md) for some tips and important information regarding how the entire flake works.
 
 # Tooling and Applications I Use
 
