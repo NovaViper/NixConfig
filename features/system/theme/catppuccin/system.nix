@@ -69,7 +69,7 @@ in
         serif = sansSerif;
         monospace = {
           package = pkgs.nerd-fonts._0xproto;
-          name = "0xProto Nerd Font Mono";
+          name = "0xProto Nerd Font";
         };
         emoji = {
           package = pkgs.noto-fonts-color-emoji;
