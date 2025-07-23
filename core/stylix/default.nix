@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   pkgs,
   inputs,
   ...
@@ -15,7 +16,7 @@
       c = hm-config.lib.stylix.colors.withHashtag;
       f = hm-config.stylix.fonts;
     in
-    lib.mkIf hm-config.stylix.enable {
+    lib.mkIf (myLib.utils.useStylix hm-config) {
       nukeFiles = [
         "${hm-config.home.homeDirectory}/.config/gtk-2.0/gtkrc"
         "${hm-config.home.homeDirectory}/.config/gtk-3.0/gtk.css"
@@ -29,8 +30,6 @@
       #   gtk3.extraConfig = {gtk-application-prefer-dark-theme = true;};
       #   gtk4.extraConfig = {gtk-application-prefer-dark-theme = true;};
       # };
-
-      stylix.targets.floorp.profileNames = [ "${hm-config.home.username}" ];
 
       xdg.dataFile = {
         "konsole/Stylix.colorscheme".source = hm-config.lib.stylix.colors {
@@ -153,6 +152,9 @@
         default = "fg=${c.base05}";
         cursor = "fg=${c.base05}";
       };
+    }
+    // lib.optionalAttrs config.stylix.enable {
+      stylix.targets.floorp.profileNames = [ "${hm-config.home.username}" ];
     }
   );
 }

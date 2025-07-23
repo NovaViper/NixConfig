@@ -80,6 +80,8 @@ let
       else
         editor;
 
+    useStylix = config: builtins.hasAttr "stylix" config;
+
     # Most of these are left null since I'm piggybacking off of the custom context function I've made
     mkMu4eContext =
       {
