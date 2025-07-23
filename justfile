@@ -34,9 +34,9 @@ eval-package HOST PACKAGE:
 
 ########## NixOS Installation tools ##########
 
-[doc('Run nixos-rebuild on the remote host')]
+[doc('Run nixos-rebuild on the remote host and add boot config')]
 build-host HOST:
-    NIX_SSHOPTS="-t" nixos-rebuild --target-host {{ HOST }} --use-remote-sudo --show-trace --fast --flake '.#{{ HOST }}' switch
+    NIX_SSHOPTS="-t" nixos-rebuild --target-host {{ HOST }} --show-trace --sudo --no-reexec --ask-sudo-password --flake '.#{{ HOST }}' boot
 
 [doc('Run NixOS installer for HOST, monitored with nom and forcibly accept flake configs. Runs with sudo')]
 nixos-install HOST:
