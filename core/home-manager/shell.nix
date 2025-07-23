@@ -7,46 +7,42 @@
 }:
 let
   primaryUserOpts = opts: myLib.utils.getMainUserHMVar opts config;
+  shellType = shell: if (primaryUserOpts "features.shell") == shell then true else false;
 in
 {
   users.defaultUserShell =
-    if (primaryUserOpts "features.shell") == "fish" then
+    if shellType "fish" then
       pkgs.fish
-    else if (primaryUserOpts "features.shell") == "zsh" then
+    else if shellType "zsh" then
       pkgs.zsh
     else
       pkgs.bash;
 
   # Broken for fish so make sure to disable it when it's enabled
-  programs.command-not-found.enable =
-    if (primaryUserOpts "features.shell") == "fish" then false else true;
+  programs.command-not-found.enable = !shellType "fish";
 
   # Enable NixOS module
   programs.fish = {
-    enable = if (primaryUserOpts "features.shell") == "fish" then true else false;
+    enable = shellType "fish";
     # Translate bash scripts to fish
     useBabelfish = true;
   };
 
   environment.pathsToLink =
-    lib.optional ((primaryUserOpts "features.shell") == "fish") "/share/fish"
-    ++ lib.optional ((primaryUserOpts "features.shell") == "zsh") "/share/zsh";
+    lib.optional (shellType "fish") "/share/fish"
+    ++ lib.optional (shellType "zsh") "/share/zsh";
 
   # Enable NixOS module for Fish
-  programs.zsh =
-    let
-      value = if (primaryUserOpts "features.shell") == "zsh" then true else false;
-    in
-    {
-      enable = value;
+  programs.zsh = {
+    enable = shellType "zsh";
 
-      # Since we handle Zsh completion in home.nix via home-manager, we set this
-      # to false to avoid calling compinit multiple times.
-      enableCompletion = lib.mkForce (!value);
-    };
+    # Since we handle Zsh completion in home.nix via home-manager, we set this
+    # to false to avoid calling compinit multiple times.
+    enableCompletion = lib.mkForce (!shellType "zsh");
+  };
 
   # Source zshenv without ~/.zshenv
-  environment.etc."zshenv" = lib.mkIf ((primaryUserOpts "features.shell") == "zsh") {
+  environment.etc."zshenv" = lib.mkIf (shellType "zsh") {
     text = ''export ZDOTDIR="$HOME"/.config/zsh'';
   };
 }
