@@ -28,6 +28,14 @@ let
         stateVersion = "24.11";
       };
 
+      # Homelab
+      knoxpc = {
+        primaryUser = "novaviper";
+        #extraUsers = [ "docky" ];
+        system = "x86_64-linux";
+        stateVersion = "25.05";
+      };
+
       # Live-image installer
       installer = {
         primaryUser = "nixos";
@@ -76,6 +84,7 @@ in
     builtins.mapAttrs myLib.mkHome {
       "novaviper@ryzennova" = { inherit nixosConfigurations; };
       "novaviper@yoganova" = { inherit nixosConfigurations; };
+      "novaviper@knoxpc" = { inherit nixosConfigurations; };
       "nixos@installer" = { inherit nixosConfigurations; };
     };
 }
