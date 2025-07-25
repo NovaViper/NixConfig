@@ -35,9 +35,8 @@ in
       userOpts = user: {
         imports = myLib.slimports {
           optionalPaths = [
-            (userPath "home.nix" user) # Common user definitions that gets imported for all hosts
-            (userPath "hosts/${hostname}.nix" user) # Host specific user configurations that get imported for a particular host
-            (userPath "config" user) # Folder containing many user configurations that get imported for all hosts
+            (userPath "core-home" user) # Common user definitions (and other user configurations) that gets imported for all hosts
+            (userPath "hosts-home/${hostname}.nix" user) # Host specific user configurations that get imported for a particular host
           ];
         };
       };

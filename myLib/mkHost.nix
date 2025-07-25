@@ -44,9 +44,15 @@ let
             ../hosts/${hostname}/hostVars.nix
 
             # Primary User
-            ../users/${primaryUser}/system.nix
+            ../users/${primaryUser}/core-os
             # Extra User(s)
-            (map (u: ../users/${u}/system.nix) extraUsers)
+            (map (u: ../users/${u}/core-os) extraUsers)
+          ];
+          optionalPaths = lib.flatten [
+            # Primary User
+            ../users/${primaryUser}/hosts-os/${hostname}.nix
+            # Extra User(s)
+            (map (u: ../users/${u}/hosts-os/${hostname}.nix) extraUsers)
           ];
         }
         ++ self.nixosModules.default;
