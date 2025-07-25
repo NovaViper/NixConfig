@@ -45,11 +45,8 @@
             inherit stateVersion;
             # REVIEW: Maybe implement this variable for hostVars?
             #homeDirectory = "${config.hostVars.homeBaseDirectory}/${hm-config.home.username}";
-            preferXdgDirectories = true;
-
             sessionVariables.FLAKE = "${config.hostVars.configDirectory}";
             sessionVariables.NH_FLAKE = "${config.hostVars.configDirectory}";
-            sessionPath = [ "${config.environment.sessionVariables.XDG_BIN_HOME}" ];
           };
 
           #nix.settings = config.nix.settings;
@@ -63,16 +60,6 @@
           manual.html.enable = lib.mkForce false;
 
           news.display = "silent";
-
-          # Make sure XDG is enabled
-          xdg.enable = true;
-
-          xresources.path = lib.mkForce "${hm-config.xdg.configHome}/.Xresources";
-
-          gtk = {
-            enable = true;
-            gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
-          };
         }
       )
     ]

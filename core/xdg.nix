@@ -29,8 +29,12 @@
       hm-config = hm.config;
     in
     {
-      home.shellAliases = {
-        wget = ''wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'';
+      home = {
+        preferXdgDirectories = true;
+        sessionPath = [ "${config.environment.sessionVariables.XDG_BIN_HOME}" ];
+        shellAliases = {
+          wget = ''wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'';
+        };
       };
 
       xdg.configFile."npm/npmrc".text = ''
