@@ -33,7 +33,7 @@
     mouse-hide-while-typing = true;
     desktop-notifications = true;
 
-    shell-integration-features = true;
+    shell-integration-features = false;
 
     cursor-style-blink = true;
     # Prompt on clipboard paste
