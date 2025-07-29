@@ -17,6 +17,11 @@
     "apps/backup"
     "apps/discord"
 
+    ### Terminal Utils
+    "cli/history/atuin"
+    "cli/prompt/oh-my-posh"
+    "cli/deco"
+
     ### CLI
     "cli/dev"
     #"cli/misc/pass"

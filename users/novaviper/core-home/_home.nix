@@ -12,12 +12,7 @@
 
     ### Terminal Utils
     "cli/utilities"
-    "cli/prompt/oh-my-posh"
-    "cli/deco"
     "cli/multiplexer/tmux"
-    #"cli/history"
-    "cli/history/atuin"
-    #"cli/history/mcfly"
   ];
 
   userVars = {

@@ -15,17 +15,19 @@
       entr # run commands when files change!
       procs # Better ps
       dust # Better du and df
-      libnotify
     ]
     ++ lib.optionals osConfig.features.useWayland [
       wl-clipboard
       wl-clipboard-x11
     ]
-    ++ lib.optionals (!osConfig.features.useWayland) [
+    ++ lib.optionals (!osConfig.features.useWayland && osConfig.features.desktop != null) [
       xclip
       xsel
       xdotool
       xorg.xwininfo
       xorg.xprop
+    ]
+    ++ lib.optionals (osConfig.features.desktop != null) [
+      libnotify
     ];
 }
