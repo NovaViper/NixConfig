@@ -16,11 +16,12 @@
     package = config.boot.kernelPackages.nvidiaPackages.beta;
   };
 
-  programs.nix-ld.libraries =
-    [ config.hardware.nvidia.package ]
-    ++ (with pkgs; [
-      nvidia-vaapi-driver
-    ]);
+  programs.nix-ld.libraries = [
+    config.hardware.nvidia.package
+  ]
+  ++ (with pkgs; [
+    nvidia-vaapi-driver
+  ]);
 
   environment = {
     systemPackages = with pkgs; [ nvtopPackages.full ];

@@ -29,8 +29,7 @@ in
   };
 
   environment.pathsToLink =
-    lib.optional (shellType "fish") "/share/fish"
-    ++ lib.optional (shellType "zsh") "/share/zsh";
+    lib.optional (shellType "fish") "/share/fish" ++ lib.optional (shellType "zsh") "/share/zsh";
 
   # Enable NixOS module for Fish
   programs.zsh = {

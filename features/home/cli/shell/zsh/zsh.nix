@@ -27,8 +27,8 @@
     enableCompletion = true;
     # Set keymap to vi-insert mode
     defaultKeymap = "viins";
-    # Make zsh config live in ~/.config
-    dotDir = ".config/zsh";
+    # Make zsh config live in ~/.config/zsh
+    dotDir = "${config.xdg.configHome}/zsh";
     # Automatically enter into a directory if typed directly into shell
     autocd = true;
     # Save timestamp into the history file.
