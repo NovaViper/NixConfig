@@ -50,13 +50,15 @@ in
         let
           nixosConfigs = builtins.attrNames self.outputs.nixosConfigurations;
           #homeConfigs = map (n: lib.last (lib.splitString "@" n)) (builtins.attrNames self.outputs.homeConfigurations);
+          matchExclusion = str: list: builtins.elem str list;
+          excludedHosts = [
+            "live-image"
+            "iso"
+            "installer"
+            "knoxpc"
+          ];
           hostNames =
-            (
-              attrs:
-              builtins.filter (name: (name != "live-image" && name != "iso" && name != "installer")) (
-                lib.unique attrs
-              )
-            )
+            (attrs: builtins.filter (name: (!matchExclusion name excludedHosts)) (lib.unique attrs))
               nixosConfigs;
           #++ homeConfigs;
           matchBlocksForHosts = host: [
