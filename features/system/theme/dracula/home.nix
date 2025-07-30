@@ -37,6 +37,8 @@
         })
       ];
 
+      programs.brave.extensions = lib.singleton { id = "gfapcejdoghpoidkfodoiiffaaibpaem"; };
+
       programs.plasma =
         let
           workspace = {

@@ -9,6 +9,9 @@
 {
   imports = with inputs; [ stylix.nixosModules.stylix ];
 
+  # Results in an unchangable, broken theme
+  stylix.targets.chromium.enable = false;
+
   home-manager.sharedModules = lib.singleton (
     hm:
     let

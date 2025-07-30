@@ -11,7 +11,7 @@
     "services/syncthing"
 
     ### Applications
-    "apps/browser/firefox"
+    "apps/browser/brave"
     "apps/editor/neovim"
     "apps/terminal/ghostty"
     "apps/backup"
@@ -24,13 +24,12 @@
 
     ### CLI
     "cli/dev"
-    #"cli/misc/pass"
     "cli/misc/topgrade"
   ];
 
   userVars = {
     defaultTerminal = "ghostty";
-    defaultBrowser = "firefox";
+    defaultBrowser = "brave";
     defaultEditor = "neovim";
   };
 

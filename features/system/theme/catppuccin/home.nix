@@ -8,6 +8,12 @@
 let
   flavor = "mocha";
   accent = "mauve";
+  chromeIdentifiers = {
+    frappe = "olhelnoplefjdmncknfphenjclimckaf";
+    latte = "jhjnalhegpceacdhbplhnakmkdliaddd";
+    macchiato = "cmpdlhmnmjhihmcfnigoememnffkimlk";
+    mocha = "bkkmolkhemgaeaeggcmfbghljjjoofoh";
+  };
   mkSegment =
     {
       segColor,
@@ -86,6 +92,8 @@ in
           color = "violet";
         })
       ];
+
+      programs.brave.extensions = lib.singleton { id = chromeIdentifiers.${flavor}; };
 
       programs.plasma =
         let
