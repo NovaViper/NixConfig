@@ -16,6 +16,7 @@
     "apps/terminal/ghostty"
     "apps/backup"
     "apps/discord"
+    "apps/music-player"
 
     ### Terminal Utils
     "cli/history/atuin"

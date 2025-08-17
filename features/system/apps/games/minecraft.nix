@@ -10,7 +10,28 @@ in
 {
   environment.systemPackages = with pkgs; [
     # Minecraft
-    prismlauncher
+    (prismlauncher.override {
+      # Needed now because there's some mods that require additional libraries
+      jdks = [
+        jdk8
+        jdk17
+        jdk23
+      ];
+      additionalLibs = [
+        nss
+        libcef
+        nspr
+        libgbm
+        glib
+        dbus
+        atk
+        cups
+        libGL
+        libpulseaudio
+        libglvnd
+        libdrm
+      ];
+    })
     flite
     orca
   ];
