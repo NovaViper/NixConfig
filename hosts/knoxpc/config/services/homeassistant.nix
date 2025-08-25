@@ -12,6 +12,12 @@ in
 {
   networking.firewall.allowedTCPPorts = [ 8123 ];
 
+  services.matter-server.enable = true;
+  services.mosquitto = {
+    enable = true;
+    dataDir = "/mnt/docker/homeassistant/mosquitto";
+  };
+
   virtualisation.oci-containers.containers = {
     homeassistant = {
       image = "homeassistant/home-assistant:stable";
@@ -21,7 +27,7 @@ in
         "--network=host"
       ];
       volumes = [
-        "homeassistant:/config"
+        "/mnt/docker/homeassistant:/config"
         "/etc/localtime:/etc/localtime:ro"
         "/run/dbus:/run/dbus:ro"
       ];

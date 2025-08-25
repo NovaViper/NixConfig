@@ -2,6 +2,7 @@
 {
   imports = myLib.utils.importFeatures "system" [
     ### Hardware
+    "hardware/bluetooth"
     "hardware/yubikey"
 
     ### Service

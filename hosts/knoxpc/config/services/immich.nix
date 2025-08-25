@@ -27,6 +27,15 @@ in
     environment = {
       IMMICH_TRUSTED_PROXIES = "100.86.0.0/10,192.168.1.0/24";
     };
+    machine-learning = {
+      enable = true;
+      environment = {
+        #MACHINE_LEARNING_CACHE_FOLDER = "/var/cache/immich/model-cache";
+        MPLCONFIGDIR = "/var/cache/immich/matplotlib";
+        #HF_TOKEN_PATH = "/var/cache/immich/huggingface/token";
+        HF_XET_CACHE = "/var/cache/immich/huggingface/xet";
+      };
+    };
   };
 
   # TODO Setup for later
@@ -36,26 +45,4 @@ in
   #   port = 3001;
   #   openFirewall = true;
   # };
-
-  # May not use this
-  #   virtualisation.oci-containers.containers = {
-  #   immich = {
-  #
-  #       image = "ghcr.io/immich-app/immich-server:release";
-  #       autoStart = true;
-  #       ports = ["8080:8082"];
-  #       volumes = [
-  #         "immich:/config"
-  #         "/mnt/media/Photos:/photos"
-  #         "/etc/localtime:/etc/localtime:ro"
-  #       ];
-  # #devices = ["/dev/dri"];
-  #       environment = {
-  #         TZ = "America/Chicago";
-  #         PUID = toString uid;
-  #         PGID = toString gid;
-  #       };
-  #   };
-  #   };
-
 }
