@@ -6,7 +6,7 @@
 {
   programs.ssh.matchBlocks = {
     "knoxpc-*" = {
-      hostname = "192.168.1.117";
+      hostname = "192.168.1.120";
       identityFile = "${config.home.homeDirectory}/.ssh/id_ecdsa_sk_rk_knox";
       port = 22;
       extraOptions = {
@@ -15,7 +15,7 @@
       };
     };
     "knoxpc" = {
-      hostname = "192.168.1.117";
+      hostname = "192.168.1.120";
       identityFile = "${config.home.homeDirectory}/.ssh/id_ecdsa_sk_rk_knox";
       port = 22;
     };
