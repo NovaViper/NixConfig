@@ -19,10 +19,6 @@
 
     # Run WiVRn as a systemd service on startup
     autoStart = true;
-
-    extraPackages = with pkgs; [
-      config.hardware.nvidia.package
-    ];
   };
 
   hardware.graphics.extraPackages = with pkgs; [ monado-vulkan-layers ];
