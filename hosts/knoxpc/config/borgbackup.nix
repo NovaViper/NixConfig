@@ -2,7 +2,10 @@
 {
   services.borgbackup.repos = {
     PCBackups = {
-      authorizedKeys = lib.singleton "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBPpqly8qaR00jPQ8Rq3nmRJk2wI62U6IarHGbfv3hii7H2WsA8n3RyKwQzXxA3Ob0fy5XhyiG0PdgaDjvM9ZIJUAAAAIc3NoOmtub3g=";
+      authorizedKeys = [
+        "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIOyfLHu4Ebn3CA9DgEurEPoYQDO2OyzvtCvRc2glDHajAAAAC3NzaDpib3JnUENB" # USBA
+        "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIMSKi7F4wBS7gPE9oRVqQLnUNQ6LHphaUkSWi/Ixy9KPAAAAC3NzaDpib3JnUEND" # USBC
+      ];
       path = "/mnt/sysbackup/PCBackups";
     };
   };
