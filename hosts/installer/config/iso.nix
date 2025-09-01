@@ -8,10 +8,23 @@
     let
       nixpkgsModules = "${inputs.nixpkgs}/nixos/modules";
     in
-    [
-      #"${nixpkgsModules}/installer/cd-dvd/installation-cd-graphical-calamares-plasma6.nix"
-      "${nixpkgsModules}/installer/cd-dvd/installation-cd-graphical-calamares.nix"
-    ];
+    "${nixpkgsModules}/installer/cd-dvd/installation-cd-graphical-calamares.nix";
+
+  # faster compression, even if file is bigger
+  isoImage.squashfsCompression = "gzip -Xcompression-level 1";
+
+  isoImage.edition = "plasma6";
+
+  # Enable autologin
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "nixos";
+  };
+
+  environment.systemPackages = with pkgs; [
+    maliit-framework
+    maliit-keyboard
+  ];
 
   # Removed firefox and nano
   environment.defaultPackages =
@@ -23,11 +36,15 @@
       mesa-demos
     ];
 
-  # Enable autologin
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "nixos";
-  };
+  environment.plasma6.excludePackages = [
+    # Optional wallpapers that add 126 MiB to the graphical installer
+    # closure. They will still need to be downloaded when installing a
+    # Plasma system, though.
+    pkgs.kdePackages.plasma-workspace-wallpapers
+  ];
+
+  # Avoid bundling an entire MariaDB installation on the ISO.
+  programs.kde-pim.enable = false;
 
   system.activationScripts.installerDesktop =
     let
@@ -47,14 +64,4 @@
         desktopDir + "io.calamares.calamares.desktop"
       }
     '';
-
-  # faster compression, even if file is bigger
-  isoImage.squashfsCompression = "gzip -Xcompression-level 1";
-
-  isoImage.edition = "plasma6";
-
-  environment.systemPackages = with pkgs; [
-    maliit-framework
-    maliit-keyboard
-  ];
 }

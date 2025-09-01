@@ -12,7 +12,6 @@ let
     darkreader
     #bypass-paywalls-clean
     plasma-integration
-    enhancer-for-youtube
     indie-wiki-buddy
     stylus
     canvasblocker
