@@ -1,6 +1,7 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }:
 {
@@ -8,7 +9,7 @@
     let
       nixpkgsModules = "${inputs.nixpkgs}/nixos/modules";
     in
-    "${nixpkgsModules}/installer/cd-dvd/installation-cd-graphical-calamares.nix";
+    lib.singleton "${nixpkgsModules}/installer/cd-dvd/installation-cd-graphical-calamares.nix";
 
   # faster compression, even if file is bigger
   isoImage.squashfsCompression = "gzip -Xcompression-level 1";
@@ -24,6 +25,7 @@
   environment.systemPackages = with pkgs; [
     maliit-framework
     maliit-keyboard
+    borgbackup
   ];
 
   # Removed firefox and nano
