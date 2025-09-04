@@ -46,7 +46,6 @@
     with pkgs;
     [
       # Apps
-      krename
       kdePackages.ktorrent
       kdePackages.kfind
       kdePackages.filelight

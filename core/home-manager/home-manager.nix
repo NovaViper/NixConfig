@@ -34,7 +34,7 @@
     with inputs;
     [
       nix-index-database.homeModules.nix-index
-      plasma-manager.homeManagerModules.plasma-manager
+      plasma-manager.homeModules.plasma-manager
       (
         hm:
         let
