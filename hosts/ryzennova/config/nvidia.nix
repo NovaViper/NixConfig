@@ -9,8 +9,8 @@
   nixpkgs.config.cudaSupport = lib.mkForce true;
 
   hardware.nvidia = {
-    powerManagement.enable = true;
     modesetting.enable = true;
+    powerManagement.enable = true;
     open = false;
     nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidiaPackages.beta;
