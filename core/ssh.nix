@@ -45,6 +45,9 @@ in
     {
       programs.ssh.enable = true;
 
+      # Deprecated
+      programs.ssh.enableDefaultConfig = lib.mkForce false;
+
       # Add machines delcared in our outputs to be have ssh hosts so we can use remote builds!
       programs.ssh.matchBlocks =
         let
@@ -80,6 +83,20 @@ in
             user = "git";
             identitiesOnly = true;
             extraOptions.PKCS11Provider = "${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
+          };
+
+          # Default options
+          "*" = {
+            forwardAgent = false;
+            addKeysToAgent = "no";
+            compression = false;
+            serverAliveInterval = 0;
+            serverAliveCountMax = 3;
+            hashKnownHosts = false;
+            userKnownHostsFile = "~/.ssh/known_hosts";
+            controlMaster = "no";
+            controlPath = "~/.ssh/master-%r@%n:%p";
+            controlPersist = "no";
           };
         };
 
