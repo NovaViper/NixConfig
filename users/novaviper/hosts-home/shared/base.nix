@@ -46,12 +46,13 @@
 
   home.packages = with pkgs; [
     openscad
-    freecad
+    #freecad-wayland # TODO Add this back later.. takes way too long to
+    #recompile and it's also broken anyway
     rpi-imager
     blisp
     libreoffice-qt6-fresh
     keepassxc
-    krita
+    #krita # TODO: Takes too long to recompile, add this back later
     kdePackages.tokodon
     smassh
     pineflash

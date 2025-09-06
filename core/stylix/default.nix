@@ -12,9 +12,6 @@
   # Results in an unchangable, broken theme
   stylix.targets.chromium.enable = false;
 
-  # FIXME: Currently broken due to https://github.com/nix-community/stylix/issues/1865
-  qt.platformTheme = lib.mkForce "kde";
-
   home-manager.sharedModules = lib.singleton (
     hm:
     let
