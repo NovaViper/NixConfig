@@ -24,8 +24,8 @@
       user = "borg";
       port = 22;
       identityFile = [
-        "${config.home.homeDirectory}/.ssh/ed25519_sk_rk_borgPCA"
-        "${config.home.homeDirectory}/.ssh/ed25519_sk_rk_borgPCC"
+        "${config.home.homeDirectory}/.ssh/id_ed25519_sk_rk_borgPCA"
+        "${config.home.homeDirectory}/.ssh/id_ed25519_sk_rk_borgPCC"
       ];
     };
     "printerpi" = {
