@@ -29,10 +29,11 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-index-database = {
-      url = "github:nix-community/nix-index-database";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # FIXME: Currently locks up builds
+    # nix-index-database = {
+    #   url = "github:nix-community/nix-index-database";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     sops-nix = {
       # TODO: Waiting til https://github.com/Mic92/sops-nix/pull/781 is merged
       #url = "github:Mic92/sops-nix";

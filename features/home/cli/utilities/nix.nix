@@ -1,5 +1,6 @@
 { pkgs, ... }:
 {
+  # FIXME: Currently locks up builds
   programs.nix-index-database.comma.enable = true;
 
   programs.nix-your-shell.enable = true;
