@@ -4,11 +4,11 @@
   myLib,
   pkgs,
   inputs,
-  primaryUser,
-  allUsers,
+  username,
   ...
 }:
 let
+  hm-config = config.hm;
   isEd25519 = k: k.type == "ed25519";
   getKeyPath = k: k.path;
   keys = builtins.filter isEd25519 config.services.openssh.hostKeys;
@@ -23,6 +23,8 @@ let
     # NixOS configs
     nixos = lib.recursiveUpdate {
       imports = lib.singleton inputs.sops-nix.nixosModules.sops;
+      home-manager.sharedModules = lib.singleton inputs.sops-nix.homeManagerModules.sops;
+
       # sops.defaultSopsFile = myLib.secrets.mkSecretFile {
       #   source = "secrets.yaml";
       #   subDir = ["hosts" "${config.networking.hostName}"];
@@ -37,50 +39,35 @@ let
         generateKey = false;
       };
 
-      sops.secrets = lib.mkMerge [
-        # Create user password secrets
-        (lib.listToAttrs (
-          map (
-            user:
-            lib.nameValuePair "passwords/${user}" (
-              myLib.secrets.mkSecretFile {
-                source = "secrets.yaml";
-                subDir = "hosts";
-                neededForUsers = true;
-              }
-            )
-          ) allUsers
-        ))
-      ];
+      # Create user password secrets
+      sops.secrets."passwords/${username}" = myLib.secrets.mkSecretFile {
+        source = "secrets.yaml";
+        subDir = "hosts";
+        neededForUsers = true;
+      };
     } conf.common;
 
     # Home-Manager configs
-    home =
-      hm:
-      let
-        hm-config = hm.config;
-      in
-      lib.recursiveUpdate {
-        imports = lib.singleton inputs.sops-nix.homeManagerModules.sops;
-        # sops.defaultSopsFile = myLib.secrets.mkSecretFile {
-        #   source = "secrets.yaml";
-        #   subDir = ["users" "${hm-config.home.username}"];
-        # };
-        sops.age = {
-          sshKeyPaths = [ "${hm-config.home.homeDirectory}/.ssh/nix-secret" ];
-          # Access key for users
-          keyFile = "${hm-config.home.homeDirectory}/.config/sops/age/keys.txt";
-          plugins = pluginsList;
-        };
+    home = lib.recursiveUpdate {
+      # sops.defaultSopsFile = myLib.secrets.mkSecretFile {
+      #   source = "secrets.yaml";
+      #   subDir = ["users" "${username}"];
+      # };
+      sops.age = {
+        sshKeyPaths = [ "${hm-config.home.homeDirectory}/.ssh/nix-secret" ];
+        # Access key for users
+        keyFile = "${hm-config.home.homeDirectory}/.config/sops/age/keys.txt";
+        plugins = pluginsList;
+      };
 
-        sops.secrets = {
-          "keys/${hm-config.home.username}" = myLib.secrets.mkSecretFile {
-            destination = "${hm-config.home.homeDirectory}/.ssh/nix-secret";
-            source = "secrets.yaml";
-            subDir = "users";
-          };
+      sops.secrets = {
+        "keys/${username}" = myLib.secrets.mkSecretFile {
+          destination = "${hm-config.home.homeDirectory}/.ssh/nix-secret";
+          source = "secrets.yaml";
+          subDir = "users";
         };
-      } conf.common;
+      };
+    } conf.common;
 
     # Shared Configs
     common = {
@@ -92,5 +79,5 @@ let
 in
 conf.nixos
 // {
-  home-manager.sharedModules = lib.singleton (hm: (conf.home hm));
+  hm = conf.home;
 }

@@ -2,18 +2,18 @@
   config,
   lib,
   pkgs,
-  primaryUser,
+  username,
   ...
 }:
 {
   # Primary user configurations for virtualisation
-  users.users.${primaryUser} = {
+  users.users.${username} = {
     uid = 1000; # Explicitly named for usage in setting up containers
-    group = toString primaryUser;
+    group = toString username;
     extraGroups = [ "podman" ];
   };
   # Explicitly named for usage in setting up containers
-  users.groups.${primaryUser}.gid = 1001;
+  users.groups.${username}.gid = 1001;
 
   # Base ports
   networking.firewall.allowedTCPPorts = [

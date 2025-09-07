@@ -2,11 +2,11 @@
   config,
   lib,
   pkgs,
-  primaryUser,
+  username,
   ...
 }:
 let
-  user = primaryUser;
+  user = username;
   group = base.group;
   base = config.users.users.${user};
   uid = base.uid;

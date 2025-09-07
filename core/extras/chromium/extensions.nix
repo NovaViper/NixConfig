@@ -16,15 +16,6 @@ let
   ];
 in
 {
-
-  hmUser = lib.singleton (
-    hm:
-    let
-      hm-config = hm.config;
-    in
-    {
-      programs.brave = { inherit extensions; };
-      programs.vivaldi = { inherit extensions; };
-    }
-  );
+  hm.programs.brave = { inherit extensions; };
+  hm.programs.vivaldi = { inherit extensions; };
 }

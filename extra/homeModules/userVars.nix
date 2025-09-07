@@ -48,11 +48,11 @@ in
   config.assertions = [
     {
       assertion = (cfg.defaultTerminal != null) -> (cfgFeat.desktop != null);
-      message = "variables.defaultTerminal must be defined when modules.desktop is enabled!";
+      message = "userVars.defaultTerminal must be defined when modules.desktop is enabled!";
     }
     {
       assertion = (cfg.defaultBrowser != null) -> (cfgFeat.desktop != null);
-      message = "variables.defaultBrowser must be defined when modules.desktop is enabled!";
+      message = "userVars.defaultBrowser must be defined when modules.desktop is enabled!";
     }
   ];
 }

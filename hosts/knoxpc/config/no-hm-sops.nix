@@ -3,5 +3,5 @@
   ...
 }:
 {
-  home-manager.sharedModules = lib.singleton { sops.secrets = lib.mkForce { }; };
+  hm.sops.secrets = lib.mkForce { };
 }

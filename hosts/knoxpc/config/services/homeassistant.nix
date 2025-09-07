@@ -2,12 +2,12 @@
   config,
   lib,
   pkgs,
-  primaryUser,
+  username,
   ...
 }:
 let
-  uid = config.users.users.${primaryUser}.uid;
-  gid = config.users.groups.${primaryUser}.gid;
+  uid = config.users.users.${username}.uid;
+  gid = config.users.groups.${username}.gid;
 in
 {
   networking.firewall.allowedTCPPorts = [ 8123 ];

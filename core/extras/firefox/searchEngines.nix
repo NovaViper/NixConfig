@@ -1,9 +1,12 @@
 {
+  config,
   lib,
   pkgs,
   ...
 }:
 let
+  hm-config = config.hm;
+
   nix-icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
 
   searchEngines = {
@@ -129,14 +132,6 @@ let
   };
 in
 {
-  hmUser = lib.singleton (
-    hm:
-    let
-      hm-config = hm.config;
-    in
-    {
-      programs.floorp.profiles."${hm-config.home.username}".search.engines = searchEngines;
-      programs.firefox.profiles."${hm-config.home.username}".search.engines = searchEngines;
-    }
-  );
+  hm.programs.floorp.profiles."${hm-config.home.username}".search.engines = searchEngines;
+  hm.programs.firefox.profiles."${hm-config.home.username}".search.engines = searchEngines;
 }

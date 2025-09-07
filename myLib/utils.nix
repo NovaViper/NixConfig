@@ -19,9 +19,8 @@ let
     # Import all nix files in a given list of directories and/or files (paths)
     importPaths = paths: lib.flatten (builtins.map exports.listNixFilesForPath paths);
 
-    # Import the given feature folders (dirs) at the given base folder name (baseName)
-    importFeatures =
-      baseName: dirs: exports.importPaths (builtins.map (d: ../features + "/${baseName}/${d}") dirs);
+    # Import the given feature folders (dirs) located in the `features` folder
+    importFeatures = dirs: exports.importPaths (builtins.map (d: ../features + "/${d}") dirs);
 
     # Take a base path (baseDir) and a list of subfolders/subfiles (breadcrumbs) and combine them into a normalized path
     mkPath =
@@ -37,14 +36,6 @@ let
 
     # Get an option from the userVars module
     getUserVars = option: config: builtins.toString config.userVars.${option};
-
-    # Get the given home-manager option (opt) from a given user
-    getUserHMVar' =
-      opt: user: config:
-      lib.getAttrFromPath (lib.strings.splitString "." opt) config.home-manager.users.${user};
-
-    # Get the given home-manager option (opt) from the host's primary user
-    getMainUserHMVar = opt: config: exports.getUserHMVar' opt config.hostVars.primaryUser config;
 
     # Pick the name of the .desktop file for the default terminal
     getTerminalDesktopFile =
