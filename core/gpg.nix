@@ -1,5 +1,4 @@
 {
-  lib,
   pkgs,
   ...
 }:
@@ -8,7 +7,7 @@
 
   environment.systemPackages = with pkgs; [ gnupg ];
 
-  home-manager.sharedModules = lib.singleton {
+  hm = {
     # Make gpg use pinentry
     services.gpg-agent = {
       enable = true;

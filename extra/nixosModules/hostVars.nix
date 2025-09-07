@@ -2,7 +2,7 @@
   lib,
   config,
   options,
-  primaryUser,
+  username,
   ...
 }:
 let
@@ -21,15 +21,11 @@ in
       description = "The directory of the local nixos configuration.";
       default = null;
     };
-    primaryUser = mkOption {
-      type = types.str;
-      description = ''
-        The primary user of the host, refers to the variable passed into the flake
-      '';
-      default = "${primaryUser}";
-      readOnly = true;
+    homeDirectory = lib.mkOption {
+      type = lib.types.str;
+      description = "The directory for the user's folders. This should only be set if it's in a non-default location.";
+      default = null;
     };
-
     scalingFactor = mkOption {
       type = types.number;
       description = "The scaling factor for the desktop. A scalingFactor of 1 --> 100% scaling.";
@@ -39,7 +35,7 @@ in
 
   config.assertions = [
     { assertion = options.hostVars.configDirectory.isDefined; }
+    #{ assertion = options.hostVars.homeDirectory.isDefined; }
     { assertion = options.hostVars.scalingFactor.isDefined; }
-    { assertion = options.hostVars.primaryUser.isDefined; }
   ];
 }

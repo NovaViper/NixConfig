@@ -4,6 +4,9 @@
   pkgs,
   ...
 }:
+let
+  hm-config = config.hm;
+in
 {
   environment.pathsToLink = [
     "/share/xdg-desktop-portal"
@@ -23,35 +26,27 @@
     NPM_CONFIG_USERCONFIG = "$\{XDG_CONFIG_HOME}/npm/npmrc";
   };
 
-  home-manager.sharedModules = lib.singleton (
-    hm:
-    let
-      hm-config = hm.config;
-    in
-    {
-      home = {
-        preferXdgDirectories = true;
-        sessionPath = [ "${config.environment.sessionVariables.XDG_BIN_HOME}" ];
-        shellAliases = {
-          wget = ''wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'';
-        };
-      };
+  hm.home = {
+    preferXdgDirectories = true;
+    sessionPath = [ "${config.environment.sessionVariables.XDG_BIN_HOME}" ];
+    shellAliases = {
+      wget = ''wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'';
+    };
+  };
 
-      xdg.configFile."npm/npmrc".text = ''
-        prefix=${hm-config.xdg.dataHome}/npm
-        cache=${hm-config.xdg.cacheHome}/npm
-        tmp=$XDG_RUNTIME_DIR/npm
-        init-module=${hm-config.xdg.configHome}/npm/config/npm-init.js
-      '';
+  hm.xdg.configFile."npm/npmrc".text = ''
+    prefix=${hm-config.xdg.dataHome}/npm
+    cache=${hm-config.xdg.cacheHome}/npm
+    tmp=$XDG_RUNTIME_DIR/npm
+    init-module=${hm-config.xdg.configHome}/npm/config/npm-init.js
+  '';
 
-      xdg.enable = true;
+  hm.xdg.enable = true;
 
-      xresources.path = lib.mkForce "${hm-config.xdg.configHome}/.Xresources";
+  hm.xresources.path = lib.mkForce "${hm-config.xdg.configHome}/.Xresources";
 
-      gtk = {
-        enable = if (config.features.desktop != null) then true else false;
-        gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
-      };
-    }
-  );
+  hm.gtk = {
+    enable = if (config.features.desktop != null) then true else false;
+    gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
+  };
 }

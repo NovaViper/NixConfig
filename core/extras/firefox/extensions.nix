@@ -5,6 +5,7 @@
   ...
 }:
 let
+  hm-config = config.hm;
   extensions = with pkgs.nur.repos.rycee.firefox-addons; [
     ublock-origin
     sponsorblock
@@ -18,20 +19,13 @@ let
   ];
 in
 {
-  hmUser = lib.singleton (
-    hm:
-    let
-      hm-config = hm.config;
-    in
-    {
-      programs.floorp.profiles."${hm-config.home.username}".extensions = {
-        packages = extensions;
-        force = true;
-      };
-      programs.firefox.profiles."${hm-config.home.username}".extensions = {
-        packages = extensions;
-        force = true;
-      };
-    }
-  );
+  hm.programs.floorp.profiles."${hm-config.home.username}".extensions = {
+    packages = extensions;
+    force = true;
+  };
+
+  hm.programs.firefox.profiles."${hm-config.home.username}".extensions = {
+    packages = extensions;
+    force = true;
+  };
 }

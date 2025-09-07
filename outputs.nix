@@ -16,29 +16,30 @@ let
     builtins.mapAttrs myLib.mkHost {
       # Main desktop
       ryzennova = {
-        primaryUser = "novaviper";
+        username = "novaviper";
         system = "x86_64-linux";
-        stateVersion = "24.11";
+        stateVersion = "25.05";
+        profiles = lib.singleton "home-pc";
       };
 
       # Personal laptop
       yoganova = {
-        primaryUser = "novaviper";
+        username = "novaviper";
         system = "x86_64-linux";
-        stateVersion = "24.11";
+        stateVersion = "25.05";
+        profiles = lib.singleton "home-pc";
       };
 
       # Homelab
       knoxpc = {
-        primaryUser = "novaviper";
-        #extraUsers = [ "docky" ];
+        username = "novaviper";
         system = "x86_64-linux";
         stateVersion = "25.05";
       };
 
       # Live-image installer
       installer = {
-        primaryUser = "nixos";
+        username = "nixos";
         system = "x86_64-linux";
         stateVersion = "25.05";
       };

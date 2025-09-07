@@ -26,10 +26,10 @@ Home-manager is configured as a [NixOS module](https://nix-community.github.io/h
      ```nix
      nixosConfigurations = builtins.mapAttrs myLib.mkHost {
        example-hostname = { # This line must be the hostname of the machine
-         primaryUser = "user"; # This is required
-         extraUsers = ["extra1" "extra2"] # This, however, is optional
-           system = "x86_64-linux"; # This is also required
+         username = "user"; # This is required
+         system = "x86_64-linux"; # This is also required
          stateVersion = "24.11"; # and so is this
+         profiles = ["home-pc" "some-other-profile"] # This, however, is optional
        };
      };
      ```
