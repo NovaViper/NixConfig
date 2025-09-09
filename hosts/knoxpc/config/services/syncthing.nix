@@ -11,7 +11,7 @@ in
   services.syncthing = {
     inherit user;
     enable = true;
-    openDefaultPorts = true;
+    #openDefaultPorts = true;
     guiAddress = "0.0.0.0:8384";
     overrideFolders = false;
     overrideDevices = false;
@@ -19,4 +19,7 @@ in
     # TODO Maybe move this later
     #configDir = "/mnt/docker/syncthing";
   };
+
+  # GUI
+  networking.firewall.allowedTCPPorts = [ 8384 ];
 }
