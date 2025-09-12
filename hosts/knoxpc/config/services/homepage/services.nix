@@ -107,6 +107,12 @@ in
             forceUse = true;
           };
         }
+        {
+          "Syncthing" = mkService {
+            name = "syncthing";
+            port = "8384";
+          };
+        }
       ];
     }
   ];

@@ -1,41 +1,17 @@
 { myLib, ... }:
 {
-  imports = myLib.utils.importFeatures "system" [
+  imports = myLib.utils.importFeatures [
     ### Hardware
-    "hardware/bluetooth"
-    "hardware/hard-accel"
     "hardware/qmk"
     "hardware/rgb"
-    "hardware/yubikey"
 
     ### Service
-    "services/gps"
-    "services/localsend"
-    "services/packaging"
-    "services/printing"
     "services/sunshine-server"
-    "services/tailscale"
-    "services/vr/wivrn"
-
-    ### Desktop Environment
-    "desktop/plasma6"
+    "services/wivrn"
 
     ### Applications
-    "apps/games"
-    "apps/libvirt"
-    "apps/obs"
-    #"apps/android-vm"
-
-    ### Locale
-    "lang/us-english"
-
-    ### Theme
-    #"theme/dracula"
-    "theme/catppuccin"
-
-    ### Boot
-    "boot/pretty-boot"
-    "boot/disko"
+    "programs/libvirt"
+    "programs/obs"
   ];
 
   features.includeMinecraftServer = true;

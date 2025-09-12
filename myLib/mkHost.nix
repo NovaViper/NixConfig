@@ -10,24 +10,18 @@ let
   mkHost =
     hostname:
     {
-      primaryUser ? throw "a primary user must be set for ${hostname}",
-      extraUsers ? [ ],
+      username ? throw "username must be set for ${hostname}",
       system ? throw "system must be set for ${hostname}",
-      stateVersion ? throw "stateVersion must be set for ${hostname}",
+      stateVersion ? myLib.conds.defaultStateVersion,
+      profiles ? [ ],
     }:
-    let
-      # Combine the users into one list, easier to reference them all at once
-      allUsers = [ primaryUser ] ++ extraUsers;
-    in
     lib.nixosSystem {
       inherit system;
       # Make sure we pass everything from the flake inputs and from the mkHost parameters
       specialArgs = flake // {
         inherit
           hostname
-          primaryUser
-          extraUsers
-          allUsers
+          username
           system
           stateVersion
           ;
@@ -35,7 +29,10 @@ let
       modules =
         myLib.slimports {
           paths = lib.flatten [
-            ../core
+            ../base
+
+            # Import a premade set of options from profiles
+            (map (p: ../hosts/profiles/${p}) profiles)
 
             # Host machine
             ../hosts/${hostname}/config
@@ -44,15 +41,14 @@ let
             ../hosts/${hostname}/hostVars.nix
 
             # Primary User
-            ../users/${primaryUser}/core-os
-            # Extra User(s)
-            (map (u: ../users/${u}/core-os) extraUsers)
+            ../users/${username}/system.nix
           ];
           optionalPaths = lib.flatten [
-            # Primary User
-            ../users/${primaryUser}/hosts-os/${hostname}.nix
-            # Extra User(s)
-            (map (u: ../users/${u}/hosts-os/${hostname}.nix) extraUsers)
+            # Import a premade set of options from profiles for users
+            (map (p: ../users/${username}/profiles/${p}) profiles)
+
+            #../users/${username}/config
+            ../users/${username}/hosts/${hostname}.nix
           ];
         }
         ++ self.nixosModules.default;
