@@ -29,10 +29,10 @@ let
       modules =
         myLib.slimports {
           paths = lib.flatten [
-            ../core
+            ../base
 
             # Import a premade set of options from profiles
-            (map (p: ../profiles/${p}) profiles)
+            (map (p: ../hosts/profiles/${p}) profiles)
 
             # Host machine
             ../hosts/${hostname}/config
