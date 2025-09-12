@@ -12,9 +12,9 @@ in
 {
   imports = myLib.utils.importFeatures [
     ### Applications
-    "apps/browser/brave"
-    "apps/neovim"
-    "apps/ghostty"
+    "programs/browser/brave"
+    "programs/neovim"
+    "programs/ghostty"
 
     ### Terminal Utils
     "cli/atuin"
