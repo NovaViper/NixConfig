@@ -12,7 +12,7 @@ let
     {
       username ? throw "username must be set for ${hostname}",
       system ? throw "system must be set for ${hostname}",
-      stateVersion ? throw "stateVersion must be set for ${hostname}",
+      stateVersion ? myLib.conds.defaultStateVersion,
       profiles ? [ ],
     }:
     lib.nixosSystem {

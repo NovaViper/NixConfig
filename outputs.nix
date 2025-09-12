@@ -18,7 +18,6 @@ let
       ryzennova = {
         username = "novaviper";
         system = "x86_64-linux";
-        stateVersion = "25.05";
         profiles = lib.singleton "home-pc";
       };
 
@@ -26,7 +25,6 @@ let
       yoganova = {
         username = "novaviper";
         system = "x86_64-linux";
-        stateVersion = "25.05";
         profiles = lib.singleton "home-pc";
       };
 
@@ -34,14 +32,12 @@ let
       knoxpc = {
         username = "novaviper";
         system = "x86_64-linux";
-        stateVersion = "25.05";
       };
 
       # Live-image installer
       installer = {
         username = "nixos";
         system = "x86_64-linux";
-        stateVersion = "25.05";
       };
     };
 in
