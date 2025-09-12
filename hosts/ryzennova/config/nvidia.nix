@@ -4,9 +4,33 @@
   pkgs,
   ...
 }:
+let
+  enableCuda =
+    packages:
+    (
+      final: prev:
+      builtins.listToAttrs (
+        map (pkgName: {
+          name = pkgName;
+          value = prev.${pkgName}.override {
+            cudaSupport = true;
+          };
+        }) packages
+      )
+    );
+in
 {
   # Enable proper Nvidia support for various packages
-  nixpkgs.config.cudaSupport = lib.mkForce true;
+  nixpkgs.overlays = lib.singleton (enableCuda [
+    "btop"
+    "wivrn"
+    "digikam"
+    "obs-studio"
+    "sunshine"
+  ]);
+
+  # Enable proper Nvidia support for various packages
+  #nixpkgs.config.cudaSupport = lib.mkForce true;
 
   hardware.nvidia = {
     modesetting.enable = true;

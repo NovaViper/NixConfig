@@ -44,16 +44,16 @@ in
 
   hm.home.packages = with pkgs; [
     openscad
-    #freecad-wayland # TODO Add this back later.. takes way too long to
-    #recompile and it's also broken anyway
+    freecad-wayland
     rpi-imager
     blisp
     libreoffice-qt6-fresh
     keepassxc
-    #krita # TODO: Takes too long to recompile, add this back later
+    krita
     kdePackages.tokodon
     smassh
     pineflash
     kdePackages.isoimagewriter
+    vintagestory
   ];
 }
