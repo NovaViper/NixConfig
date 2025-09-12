@@ -10,8 +10,8 @@
     "services/wivrn"
 
     ### Applications
-    "apps/libvirt"
-    "apps/obs"
+    "programs/libvirt"
+    "programs/obs"
   ];
 
   features.includeMinecraftServer = true;

@@ -18,11 +18,11 @@
     "desktop/plasma6"
 
     ### Applications
-    "apps/backup"
-    "apps/discord"
-    "apps/games"
-    "apps/music-player"
-    #"apps/android-vm"
+    "programs/backup"
+    "programs/discord"
+    "programs/games"
+    "programs/music-player"
+    #"programs/android-vm"
 
     ### Theme
     #"theme/dracula"

@@ -8,9 +8,9 @@
 {
   imports = myLib.utils.importFeatures [
     ### Applications
-    "apps/browser/floorp"
-    #"apps/nvim"
-    "apps/ghostty"
+    "programs/browser/floorp"
+    #"programs/nvim"
+    "programs/ghostty"
 
     ### Shell
     "cli/shell/zsh"
