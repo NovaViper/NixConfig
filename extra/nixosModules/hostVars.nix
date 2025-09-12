@@ -17,12 +17,12 @@ in
 {
   options.hostVars = {
     configDirectory = lib.mkOption {
-      type = lib.types.str;
+      type = types.str;
       description = "The directory of the local nixos configuration.";
       default = null;
     };
     homeDirectory = lib.mkOption {
-      type = lib.types.str;
+      type = types.str;
       description = "The directory for the user's folders. This should only be set if it's in a non-default location.";
       default = null;
     };
