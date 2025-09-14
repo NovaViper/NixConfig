@@ -33,7 +33,7 @@ in
     defaultEditor = "neovim";
   };
 
-  sops.secrets."borg_token" = myLib.secrets.mkSecretFile {
+  sopsHome.secrets."borg_token" = myLib.secrets.mkSecretFile {
     source = "borg-passkey";
     subDir = [
       "users"

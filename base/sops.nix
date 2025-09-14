@@ -22,7 +22,11 @@ let
   conf = {
     # NixOS configs
     nixos = lib.recursiveUpdate {
-      imports = lib.singleton inputs.sops-nix.nixosModules.sops;
+      imports = [
+        inputs.sops-nix.nixosModules.sops
+        # Alias for declaring sops options from Home-Manager
+        (lib.mkAliasOptionModule [ "sopsHome" ] [ "home-manager" "users" username "sops" ])
+      ];
       home-manager.sharedModules = lib.singleton inputs.sops-nix.homeManagerModules.sops;
 
       # sops.defaultSopsFile = myLib.secrets.mkSecretFile {
