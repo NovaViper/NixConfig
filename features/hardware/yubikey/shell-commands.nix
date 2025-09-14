@@ -22,6 +22,6 @@ in
     remove-piv-keys = "ssh-add -e ${pkcs11}";
 
     # Make resident ssh keys import from Yubikey
-    load-resident-keys = "ssh-keygen -K";
+    load-resident-keys = "cd ~/.ssh && ssh-keygen -K && cd -";
   };
 }
