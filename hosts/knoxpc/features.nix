@@ -1,15 +1,12 @@
 { myLib, ... }:
 {
-  imports = myLib.utils.importFeatures "system" [
+  imports = myLib.utils.importFeatures [
     ### Hardware
     "hardware/bluetooth"
     "hardware/yubikey"
 
     ### Service
     "services/tailscale"
-
-    ### Locale
-    "lang/us-english"
 
     ### Theme
     #"theme/dracula"

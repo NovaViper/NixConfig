@@ -514,7 +514,7 @@ Installs several packages I need,
 * Editor Configuration
 ** General Configuration
 *** Import Nix Values
-Brings up values from flake (see [[file:~/Documents/NixConfig/common/features/apps/editor/doom-emacs/doom.nix][features/emacs]]). Includes variables such as =user-full-name=, =user-username=, =user-mail-address=, =doom-font= and a few more custom variables used throughout the config. Also has some Stylix settings to customize Emacs to match the preferences set for Stylix
+Brings up values from my flake. Includes variables such as =user-full-name=, =user-username=, =user-mail-address=, =doom-font= and a few more custom variables used throughout the config. Also has some Stylix settings to customize Emacs to match the preferences set for Stylix
 #+begin_src emacs-lisp
 ;; Import relevant system variables from flake
 (load (concat doom-user-dir "system-vars.el"))
