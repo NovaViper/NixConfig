@@ -73,15 +73,6 @@
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    wezterm = {
-      url = "github:wez/wezterm?dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    # TODO: https://github.com/NixOS/nixpkgs/issues/327982
-    zen-browser = {
-      url = "github:MarceColl/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     #######
 
     # Personal Repos
