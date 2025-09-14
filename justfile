@@ -77,6 +77,7 @@ generate-key-host-ssh-age:
 
 [doc("Copy the installer's ssh ed25519 keys over into the newly created host partition")]
 @copy-installer-keys HOST:
+    sudo mkdir /mnt/etc/ssh -p
     sudo cp /etc/ssh/ssh_host_ed25519_key /mnt/etc/ssh/ssh_host_ed25519_key
     sudo cp /etc/ssh/ssh_host_ed25519_key.pub /mnt/etc/ssh/ssh_host_ed25519_key.pub
     sudo sed -i 's/\(root@\).*/\1{{ HOST }}/' /mnt/etc/ssh/ssh_host_ed25519_key.pub
