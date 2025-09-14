@@ -28,8 +28,8 @@ Home-manager is configured as a [NixOS module](https://nix-community.github.io/h
        example-hostname = { # This line must be the hostname of the machine
          username = "user"; # This is required
          system = "x86_64-linux"; # This is also required
-         stateVersion = "24.11"; # and so is this
-         profiles = ["home-pc" "some-other-profile"] # This, however, is optional
+         stateVersion = "24.11"; # This, however, is optional as it will fallback to the flake's default state version in myLib/conds.nix
+         profiles = ["home-pc" "some-other-profile"] # Also optional
        };
      };
      ```

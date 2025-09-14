@@ -63,12 +63,12 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 
 ```
 ./
-├── checks/
-├── core/
-│   ├── extras/
-│   ├── home-manager/
+├── base/
+│   ├── chromium/
+│   ├── firefox/
 │   ├── stylix/
 │   └── ...
+├── checks/
 ├── extra/
 │   ├── assets/
 │   ├── documentation/
@@ -76,86 +76,79 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 │   ├── nixosModules/
 │   └── scripts/
 ├── features/
-│   ├── home/
-│   │   ├── apps/
-│   │   │   ├── backup/
-│   │   │   ├── browser/
-│   │   │   │   ├── firefox/
-│   │   │   │   ├── floorp/
-│   │   │   │   ├── vivaldi/
-│   │   │   │   └── zen/
-│   │   │   ├── discord/
-│   │   │   ├── editor/
-│   │   │   │   ├── doom-emacs/
-│   │   │   │   └── neovim/
-│   │   │   ├── music-player/
-│   │   │   └── terminal/
-│   │   │       ├── alacritty/
-│   │   │       ├── ghostty/
-│   │   │       ├── kitty/
-│   │   │       ├── konsole/
-│   │   │       ├── rio/
-│   │   │       └── wezterm/
-│   │   ├── cli/
-│   │   │   ├── deco/
-│   │   │   │   ├── cava/
-│   │   │   │   └── fastfetch/
-│   │   │   ├── dev/
-│   │   │   ├── history/
-│   │   │   │   ├── atuin/
-│   │   │   │   └── mcfly/
-│   │   │   ├── misc/
-│   │   │   │   ├── pass/
-│   │   │   │   └── topgrade/
-│   │   │   ├── multiplexer/
-│   │   │   │   ├── tmux/
-│   │   │   │   └── zellij/
-│   │   │   ├── prompt/
-│   │   │   │   └── oh-my-posh/
-│   │   │   ├── shell/
-│   │   │   │   ├── fish/
-│   │   │   │   └── zsh/
-│   │   │   └── utilities/
-│   │   │       ├── git/
-│   │   │       │   └── ...
-│   │   │       └── ...
-│   │   └── services/
-│   │       └── syncthing/
-│   └── system/
-│       ├── apps/
-│       │   ├── android-vm/
-│       │   ├── games/
-│       │   ├── libvirt/
-│       │   └── obs/
-│       ├── desktop/
-│       │   └── plasma6/
-│       ├── hardware/
-│       │   ├── bluetooth/
-│       │   ├── hard-accel/
-│       │   ├── qmk/
-│       │   ├── rgb/
-│       │   └── yubikey/
-│       ├── lang/
-│       │   └── us-english/
-│       ├── services/
-│       │   ├── gps/
-│       │   ├── localsend/
-│       │   ├── packaging/
-│       │   ├── pretty-boot/
-│       │   ├── printing/
-│       │   ├── sunshine-server/
-│       │   ├── tailscale/
-│       │   └── vr/
-│       │       ├── alvr/
-│       │       └── wivrn/
-│       └── theme/
-│           └── dracula/
+│   ├── boot/
+│   │   ├── disko/
+│   │   └── pretty-boot/
+│   ├── cli/
+│   │   ├── atuin/
+│   │   ├── deco/
+│   │   │   ├── cava/
+│   │   │   └── fastfetch/
+│   │   ├── dev/
+│   │   ├── misc/
+│   │   │   └── topgrade/
+│   │   ├── oh-my-posh/
+│   │   ├── shell/
+│   │   │   ├── fish/
+│   │   │   └── zsh/
+│   │   ├── tmux/
+│   │   └── utilities/
+│   │       ├── git/
+│   │       └── ...
+│   ├── desktop/
+│   │   └── plasma6/
+│   ├── hardware/
+│   │   ├── bluetooth/
+│   │   ├── hard-accel/
+│   │   ├── qmk/
+│   │   ├── rgb/
+│   │   └── yubikey/
+│   ├── programs/
+│   │   ├── android-vm/
+│   │   ├── backup/
+│   │   ├── browser/
+│   │   │   ├── brave/
+│   │   │   └── floorp/
+│   │   ├── discord/
+│   │   ├── games/
+│   │   ├── ghostty/
+│   │   ├── keepassxc/
+│   │   ├── libvirt/
+│   │   ├── music-player/
+│   │   ├── neovim/
+│   │   └── obs/
+│   ├── services/
+│   │   ├── gps/
+│   │   ├── localsend/
+│   │   ├── packaging/
+│   │   ├── printing/
+│   │   ├── sunshine-server/
+│   │   ├── syncthing/
+│   │   ├── tailscale/
+│   │   └── wivrn/
+│   └── theme/
+│       ├── catppuccin/
+│       └── dracula/
 ├── hosts/
 │   ├── installer/
 │   │   ├── config/
 │   │   ├── features.nix
 │   │   ├── hardware-configuration.nix
 │   │   └── hostVars.nix
+│   ├── knoxpc/
+│   │   ├── config/
+│   │   │   ├── services/
+│   │   │   │   ├── homepage/
+│   │   │   │   └── ...
+│   │   │   └── ...
+│   │   ├── features.nix
+│   │   ├── hardware-configuration.nix
+│   │   ├── hostVars.nix
+│   │   └── ssh_host_ed25519_key.pub
+│   ├── profiles/
+│   │   └── home-pc/
+│   │       ├── features.nix
+│   │       └── ...
 │   ├── ryzennova/
 │   │   ├── config/
 │   │   │   ├── disko.nix
@@ -178,23 +171,22 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 │   └── common/
 ├── users/
 │   ├── nixos/
-│   │   ├── config/
-│   │   ├── home.nix
 │   │   └── system.nix
 │   └── novaviper/
-│       ├── config/
 │       ├── dotfiles/
 │       ├── hosts/
-│       │   ├── base.nix
+│       │   ├── knoxpc.nix
 │       │   ├── ryzennova.nix
 │       │   └── yoganova.nix
-│       ├── home.nix
+│       ├── profiles/
+│       │   └── home-pc/
 │       ├── ssh.pub
 │       └── system.nix
 ├── flake.lock
 ├── flake.nix
 ├── justfile
 ├── LICENSE
+├── outputs.nix
 ├── README.md
 ├── shell.nix
 └── statix.toml
@@ -203,8 +195,10 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 - `flake.nix`: Entrypoint for host and home configurations. Also exposes a devshell for boostrapping the system (`nix develop` or `nix shell`).
 - `myLib`: Custom library functions for various parts of the flake, imported into HomeManager and NixOS
 - `hosts`: Configurations for each machine, accessible via `nixos-rebuild --flake`.
+  - `profiles`: Templates that when specified for a host, imports a block of features and configs within the folder (Also located in users/USERNAME)
   - `ryzennova`: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6
   - `yoganova`: Lenovo Yoga 7i 16IRL8 (Type 82YN) - 8GB RAM, Intel i5 1335U | KDE Plasma 6
+  - `knoxpc`: Homelab/NAS PC - 1GB RAM, Intel Core i5-8400, Intel UHD Graphics 630 | Headless
   - `installer`: ISO configuration | Nvidia drivers included | KDE Plasma 6
 - `users`: Configurations for each user, includes both host OS specific (NixOS or Darwin) and Home Manager configurations. Built together with the `hosts` configurations via `nixos-rebuild --flake` (or the darwin equivalent)
 - `extra`: Extra stuff like custom modules and flake documentation
@@ -212,10 +206,8 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
   - `homeModules`: Custom Home-Manager modules used throughout the flake (and some being upstreamable)
   - `scripts`: Bash/Posix scripts needed for various `precommit` and `just` commands
   - `assets`: Repository assets like images and videos
-- `core`: Shared configurations applied to all hosts and users
+- `base`: Shared configurations applied to all hosts and users
 - `features`: Opt-in configurations/feature flags that one or more users/hosts can use
-  - `home`: NixOS specific feature flags (some features contain some shared Home-manager options that get applied to all users)
-  - `system`: Home-Manager specific feature flags
 - `checks`: Flake evaluation tools for ensuring the flake is properly formatted and builds successfully. Also contains git-hooks to ensure the repository is properly setup. Accessible via `nix flake check`
 - `overlays`: Patches and version overrides for some packages, applied to all systems and even the devshell. Accessible via `nix build`.
 - `pkgs`: Custom nix packages defined similarly to the nixpkgs ones. Also accessible via `nix build`. You can compose these into your own configuration by using my flake&rsquo;s overlay, or consume them through NUR.
@@ -231,9 +223,9 @@ For installation, check out the installation guide located under [documentation/
 Main user relevant apps
 
 - kde plasma 6
-- doom emacs
+- neovim
 - zsh + atuin + fzf + oh-my-posh
-- floorp
+- brave browser
 - keepassxc
 - vesktop
 - sops-nix + gpg + ssh-agent + yubikey
@@ -241,7 +233,7 @@ Main user relevant apps
 - kdeconnect
 - krita
 - libreoffice
-- kitty + tmux
+- ghostty + tmux
 - prusa-slicer
 - and quite a bit more...
 

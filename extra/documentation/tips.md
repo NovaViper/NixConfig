@@ -52,6 +52,16 @@ Repository secrets are managed via a dedicated private flake input named `nix-se
 For the host keys, I use the automatically generated ssh host keys that NixOS generates on first boot (the keys live in `/etc/ssh`) and I created an ssh key for my user that is only used for dealing with the secrets and nothing else. The public ssh key identities are under their respective user and host configs. These ssh keys decrypt their respective secret associated with the host and user. There are also master keys, which live on my Yubikey(s), are used to modify and encrypt the secrets, these can manage the secrets even if we lose the host keys! Rekeying is done with `sops updatekeys` inside the nix-secrets repository.
 For new systems, you will need to create the ssh keys in the installer with `ssh-keyscan -t ed25519` or simply copy the already generated ssh keys from the live-image's `/etc/ssh/` into the newly mounted disks, `/mnt/etc/ssh/`; then rekey the secrets again.
 
+Steps for rekeying/deployment for new hosts are (generally) as follows:
+
+1. Get the ssh key dervied age keys with `cat /path/to/ssh_host_ed25519_key.pub | ssh-to-age` or run `just generate-key-host-ssh-age` to generate the age keys from the installer's ssh keys
+2. Rekey the secrets (if you're using an external repo for storing your secrets,
+   make sure to append the key there and push the changes so the flake can
+   access the newly rekeyed secrets!)
+3. If using the installer's ssh keys, use `just copy-installer-keys HOSTNAME` to move them to the new host
+4. Use `just generate-age-keylist installer "LIST OF HARDWARE KEY SERIAL NUMBERS"`, to create a keys.txt that contains the identity paths of your hardware-key based age keys and then move it onto the `/var/lib/sops`
+5. Copy the keys.txt created from the previous step into the installer's `~/.config/sops/age` folder
+
 For more information on how sops-nix works in general and for more advanced functionality, refer to the [sops-nix README](https://github.com/Mic92/sops-nix/tree/master?tab=readme-ov-file#sops-nix).
 
 ### Soft and Hard Secrets
