@@ -15,6 +15,7 @@ in
     "programs/browser/brave"
     "programs/neovim"
     "programs/ghostty"
+    "programs/keepassxc"
 
     ### Terminal Utils
     "cli/atuin"
@@ -48,7 +49,6 @@ in
     rpi-imager
     blisp
     libreoffice-qt6-fresh
-    keepassxc
     krita
     kdePackages.tokodon
     smassh

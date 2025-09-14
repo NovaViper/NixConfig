@@ -195,6 +195,12 @@ in
         # previous config file.
         dataFile."applications/mimeapps.list".force = true;
         mimeApps.enable = true;
+
+        # Let Home-manager create XDG autostart entries
+        autostart.enable = true;
+        # Let Home-manager manage user directories
+        userDirs.enable = true;
+        userDirs.createDirectories = true;
       };
     })
     {
