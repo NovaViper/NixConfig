@@ -8,9 +8,12 @@ let
   hm-config = config.hm;
   myselfName = "novaviper";
   secrets = inputs.nix-secrets.${myselfName}.email;
+  # passwordCmd =
+  #   smtpHost: address:
+  #   "gpg -q --for-your-eyes-only --no-tty -d ~/.authinfo.gpg | awk '/machine
+  #   ${smtpHost} login ${address}/ {print $NF}'";
   passwordCmd =
-    smtpHost: email:
-    "gpg -q --for-your-eyes-only --no-tty -d ~/.authinfo.gpg | awk '/machine ${smtpHost} login ${email}/ {print $NF}'";
+    smtpHost: address: "${lib.getExe hm-config.programs.password-store.package} ${smtpHost}/${address}";
 in
 {
   hm.accounts.email = {
@@ -35,7 +38,6 @@ in
           host = "imap.mailbox.org";
           tls.useStartTls = true;
         };
-        #passwordCommand = "${pass} Mail/${smtp.host}/${address}";
         passwordCommand = passwordCmd smtp.host address;
         #mu.enable = true;
         msmtp.enable = true; # Send Email
@@ -115,7 +117,6 @@ in
         realName = "${myselfName}";
         # Declaring ports for Gmail breaks it!!
         imap.host = "imap.gmail.com";
-        #passwordCommand = "${pass} Mail/${smtp.host}/${address}";
         passwordCommand = passwordCmd smtp.host address;
         #mu.enable = true;
         msmtp.enable = true; # Send Email
