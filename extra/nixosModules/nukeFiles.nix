@@ -37,8 +37,6 @@ in
 
   config = mkIf (config.nukeFiles != [ ]) {
     # Home file nuking script that deletes stuff just before we run home-manager's activation scripts
-    home.activation.home-conflict-file-nuker = lib.hm.dag.entryAfter [
-      "checkLinkTargets"
-    ] activationScript;
+    system.userActivationScripts.home-conflict-file-nuker = activationScript;
   };
 }

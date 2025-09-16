@@ -17,14 +17,14 @@ in
   # Results in an unchangable, broken theme
   stylix.targets.chromium.enable = false;
 
-  hm = lib.mkIf (config.stylix.enable) {
-    nukeFiles = [
-      "${hm-config.home.homeDirectory}/.config/gtk-2.0/gtkrc"
-      "${hm-config.home.homeDirectory}/.config/gtk-3.0/gtk.css"
-      "${hm-config.home.homeDirectory}/.config/gtk-4.0/gtk.css"
-      "${hm-config.home.homeDirectory}/.gtkrc-2.0"
-    ];
+  nukeFiles = lib.mkIf (config.stylix.enable) [
+    "${hm-config.home.homeDirectory}/.config/gtk-2.0/gtkrc"
+    "${hm-config.home.homeDirectory}/.config/gtk-3.0/gtk.css"
+    "${hm-config.home.homeDirectory}/.config/gtk-4.0/gtk.css"
+    "${hm-config.home.homeDirectory}/.gtkrc-2.0"
+  ];
 
+  hm = lib.mkIf (config.stylix.enable) {
     # gtk = lib.mkIf (config.stylix.polarity == "dark") {
     #   enable = true;
     #   theme.name = lib.mkForce "adw-gtk3-dark";
