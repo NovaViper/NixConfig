@@ -10,19 +10,19 @@ let
 in
 {
   hm.programs.fish = {
-    interactiveShellInit = lib.mkAfter (
-      lib.concatStringsSep "\n" [
-        (lib.optionalString hm-config.programs.tmux.enable # fish
-          ''
-            # Run Tmux on startup OUTSIDE of SSH
-            if test -z "$TMUX"
-               and test -z "$SSH_CONNECTION"
-               ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || exec ${lib.getExe pkgs.tmuxp} load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
-            end
-          ''
-        )
-      ]
-    );
+    # interactiveShellInit = lib.mkAfter (
+    #   lib.concatStringsSep "\n" [
+    #     (lib.optionalString hm-config.programs.tmux.enable # fish
+    #       ''
+    #         # Run Tmux on startup OUTSIDE of SSH
+    #         if test -z "$TMUX"
+    #            and test -z "$SSH_CONNECTION"
+    #            ${lib.getExe pkgs.tmux} attach >/dev/null 2>&1 || exec ${lib.getExe pkgs.tmuxp} load ${hm-config.xdg.configHome}/tmuxp/session.yaml >/dev/null 2>&1
+    #         end
+    #       ''
+    #     )
+    #   ]
+    # );
 
     functions = {
       fish_greeting = # fish

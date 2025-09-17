@@ -7,6 +7,7 @@
 }:
 let
   hm-config = config.hm;
+  ghostty = lib.getExe hm-config.programs.ghostty.package;
 in
 {
   hm.xdg.mimeApps =
@@ -32,16 +33,46 @@ in
   hm.programs.ghostty.installBatSyntax = true;
 
   hm.programs.ghostty.settings = {
+    # Enable the ability to move the cursor at prompts by using alt+click
     cursor-click-to-move = true;
+    # Make the mouse disappear when typing
     mouse-hide-while-typing = true;
+    # I want notifications
     desktop-notifications = true;
-
-    shell-integration-features = false;
-
+    # Enable shell integration
+    shell-integration-features = true;
+    # Enable terminal bell
+    bell-features = "system";
+    # Enable link previews
+    link-previews = true;
+    # Make cursor blink
     cursor-style-blink = true;
     # Prompt on clipboard paste
     clipboard-paste-protection = true;
-    # Show when a new update is out (since i'm using nightly)
+    # Automatically copy selected text to the clipboard
+    copy-on-select = true;
+    # Show when a new update is out (since I'm using nightly)
     auto-update = "check";
+
+    keybind = [
+      "global:ctrl+grave_accent=toggle_quick_terminal"
+    ];
+  };
+
+  hm.systemd.user.services.ghostty-daemon = {
+    Unit = {
+      Description = "Ghostty Background Service";
+      After = [ "xdg-desktop-autostart.target" ];
+    };
+
+    Service = {
+      BusName = "com.mitchellh.ghostty";
+      ExecStart = "${ghostty} --gtk-single-instance=true --initial-window=false --quit-after-last-window-closed=false";
+      Type = "dbus";
+    };
+
+    Install = {
+      WantedBy = [ "xdg-desktop-autostart.target" ];
+    };
   };
 }
