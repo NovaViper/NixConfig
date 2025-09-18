@@ -16,8 +16,8 @@ in
 {
   imports = myLib.utils.importFeatures [
     ### Shell
-    #"cli/shell/fish"
-    "cli/shell/zsh"
+    "cli/shell/fish"
+    #"cli/shell/zsh"
 
     ### Terminal Utils
     "cli/utilities"

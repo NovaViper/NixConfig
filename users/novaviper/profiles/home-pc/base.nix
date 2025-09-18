@@ -18,7 +18,7 @@ in
     "programs/keepassxc"
 
     ### Terminal Utils
-    "cli/atuin"
+    #"cli/atuin"
     "cli/oh-my-posh"
     "cli/deco"
 

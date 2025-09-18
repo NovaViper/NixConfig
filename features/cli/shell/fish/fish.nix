@@ -6,7 +6,7 @@
 {
   features.shell = "fish";
   # Make the default shell for users be fish
-  users.defaultUserShell = pkgs.zsh;
+  users.defaultUserShell = pkgs.fish;
 
   # Broken for fish so make sure to disable it
   programs.command-not-found.enable = false;
@@ -49,14 +49,11 @@
       # when running multiple times - but that's a Fish bug I've had forever, and
       # I'll accept it if it means we don't have to deal with constant repaints.
       functions --copy fish_job_summary job_summary
-    '';
-
-  hm.programs.fish.functions = {
-    fish_job_summary.body = ''
-      if contains STOPPED $argv
-        return
+      function fish_job_summary
+        if contains STOPPED $argv
+          return
+        end
+        job_summary $argv
       end
-      job_summary $argv
     '';
-  };
 }
