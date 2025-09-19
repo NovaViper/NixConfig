@@ -135,5 +135,13 @@ in
           discord
         ];
       };
+
+    brave = import ./brave.nix { inherit self final prev; };
+
+    # brave = let
+    #
+    # in prev.brave.overrideAttrs (oldAttrs:{
+    #
+    # })
   };
 }
