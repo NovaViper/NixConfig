@@ -40,7 +40,7 @@ in
     # I want notifications
     desktop-notifications = true;
     # Enable shell integration
-    shell-integration-features = true;
+    shell-integration-features = "no-cursor,sudo,title";
     # Enable terminal bell
     bell-features = "system";
     # Enable link previews
