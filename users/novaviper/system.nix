@@ -21,7 +21,7 @@ in
 
     ### Terminal Utils
     "cli/utilities"
-    "cli/tmux"
+    "cli/multiplexer/tmux"
   ];
 
   hm.userVars = {

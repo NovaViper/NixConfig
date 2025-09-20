@@ -19,7 +19,7 @@
     "cli/utilities"
     "cli/oh-my-posh"
     "cli/deco"
-    "cli/tmux"
+    "cli/multiplexer/tmux"
     "cli/atuin"
   ];
 
