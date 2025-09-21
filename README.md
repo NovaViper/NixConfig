@@ -91,7 +91,9 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 │   │   ├── shell/
 │   │   │   ├── fish/
 │   │   │   └── zsh/
-│   │   ├── tmux/
+│   │   ├── multiplexer/
+│   │   │   ├── tmux/
+│   │   │   └── zellij/
 │   │   └── utilities/
 │   │       ├── git/
 │   │       └── ...
@@ -224,9 +226,9 @@ Main user relevant apps
 
 - kde plasma 6
 - neovim
-- zsh + atuin + fzf + oh-my-posh
+- fish + fzf + oh-my-posh
 - brave browser
-- keepassxc
+- keepassxc + gopass
 - vesktop
 - sops-nix + gpg + ssh-agent + yubikey
 - tailscale
@@ -239,7 +241,7 @@ Main user relevant apps
 
 Nix stuff
 
-- home-manager
+- Home-Manager
 - NixOS and nix, of course
 
 # Final Note
