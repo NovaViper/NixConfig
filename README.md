@@ -232,7 +232,7 @@ Main user relevant apps
 - vesktop
 - sops-nix + gpg + ssh-agent + yubikey
 - tailscale
-- kdeconnect
+- kdeconnect + localsend
 - krita
 - libreoffice
 - ghostty + tmux
