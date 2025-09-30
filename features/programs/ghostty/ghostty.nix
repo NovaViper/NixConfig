@@ -55,7 +55,7 @@ in
     auto-update = "check";
 
     keybind = [
-      "global:ctrl+grave_accent=toggle_quick_terminal"
+      "global:ctrl+shift+t=toggle_quick_terminal"
     ];
   };
 
