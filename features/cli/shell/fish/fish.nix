@@ -34,6 +34,9 @@
 
       # set options for plugins
       set sponge_regex_patterns 'password|passwd|^kill'
+
+      # Make fycu check for abbreviations
+      set -g FYCU_ENABLE_ABBR true
     ''
   ];
 }
