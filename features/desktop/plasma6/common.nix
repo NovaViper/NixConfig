@@ -25,8 +25,16 @@
   # Enable KDE partition manager configs
   programs.partition-manager.enable = true;
 
-  # Enable KDE connect service
-  programs.kdeconnect.enable = true;
+  # Add kdeconnect ports
+  networking.firewall = rec {
+    allowedTCPPortRanges = [
+      {
+        from = 1714;
+        to = 1764;
+      }
+    ];
+    allowedUDPPortRanges = allowedTCPPortRanges;
+  };
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [ elisa ];
 
@@ -68,10 +76,8 @@
 
   hm.programs.plasma.configFile."kwinrc"."Xwayland"."Scale" = config.hostVars.scalingFactor;
 
-  hm.services.kdeconnect = {
-    enable = true;
-    package = pkgs.kdePackages.kdeconnect-kde;
-  };
+  # Enable kdeconnect service
+  hm.services.kdeconnect.enable = true;
 
   hm.xdg.mimeApps = {
     defaultApplications."x-scheme-handler/tel" = [ "org.kde.kdeconnect.handler.desktop" ];
