@@ -153,7 +153,11 @@ in
   hm.programs.plasma =
     let
       workspace = {
-        lookAndFeel = "org.kde.breezedark.desktop";
+        #lookAndFeel = "org.kde.breezedark.desktop";
+        windowDecorations = {
+          library = "org.kde.breeze";
+          theme = "Breeze";
+        };
         iconTheme = "Papirus-Dark";
         colorScheme = "DraculaPurple";
         #splashScreen = "";
