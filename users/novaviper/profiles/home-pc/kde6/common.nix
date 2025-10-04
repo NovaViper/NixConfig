@@ -9,7 +9,8 @@ let
   hm-config = config.hm;
 in
 {
-  hm.home.shellAliases.reload-plasma-theming = "~/.local/share/plasma-manager/run_all.sh";
+  hm.home.shellAliases.reload-plasma-theming = "rm -R ~/.local/share/plasma-manager/last_run_script_* && ~/.local/share/plasma-manager/run_all.sh";
+  hm.home.packages = [ pkgs.restart-plasma ];
 
   hm.programs.plasma = {
     enable = true;
