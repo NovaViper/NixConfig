@@ -15,6 +15,7 @@ in
       jdks = [
         jdk8
         jdk17
+        jdk21
         jdk23
       ];
       additionalLibs = [
