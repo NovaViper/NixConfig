@@ -28,10 +28,6 @@
   virtualisation.libvirtd = {
     enable = true;
     qemu.swtpm.enable = true;
-    qemu.ovmf = {
-      enable = true;
-      packages = with pkgs; [ OVMFFull.fd ];
-    };
   };
 
   services.spice-vdagentd.enable = true;
