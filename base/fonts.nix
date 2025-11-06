@@ -22,8 +22,9 @@
       # nerd fonts
       nerd-fonts.symbols-only
     ]
-    # Microsoft Fonts
     ++ lib.optionals (config.features.desktop != null) [
+      typodermic-public-domain
+      # Microsoft Fonts
       corefonts
       vistafonts
     ];

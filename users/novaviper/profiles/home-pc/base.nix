@@ -56,6 +56,7 @@ in
     pineflash
     kdePackages.isoimagewriter
     vintagestory
+    inkscape
     asciinema
     asciinema-agg
   ];
