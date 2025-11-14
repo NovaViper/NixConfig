@@ -45,7 +45,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     git-hooks = {
-      url = "github:cachix/git-hooks.nix";
+      #url = "github:cachix/git-hooks.nix";
+      # FIXME: Remove when https://github.com/cachix/git-hooks.nix/pull/654
+      # closes
+      url = "github:onatustun/git-hooks.nix/rm-typstfmt";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     menu = {

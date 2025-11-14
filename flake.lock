@@ -281,15 +281,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1760392170,
-        "narHash": "sha256-WftxJgr2MeDDFK47fQKywzC72L2jRc/PWcyGdjaDzkw=",
-        "owner": "cachix",
+        "lastModified": 1763069267,
+        "narHash": "sha256-UPjIZIfh0DCVeGwjGgdRF803ELzYQr02qpWmO3wi0Ds=",
+        "owner": "onatustun",
         "repo": "git-hooks.nix",
-        "rev": "46d55f0aeb1d567a78223e69729734f3dca25a85",
+        "rev": "31792452cf92d204ea0df8e3fddc018235c4cf1b",
         "type": "github"
       },
       "original": {
-        "owner": "cachix",
+        "owner": "onatustun",
+        "ref": "rm-typstfmt",
         "repo": "git-hooks.nix",
         "type": "github"
       }
