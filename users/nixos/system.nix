@@ -36,8 +36,8 @@
     fi
   '';
 
-  hm.programs.git = {
-    userName = "";
-    userEmail = "";
+  hm.programs.git.settings.user = {
+    name = "";
+    email = "";
   };
 }

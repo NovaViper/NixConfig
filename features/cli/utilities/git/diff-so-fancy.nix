@@ -7,12 +7,15 @@ let
   globalLessOpts = config.programs.less.envVariables.LESS;
 in
 {
-  hm.programs.git.diff-so-fancy = {
+  hm.programs.diff-so-fancy = {
     enable = true;
-    markEmptyLines = false; # So nothing else looks like `red reverse`
+    settings.markEmptyLines = false; # So nothing else looks like `red reverse`
 
     # Convert from space-separated string to list of strings
     pagerOpts = lib.splitString " " globalLessOpts;
+
+    # Configure diff-so-fancy to be git's pager and diff filter
+    enableGitIntegration = true;
   };
 
   hm.programs.git.iniContent = {
