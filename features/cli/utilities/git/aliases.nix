@@ -5,7 +5,7 @@
   ...
 }:
 {
-  hm.programs.git.aliases = {
+  hm.programs.git.settings.aliases = {
     p = "pull --ff-only";
     ff = "merge --ff-only";
     graph = "log --decorate --oneline --graph";

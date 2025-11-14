@@ -12,8 +12,8 @@ in
 
   # Don't set anything since we're not going to be using git on the server
   # directly
-  hm.programs.git = {
-    userName = "";
-    userEmail = "";
+  hm.programs.git.settings.user = {
+    name = "";
+    email = "";
   };
 }
