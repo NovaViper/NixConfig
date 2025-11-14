@@ -2,7 +2,7 @@
 {
   hm.home.packages = with pkgs; [
     # :editor format
-    nodePackages.lua-fmt
+    stylua
     # :tools lsp :lang lua
     lua-language-server
   ];
