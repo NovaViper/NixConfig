@@ -16,11 +16,9 @@ in
         jdk8
         jdk17
         jdk21
-        jdk23
       ];
       additionalLibs = [
         nss
-        libcef
         nspr
         libgbm
         glib

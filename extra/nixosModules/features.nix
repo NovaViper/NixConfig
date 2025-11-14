@@ -114,7 +114,6 @@ in
         # Install necessary wayland protocol packages
         systemPackages = with pkgs; [
           #xorg.xeyes
-          kdePackages.xwaylandvideobridge
           libsForQt5.qt5.qtwayland
           qt6.qtwayland
         ];
