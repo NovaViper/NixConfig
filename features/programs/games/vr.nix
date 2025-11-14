@@ -15,6 +15,5 @@ in
       bs-manager
       # For the Quest headsets
       android-tools
-      android-udev-rules
     ];
 }
