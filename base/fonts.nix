@@ -26,7 +26,7 @@
       typodermic-public-domain
       # Microsoft Fonts
       corefonts
-      vistafonts
+      vista-fonts
     ];
 
   fonts.fontconfig = {

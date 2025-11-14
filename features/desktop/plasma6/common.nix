@@ -48,7 +48,7 @@
 
       # Libraries/Utilities
       clinfo # for kinfocenter for OpenCL page
-      glxinfo # for kinfocenter for OpenGL EGL and GLX page
+      mesa-demos # for kinfocenter for OpenGL EGL and GLX page
       vulkan-tools # for kinfocenter for Vulkan page
       wayland-utils # for kinfocenter for Wayland page
       ffmpegthumbnailer # for video thumbnails

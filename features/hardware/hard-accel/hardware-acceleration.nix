@@ -10,7 +10,7 @@
   environment.systemPackages = with pkgs; [
     libva-utils
     clinfo
-    glxinfo
+    mesa-demos
     vulkan-tools
     vulkan-loader
   ];
