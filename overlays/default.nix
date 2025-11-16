@@ -6,6 +6,10 @@ let
     pkg.overrideAttrs (oldAttrs: {
       patches = (oldAttrs.patches or [ ]) ++ patches;
     });
+
+  # Helper for referring to the new stdenv.hostPlatform.system, so we don't have
+  # to write out that long string so many times
+  refSystem = ref: ref.stdenv.hostPlatform.system;
 in
 {
   # Third party overlays
@@ -13,29 +17,29 @@ in
   sops-overlay = self.inputs.sops-nix.overlays.default;
 
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
-  # 'inputs.${flake}.packages.${pkgs.system}' or
-  # 'inputs.${flake}.legacyPackages.${pkgs.system}'
+  # 'inputs.${flake}.packages.${pkgs.stdenv.hostPlatform.system}' or
+  # 'inputs.${flake}.legacyPackages.${pkgs.stdenv.hostPlatform.system}'
   flake-inputs = final: _: {
     inputs = builtins.mapAttrs (
       _: flake:
       let
-        legacyPackages = (flake.legacyPackages or { }).${final.system} or { };
-        packages = (flake.packages or { }).${final.system} or { };
+        legacyPackages = (flake.legacyPackages or { }).${refSystem final} or { };
+        packages = (flake.packages or { }).${refSystem final} or { };
       in
       if legacyPackages != { } then legacyPackages else packages
     ) self.inputs;
   };
 
-  # Adds pkgs.stable == inputs.nixpkgs-stable.legacyPackages.${pkgs.system}
+  # Adds pkgs.stable == inputs.nixpkgs-stable.legacyPackages.${pkgs.stdenv.hostPlatform.system}
   stable = final: _: {
     stable = import self.inputs.nixpkgs-stable {
-      inherit (final) system;
+      localSystem = refSystem final;
       config.allowUnfree = true;
     };
-    #stable = self.inputs.nixpkgs-stable.legacyPackages.${final.system};
   };
 
-  # This one brings our custom packages from the 'pkgs' directory, use the new fancy lib.packagesFromDirectoryRecursive to import out packages!
+  # This one brings our custom packages from the 'pkgs' directory, use the new
+  # fancy lib.packagesFromDirectoryRecursive to import our packages!
   # See: https://noogle.dev/f/lib/packagesFromDirectoryRecursive
   additions =
     final: prev:

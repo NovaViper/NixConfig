@@ -4,11 +4,16 @@
   ...
 }:
 let
+  # Helper for referring to the new stdenv.hostPlatform.system, so we don't have
+  # to write out that long string so many times
+  refSystem = ref: ref.stdenv.hostPlatform.system;
+  # Shorthand variable
   git-hooks-in = inputs.git-hooks;
-  checks-in = git-hooks-in.checks.${pkgs.system};
+  # Shorthand variable
+  checks-in = git-hooks-in.checks.${refSystem pkgs};
 in
 {
-  pre-commit-check = git-hooks-in.lib.${pkgs.system}.run {
+  pre-commit-check = git-hooks-in.lib.${refSystem pkgs}.run {
     src = ../.;
     default_stages = [ "pre-commit" ];
     hooks = {

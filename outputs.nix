@@ -7,7 +7,7 @@ let
 
   # Flake evaluation tests and checks entrypoint
   # Available through 'nix flake check'
-  checks = myLib.forEachSystem (pkgs: import ./checks { inherit inputs pkgs; });
+  checks = myLib.forAllSystems (pkgs: import ./checks { inherit inputs pkgs; });
 
   # NixOS configuration entrypoint
   # Available through 'nixos-rebuild --flake .#your-hostname'
@@ -58,7 +58,7 @@ in
 
   # Your custom packages
   # Acessible through 'nix build', 'nix shell', etc
-  packages = myLib.forEachSystem (
+  packages = myLib.forAllSystems (
     pkgs:
     (lib.packagesFromDirectoryRecursive {
       inherit (pkgs) callPackage;
@@ -68,11 +68,11 @@ in
 
   # Devshell for bootstrapping
   # Acessible through 'nix develop' or 'nix-shell' (legacy)
-  devShells = myLib.forEachSystem (pkgs: import ./shell.nix { inherit pkgs checks; });
+  devShells = myLib.forAllSystems (pkgs: import ./shell.nix { inherit pkgs checks; });
 
   # Formatter for your nix files, available through 'nix fmt'
   # Other options beside 'alejandra' include 'nixpkgs-fmt'
-  formatter = myLib.forEachSystem (pkgs: pkgs.nixfmt-tree);
+  formatter = myLib.forAllSystems (pkgs: pkgs.nixfmt-tree);
 
   # Standalone home-manager configuration entrypoint
   # Available through 'home-manager --flake .#your-username@your-hostname'

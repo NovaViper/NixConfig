@@ -17,8 +17,8 @@ let
 
   # Helper functions we don't plan on exporting past this file
   internals = {
-    # Supported systems for your flake packages, shell, etc are determined by the systems input.
-    sys = import inputs.systems;
+    # Supported systems for your flake packages, shell, etc.
+    supportedSystems = [ "x86_64-linux" ];
   };
 
   exports = {
@@ -36,18 +36,21 @@ let
     slimports = import ./slimports.nix flakeNLibs;
     mkUnfreeNixpkgs = import ./mkUnfreeNixpkgs.nix;
 
-    # This is a function that generates an attribute by calling function you pass to it, with each system as an argument
-    forEachSystem = function: lib.genAttrs internals.sys (system: function exports.pkgsFor.${system});
-
-    # Supply nixpkgs for the forAllSystems function, applies overrides from the flake and allow unfree packages globally
-    pkgsFor = lib.genAttrs internals.sys (
-      system:
-      import inputs.nixpkgs {
-        inherit system;
-        overlays = builtins.attrValues self.outputs.overlays;
-        config.allowUnfree = true;
-      }
-    );
+    # This is a function that generates an attribute by calling the function you
+    # pass to it, with a list of supported system appended to the function
+    forAllSystems =
+      function:
+      lib.genAttrs internals.supportedSystems (
+        system:
+        function (
+          # Applies overrides from the flake and allow unfree packages globally
+          import inputs.nixpkgs {
+            localSystem = system;
+            overlays = builtins.attrValues self.outputs.overlays;
+            config.allowUnfree = true;
+          }
+        )
+      );
   };
 in
 exports

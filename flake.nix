@@ -20,7 +20,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     hardware.url = "github:nixos/nixos-hardware";
-    systems.url = "github:nix-systems/default-linux";
     nur = {
       url = "github:nix-community/nur";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -87,13 +86,11 @@
       url = "git+ssh://git@github.com/NovaViper/nix-secrets.git?ref=main&shallow=1";
       #url = "git+file:///home/novaviper/Documents/Projects/nix-secrets?ref=main&shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.systems.follows = "systems";
     };
     novavim = {
       url = "github:NovaViper/novavim";
       #url = "git+file:///home/novaviper/Documents/Projects/novavim";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.systems.follows = "systems";
     };
     #######
 

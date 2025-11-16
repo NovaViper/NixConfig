@@ -15,7 +15,7 @@
   ...
 }:
 let
-  checks-lib = checks.${pkgs.system};
+  checks-lib = checks.${pkgs.stdenv.hostPlatform.system};
 in
 {
   default = pkgs.mkShell {

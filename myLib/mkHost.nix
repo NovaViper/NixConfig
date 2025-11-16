@@ -16,7 +16,6 @@ let
       profiles ? [ ],
     }:
     lib.nixosSystem {
-      inherit system;
       # Make sure we pass everything from the flake inputs and from the mkHost parameters
       specialArgs = flake // {
         inherit
