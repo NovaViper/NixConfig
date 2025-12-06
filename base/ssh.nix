@@ -77,8 +77,7 @@ in
         "yubikey-hosts" = {
           host = "github.com gitlab.com codeberg.org";
           user = "git";
-          identitiesOnly = true;
-          extraOptions.PKCS11Provider = "${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
+          extraOptions.PKCS11Provider = "${pkgs.opensc}/lib/opensc-pkcs11.so";
         };
 
         # Default options

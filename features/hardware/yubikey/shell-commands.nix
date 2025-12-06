@@ -5,7 +5,7 @@
   ...
 }:
 let
-  pkcs11 = "${pkgs.opensc}/lib/pkcs11/opensc-pkcs11.so";
+  pkcs11 = "${pkgs.opensc}/lib/opensc-pkcs11.so";
 in
 {
   hm.home.shellAliases = {
