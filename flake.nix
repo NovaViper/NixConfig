@@ -18,7 +18,7 @@
   inputs = {
     # Core dependencies
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
     hardware.url = "github:nixos/nixos-hardware";
     nur = {
       url = "github:nix-community/nur";
