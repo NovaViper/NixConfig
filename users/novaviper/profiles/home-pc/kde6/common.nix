@@ -13,13 +13,7 @@ in
 
     "rm -R ~/.local/share/plasma-manager/last_run_script_* && ~/.local/share/plasma-manager/run_all.sh";
   hm.programs.fish.shellAliases.reload-plasma-theming = # fish
-    ''
-      set files ~/.local/share/plasma-manager/last_run_script_*
-      if test (count $files) -gt 0
-        rm -R $files
-      end
-      ~/.local/share/plasma-manager/run_all.sh
-    '';
+    "set files (${lib.getExe pkgs.findutils} ~/.local/share/plasma-manager/ -name 'last_run_*'); if test (count $files) -gt 0; rm -rf $files; end; ~/.local/share/plasma-manager/run_all.sh";
   hm.home.packages = [ pkgs.restart-plasma ];
 
   hm.programs.plasma = {
