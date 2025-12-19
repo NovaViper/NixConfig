@@ -17,6 +17,7 @@ in
       set files ~/.local/share/plasma-manager/last_run_script_*
       if test (count $files) -gt 0
         rm -R $files
+      end
       ~/.local/share/plasma-manager/run_all.sh
     '';
   hm.home.packages = [ pkgs.restart-plasma ];
