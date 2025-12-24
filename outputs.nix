@@ -28,6 +28,13 @@ let
         profiles = lib.singleton "home-pc";
       };
 
+      # Framework
+      framenova = {
+        username = "novaviper";
+        system = "x86_64-linux";
+        profiles = lib.singleton "home-pc";
+      };
+
       # Homelab
       knoxpc = {
         username = "novaviper";
@@ -82,6 +89,7 @@ in
       "novaviper@ryzennova" = { inherit nixosConfigurations; };
       "novaviper@yoganova" = { inherit nixosConfigurations; };
       "novaviper@knoxpc" = { inherit nixosConfigurations; };
+      "novaviper@framenova" = { inherit nixosConfigurations; };
       "nixos@installer" = { inherit nixosConfigurations; };
     };
 }
