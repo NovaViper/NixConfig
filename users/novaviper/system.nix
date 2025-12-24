@@ -36,7 +36,10 @@ in
       "git"
       "networkmanager"
     ];
-    openssh.authorizedKeys.keys = lib.singleton "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICkow+KpToZkMbhpqTztf0Hz/OWP/lWPCv47QNtZc6TaAAAADnNzaDpuaXhidWlsZGVy";
+    openssh.authorizedKeys.keys = [
+      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICkow+KpToZkMbhpqTztf0Hz/OWP/lWPCv47QNtZc6TaAAAADnNzaDpuaXhidWlsZGVy"
+      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIJ7BJkxw7uEAeun8irHZPS0Z2MUySBhYAqwsWGLwS8OuAAAADnNzaDpuaXhidWlsZGVy" # USBC
+    ];
     hashedPasswordFile = sopsHashedPasswordFile;
   };
 

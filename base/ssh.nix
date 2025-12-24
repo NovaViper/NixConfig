@@ -66,7 +66,14 @@ in
             value = {
               hostname = "${host}";
               port = 22;
-              identityFile = "${hm-config.home.homeDirectory}/.ssh/id_ed25519_sk_rk_nixbuilder";
+              identityFile =
+                let
+                  homePath = "${hm-config.home.homeDirectory}/.ssh";
+                in
+                [
+                  "${homePath}/id_ed25519_sk_rk_nixbuilder"
+                  "${homePath}/nixbuild_ed25519-sk_usbc"
+                ];
               extraOptions.RequestTTY = "Force";
             };
           }
