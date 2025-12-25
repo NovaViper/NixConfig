@@ -22,13 +22,6 @@ let
       };
 
       # Personal laptop
-      yoganova = {
-        username = "novaviper";
-        system = "x86_64-linux";
-        profiles = lib.singleton "home-pc";
-      };
-
-      # Framework
       framenova = {
         username = "novaviper";
         system = "x86_64-linux";
@@ -87,9 +80,8 @@ in
     # Run mkHome for each homeConfiguration, with key passed as host
     builtins.mapAttrs myLib.mkHome {
       "novaviper@ryzennova" = { inherit nixosConfigurations; };
-      "novaviper@yoganova" = { inherit nixosConfigurations; };
-      "novaviper@knoxpc" = { inherit nixosConfigurations; };
       "novaviper@framenova" = { inherit nixosConfigurations; };
+      "novaviper@knoxpc" = { inherit nixosConfigurations; };
       "nixos@installer" = { inherit nixosConfigurations; };
     };
 }

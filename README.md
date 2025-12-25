@@ -151,7 +151,7 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 │   │   └── home-pc/
 │   │       ├── features.nix
 │   │       └── ...
-│   ├── ryzennova/
+│   ├── framenova/
 │   │   ├── config/
 │   │   │   ├── disko.nix
 │   │   │   └── ...
@@ -159,7 +159,7 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 │   │   ├── hardware-configuration.nix
 │   │   ├── hostVars.nix
 │   │   └── ssh_host_ed25519_key.pub
-│   └── yoganova/
+│   └── ryzennova/
 │       ├── config/
 │       │   ├── disko.nix
 │       │   └── ...
@@ -177,9 +177,9 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 │   └── novaviper/
 │       ├── dotfiles/
 │       ├── hosts/
+│       │   ├── framenova.nix
 │       │   ├── knoxpc.nix
 │       │   ├── ryzennova.nix
-│       │   └── yoganova.nix
 │       ├── profiles/
 │       │   └── home-pc/
 │       ├── ssh.pub
@@ -198,8 +198,8 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 - `myLib`: Custom library functions for various parts of the flake, imported into HomeManager and NixOS
 - `hosts`: Configurations for each machine, accessible via `nixos-rebuild --flake`.
   - `profiles`: Templates that when specified for a host, imports a block of features and configs within the folder (Also located in users/USERNAME)
+  - `framenova`: Framework 13 - 32GB RAM, AMD Ryzen 7640U, AMD Radeon 760M | KDE Plasma 6
   - `ryzennova`: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6
-  - `yoganova`: Lenovo Yoga 7i 16IRL8 (Type 82YN) - 8GB RAM, Intel i5 1335U | KDE Plasma 6
   - `knoxpc`: Homelab/NAS PC - 1GB RAM, Intel Core i5-8400, Intel UHD Graphics 630 | Headless
   - `installer`: ISO configuration | Nvidia drivers included | KDE Plasma 6
 - `users`: Configurations for each user, includes both host OS specific (NixOS or Darwin) and Home Manager configurations. Built together with the `hosts` configurations via `nixos-rebuild --flake` (or the darwin equivalent)
