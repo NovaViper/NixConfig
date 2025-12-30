@@ -1,4 +1,7 @@
 { pkgs, ... }:
 {
-  environment.systemPackages = with pkgs; [ webcamoid ];
+  environment.systemPackages = with pkgs; [
+    webcamoid
+    bottles
+  ];
 }
