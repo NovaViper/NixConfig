@@ -71,7 +71,7 @@ in
                   homePath = "${hm-config.home.homeDirectory}/.ssh";
                 in
                 [
-                  "${homePath}/id_ed25519_sk_rk_nixbuilder"
+                  "${homePath}/nixbuild_ed25519-sk_usba"
                   "${homePath}/nixbuild_ed25519-sk_usbc"
                 ];
               extraOptions.RequestTTY = "Force";

@@ -36,8 +36,9 @@ in
       "git"
       "networkmanager"
     ];
+    #
     openssh.authorizedKeys.keys = [
-      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAICkow+KpToZkMbhpqTztf0Hz/OWP/lWPCv47QNtZc6TaAAAADnNzaDpuaXhidWlsZGVy"
+      "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIJWAjNX9W7yLMAj7Y5tkGmXubkX7YxiK86RKPWNlL3JmAAAADnNzaDpuaXhidWlsZGVy" # USBA
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIJ7BJkxw7uEAeun8irHZPS0Z2MUySBhYAqwsWGLwS8OuAAAADnNzaDpuaXhidWlsZGVy" # USBC
     ];
     hashedPasswordFile = sopsHashedPasswordFile;

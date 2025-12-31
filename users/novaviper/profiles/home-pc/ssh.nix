@@ -15,7 +15,7 @@ in
       "knoxpc-*" = {
         hostname = "192.168.1.120";
         identityFile = [
-          "${homePath}/id_ecdsa_sk_rk_knox"
+          "${homePath}/knox_ed25519-sk_usba"
           "${homePath}/knox_ed25519-sk_usbc"
         ];
         port = 22;
@@ -27,7 +27,7 @@ in
       "knoxpc" = {
         hostname = "192.168.1.120";
         identityFile = [
-          "${homePath}/id_ecdsa_sk_rk_knox"
+          "${homePath}/knox_ed25519-sk_usba"
           "${homePath}/knox_ed25519-sk_usbc"
         ];
         port = 22;
@@ -37,7 +37,7 @@ in
         user = "borg";
         port = 22;
         identityFile = [
-          "${homePath}/id_ed25519_sk_rk_borgPCA"
+          "${homePath}/borg_ed25519-sk_usba"
           "${homePath}/borg_ed25519-sk_usbc"
         ];
       };
