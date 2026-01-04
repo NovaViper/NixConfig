@@ -27,6 +27,9 @@
 
   documentation.nixos.enable = false; # Apparently speeds up rebuild time
 
+  # Run unpatched dynamic binaries on NixOS
+  programs.nix-ld.enable = true;
+
   nix = {
     # Makes `nix run` commands use unfree
     registry = lib.mkForce {
