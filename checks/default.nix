@@ -100,6 +100,10 @@ in
       shfmt = {
         enable = true;
         excludes = [ ".p10k.zsh" ];
+        args = [
+          "-i"
+          "2"
+        ]; # Match neovim shiftwidth
       };
 
       end-of-file-fixer = {
