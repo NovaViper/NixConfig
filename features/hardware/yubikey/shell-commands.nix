@@ -8,6 +8,9 @@ let
   pkcs11 = "${pkgs.opensc}/lib/opensc-pkcs11.so";
 in
 {
+  # Custom helper for loading resident keys from Yubikeys
+  environment.systemPackages = with pkgs; [ load-resident-key ];
+
   hm.home.shellAliases = {
     # Make gpg switch Yubikey
     switch-yubikey-gpg = ''gpg-connect-agent "scd serialno" "learn --force" /bye'';
@@ -20,8 +23,5 @@ in
 
     # Remove PKCS11 keys into ssh-agent
     remove-piv-keys = "ssh-add -e ${pkcs11}";
-
-    # Make resident ssh keys import from Yubikey
-    load-resident-keys = "cd ~/.ssh && ssh-keygen -K && cd -";
   };
 }
