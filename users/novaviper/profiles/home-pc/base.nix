@@ -49,7 +49,6 @@ in
     freecad-wayland
     rpi-imager
     blisp
-    libreoffice-qt6-fresh
     krita
     kdePackages.tokodon
     smassh

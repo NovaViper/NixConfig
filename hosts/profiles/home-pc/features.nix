@@ -22,6 +22,7 @@
     "programs/discord"
     "programs/games"
     "programs/music-player"
+    "programs/libreoffice"
     #"programs/android-vm"
 
     ### Theme
