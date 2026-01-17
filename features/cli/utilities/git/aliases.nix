@@ -10,6 +10,7 @@
     ff = "merge --ff-only";
     graph = "log --decorate --oneline --graph";
     pushall = "!git remote | xargs -L1 git push --all";
+    fpushall = "!git remote | xargs -L1 git push --all --force";
     add-nowhitespace = "!git diff -U0 -w --no-color | git apply --cached --ignore-whitespace --unidiff-zero -";
 
     #Llakala's special sauce

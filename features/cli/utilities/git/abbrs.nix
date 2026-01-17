@@ -1,9 +1,11 @@
 _:
 let
-  cursorAbbr = expansion: {
+  cursorAbbrOption = expansion: {
     inherit expansion;
     setCursor = true;
   };
+
+  mkCursorAbbrs = builtins.mapAttrs (_: expansion: cursorAbbrOption expansion);
 
   abbrs = {
     g = "git";
@@ -80,22 +82,20 @@ let
     gud = "git undo";
     gpr = "git pr";
 
-    gpa = "git push origin && git push mirror1 && git push mirror2";
+    gpa = "git pushall";
+    gpaf = "git fpushall";
     gpm = "git push mirror1 && git push mirror2";
   };
-in
-{
-  hm.programs.fish.shellAbbrs = abbrs // {
-    gcm = cursorAbbr "git commit -m \"%\"";
-    # `grbi 2` will rebase from last 2 commits
-    grbi = cursorAbbr "git rebase -i HEAD~%";
-    gpru = cursorAbbr "git pr % upstream";
-  };
 
-  hm.programs.zsh.zsh-abbr.abbreviations = abbrs // {
+  cursorAbbrs = {
     gcm = "git commit -m \"%\"";
     # `grbi 2` will rebase from last 2 commits
     grbi = "git rebase -i HEAD~%";
     gpru = "git pr % upstream";
   };
+in
+{
+  hm.programs.fish.shellAbbrs = abbrs // mkCursorAbbrs cursorAbbrs;
+
+  hm.programs.zsh.zsh-abbr.abbreviations = abbrs // cursorAbbrs;
 }
