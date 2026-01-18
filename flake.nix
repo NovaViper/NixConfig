@@ -4,10 +4,12 @@
 
   nixConfig = {
     extra-substituters = [
+      "https://cache.nixos-cuda.org"
       "https://nix-community.cachix.org"
       "https://nix-gaming.cachix.org"
     ];
     extra-trusted-public-keys = [
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
     ];
@@ -33,10 +35,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
-      # TODO: Waiting til https://github.com/Mic92/sops-nix/pull/781 is merged
-      #url = "github:Mic92/sops-nix";
-      url = "github:NovaViper/sops-nix/age-plugin";
-      #url = "git+file:///home/novaviper/Documents/Repos/sops-nix?ref=age-plugin";
+      url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
