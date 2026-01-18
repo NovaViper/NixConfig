@@ -24,6 +24,6 @@
         offset_y = 0.0;
       }
     ];
-    application = [ pkgs.wlx-overlay-s ];
+    application = [ pkgs.wayvr ];
   };
 }

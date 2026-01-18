@@ -6,7 +6,7 @@
 
   hm.home.packages = with pkgs; [
     nh # Nice wrapper for NixOS and HM
-    nixfmt-rfc-style # Nix formatter
+    nixfmt # Nix formatter
     nix-output-monitor # Monitor Nix compilation
     nvd # Nix/NixOS package version diff tool
     nixpkgs-review # Review nixpkgs
