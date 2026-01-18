@@ -643,7 +643,8 @@
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
         "stylix": "stylix",
-        "wallpapers": "wallpapers"
+        "wallpapers": "wallpapers",
+        "wrappers": "wrappers"
       }
     },
     "sops-nix": {
@@ -824,6 +825,26 @@
       "original": {
         "owner": "NovaViper",
         "repo": "Wallpapers",
+        "type": "github"
+      }
+    },
+    "wrappers": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768457467,
+        "narHash": "sha256-s1DO1UWP8Iilz/4ddXY+ElgQO5d4g5SDWZ9eIPUY/AY=",
+        "owner": "BirdeeHub",
+        "repo": "nix-wrapper-modules",
+        "rev": "b85202cf7822e358bb57aae56b6f51118947b24c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "BirdeeHub",
+        "repo": "nix-wrapper-modules",
         "type": "github"
       }
     },
