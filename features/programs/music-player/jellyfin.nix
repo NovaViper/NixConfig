@@ -7,7 +7,7 @@
   hm.home.packages = with pkgs; [
     # feishin
     jellyfin-tui
-    youtube-music
+    pear-desktop
   ];
 
   # hm.xdg.mimeApps = {

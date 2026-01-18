@@ -107,7 +107,7 @@
     xorg.libXmu
     libogg
     libvorbis
-    glew110
+    glew_1_10
     libidn
     tbb
     zlib
