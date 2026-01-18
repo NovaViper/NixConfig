@@ -542,11 +542,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768698151,
-        "narHash": "sha256-MDtkvYY1o424W/7wCO3vbh91ooeFksNrpBcqoLbL/zo=",
+        "lastModified": 1768700437,
+        "narHash": "sha256-5WLEwBE7sNdXmgDhyiVsjDFLa98KzeKLgQA9PCW8FII=",
         "owner": "NovaViper",
         "repo": "novavim",
-        "rev": "426355dfef20699267ccbe3d6608fb7f444d8e40",
+        "rev": "b28c8400d68d32543d9541535f2e904dc689f35d",
         "type": "github"
       },
       "original": {
