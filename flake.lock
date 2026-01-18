@@ -395,11 +395,11 @@
     },
     "mnw": {
       "locked": {
-        "lastModified": 1766707835,
-        "narHash": "sha256-fzehEyKX2aT5z0zJGDKz+VQ6akjS3XbLBbJV+fOlFKo=",
+        "lastModified": 1768618759,
+        "narHash": "sha256-qIHxw1FSaYsC8m3d2iFegsQEZVal0dxJDybUOTOQpP8=",
         "owner": "Gerg-L",
         "repo": "mnw",
-        "rev": "195457be955922b1d0497ddc62422cc6fc2943ab",
+        "rev": "ea993bf7fe0c4999abb0b6e79c9dafb82a907700",
         "type": "github"
       },
       "original": {
@@ -456,10 +456,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1768625804,
-        "narHash": "sha256-w5GpOG6wn+8HaHdgNhkBlTglrgNUQnand1Z4CLLWJNs=",
+        "lastModified": 1768698421,
+        "narHash": "sha256-4G09FL8kjA0MZXrBXvfUzPkpjuN/IIZBjlvSgmUuBQs=",
         "ref": "main",
-        "rev": "872bd123c024edfb00f1b0c2f56834b9067521b5",
+        "rev": "e6f4d9899c712f1585ad1b7678d5591c5cf149ce",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@github.com/NovaViper/nix-secrets.git"
@@ -542,11 +542,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1768681200,
-        "narHash": "sha256-jCX0BADFUuPXYMDdOFMpwnV1AGmRxXRCarq4pF9XfuI=",
+        "lastModified": 1768698151,
+        "narHash": "sha256-MDtkvYY1o424W/7wCO3vbh91ooeFksNrpBcqoLbL/zo=",
         "owner": "NovaViper",
         "repo": "novavim",
-        "rev": "b5b1b18b546de862e5a9876f146948d37f223563",
+        "rev": "426355dfef20699267ccbe3d6608fb7f444d8e40",
         "type": "github"
       },
       "original": {
