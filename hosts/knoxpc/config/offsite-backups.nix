@@ -114,8 +114,8 @@ in
       map (repo: {
         name = "restic-backups-${repo.shortName}";
         value.unitConfig = {
-          OnSuccess = "notify-restic@success-%n";
-          OnFailure = "notify-restic@failure-%n";
+          OnSuccess = "notify-restic@success-${repo.shortName}.service";
+          OnFailure = "notify-restic@failure-${repo.shortName}.service";
         };
       }) repos
     )

@@ -44,10 +44,13 @@ in
       Type = "oneshot";
       ExecStart =
         pkgs.writeShellScript "notify-restic.sh" ''
-                STATUS="$1"
-                UNIT="$2"
+                INSTANCE="$1"
+                STATUS="''${INSTANCE%%-*}"
+                REPO="''${INSTANCE#*-}"
+
                 HOST="${config.networking.hostName}"
-                LOGS="$(${pkgs.systemd}/bin/journalctl -u "$UNIT" -n 50 --no-pager)"
+                UNIT="restic-backups-$REPO"
+                LOGS="$(${pkgs.systemd}/bin/journalctl -u "$UNIT" -n 50 --no-pager || true)"
                 MAILTO="${myLib.utils.getUserVars "email" config.hm}"
 
                 ${pkgs.system-sendmail}/bin/sendmail -t << EOF
@@ -63,7 +66,7 @@ in
           $LOGS
           EOF
         ''
-        + " %i %n";
+        + " %i";
     };
   };
 }
