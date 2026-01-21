@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  myLib,
   inputs,
   ...
 }:
@@ -29,7 +30,7 @@ in
         userName = address;
         realName = "${myselfName}";
         aliases = [
-          "code.nova99@mailbox.org"
+          "${myLib.utils.getUserVars "email" hm-config}"
           "${secrets.personal1.work}"
           "${secrets.personal1.school}"
           "${secrets.personal1.shop}"
