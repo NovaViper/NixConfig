@@ -5,17 +5,24 @@
   ...
 }:
 let
-  repos = [
-    {
-      shortName = "abyneb";
+  # MAIN REPO DECLARATION
+  repos = {
+    abyneb = {
       paths = [ "/mnt/sysbackup/PCBackups" ];
       pruneOpts = [
         "--keep-daily 5"
         "--keep-weekly 3"
         "--keep-monthly 6"
       ];
-    }
-  ];
+    };
+  };
+
+  repoNames = builtins.attrNames repos;
+  restic = {
+    unitName = name: "restic-backups-${name}";
+    envTemplate = name: "restic-b2-${name}-env";
+  };
+  restartUnits = map restic.unitName repoNames;
 
   # Shared SOPS file for all repos
   sopsFile = myLib.secrets.mkSecretFile {
@@ -24,73 +31,58 @@ let
       "hosts"
       "${config.networking.hostName}"
     ];
-    restartUnits = map (repo: "restic-backups-${repo.shortName}") repos;
+    inherit restartUnits;
   };
 
   # Generate sops secrets dynamically
   sopsSecrets =
     lib.listToAttrs (
-      lib.concatMap (repo: [
+      lib.concatMap (name: [
         {
-          name = "repos/${repo.shortName}/b2-id";
+          name = "repos/${name}/b2-id";
           value = sopsFile;
         }
         {
-          name = "repos/${repo.shortName}/b2-key";
+          name = "repos/${name}/b2-key";
           value = sopsFile;
         }
         {
-          name = "repos/${repo.shortName}/bucket";
+          name = "repos/${name}/bucket";
           value = sopsFile;
         }
-      ]) repos
+      ]) repoNames
     )
     // {
       # Add the rest of the needed secrets
-      "restic-pass" = myLib.secrets.mkSecretFile {
-        source = "restic.yaml";
-        subDir = [
-          "hosts"
-          "${config.networking.hostName}"
-        ];
-        restartUnits = map (repo: "restic-backups-${repo.shortName}") repos;
-      };
+      "restic-pass" = sopsFile;
     };
 
   # Generate sops templates dynamically
-  resticTemplates = lib.listToAttrs (
-    map (repo: {
-      name = "restic-b2-${repo.shortName}-env";
-      value = {
-        content = ''
-          B2_ACCOUNT_ID="${config.sops.placeholder."repos/${repo.shortName}/b2-id"}"
-          B2_ACCOUNT_KEY="${config.sops.placeholder."repos/${repo.shortName}/b2-key"}"
-        '';
-      };
-    }) repos
-  );
+  resticTemplates = lib.mapAttrs' (name: _: {
+    name = restic.envTemplate name;
+    value.content = ''
+      B2_ACCOUNT_ID="${config.sops.placeholder."repos/${name}/b2-id"}"
+      B2_ACCOUNT_KEY="${config.sops.placeholder."repos/${name}/b2-key"}"
+    '';
+  }) repos;
 
   # Helper to configure restic with b2 options
   cfgB2 =
+    name:
     {
-      shortName,
       paths,
-      pruneOpts ? [
-        "--keep-daily 7"
-        "--keep-weekly 5"
-        "--keep-monthly 12"
-        "--keep-yearly 5"
-      ],
+      pruneOpts ? [ ],
     }:
     {
       inherit paths pruneOpts;
       initialize = true;
       timerConfig = {
         OnCalendar = "03:00";
+        Persistent = true;
         RandomizedDelaySec = "30min";
       };
-      repositoryFile = config.sops.secrets."repos/${shortName}/bucket".path;
-      environmentFile = config.sops.templates."restic-b2-${shortName}-env".path;
+      repositoryFile = config.sops.secrets."repos/${name}/bucket".path;
+      environmentFile = config.sops.templates."restic-b2-${name}-env".path;
       passwordFile = config.sops.secrets."restic-pass".path;
     };
 in
@@ -100,24 +92,16 @@ in
   sops.templates = resticTemplates;
 
   # Define backups dynamically
-  services.restic.backups = lib.listToAttrs (
-    map (repo: {
-      name = repo.shortName;
-      value = cfgB2 {
-        inherit (repo) paths pruneOpts shortName;
-      };
-    }) repos
-  );
+  services.restic.backups = lib.mapAttrs (name: repoCfg: cfgB2 name repoCfg) repos;
 
-  systemd.services = (
-    lib.listToAttrs (
-      map (repo: {
-        name = "restic-backups-${repo.shortName}";
-        value.unitConfig = {
-          OnSuccess = "notify-restic@success-${repo.shortName}.service";
-          OnFailure = "notify-restic@failure-${repo.shortName}.service";
-        };
-      }) repos
-    )
+  # Bind email notifications (defined in ./smtp.nix)
+  systemd.services = lib.listToAttrs (
+    map (name: {
+      name = restic.unitName name;
+      value.unitConfig = {
+        OnSuccess = "notify-restic@success-${name}.service";
+        OnFailure = "notify-restic@failure-${name}.service";
+      };
+    }) repoNames
   );
 }
