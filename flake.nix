@@ -95,8 +95,6 @@
     #######
 
     # Nixpkgs PRs
-    # TODO: https://github.com/NixOS/nixpkgs/pull/216245
-    nixpkgs-howdy.url = "github:fufexan/nixpkgs/howdy";
     #######
   };
 }
