@@ -45,6 +45,7 @@
       kdePackages.ktorrent
       kdePackages.kfind
       kdePackages.filelight
+      klassy
 
       # Libraries/Utilities
       clinfo # for kinfocenter for OpenCL page
