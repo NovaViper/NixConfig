@@ -47,14 +47,14 @@ in
       inherit (final) callPackage;
       directory = ../pkgs/common;
     })
-    // (prev.lib.packagesFromDirectoryRecursive {
-      callPackage = prev.lib.callPackageWith {
-        inherit (final) lib;
-        pkgs = prev;
-        wrapPackage = self.inputs.wrappers.lib.wrapPackage;
-      };
-      directory = ../pkgs/wrappers;
-    })
+    # // (prev.lib.packagesFromDirectoryRecursive {
+    #   callPackage = prev.lib.callPackageWith {
+    #     inherit (final) lib;
+    #     pkgs = prev;
+    #     wrapPackage = self.inputs.wrappers.lib.wrapPackage;
+    #   };
+    #   directory = ../pkgs/wrappers;
+    # })
     // {
 
       /*
