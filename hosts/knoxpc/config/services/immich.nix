@@ -78,7 +78,4 @@ in
       systemctl start immich-server
     '')
   ];
-
-  # TODO: Implement remote backups with backblaze
-  #services.restic.backups. =;
 }
