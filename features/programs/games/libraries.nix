@@ -11,7 +11,7 @@
     # Errors in output without those
     pciutils
     # Games' dependencies
-    xorg.xrandr
+    xrandr
     which
     # Needed by gdialog, including in the steam-runtime
     perl
@@ -33,13 +33,13 @@
     # Godot Engine
     libunwind
     # Others
-    xorg.libXcomposite
-    xorg.libXtst
-    xorg.libXrandr
-    xorg.libXext
-    xorg.libX11
-    xorg.libXfixes
-    xorg.libxkbfile
+    libXcomposite
+    libXtst
+    libXrandr
+    libXext
+    libX11
+    libXfixes
+    libxkbfile
     libGL
     libva
     libva-utils
@@ -73,21 +73,21 @@
     vulkan-loader
     expat
     wayland
-    xorg.libxcb
-    xorg.libXdamage
-    xorg.libxshmfence
-    xorg.libXxf86vm
+    libxcb
+    libXdamage
+    libxshmfence
+    libXxf86vm
     libelf
     (lib.getLib elfutils)
 
     # Without these it silently fails
-    xorg.libXinerama
-    xorg.libXcursor
-    xorg.libXrender
-    xorg.libXScrnSaver
-    xorg.libXi
-    xorg.libSM
-    xorg.libICE
+    libXinerama
+    libXcursor
+    libXrender
+    libXScrnSaver
+    libXi
+    libSM
+    libICE
     curlWithGnuTls
     nspr
     nss
@@ -103,8 +103,8 @@
     # Verified games requirements
     fontconfig
     freetype
-    xorg.libXt
-    xorg.libXmu
+    libXt
+    libXmu
     libogg
     libvorbis
     glew_1_10
@@ -142,7 +142,7 @@
     libgcrypt
     libvpx
     librsvg
-    xorg.libXft
+    libXft
     libvdpau
 
     # required by coreutils stuff to run correctly
@@ -162,8 +162,8 @@
     libxkbcommon # paradox launcher
     libxcrypt # Alien Isolation, XCOM 2, Company of Heroes 2
     mono
-    xorg.xkeyboardconfig
-    xorg.libpciaccess
+    xkeyboardconfig
+    libpciaccess
     icu # dotnet runtime, e.g. Stardew Valley
 
     # screeps dependencies

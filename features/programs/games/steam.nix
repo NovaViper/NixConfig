@@ -33,7 +33,7 @@ in
     enable = true;
     # Make Steam folder spawn in ~/.config instead of /home/USER
     package = pkgs.steam.override {
-      extraLibraries = pkgs: [ pkgs.xorg.libxcb ];
+      extraLibraries = pkgs: [ pkgs.libxcb ];
     };
     remotePlay.openFirewall = true;
   };
@@ -43,7 +43,7 @@ in
     addedAssociations."x-scheme-handler/steam" = "steam.desktop";
   };
 
-  hm.xdg.userDirs.extraConfig.XDG_GAME_DIR = "${hm-config.home.homeDirectory}/Games";
+  hm.xdg.userDirs.extraConfig.GAME = "${hm-config.home.homeDirectory}/Games";
 
   hm.xdg.mimeApps = {
     defaultApplications."x-scheme-handler/steam" = "steam.desktop";

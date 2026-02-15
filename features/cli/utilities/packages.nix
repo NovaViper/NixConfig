@@ -24,8 +24,8 @@
       xclip
       xsel
       xdotool
-      xorg.xwininfo
-      xorg.xprop
+      xwininfo
+      xprop
     ]
     ++ lib.optionals (config.features.desktop != null) [
       libnotify
