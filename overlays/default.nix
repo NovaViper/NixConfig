@@ -148,5 +148,7 @@ in
           discord
         ];
       };
+
+    brave = import ./brave.nix { inherit self final prev; };
   };
 }
