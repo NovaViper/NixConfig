@@ -71,8 +71,8 @@ in
                   homePath = "${hm-config.home.homeDirectory}/.ssh";
                 in
                 [
-                  "${homePath}/nixbuild_ed25519-sk_usba"
-                  "${homePath}/nixbuild_ed25519-sk_usbc"
+                  "${homePath}/nixbuilder_ed25519-sk_usba"
+                  "${homePath}/nixbuilder_ed25519-sk_usbc"
                 ];
               extraOptions.RequestTTY = "Force";
             };
@@ -105,7 +105,7 @@ in
     # NOTE https://github.com/nix-community/home-manager/issues/322#issuecomment-1856128020
     home.file.".ssh/config" = {
       target = ".ssh/config_source";
-      onChange = ''cat ~/.ssh/config_source > ~/.ssh/config && chmod 400 ~/.ssh/config'';
+      onChange = "cat ~/.ssh/config_source > ~/.ssh/config && chmod 400 ~/.ssh/config";
     };
 
     home.shellAliases = {
