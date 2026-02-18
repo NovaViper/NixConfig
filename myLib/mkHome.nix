@@ -34,7 +34,7 @@ let
       nixosConfigurations,
       username ? internals.guessUsername userhost,
       hostname ? internals.guessHostname userhost,
-    #stateVersion ? myLib.conds.defaultStateVersion,
+      #stateVersion ? myLib.conds.defaultStateVersion,
     }:
     /*
         lib.homeManagerConfiguration {

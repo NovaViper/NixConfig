@@ -98,7 +98,7 @@ let
                   '':mail        "${addr}"''
                   '':smtp        "${smtp}"''
                   (lib.optionalString (smtpAddr != null) '':smtp-mail   "${smtpAddr}"'')
-                  (lib.optionalString (smtpPort != null) '':smtp-port   ${toString smtpPort}'')
+                  (lib.optionalString (smtpPort != null) ":smtp-port   ${toString smtpPort}")
                   (lib.optionalString (smtpType != null) '':smtp-type   "${smtpType}"'')
                   (lib.optionalString (sentAction != null) '':sent-action "${sentAction}"'')
                   (lib.optionalString (fullName != null) '':name        "${fullName}"'')

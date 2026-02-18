@@ -4,6 +4,6 @@ _: {
     enable = true;
     nix-direnv.enable = true;
     #config = {};
-    stdlib = ''export DIRENV_ACTIVE=1'';
+    stdlib = "export DIRENV_ACTIVE=1";
   };
 }
