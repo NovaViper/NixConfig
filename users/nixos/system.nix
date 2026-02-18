@@ -13,7 +13,7 @@
     "programs/ghostty"
 
     ### Shell
-    "cli/shell/zsh"
+    "cli/shell/fish"
 
     ### Terminal Utils
     "cli/utilities"
