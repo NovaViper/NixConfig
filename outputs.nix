@@ -7,7 +7,7 @@ let
 
   # Flake evaluation tests and checks entrypoint
   # Available through 'nix flake check'
-  checks = myLib.forAllSystems (pkgs: import ./checks { inherit inputs pkgs; });
+  checks = myLib.forAllSystems (pkgs: import ./checks { inherit self pkgs; });
 
   # NixOS configuration entrypoint
   # Available through 'nixos-rebuild --flake .#your-hostname'

@@ -1,5 +1,5 @@
 {
-  inputs,
+  self,
   pkgs,
   ...
 }:
@@ -8,9 +8,18 @@ let
   # to write out that long string so many times
   refSystem = ref: ref.stdenv.hostPlatform.system;
   # Shorthand variable
-  git-hooks-in = inputs.git-hooks;
+  git-hooks-in = self.inputs.git-hooks;
   # Shorthand variable
   checks-in = git-hooks-in.checks.${refSystem pkgs};
+
+  makeSystemBuildCheck =
+    nixosConfigs:
+    builtins.listToAttrs (
+      map (host: {
+        name = "${host}-system";
+        value = nixosConfigs.${host}.config.system.build.toplevel;
+      }) (builtins.attrNames nixosConfigs)
+    );
 in
 {
   pre-commit-check = git-hooks-in.lib.${refSystem pkgs}.run {
@@ -117,3 +126,4 @@ in
     };
   };
 }
+// makeSystemBuildCheck self.nixosConfigurations
