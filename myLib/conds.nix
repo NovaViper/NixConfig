@@ -1,7 +1,7 @@
 _:
 let
   exports = {
-    defaultStateVersion = "25.11";
+    defaultStateVersion = "26.05";
   };
 in
 exports
