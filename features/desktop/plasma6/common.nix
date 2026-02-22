@@ -5,6 +5,15 @@
   pkgs,
   ...
 }:
+let
+  tesseractLanguages = [
+    "eng"
+    "deu"
+    "fra"
+    "ita"
+    "spa"
+  ];
+in
 {
   features.desktop = "kde";
   features.useWayland = true;
@@ -55,12 +64,19 @@
       ffmpegthumbnailer # for video thumbnails
       gnuplot # for krunner to display graphs
       kdePackages.kdegraphics-thumbnailers
+      kdePackages.qrca
+      (kdePackages.spectacle.override {
+        inherit tesseractLanguages;
+      })
     ]
     ++ lib.optionals (config.networking.hostName != "installer") [
       # Apps
       qalculate-qt
       kdiskmark
-      kdePackages.skanpage # Scanner
+      # Scanner
+      (kdePackages.skanpage.override {
+        inherit tesseractLanguages;
+      })
       kdePackages.print-manager
       kdePackages.plasma-welcome # Welcome screen
       kdePackages.plasma-vault
