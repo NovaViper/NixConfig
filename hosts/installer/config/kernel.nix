@@ -4,7 +4,8 @@
   ...
 }:
 {
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Ensure we use the LTS kernel
+  boot.kernelPackages = pkgs.linuxPackages;
 
   # Forcibly disable zfs for latest Linux firmware
   boot.supportedFilesystems.zfs = lib.mkForce false;

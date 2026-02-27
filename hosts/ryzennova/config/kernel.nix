@@ -1,4 +1,5 @@
 { pkgs, ... }:
 {
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Ensure we use the LTS kernel
+  boot.kernelPackages = pkgs.linuxPackages;
 }
