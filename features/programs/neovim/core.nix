@@ -11,7 +11,10 @@ let
   userVars = opt: myLib.utils.getUserVars opt hm-config;
 in
 {
-  hm.home.sessionVariables = lib.mkIf (userVars "defaultEditor" == "neovim") { EDITOR = "nvim"; };
+  hm.home.sessionVariables = lib.mkIf (userVars "defaultEditor" == "neovim") {
+    EDITOR = "nvim";
+    VISUAL = "nvim";
+  };
 
   hm.programs.fish.shellAbbrs.n = "nvim";
   hm.programs.zsh.zsh-abbr.abbreviations.n = "nvim";
