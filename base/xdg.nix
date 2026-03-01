@@ -47,6 +47,5 @@ in
 
   hm.gtk = {
     enable = if (config.features.desktop != null) then true else false;
-    gtk2.configLocation = lib.mkForce "${hm-config.xdg.configHome}/gtk-2.0/gtkrc";
   };
 }
