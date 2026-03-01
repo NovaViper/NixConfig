@@ -17,7 +17,6 @@
       quality-menu
       webtorrent-mpv-hook
       visualizer
-      mpv-cheatsheet
     ];
     config = {
       # Video format/quality that is directly passed to youtube-dl
