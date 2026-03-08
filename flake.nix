@@ -60,6 +60,7 @@
     nix-gaming = {
       url = "github:fufexan/nix-gaming";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.git-hooks.follows = "git-hooks";
     };
     plasma-manager = {
       url = "github:pjones/plasma-manager";
@@ -70,6 +71,7 @@
     ghostty = {
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
     wrappers = {
       url = "github:BirdeeHub/nix-wrapper-modules";
