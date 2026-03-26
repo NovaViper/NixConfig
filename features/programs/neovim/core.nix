@@ -16,6 +16,8 @@ in
     VISUAL = "nvim";
   };
 
+  hm.home.shellAliases.vimdiff = "nvim -d";
+
   hm.programs.fish.shellAbbrs.n = "nvim";
   hm.programs.zsh.zsh-abbr.abbreviations.n = "nvim";
 
