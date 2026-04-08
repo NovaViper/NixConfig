@@ -26,12 +26,10 @@ in
     buildInputs = checks-lib.pre-commit-check.enabledPackages;
     nativeBuildInputs = with pkgs; [
       # Nix toolkit
-      nix
       nix-output-monitor
       nix-inspect
       deadnix
       statix
-      home-manager
 
       # Encryption tools/Secrets bootstrapping
       gnupg
