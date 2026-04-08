@@ -336,26 +336,6 @@
         "type": "github"
       }
     },
-    "menu": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1766805943,
-        "narHash": "sha256-DWw917F8hvwprvDe6wyuGldPPzv+peHN2Sw4JF3Iq/I=",
-        "owner": "llakala",
-        "repo": "menu",
-        "rev": "69611f0b66aaeffbab8593e57a0235e1eb9471c4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "llakala",
-        "repo": "menu",
-        "type": "github"
-      }
-    },
     "mnw": {
       "locked": {
         "lastModified": 1771285028,
@@ -581,7 +561,6 @@
         "git-hooks": "git-hooks",
         "hardware": "hardware",
         "home-manager": "home-manager",
-        "menu": "menu",
         "nix-gaming": "nix-gaming",
         "nix-index-database": "nix-index-database",
         "nix-secrets": "nix-secrets",
@@ -592,8 +571,7 @@
         "plasma-manager": "plasma-manager",
         "sops-nix": "sops-nix",
         "stylix": "stylix",
-        "wallpapers": "wallpapers",
-        "wrappers": "wrappers"
+        "wallpapers": "wallpapers"
       }
     },
     "sops-nix": {
@@ -775,26 +753,6 @@
       "original": {
         "owner": "NovaViper",
         "repo": "Wallpapers",
-        "type": "github"
-      }
-    },
-    "wrappers": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1774879171,
-        "narHash": "sha256-a6JZDuBIwQmuEwYM4dziH+WyrpE8HCP8F7JFIn3CNvw=",
-        "owner": "BirdeeHub",
-        "repo": "nix-wrapper-modules",
-        "rev": "bab35ffae25cf6f4e4fdb3c2f7f0ac80966ce737",
-        "type": "github"
-      },
-      "original": {
-        "owner": "BirdeeHub",
-        "repo": "nix-wrapper-modules",
         "type": "github"
       }
     },

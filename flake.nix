@@ -46,10 +46,6 @@
       url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    menu = {
-      url = "github:llakala/menu";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     #######
 
     # Extras
@@ -72,10 +68,6 @@
       url = "github:ghostty-org/ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
-    };
-    wrappers = {
-      url = "github:BirdeeHub/nix-wrapper-modules";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     #######
 
