@@ -23,7 +23,6 @@
     "programs/games"
     "programs/music-player"
     "programs/libreoffice"
-    #"programs/android-vm"
 
     ### Theme
     #"theme/dracula"

@@ -106,7 +106,6 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 │   │   ├── rgb/
 │   │   └── yubikey/
 │   ├── programs/
-│   │   ├── android-vm/
 │   │   ├── backup/
 │   │   ├── browser/
 │   │   │   ├── brave/

@@ -6,7 +6,8 @@
 }:
 let
   hm-config = config.hm;
-  extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+
+  extensions = with pkgs.inputs.firefox-addons; [
     ublock-origin
     sponsorblock
     return-youtube-dislikes
