@@ -1,7 +1,19 @@
-_: {
+{ pkgs, ... }:
+{
   # Make /tmp clean itself on remote. /tmp should be volatile storage!
   boot.tmp.cleanOnBoot = true;
 
+  # Temp patch for Dirty-frag
+  # https://github.com/V4bel/dirtyfrag
+  boot.kernelPatches = [
+    {
+      name = "dirty-frag";
+      patch = pkgs.fetchurl {
+        url = "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/patch/?id=f4c50a4034e62ab75f1d5cdd191dd5f9c77fdff4";
+        hash = "sha256-j5l548aKMPIxfSfwy4hJadBvQN2kZsutpOVjLSXSk0A=";
+      };
+    }
+  ];
   boot.kernelModules = [ "tcp_bbr" ];
 
   ## TCP hardening
