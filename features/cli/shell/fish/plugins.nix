@@ -21,11 +21,11 @@ in
       {
         name = "fycu";
         #src = "${config.hm.home.homeDirectory}/Documents/Projects/fycu";
-        src = pkgs.fetchFromGitHub {
+        src = pkgs.fetchFromGitea {
+          domain = "codeberg.org";
           owner = "NovaViper";
           repo = "fycu";
-          # Dev branch
-          rev = "dev";
+          rev = "main";
           hash = "sha256-QEMke8U+roPMj9Ewsv4mqgtNCwelEY63EYvDMHxGa4o=";
         };
       }

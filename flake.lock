@@ -401,19 +401,19 @@
         ]
       },
       "locked": {
-        "lastModified": 1777215912,
-        "narHash": "sha256-a+fuSGbjtRcQiW35B5sJTez2SNYGCgrT1u/2Z1NgltE=",
+        "lastModified": 1771254917,
+        "narHash": "sha256-+ES2/jnTeZKvfA6Cw0P/28Qg4LhyPDjrefGIzH/Rsmo=",
         "ref": "main",
-        "rev": "a73560581062d30b4bfcff33404d28b3122acf89",
+        "rev": "46810080dac426e631052a4481ccc1d1c1ec198a",
         "shallow": true,
         "type": "git",
-        "url": "ssh://git@github.com/NovaViper/nix-secrets.git"
+        "url": "ssh://git@codeberg.org/NovaViper/nix-secrets.git"
       },
       "original": {
         "ref": "main",
         "shallow": true,
         "type": "git",
-        "url": "ssh://git@github.com/NovaViper/nix-secrets.git"
+        "url": "ssh://git@codeberg.org/NovaViper/nix-secrets.git"
       }
     },
     "nixpkgs": {
@@ -473,15 +473,15 @@
       "locked": {
         "lastModified": 1777290004,
         "narHash": "sha256-QuW2CgywYFs+xQKxElA7YW0Eh3N45NVzsdtaAK4tf14=",
-        "owner": "NovaViper",
-        "repo": "novavim",
+        "ref": "refs/heads/main",
         "rev": "9b4601800d64e557f0c66e947faf78bb1c266f22",
-        "type": "github"
+        "revCount": 171,
+        "type": "git",
+        "url": "https://codeberg.org/NovaViper/novavim"
       },
       "original": {
-        "owner": "NovaViper",
-        "repo": "novavim",
-        "type": "github"
+        "type": "git",
+        "url": "https://codeberg.org/NovaViper/novavim"
       }
     },
     "nur": {
@@ -705,15 +705,15 @@
       "locked": {
         "lastModified": 1703877214,
         "narHash": "sha256-ucVaq+DYb0+fos9dkaBhqvhYznhTWKj3xbNnHFOhVFI=",
-        "owner": "NovaViper",
-        "repo": "Wallpapers",
+        "ref": "refs/heads/main",
         "rev": "6ab1f989339a4ed9bef01ce37b405a910ed3b3d9",
-        "type": "github"
+        "revCount": 1,
+        "type": "git",
+        "url": "https://codeberg.org/NovaViper/Wallpapers"
       },
       "original": {
-        "owner": "NovaViper",
-        "repo": "Wallpapers",
-        "type": "github"
+        "type": "git",
+        "url": "https://codeberg.org/NovaViper/Wallpapers"
       }
     },
     "zig": {

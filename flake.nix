@@ -73,16 +73,16 @@
 
     # Personal Repos
     wallpapers = {
-      url = "github:NovaViper/Wallpapers";
+      url = "git+https://codeberg.org/NovaViper/Wallpapers";
       flake = false;
     };
     nix-secrets = {
-      url = "git+ssh://git@github.com/NovaViper/nix-secrets.git?ref=main&shallow=1";
+      url = "git+ssh://git@codeberg.org/NovaViper/nix-secrets.git?ref=main&shallow=1";
       #url = "git+file:///home/novaviper/Documents/Projects/nix-secrets?ref=main&shallow=1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     novavim = {
-      url = "github:NovaViper/novavim";
+      url = "git+https://codeberg.org/NovaViper/novavim";
       #url = "git+file:///home/novaviper/Documents/Projects/novavim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
