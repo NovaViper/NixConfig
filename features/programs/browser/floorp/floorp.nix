@@ -38,7 +38,7 @@ in
   hm.programs.floorp.profiles."${hm-config.home.username}" = {
     search = {
       force = true;
-      default = "ecosia";
+      default = "brave";
     };
   };
 }

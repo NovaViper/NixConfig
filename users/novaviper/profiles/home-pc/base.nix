@@ -13,6 +13,7 @@ in
   imports = myLib.utils.importFeatures [
     ### Applications
     "programs/browser/brave"
+    "programs/browser/firefox"
     "programs/neovim"
     "programs/ghostty"
     "programs/keepassxc"

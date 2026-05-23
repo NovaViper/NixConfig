@@ -20,6 +20,16 @@ let
       ];
       urls = lib.singleton { template = "https://www.ecosia.org/search?q={searchTerms}"; };
     };
+    brave = {
+      name = "Brave Search";
+      iconMapObj."16" = "https://brave.com/favicon.ico";
+      updateInterval = 24 * 60 * 60 * 1000; # Every day
+      definedAliases = [
+        "@b"
+        "@brave"
+      ];
+      urls = lib.singleton { template = "https://search.brave.com/search?q={searchTerms}"; };
+    };
 
     nix-packages = {
       iconMapObj."16" = nix-icon;
