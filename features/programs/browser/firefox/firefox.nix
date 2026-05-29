@@ -7,6 +7,14 @@
 }:
 let
   hm-config = config.hm;
+  lock-false = {
+    Value = false;
+    status = "locked";
+  };
+  lock-true = {
+    Value = true;
+    Status = "locked";
+  };
 in
 {
   hm.xdg.mimeApps =
@@ -30,15 +38,91 @@ in
 
   hm.programs.firefox.enable = true;
 
+  hm.programs.firefox.languagePacks = [ "en-US" ];
+
   hm.programs.firefox.nativeMessagingHosts = with pkgs; [
     fx-cast-bridge
     kdePackages.plasma-browser-integration
   ];
 
+  # Based on https://www.privacyguides.org/en/desktop-browsers/#firefox
+  hm.programs.firefox.policies = {
+    # Customize Firefox newtab page
+    FirefoxHome = {
+      # Completely get rid of stories
+      Stories = false;
+      SponsoredTopSites = false;
+      SponsoredStories = false;
+    };
+    # Make Firefox restore previous sessions
+    Homepage = {
+      StartPage = "previous-session";
+    };
+    # Enable strict protection
+    EnableTrackingProtection = {
+      Value = true;
+      Locked = true;
+      Category = "strict";
+      BaselineExceptions = true;
+      ConvenienceExceptions = true;
+    };
+    # Disable (most) telemetry
+    DisableTelemetry = true;
+    # Force http-only mode
+    HttpsOnlyMode = "force_enabled";
+    # Disable automatic extension updates.. (supply chain attacks yay)
+    ExtensionUpdate = false;
+    # Search
+    FirefoxSuggest = {
+      Locked = true;
+      WebSuggestions = false;
+      SponsoredSuggestions = false;
+      ImproveSuggest = false;
+    };
+    # Disable everything AI related..
+    AIControls = {
+      Default = {
+        Locked = true;
+        Value = "blocked";
+      };
+    };
+    # Don't save passwords in the browser
+    OfferToSaveLogins = false;
+    # Keep Firefox Accounts enabled
+    DisableFirefoxAccounts = false;
+  };
+
   hm.programs.firefox.profiles."${hm-config.home.username}" = {
     search = {
       force = true;
       default = "brave";
+    };
+    settings = {
+      # Disable about:config warning
+      "browser.aboutConfig.showWarning" = false;
+      # Search
+      /**
+        Handled by FirefoxSuggest policy
+        "browser.search.suggest.enabled" = lock-false;
+        "browser.search.suggest.enabled.private" = lock-false;
+        "browser.urlbar.suggest.quicksuggest.sponsored" = lock-false;
+        "browser.urlbar.showSearchSuggestionsFirst" = lock-false;
+      */
+      # Privacy and Security
+      /**
+        * Handled by telemetry policy
+        "datareporting.healthreport.uploadEnabled"  = lock-false;
+        "datareporting.usage.uploadEnabled" = lock-false;
+      */
+      # Disable suggestions for extensions
+      "browser.discovery.enabled" = lock-false;
+      # Stop sending additional analytics to webservers
+      "beacon.enabled" = false;
+      # Disable daily usage ping
+      "identity.fxaccounts.telemetry.clientAssociationPing.enabled" = lock-false;
+      # Disable automatic crash reporting
+      "browser.crashReports.unsubmittedCheck.autoSubmit2" = lock-false;
+
     };
 
     # settings = {
