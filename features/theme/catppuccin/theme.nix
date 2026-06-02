@@ -135,12 +135,14 @@ in
 
     # Firefox + dervatives
     firefox = {
-      colorTheme.enable = true;
-      profileNames = [ "${hm-config.home.username}" ];
+      enable = false;
+      # colorTheme.enable = true;
+      # profileNames = [ "${hm-config.home.username}" ];
     };
     floorp = {
-      colorTheme.enable = true;
-      profileNames = [ "${hm-config.home.username}" ];
+      enable = false;
+      # colorTheme.enable = true;
+      # profileNames = [ "${hm-config.home.username}" ];
     };
   };
 

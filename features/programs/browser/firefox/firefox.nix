@@ -86,8 +86,6 @@ in
         Value = "blocked";
       };
     };
-    # Don't save passwords in the browser
-    OfferToSaveLogins = false;
     # Keep Firefox Accounts enabled
     DisableFirefoxAccounts = false;
   };
