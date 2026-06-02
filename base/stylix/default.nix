@@ -14,8 +14,12 @@ in
 {
   imports = lib.singleton inputs.stylix.nixosModules.stylix;
 
-  # Results in an unchangable, broken theme
-  stylix.targets.chromium.enable = false;
+  stylix.targets = {
+    # Results in an unchangable, broken theme
+    chromium.enable = false;
+    #FIXME: Enable when https://github.com/nix-community/stylix/issues/2334 is merged
+    kmscon.enable = lib.mkForce false;
+  };
 
   nukeFiles = lib.mkIf (config.stylix.enable) [
     "${hm-config.home.homeDirectory}/.config/gtk-2.0/gtkrc"
@@ -25,14 +29,29 @@ in
   ];
 
   hm = lib.mkIf (config.stylix.enable) {
+    stylix.targets = lib.mkForce {
+      # Enable 256 colors for kitty
+      kitty.variant256Colors = true;
+      # Causes some mismatched colors with Dracula-tmux theme
+      tmux.enable = false;
+      # Disable stylix's KDE module, very broken currently
+      kde.enable = false;
+      # Using the doom-emacs theme
+      emacs.enable = false;
+      # Enable rainbow mode for cava
+      cava.rainbow.enable = true;
+      # Disable coloring for Firefox + dervatives; very hard to read
+      firefox.enable = false;
+      floorp.enable = false;
+      librewolf.enable = false;
+    };
+
     # gtk = lib.mkIf (config.stylix.polarity == "dark") {
     #   enable = true;
     #   theme.name = lib.mkForce "adw-gtk3-dark";
     #   gtk3.extraConfig = {gtk-application-prefer-dark-theme = true;};
     #   gtk4.extraConfig = {gtk-application-prefer-dark-theme = true;};
     # };
-
-    stylix.targets.floorp.profileNames = [ "${hm-config.home.username}" ];
 
     xdg.dataFile = {
       "konsole/Stylix.colorscheme".source = hm-config.lib.stylix.colors {

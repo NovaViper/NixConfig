@@ -121,30 +121,6 @@ in
       terminal = 1.0;
     };
   };
-  hm.stylix.targets = lib.mkForce {
-    # Enable 256 colors for kitty
-    kitty.variant256Colors = true;
-    # Causes some mismatched colors with Dracula-tmux theme
-    tmux.enable = false;
-    # Disable stylix's KDE module, very broken currently
-    kde.enable = false;
-    # Using the doom-emacs theme
-    emacs.enable = false;
-    # Enable rainbow mode for cava
-    cava.rainbow.enable = true;
-
-    # Firefox + dervatives
-    firefox = {
-      enable = false;
-      # colorTheme.enable = true;
-      # profileNames = [ "${hm-config.home.username}" ];
-    };
-    floorp = {
-      enable = false;
-      # colorTheme.enable = true;
-      # profileNames = [ "${hm-config.home.username}" ];
-    };
-  };
 
   services.displayManager.sddm.theme = "sddm-astronaut-theme";
   environment.systemPackages = lib.singleton sddm-astro;
