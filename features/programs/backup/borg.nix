@@ -11,8 +11,13 @@
   ];
 
   hm.systemd.user.services.vorta = {
-    Unit.Description = "Vorta";
-    Install.WantedBy = [ "default.target" ];
+    Unit = {
+      Description = "Vorta";
+      After = [ "graphical-session.target" ];
+    };
+
+    Install.WantedBy = [ "graphical-session.target" ];
+
     Service = {
       ExecStart = "${lib.getExe pkgs.vorta} --daemonise";
       Restart = "on-failure";
