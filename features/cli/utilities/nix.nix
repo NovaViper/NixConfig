@@ -17,5 +17,6 @@
     nixd # Another Nix LSP
     deadnix # Deadcode finder for NIx
     statix # Anti-pattern detector
+    hydra-check
   ];
 }
