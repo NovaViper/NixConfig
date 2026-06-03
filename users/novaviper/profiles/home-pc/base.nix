@@ -12,8 +12,8 @@ in
 {
   imports = myLib.utils.importFeatures [
     ### Applications
-    "programs/browser/brave"
     "programs/browser/firefox"
+    "programs/browser/brave"
     "programs/neovim"
     "programs/ghostty"
     "programs/keepassxc"
@@ -31,7 +31,7 @@ in
 
   hm.userVars = {
     defaultTerminal = "ghostty";
-    defaultBrowser = "brave";
+    defaultBrowser = "firefox";
     defaultEditor = "neovim";
   };
 
