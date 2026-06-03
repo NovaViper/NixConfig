@@ -7,44 +7,42 @@ let
   hm-config = config.hm;
 in
 {
-  hm.programs.ssh.matchBlocks =
+  hm.programs.ssh.settings =
     let
       homePath = "${hm-config.home.homeDirectory}/.ssh";
     in
     {
       "knoxpc-*" = {
-        hostname = "192.168.1.120";
-        identityFile = [
+        HostName = "192.168.1.120";
+        IdentityFile = [
           "${homePath}/knox_ed25519-sk_usba"
           "${homePath}/knox_ed25519-sk_usbc"
         ];
-        port = 22;
-        extraOptions = {
-          RequestTTY = "yes";
-          RemoteCommand = "tmux new-session -A -s \${%n}";
-        };
+        Port = 22;
+        RequestTTY = "yes";
+        RemoteCommand = "tmux new-session -A -s \${%n}";
       };
       "knoxpc" = {
-        hostname = "192.168.1.120";
-        identityFile = [
+        HostName = "192.168.1.120";
+        IdentityFile = [
           "${homePath}/knox_ed25519-sk_usba"
           "${homePath}/knox_ed25519-sk_usbc"
         ];
-        port = 22;
+        Port = 22;
       };
       "knoxpcb" = {
-        hostname = "192.168.1.120";
-        user = "borg";
-        port = 22;
-        identityFile = [
+        HostName = "192.168.1.120";
+        User = "borg";
+        Port = 22;
+        IdentityFile = [
           "${homePath}/borg_ed25519-sk_usba"
           "${homePath}/borg_ed25519-sk_usbc"
         ];
       };
       "printerpi" = {
-        hostname = "192.168.1.81";
-        user = "exova";
-        port = 22;
+        HostName = "192.168.1.81";
+        User = "exova";
+        Port = 22;
       };
     };
 }
