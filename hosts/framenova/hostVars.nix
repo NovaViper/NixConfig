@@ -6,7 +6,7 @@
 }:
 {
   hostVars = {
-    configDirectory = "/home/novaviper/Documents/Projects/NixConfig";
+    configDirectory = "/home/novaviper/Projects/NixConfig";
     scalingFactor = 1.40;
   };
 }
