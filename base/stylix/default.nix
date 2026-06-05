@@ -39,7 +39,7 @@ in
       # Using the doom-emacs theme
       emacs.enable = false;
       # Enable rainbow mode for cava
-      cava.rainbow.enable = true;
+      # cava.rainbow.enable = true;
       # Disable coloring for Firefox + dervatives; very hard to read
       firefox.enable = false;
       floorp.enable = false;
