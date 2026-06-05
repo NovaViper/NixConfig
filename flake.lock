@@ -487,11 +487,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780364276,
-        "narHash": "sha256-q20FK69osiBBxxZKEnbhHdd3lJOzX8+0KyXucjp6jCE=",
+        "lastModified": 1780678540,
+        "narHash": "sha256-caRgGkd1PIqORbYNJKCpsSnaHRzFiQjk5MCeqj5Qyr4=",
         "ref": "refs/heads/main",
-        "rev": "9d96fa61e2afca6c2d6639c78bb0d77d1c5f5d73",
-        "revCount": 190,
+        "rev": "39db28d92a8f439f7da4c1d1773cd18dce09aef3",
+        "revCount": 191,
         "type": "git",
         "url": "https://codeberg.org/NovaViper/novavim"
       },
