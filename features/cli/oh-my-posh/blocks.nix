@@ -89,7 +89,7 @@ in
             "{{ if gt .Behind 0 }}1{{ end }}"
           ];
           # detached head removal stolen from https://github.com/pacifi5t/dotfiles/blob/eb0f1eedf164dccf1ff98beccf8f30d9041e6c73/common/.config/oh-my-posh/tty.json#L29
-          template = " {{ .UpstreamIcon }}{{ replaceP \" ?detached (?:from|at)?\" .HEAD \"\" }}{{if or (.Working.Changed) (.Staging.Changed) }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} ${internals.ucode "F044"}{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} | {{ end }}{{ if .Staging.Changed }}${internals.ucode "F046"}{{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} ${internals.ucode "EB4B"}{{ .StashCount }}{{ end }} ";
+          template = " {{ .UpstreamIcon }} {{ replaceP \" ?detached (?:from|at)?\" .HEAD \"\" }}{{if or (.Working.Changed) (.Staging.Changed) }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }} ${internals.ucode "F044"}{{ .Working.String }}{{ end }}{{ if and (.Working.Changed) (.Staging.Changed) }} | {{ end }}{{ if .Staging.Changed }}${internals.ucode "F046"}{{ .Staging.String }}{{ end }}{{ if gt .StashCount 0 }} ${internals.ucode "EB4B"}{{ .StashCount }}{{ end }} ";
           properties = {
             branch_icon = "${internals.ucode "F126"} ";
             commit_icon = "";
