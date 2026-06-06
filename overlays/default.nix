@@ -82,6 +82,31 @@ in
     # ...
     # });
 
+    zellijPlugins = prev.zellijPlugins // {
+      zjstatus = prev.zellijPlugins.wrapper "zjstatus" (
+        prev.zellijPlugins.zjstatus.unwrapped.overrideAttrs (
+          oldAttrs:
+          let
+            src = final.fetchFromGitHub {
+              owner = "dj95";
+              repo = "zjstatus";
+              rev = "17609e498f88e674b846b844b48ad1dc545fddcf";
+              hash = "sha256-/LsFGF0BAYdiVVQZ/8vjo6IXuSsYS+ueIWHN47NHEAc=";
+            };
+          in
+          {
+            version = "0-unstable-2026-06-03";
+            inherit src;
+
+            cargoDeps = final.rustPlatform.fetchCargoVendor {
+              inherit src;
+              hash = "sha256-+UYNIPrRYUYwxHk227PDo5vdAqho8SMm80o7UqSdZ3g=";
+            };
+          }
+        )
+      );
+    };
+
     # Enable DRM support in Vivaldi and make it work properly on Wayland
     vivaldi =
       (prev.vivaldi.overrideAttrs (oldAttrs: {
