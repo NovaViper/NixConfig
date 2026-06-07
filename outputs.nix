@@ -34,11 +34,12 @@ let
         system = "x86_64-linux";
       };
 
-      # Live-image installer
-      installer = {
-        username = "nixos";
-        system = "x86_64-linux";
-      };
+      # TODO: Disabled for now til refactor structure is done!
+      # # Live-image installer
+      # installer = {
+      #   username = "nixos";
+      #   system = "x86_64-linux";
+      # };
     };
 in
 {

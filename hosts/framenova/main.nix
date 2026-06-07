@@ -5,10 +5,15 @@
   pkgs,
   ...
 }:
-let
-  user = "novaviper";
-in
 {
+
+  # imports = myLib.utils.importFeatures [];
+
+  hostVars = {
+    configDirectory = "/home/novaviper/Projects/NixConfig";
+    scalingFactor = 1.40;
+  };
+
   hm.home.packages = with pkgs; [ moonlight-qt ];
 
   hm.programs.plasma.input.keyboard.options = [ "caps:ctrl_modifier" ];

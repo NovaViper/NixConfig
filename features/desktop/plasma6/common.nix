@@ -16,7 +16,11 @@ let
 in
 {
   features.desktop = "kde";
-  features.useWayland = true;
+
+  # Enable native messaging host for Firefox/Firefox forks
+  hm.programs.firefox.nativeMessagingHosts = with pkgs; [ kdePackages.plasma-browser-integration ];
+
+  # services.displayManager.plasma-login-manager.enable = true;
 
   # Enable the KDE's SDDM.
   services.displayManager.sddm = {
@@ -99,5 +103,11 @@ in
   hm.xdg.mimeApps = {
     defaultApplications."x-scheme-handler/tel" = [ "org.kde.kdeconnect.handler.desktop" ];
     associations.added."x-scheme-handler/tel" = [ "org.kde.kdeconnect.handler.desktop" ];
+  };
+
+  hm.xdg.portal = {
+    enable = true;
+    configPackages = with pkgs; lib.mkDefault [ kdePackages.xdg-desktop-portal-kde ];
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
   };
 }

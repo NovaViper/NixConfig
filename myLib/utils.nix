@@ -1,6 +1,7 @@
 {
   lib,
-  myLib,
+  username ? null,
+  hostname ? null,
   ...
 }:
 let
@@ -17,10 +18,10 @@ let
         builtins.filter (lib.hasSuffix ".nix") (exports.filesInDir path);
 
     # Import all nix files in a given list of directories and/or files (paths)
-    importPaths = paths: lib.flatten (builtins.map exports.listNixFilesForPath paths);
+    importPaths = paths: lib.flatten (map exports.listNixFilesForPath paths);
 
     # Import the given feature folders (dirs) located in the `features` folder
-    importFeatures = dirs: exports.importPaths (builtins.map (d: ../features + "/${d}") dirs);
+    importFeatures = dirs: exports.importPaths (map (d: ../features + "/${d}") dirs);
 
     # Take a base path (baseDir) and a list of subfolders/subfiles (breadcrumbs) and combine them into a normalized path
     mkPath =
@@ -35,7 +36,7 @@ let
       "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
     # Get an option from the userVars module
-    getUserVars = option: config: builtins.toString config.userVars.${option};
+    getUserVars = option: config: toString config.userVars.${option};
 
     # Pick the name of the .desktop file for the default terminal
     getTerminalDesktopFile =

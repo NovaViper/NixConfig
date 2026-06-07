@@ -27,6 +27,8 @@ let
           system
           stateVersion
           ;
+        # Inject the host/user-bound myLib directly for module use!
+        myLib = myLib.boundWith { inherit hostname username; };
       };
       modules =
         myLib.slimports {
@@ -34,23 +36,15 @@ let
             ../base
 
             # Import a premade set of options from profiles
-            (map (p: ../hosts/profiles/${p}) profiles)
+            (map (p: ../profiles/${p}) profiles)
 
             # Host machine
             ../hosts/${hostname}/config
-            ../hosts/${hostname}/features.nix
             ../hosts/${hostname}/hardware-configuration.nix
-            ../hosts/${hostname}/hostVars.nix
+            ../hosts/${hostname}/main.nix
 
             # Primary User
             ../users/${username}/system.nix
-          ];
-          optionalPaths = lib.flatten [
-            # Import a premade set of options from profiles for users
-            (map (p: ../users/${username}/profiles/${p}) profiles)
-
-            #../users/${username}/config
-            ../users/${username}/hosts/${hostname}.nix
           ];
         }
         ++ self.nixosModules.default;

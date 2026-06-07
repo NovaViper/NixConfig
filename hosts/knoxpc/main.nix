@@ -1,11 +1,37 @@
 {
+
+  config,
   lib,
+  myLib,
+  pkgs,
   ...
 }:
 let
   myself = "novaviper";
 in
 {
+  imports = myLib.utils.importFeatures [
+    ### Hardware
+    "hardware/bluetooth"
+    "hardware/yubikey"
+
+    ### Service
+    "services/tailscale"
+
+    ### Theme
+    #"theme/dracula"
+    #"theme/catppuccin"
+
+    ### Boot
+    "boot/pretty-boot"
+    "boot/disko"
+  ];
+
+  hostVars = {
+    configDirectory = "/etc/nixos";
+    scalingFactor = 1;
+  };
+
   users.users.${myself} = {
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIGGrJs3zMfJ2hKV9Bsrv4L2OgvVnOo2bsh5cTmKvDp+kAAAACHNzaDprbm94" # USBA

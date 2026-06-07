@@ -45,7 +45,7 @@ in
     home = {
       inherit stateVersion;
       # REVIEW: Maybe implement this variable for hostVars?
-      #homeDirectory = "${config.hostVars.homeBaseDirectory}/${username}";
+      # homeDirectory = "${config.hostVars.homeBaseDirectory}/${username}";
       sessionVariables.FLAKE = "${config.hostVars.configDirectory}";
       sessionVariables.NH_FLAKE = "${config.hostVars.configDirectory}";
     };
