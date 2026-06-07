@@ -447,6 +447,21 @@
         "type": "github"
       }
     },
+    "nixpkgs-patcher": {
+      "locked": {
+        "lastModified": 1779142267,
+        "narHash": "sha256-ozaE7fp0HQ6MCVKz09p2mwSrt8cwpswYOBQc1Oa2Wk4=",
+        "owner": "gepbird",
+        "repo": "nixpkgs-patcher",
+        "rev": "1035997b647799694e4ac1cf217e7ee1c050bce0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "gepbird",
+        "repo": "nixpkgs-patcher",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1780453794,
@@ -560,6 +575,7 @@
         "nix-index-database": "nix-index-database",
         "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-stable": "nixpkgs-stable",
         "novavim": "novavim",
         "plasma-manager": "plasma-manager",
