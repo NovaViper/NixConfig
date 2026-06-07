@@ -40,6 +40,16 @@ _: {
     "net.core.default_qdisc" = "cake";
   };
 
+  # Increase memlock to 128Mb for some cryptography libraries
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "-";
+      item = "memlock";
+      value = "131072";
+    }
+  ];
+
   # Enable firmware updates on Linux
   services.fwupd = {
     enable = true;
