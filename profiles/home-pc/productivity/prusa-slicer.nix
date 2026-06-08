@@ -4,10 +4,6 @@
   pkgs,
   ...
 }:
-let
-  user = "novaviper";
-  hm-config = config.hm;
-in
 {
   hm.xdg.mimeApps = {
     associations = {
@@ -22,38 +18,22 @@ in
     };
   };
 
-  hm.xdg.configFile = {
-    "PrusaSlicer/printer" = myLib.dots.mkDotsSymlink {
-      inherit user;
-      config = hm-config;
-      source = "PrusaSlicer/printer";
-      recursive = true;
+  hm.xdg.configFile =
+    let
+      prusaDots =
+        source:
+        myLib.dots.mkDotsSymlink {
+          inherit config source;
+          recursive = true;
+        };
+    in
+    {
+      "PrusaSlicer/printer" = prusaDots "PrusaSlicer/printer";
+      "PrusaSlicer/print" = prusaDots "PrusaSlicer/print";
+      "PrusaSlicer/physical_printer" = prusaDots "PrusaSlicer/physical_printer";
+      "PrusaSlicer/filament" = prusaDots "PrusaSlicer/filament";
+      "PrusaSlicer/bed_models" = prusaDots "PrusaSlicer/bed_models";
     };
-    "PrusaSlicer/print" = myLib.dots.mkDotsSymlink {
-      inherit user;
-      config = hm-config;
-      source = "PrusaSlicer/print";
-      recursive = true;
-    };
-    "PrusaSlicer/physical_printer" = myLib.dots.mkDotsSymlink {
-      inherit user;
-      config = hm-config;
-      source = "PrusaSlicer/physical_printer";
-      recursive = true;
-    };
-    "PrusaSlicer/filament" = myLib.dots.mkDotsSymlink {
-      inherit user;
-      config = hm-config;
-      source = "PrusaSlicer/filament";
-      recursive = true;
-    };
-    "PrusaSlicer/bed_models" = myLib.dots.mkDotsSymlink {
-      inherit user;
-      config = hm-config;
-      source = "PrusaSlicer/bed_models";
-      recursive = true;
-    };
-  };
 
   hm.home.packages = with pkgs; [ prusa-slicer ];
 }

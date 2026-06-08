@@ -6,7 +6,6 @@
   ...
 }:
 let
-  user = "novaviper";
   hm-config = config.hm;
   ghosttyCommand =
     pkgs.writeShellScript "ghostty-tmux"
@@ -22,15 +21,14 @@ in
   hm.xdg.configFile = lib.mkMerge [
     (lib.mkIf hm-config.programs.tmux.enable {
       "tmuxp/session.yaml" = myLib.dots.mkDotsSymlink {
-        inherit user;
-        config = hm-config;
+        inherit config;
         source = "tmuxp/session.yaml";
       };
     })
   ];
 
   hm.programs.ghostty.settings = lib.mkIf hm-config.programs.tmux.enable {
-    command = builtins.toString ghosttyCommand;
+    command = toString ghosttyCommand;
   };
 
   #hm.programs.tmux.which-key.settings = import ./which-key-config.nix;

@@ -7,11 +7,6 @@
 let
   hm-config = config.hm;
   cfg = hm-config.programs.tmux;
-  clipboardPkg =
-    if config.features.useWayland then
-      "${lib.getExe' pkgs.wl-clipboard "wl-copy"}"
-    else
-      "${lib.getExe pkgs.xsel} -b";
 in
 {
   hm.programs.fzf.tmux.enableShellIntegration = true;
@@ -60,7 +55,7 @@ in
       if config.features.desktop != null then
         ''
           set -s set-clipboard external
-          set -g copy-command "${clipboardPkg}"
+          set -g copy-command "${lib.getExe' pkgs.wl-clipboard "wl-copy"}"
         ''
       else
         "set -s set-clipboard on"

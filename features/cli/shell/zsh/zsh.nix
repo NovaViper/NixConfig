@@ -36,14 +36,12 @@ in
   # Most of the configuration is done in Home-Manager
   hm.xdg.configFile =
     let
-      user = hm-config.home.username;
       path = "zsh/functions";
     in
     # Only execute when the user actually has a functions folder
-    lib.mkIf (builtins.pathExists (myLib.dots.getDotsPath { inherit user path; })) {
+    lib.mkIf (builtins.pathExists (myLib.dots.getDotsPath path)) {
       "zsh/functions" = myLib.dots.mkDotsSymlink {
-        inherit user;
-        config = hm-config;
+        inherit config;
         source = path;
       };
     };
