@@ -15,7 +15,7 @@
     }:
     let
       cfg = if config ? hm then config.hm else config;
-      path = "${flakePath cfg}/users/${dotsPath}/${source}";
+      path = "${flakePath cfg}/home/${dotsPath}/${source}";
     in
     {
       source = cfg.lib.file.mkOutOfStoreSymlink path;
@@ -23,7 +23,7 @@
     };
 
   # Helper function for retrieving the location of the user's dotfiles path
-  getDotsPath = path: ../users/${dotsPath}/${path};
+  getDotsPath = path: ../home/${dotsPath}/${path};
 
   # Helper function for retrieving all files in a given path
   filesIn = path: builtins.attrNames (builtins.readDir path);

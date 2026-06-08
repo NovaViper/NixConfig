@@ -44,7 +44,7 @@ let
             ../hosts/${hostname}/main.nix
 
             # Primary User
-            ../users/${username}/system.nix
+            ../home/${username}/system.nix
           ];
         }
         ++ self.nixosModules.default;
