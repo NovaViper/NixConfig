@@ -16,6 +16,23 @@ in
 {
   hm.programs.neomutt = {
     enable = true;
+    editor =
+      let
+        # Get the default editor from our session variables.
+        editorBase = config.home.sessionVariables.EDITOR or "$EDITOR";
+
+        # Extra options to set for vi/vim/neovim for editing mail.
+        vimOptions = "-c 'set syntax=mail ft=mail enc=utf-8 spell spelllang=en'";
+
+        inherit (lib) hasSuffix;
+
+        # Check if the given editor is probably vim or neovim.
+        isVim = e: (hasSuffix "/vi" e) || (hasSuffix "/vim" e) || (hasSuffix "/nvim" e);
+
+        # Add the Vim options to the editor if it looks like (neo)vim.
+        editor = if isVim editorBase then "${editorBase} ${vimOptions}" else "${editorBase}";
+      in
+      editor;
     unmailboxes = true;
     #changeFolderWhenSourcingAccount = true;
     sidebar = {
@@ -114,7 +131,7 @@ in
 
   hm.xdg.configFile."neomutt/mailcap".text = ''
     # text
-    text/plain; less %s
+    text/plain; ${config.hm.programs.neomutt.editor} %s
     text/html; ${
       lib.getExe hm-config.programs.${hm-config.userVars.defaultBrowser}.package
     } --new-window %s > /dev/null 2>&1 &; nametemplate=%s.html; \
