@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  mailAccounts,
   ...
 }:
 let
@@ -12,8 +13,33 @@ let
     rev = "f6ce83da47cc36d5639b0d54e7f5f63cdaf69f11";
     hash = "sha256-ye16nP2DL4VytDKB+JdMkBXU+Y9Z4dHmY+DsPcR2EG0=";
   };
+  configPath = hm-config.xdg.configHome;
+  neomumttConfig = "${configPath}/neomutt";
 in
 {
+  hm.home.packages = [
+    (pkgs.writeShellScriptBin "mutt-picker" ''
+        set -euo pipefail
+
+        fzf_command="${lib.getExe pkgs.fzf} --popup"
+
+        choice="$(
+          cat <<'EOF' | $fzf_command
+      ${lib.concatStringsSep "\n" (
+        lib.mapAttrsToList (name: cfg: "${name} (${cfg.address})") mailAccounts
+      )}
+      EOF
+        )"
+
+        [ -z "$choice" ] && exit 0
+
+        account="''${choice%% *}"
+        folder="$HOME/.local/share/mail/$account"
+
+        echo "push '<enter-command>source ${neomumttConfig}/$account<enter><sync-mailbox><change-folder>!<enter><first-entry>'"
+    '')
+  ];
+
   hm.programs.neomutt = {
     enable = true;
     editor =
@@ -27,7 +53,7 @@ in
         inherit (lib) hasSuffix;
 
         # Check if the given editor is probably vim or neovim.
-        isVim = e: (hasSuffix "/vi" e) || (hasSuffix "/vim" e) || (hasSuffix "/nvim" e);
+        isVim = e: (hasSuffix "vi" e) || (hasSuffix "vim" e) || (hasSuffix "nvim" e);
 
         # Add the Vim options to the editor if it looks like (neo)vim.
         editor = if isVim editorBase then "${editorBase} ${vimOptions}" else "${editorBase}";
@@ -43,7 +69,7 @@ in
     vimKeys = true;
     sort = "reverse-threads";
     settings = {
-      "mailcap_path" = "${hm-config.xdg.configHome}/neomutt/mailcap";
+      "mailcap_path" = "${neomumttConfig}/mailcap";
     };
     extraConfig = ''
       auto_view text/html
@@ -90,20 +116,12 @@ in
           "pager"
         ];
         key = "<F2>";
-        action = "<sync-mailbox><enter-command>source ~/.config/neomutt/personal-1<enter><change-folder>!<enter><check-stats>";
-      }
-      {
-        map = [
-          "index"
-          "pager"
-        ];
-        key = "<F3>";
-        action = "<sync-mailbox><enter-command>source ~/.config/neomutt/personal-2<enter><change-folder>!<enter><check-stats>";
+        action = ":source mutt-picker|<enter>";
       }
       {
         map = [ "index" ];
         key = "o";
-        action = "<shell-escape>${lib.getExe pkgs.notmuch} new<enter>";
+        action = "<shell-escape>${lib.getExe hm-config.programs.mbsync.package} -a";
       }
       {
         map = [ "index" ];

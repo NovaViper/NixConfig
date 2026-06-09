@@ -404,10 +404,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1780364257,
-        "narHash": "sha256-I9LnZzUYI493rn4Avp/xk5YX1LyE4O22ZS6Rs3UllrY=",
+        "lastModified": 1780974372,
+        "narHash": "sha256-VTpErTJBHNwuEyP2Fly6m0M8ZzqtxqiyXh5StDIYxn4=",
         "ref": "main",
-        "rev": "5306bb6a17437d7e5d21d7e20b8a4c708207a641",
+        "rev": "5bf9ffdc2b983a3a394e9869c587d132e747fd75",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@codeberg.org/NovaViper/nix-secrets.git"

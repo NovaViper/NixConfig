@@ -6,223 +6,168 @@
   ...
 }:
 let
+
   hm-config = config.hm;
   myselfName = "novaviper";
   secrets = inputs.nix-secrets.${myselfName}.email;
-  # passwordCmd =
-  #   smtpHost: address:
-  #   "gpg -q --for-your-eyes-only --no-tty -d ~/.authinfo.gpg | awk '/machine
-  #   ${smtpHost} login ${address}/ {print $NF}'";
-  passwordCmd =
-    smtpHost: address: "${lib.getExe hm-config.programs.password-store.package} ${smtpHost}/${address}";
-in
-{
-  hm.accounts.email = {
-    maildirBasePath = "${hm-config.xdg.dataHome}/mail";
-    accounts.personal-1 =
-      let
-        address = "${secrets.personal1.address}";
-        smtp.host = "smtp.mailbox.org";
-      in
-      {
+
+  commonPatterns = [
+    "INBOX"
+    "Sent"
+    "Drafts"
+    "Junk"
+    "Trash"
+  ];
+
+  mailAccounts = {
+    personal-1 = {
+      address = secrets.personal1.address;
+
+      aliases = [
+        "${myLib.utils.getUserVars "email" hm-config}"
+        "${secrets.personal1.work}"
+        "${secrets.personal1.school}"
+        "${secrets.personal1.shop}"
+      ];
+
+      extra = {
         primary = true;
-        inherit address smtp;
-        userName = address;
-        realName = "${myselfName}";
-        aliases = [
-          "${myLib.utils.getUserVars "email" hm-config}"
-          "${secrets.personal1.work}"
-          "${secrets.personal1.school}"
-          "${secrets.personal1.shop}"
-        ];
+        smtp.host = "smtp.mailbox.org";
         imap = {
           host = "imap.mailbox.org";
           tls.useStartTls = true;
         };
-        passwordCommand = passwordCmd smtp.host address;
-        #mu.enable = true;
-        msmtp.enable = true; # Send Email
-        neomutt = {
-          # Email Client
-          enable = true;
-          extraConfig =
-            let
-              shortCfg = hm-config.accounts.email.accounts.personal-1;
-              addresses = lib.flatten [ shortCfg.address ] ++ shortCfg.aliases;
-            in
-            ''
-              alternates "${lib.concatStringsSep "|" addresses}"
-            '';
-        };
-        notmuch = {
-          # Index Email
-          enable = true;
-          neomutt.enable = true;
-          neomutt.virtualMailboxes = [
-            {
-              name = "Inbox";
-              query = "folder:/personal-1/ tag:inbox";
-            }
-            {
-              name = "Sent";
-              query = "folder:/personal-1/ tag:sent";
-            }
-            {
-              name = "Drafts";
-              query = "folder:/personal-1/ tag:drafts";
-            }
-            {
-              name = "Archive";
-              query = "folder:/personal-1/ tag:archive";
-            }
-            {
-              name = "Spam";
-              query = "folder:/personal-1/ tag:spam";
-            }
-            {
-              name = "Trash";
-              query = "folder:/personal-1/ tag:trash";
-            }
-          ];
-        };
-        mbsync = {
-          # Fetch/Index Email
-          enable = true;
-          create = "both";
-          expunge = "both";
-          patterns = [
-            "INBOX"
-            "Sent"
-            "Drafts"
-            "Junk"
-            "Trash"
-          ];
-          extraConfig.account.TLSVersions = [ "+1.3" ];
-          extraConfig.channel = {
-            CopyArrivalDate = "yes";
-            Create = "Both";
-            Expunge = "Both";
-            SyncState = "*";
-          };
-        };
-      };
 
-    accounts.personal-2 =
-      let
-        address = "${secrets.personal2}";
+        neomutt.extraConfig =
+          let
+            shortCfg = hm-config.accounts.email.accounts.personal-1;
+
+            addresses = lib.flatten [ shortCfg.address ] ++ shortCfg.aliases;
+          in
+          ''
+            alternates "${lib.concatStringsSep "|" addresses}"
+          '';
+
+        mbsync.patterns = commonPatterns;
+      };
+    };
+
+    personal-2 = {
+      address = secrets.personal2;
+
+      extra = {
         smtp.host = "smtp.gmail.com";
-      in
-      {
-        inherit address smtp;
-        userName = address;
-        realName = "${myselfName}";
+
         # Declaring ports for Gmail breaks it!!
         imap.host = "imap.gmail.com";
-        passwordCommand = passwordCmd smtp.host address;
-        #mu.enable = true;
-        msmtp.enable = true; # Send Email
-        # Email Client
-        neomutt.enable = true;
-        notmuch = {
-          # Index Email
-          enable = true;
-          neomutt.enable = true;
-          neomutt.virtualMailboxes = [
-            {
-              name = "Inbox";
-              query = "folder:/personal-1/ tag:inbox";
-            }
-            {
-              name = "Sent";
-              query = "folder:/personal-1/ tag:sent";
-            }
-            {
-              name = "Drafts";
-              query = "folder:/personal-1/ tag:drafts";
-            }
-            {
-              name = "Archive";
-              query = "folder:/personal-1/ tag:archive";
-            }
-            {
-              name = "Spam";
-              query = "folder:/personal-1/ tag:spam";
-            }
-            {
-              name = "Trash";
-              query = "folder:/personal-1/ tag:trash";
-            }
-          ];
-        };
-        mbsync = {
-          # Fetch/Index Email
-          enable = true;
-          create = "both";
-          expunge = "both";
-          extraConfig.account.TLSVersions = [ "+1.3" ];
-          groups = {
-            personal-2 = {
-              channels = {
-                Inbox = {
-                  farPattern = "INBOX";
-                  nearPattern = "INBOX";
-                  extraConfig = {
-                    Create = "Near";
-                    Expunge = "Both";
-                  };
-                };
-                Archive = {
-                  farPattern = "[Gmail]/All Mail";
-                  nearPattern = "Archive";
-                  extraConfig = {
-                    Create = "Near";
-                    Expunge = "Both";
-                  };
-                };
-                Spam = {
-                  farPattern = "[Gmail]/Spam";
-                  nearPattern = "Spam";
-                  extraConfig = {
-                    Create = "Near";
-                    Expunge = "Both";
-                  };
-                };
-                Trash = {
-                  farPattern = "[Gmail]/Trash";
-                  nearPattern = "Trash";
-                  extraConfig = {
-                    Create = "Near";
-                    Expunge = "Both";
-                  };
-                };
-                Important = {
-                  farPattern = "[Gmail]/Important";
-                  nearPattern = "Important";
-                  extraConfig = {
-                    Create = "Near";
-                    Expunge = "Both";
-                  };
-                };
-                Sent = {
-                  farPattern = "[Gmail]/Sent Mail";
-                  nearPattern = "Sent";
-                  extraConfig = {
-                    Create = "Near";
-                    Expunge = "Both";
-                  };
-                };
-                FarDrafts = {
-                  farPattern = "[Gmail]/Drafts";
-                  nearPattern = "FarDrafts";
-                  extraConfig = {
-                    Create = "Near";
-                    Expunge = "Both";
-                  };
-                };
+        mbsync.extraConfig.channel = lib.Force null;
+        mbsync.groups.personal-2 = {
+          channels = {
+            Inbox = {
+              farPattern = "INBOX";
+              nearPattern = "INBOX";
+
+              extraConfig = {
+                Create = "Near";
+                Expunge = "Both";
+              };
+            };
+
+            Archive = {
+              farPattern = "[Gmail]/All Mail";
+              nearPattern = "Archive";
+
+              extraConfig = {
+                Create = "Near";
+                Expunge = "Both";
+              };
+            };
+
+            Spam = {
+              farPattern = "[Gmail]/Spam";
+              nearPattern = "Spam";
+
+              extraConfig = {
+                Create = "Near";
+                Expunge = "Both";
+              };
+            };
+
+            Trash = {
+              farPattern = "[Gmail]/Trash";
+              nearPattern = "Trash";
+
+              extraConfig = {
+                Create = "Near";
+                Expunge = "Both";
+              };
+            };
+
+            Important = {
+              farPattern = "[Gmail]/Important";
+              nearPattern = "Important";
+
+              extraConfig = {
+                Create = "Near";
+                Expunge = "Both";
+              };
+            };
+
+            Sent = {
+              farPattern = "[Gmail]/Sent Mail";
+              nearPattern = "Sent";
+
+              extraConfig = {
+                Create = "Near";
+                Expunge = "Both";
+              };
+            };
+
+            FarDrafts = {
+              farPattern = "[Gmail]/Drafts";
+              nearPattern = "FarDrafts";
+
+              extraConfig = {
+                Create = "Near";
+                Expunge = "Both";
               };
             };
           };
         };
       };
+    };
+
+    personal-3 =
+      let
+        tls = {
+          enable = true;
+          useStartTls = true;
+          certificatesFile = "${hm-config.xdg.configHome}/protonmail/cert.pem";
+        };
+      in
+      {
+        address = secrets.personal3;
+        hostTag = "protonmail";
+        extra = {
+          smtp = {
+            inherit tls;
+            host = "127.0.0.1";
+            port = 1025;
+          };
+
+          imap = {
+            inherit tls;
+            host = "127.0.0.1";
+            port = 1143;
+          };
+
+          mbsync.patterns = commonPatterns;
+        };
+      };
+  };
+in
+{
+  _module.args = {
+    inherit mailAccounts;
   };
 }
