@@ -37,7 +37,10 @@ in
     powerManagement.enable = true;
     open = false;
     nvidiaSettings = false;
-    package = config.boot.kernelPackages.nvidiaPackages.beta;
+    branch = "bleeding_edge";
+    moduleParams = {
+      nvidia.NVreg_UsePageAttributeTable = 1;
+    };
   };
 
   programs.nix-ld.libraries = [

@@ -32,11 +32,6 @@
       "i915"
       "amdgpu"
     ];
-
-    kernelParams = [
-      "nvidia_drm.fbdev=1"
-      "nvidia.NVreg_UsePageAttributeTable=1"
-    ];
   };
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
