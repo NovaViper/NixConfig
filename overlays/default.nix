@@ -44,7 +44,7 @@ in
     final: prev:
     (prev.lib.packagesFromDirectoryRecursive {
       inherit (final) callPackage;
-      directory = ../pkgs/common;
+      directory = ../pkgs;
     })
     # // (prev.lib.packagesFromDirectoryRecursive {
     #   callPackage = prev.lib.callPackageWith {

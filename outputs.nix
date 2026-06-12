@@ -61,8 +61,8 @@ in
   packages = myLib.forAllSystems (
     pkgs:
     (lib.packagesFromDirectoryRecursive {
-      inherit (pkgs) callPackage;
-      directory = ./pkgs/common;
+      inherit (pkgs) callPackage newScope;
+      directory = ./pkgs;
     })
   );
 
