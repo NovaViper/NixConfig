@@ -17,28 +17,7 @@ let
   neomumttConfig = "${configPath}/neomutt";
 in
 {
-  hm.home.packages = [
-    (pkgs.writeShellScriptBin "mutt-picker" ''
-        set -euo pipefail
-
-        fzf_command="${lib.getExe pkgs.fzf} --popup"
-
-        choice="$(
-          cat <<'EOF' | $fzf_command
-      ${lib.concatStringsSep "\n" (
-        lib.mapAttrsToList (name: cfg: "${name} (${cfg.address})") mailAccounts
-      )}
-      EOF
-        )"
-
-        [ -z "$choice" ] && exit 0
-
-        account="''${choice%% *}"
-        folder="$HOME/.local/share/mail/$account"
-
-        echo "push '<enter-command>source ${neomumttConfig}/$account<enter><sync-mailbox><change-folder>!<enter><first-entry>'"
-    '')
-  ];
+  hm.home.packages = [ pkgs.my-scripts.mutt-picker ];
 
   hm.programs.neomutt = {
     enable = true;
