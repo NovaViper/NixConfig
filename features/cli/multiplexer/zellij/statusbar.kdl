@@ -46,22 +46,44 @@ pane_template name="statusbar" {
     mode_default_to_mode "normal"
 
     format_left  "{mode}#[fg=blue,reverse] {session} #[fg=blue]{tabs}"
-    format_right "{notifications} {datetime}"
+    format_right "#[fg=yellow]#[fg=$crust,bg=yellow] {command_network} {command_battery}#[fg=$crust,bg=$mauve] {command_cpu} #[fg=blue,bg=$mauve]#[fg=$crust,bg=blue] {command_ram} #[fg=green,bg=blue]#[fg=$crust,bg=$green,bold] {datetime}"
 
-    //hide_frame_for_single_pane "true"
+    command_network_command     "fish -c \"status-network\""
+    command_network_format      "{stdout}"
+    command_network_interval    "10"
+    command_network_rendermode  "static"
+
+    command_battery_command     "fish -c \"status-battery\""
+    command_battery_format      "{stdout}"
+    command_battery_interval    "4"
+    command_battery_rendermode  "dynamic"
+
+    command_cpu_command         "fish -c \"status-cpu-ram cpu\""
+    command_cpu_format          " {stdout}"
+    command_cpu_interval        "0.1"
+    command_cpu_rendermode      "dynamic"
+
+    command_ram_command         "fish -c \"status-cpu-ram mem\""
+    command_ram_format          " {stdout}"
+    command_ram_interval        "0.1"
+    command_ram_rendermode      "static"
 
     // indicators
     tab_sync_indicator       ""
     tab_fullscreen_indicator "󰊓"
     tab_floating_indicator   "󰹙"
 
-    tab_normal              "#[fg=$surface0,reverse] #[fg=$text,bg=$surface0]{index} #[fg=$surface0,bg=$text,reverse] {name} {floating_indicator}#[fg=$surface0]"
+    tab_normal              "#[fg=$surface0,reverse] #[fg=$text,bg=$surface0]{index} #[fg=$surface0,bg=$text,reverse] {name} {floating_indicator}{bell_indicator}#[fg=$surface0]"
     tab_normal_fullscreen   "#[fg=$surface0,reverse] #[fg=$text,bg=$surface0]{index} #[fg=$surface0,bg=$text,reverse] {name} {fullscreen_indicator}#[fg=$surface0]"
     tab_normal_sync         "#[fg=$surface0,reverse] #[fg=$text,bg=$surface0]{index} #[fg=$surface0,bg=$text,reverse] {name} {sync_indicator}#[fg=$surface0]"
+    tab_normal_flashing_bell "#[fg=$surface0,reverse] #[fg=$text,bg=$surface0]{index} #[fg=$surface0,bg=$text,reverse] {name} {floating_indicator}{bell_indicator}#[fg=$surface0]"
 
     tab_active              "#[fg=$mauve,reverse] #[fg=$crust,bg=$mauve]{index} #[fg=$mauve,bg=$crust,reverse] {name} {floating_indicator}#[fg=$mauve]"
     tab_active_fullscreen   "#[fg=$mauve,reverse] #[fg=$crust,bg=$mauve]{index} #[fg=$mauve,bg=$crust,reverse] {name} {fullscreen_indicator}#[fg=$mauve]"
     tab_active_sync         "#[fg=$mauve,reverse] #[fg=$crust,bg=$mauve]{index} #[fg=$mauve,bg=$crust,reverse] {name} {sync_indicator}#[fg=$mauve]"
+
+    tab_bell_indicator       "!"
+    tab_flashing_bell_indicator "!!"
 
     // limit tab display count
     tab_display_count         "7"  // limit to showing 3 tabs
@@ -72,14 +94,8 @@ pane_template name="statusbar" {
     notification_format_no_notifications "#[fg=#89B4FA,dim]   "
     notification_show_interval           "10"
 
-    // TODO Update zjstatus to make this work
-    //command_network_command     "bash -c \"./network.sh\""
-    //command_network_format      "{stdout}"
-    //command_network_interval    "1"
-    //command_network_rendermode  "static"
 
-
-    datetime          "#[fg=$green]#[bg=$green] #[fg=$crust,bg=$green,bold]{format} "
+    datetime          "{format} "
     datetime_format   "󰭦 %Y-%m-%d  󰅐 %H:%M"
     datetime_timezone "America/Chicago"
   }

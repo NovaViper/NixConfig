@@ -10,10 +10,18 @@ let
   statusbarTemplate = builtins.readFile ./statusbar.kdl;
 in
 {
-  hm.home.packages = with pkgs; [
-    chafa
-    cbonsai
-  ];
+  hm.home.packages =
+    with pkgs;
+    [
+      chafa
+      cbonsai
+
+    ]
+    ++ (with pkgs.my-scripts; [
+      status-battery
+      status-cpu-ram
+      status-network
+    ]);
 
   hm.programs.zellij = {
     enable = true;
