@@ -90,6 +90,10 @@
     #######
 
     # Nixpkgs PRs
+    nixpkgs-patch-panel-colorizer-fix = {
+      url = "https://github.com/NixOS/nixpkgs/pull/531830.diff";
+      flake = false;
+    };
     #######
   };
 }
