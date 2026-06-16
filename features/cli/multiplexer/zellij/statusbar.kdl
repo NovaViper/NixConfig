@@ -48,22 +48,22 @@ pane_template name="statusbar" {
     format_left  "{mode}#[fg=blue,reverse] {session} #[fg=blue]{tabs}"
     format_right "#[fg=yellow]#[fg=$crust,bg=yellow] {command_network} {command_battery}#[fg=$crust,bg=$mauve] {command_cpu} #[fg=blue,bg=$mauve]#[fg=$crust,bg=blue] {command_ram} #[fg=green,bg=blue]#[fg=$crust,bg=$green,bold] {datetime}"
 
-    command_network_command     "fish -c \"status-network\""
+    command_network_command     "status-network"
     command_network_format      "{stdout}"
     command_network_interval    "10"
     command_network_rendermode  "static"
 
-    command_battery_command     "fish -c \"status-battery\""
+    command_battery_command     "status-battery"
     command_battery_format      "{stdout}"
     command_battery_interval    "4"
     command_battery_rendermode  "dynamic"
 
-    command_cpu_command         "fish -c \"status-cpu-ram cpu\""
+    command_cpu_command         "status-cpu-ram cpu"
     command_cpu_format          " {stdout}"
     command_cpu_interval        "0.1"
     command_cpu_rendermode      "dynamic"
 
-    command_ram_command         "fish -c \"status-cpu-ram mem\""
+    command_ram_command         "status-cpu-ram mem"
     command_ram_format          " {stdout}"
     command_ram_interval        "0.1"
     command_ram_rendermode      "static"
