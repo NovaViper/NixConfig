@@ -25,8 +25,12 @@ in
 
   hm.programs.zellij = {
     enable = true;
-    enableFishIntegration = true;
-    enableZshIntegration = true;
+    # Use our custom integration override..
+    overrideIntegration = true;
+    overrides = {
+      enableFishIntegration = true;
+      enableZshIntegration = true;
+    };
     settings = {
       theme = "catppuccin-mocha";
       env = {
