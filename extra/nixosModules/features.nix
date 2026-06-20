@@ -113,7 +113,7 @@ in
         sessionVariables = waylandEnv;
         # Install necessary wayland protocol packages
         systemPackages = with pkgs; [
-          libsForQt5.qt5.qtwayland
+          qt5.qtwayland
           qt6.qtwayland
         ];
       };
