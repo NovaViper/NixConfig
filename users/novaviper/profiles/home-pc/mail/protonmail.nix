@@ -10,7 +10,14 @@ let
   bridgeGluonDb = "${hm-config.xdg.dataHome}/protonmail/bridge-v3/gluon/backend/db";
 in
 {
-  hm.home.packages = [ pkgs.protonmail-bridge ];
+  hm.services.protonmail-bridge = {
+    enable = true;
+    extraPackages = with pkgs; [
+      kdePackages.kwallet
+      libsecret
+    ];
+    logLevel = "info";
+  };
 
   # Shamelessly stolen from
   # https://github.com/dailyherold/nixfiles/blob/6e9dc6ed10858b9dc74c25ad6824ae654852ac2c/home-manager/features/cli/protonmail-bridge.nix
@@ -50,6 +57,4 @@ in
       echo ""
     fi
   '';
-
-  hm.services.protonmail-bridge.enable = true;
 }

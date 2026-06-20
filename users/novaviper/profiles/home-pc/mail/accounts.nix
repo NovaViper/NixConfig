@@ -147,7 +147,7 @@ let
       in
       {
         address = secrets.personal3;
-        hostTag = "protonmail";
+        hostTag = "protonmail/${config.networking.hostName}";
         extra = {
           smtp = {
             inherit tls;
