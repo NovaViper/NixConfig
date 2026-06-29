@@ -17,10 +17,10 @@ in
   imports = myLib.utils.importFeatures [
     ### Shell
     "cli/shell/fish"
-    #"cli/shell/zsh"
 
     ### Terminal Utils
-    "cli/utilities"
+    "cli/utils"
+    "cli/git"
     "cli/multiplexer/zellij"
   ];
 

@@ -11,22 +11,51 @@ let
 in
 {
   imports = myLib.utils.importFeatures [
+    ### Boot
+    "boot/pretty-plymouth"
+    "boot/disko"
+
+    ### Theme
+    #"theme/dracula"
+    "theme/catppuccin"
+
+    ### Hardware
+    "hardware/bluetooth"
+    "hardware/hard-accel"
+    "hardware/yubikey"
+
+    ### Service
+    "services/gps"
+    "services/localsend"
+    "services/packaging"
+    "services/printing"
+    "services/syncthing"
+    "services/tailscale"
+
+    ### Desktop Environment
+    "desktop/plasma6"
+
     ### Applications
-    "programs/browser/firefox"
-    "programs/browser/brave"
-    "programs/neovim"
-    "programs/ghostty"
-    "programs/keepassxc"
+    "apps/browsers/firefox"
+    "apps/borgbackup"
+    "apps/discord"
+    "apps/gaming"
+    "apps/jellyfin"
+    "apps/libreoffice"
+    "apps/neovim"
+    "apps/ghostty"
+    "apps/keepassxc"
 
     ### Terminal Utils
     #"cli/atuin"
     "cli/oh-my-posh"
-    "cli/deco"
+    "cli/cava"
+    "cli/fastfetch"
 
     ### CLI
-    "cli/dev"
-    "cli/misc/pass"
-    "cli/misc/topgrade"
+    "cli/development"
+    "cli/pass"
+    "cli/topgrade"
   ];
 
   hm.userVars = {

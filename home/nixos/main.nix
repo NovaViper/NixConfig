@@ -8,19 +8,23 @@
 {
   imports = myLib.utils.importFeatures [
     ### Applications
-    "programs/browser/floorp"
-    #"programs/nvim"
-    "programs/ghostty"
+    "apps/browsers/floorp"
+    #"apps/nvim"
+    "apps/ghostty"
 
     ### Shell
     "cli/shell/fish"
 
     ### Terminal Utils
-    "cli/utilities"
+    "cli/utils"
+    "cli/git"
     "cli/oh-my-posh"
-    "cli/deco"
     "cli/multiplexer/tmux"
     "cli/atuin"
+
+    #### Deco
+    "cli/fastfetch"
+    "cli/cava"
   ];
 
   hm.userVars = {

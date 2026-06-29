@@ -23,7 +23,7 @@ in
     #"theme/catppuccin"
 
     ### Boot
-    "boot/pretty-boot"
+    "boot/pretty-plymouth"
     "boot/disko"
   ];
 

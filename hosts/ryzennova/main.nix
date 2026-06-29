@@ -13,15 +13,15 @@ in
   imports = myLib.utils.importFeatures [
     ### Hardware
     "hardware/qmk"
-    "hardware/rgb"
+    "hardware/openrgb"
 
     ### Service
     "services/sunshine-server"
     "services/wivrn"
 
     ### Applications
-    "programs/libvirt"
-    "programs/obs"
+    "apps/libvirt"
+    "apps/obs-studio"
   ];
 
   features.includeMinecraftServer = true;

@@ -20,8 +20,22 @@ let
     # Import all nix files in a given list of directories and/or files (paths)
     importPaths = paths: lib.flatten (map exports.listNixFilesForPath paths);
 
-    # Import the given feature folders (dirs) located in the `features` folder
-    importFeatures = dirs: exports.importPaths (map (d: ../features + "/${d}") dirs);
+    # Resolve a feature to either `features/foo.nix` or `features/foo/`
+    resolveFeature =
+      feature:
+      let
+        file = ../config/features + "/${feature}.nix";
+        dir = ../config/features + "/${feature}";
+      in
+      if builtins.pathExists file then
+        file
+      else if builtins.pathExists dir then
+        dir
+      else
+        throw "Feature '${feature}' does not exist.";
+
+    # Import the given feature folders/files located in the `features` folder
+    importFeatures = features: exports.importPaths (map exports.resolveFeature features);
 
     # Take a base path (baseDir) and a list of subfolders/subfiles (breadcrumbs) and combine them into a normalized path
     mkPath =

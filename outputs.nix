@@ -18,14 +18,14 @@ let
       ryzennova = {
         username = "novaviper";
         system = "x86_64-linux";
-        profiles = lib.singleton "home-pc";
+        roles = lib.singleton "home-pc";
       };
 
       # Personal laptop
       framenova = {
         username = "novaviper";
         system = "x86_64-linux";
-        profiles = lib.singleton "home-pc";
+        roles = lib.singleton "home-pc";
       };
 
       # Homelab
