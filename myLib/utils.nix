@@ -1,6 +1,7 @@
 {
   lib,
-  myLib,
+  username ? null,
+  hostname ? null,
   ...
 }:
 let
@@ -17,10 +18,40 @@ let
         builtins.filter (lib.hasSuffix ".nix") (exports.filesInDir path);
 
     # Import all nix files in a given list of directories and/or files (paths)
-    importPaths = paths: lib.flatten (builtins.map exports.listNixFilesForPath paths);
+    importPaths = paths: lib.flatten (map exports.listNixFilesForPath paths);
 
-    # Import the given feature folders (dirs) located in the `features` folder
-    importFeatures = dirs: exports.importPaths (builtins.map (d: ../features + "/${d}") dirs);
+    # Resolve a feature to either `features/foo.nix` or `features/foo/`
+    resolveFeature =
+      feature:
+      let
+        file = ../config/features + "/${feature}.nix";
+        dir = ../config/features + "/${feature}";
+      in
+      if builtins.pathExists file then
+        file
+      else if builtins.pathExists dir then
+        dir
+      else
+        throw "Feature '${feature}' does not exist.";
+
+    # Import the given feature folders/files located in the features folder
+    importFeatures =
+      features:
+      let
+        normalizeNamespace =
+          namespace: values:
+          if lib.isList values then
+            map (value: "${namespace}/${value}") values
+          else
+            [ "${namespace}/${values}" ];
+
+        normalizeFeatures =
+          if lib.isList features then
+            features
+          else
+            lib.concatLists (lib.mapAttrsToList normalizeNamespace features);
+      in
+      exports.importPaths (map exports.resolveFeature normalizeFeatures);
 
     # Take a base path (baseDir) and a list of subfolders/subfiles (breadcrumbs) and combine them into a normalized path
     mkPath =
@@ -35,7 +66,7 @@ let
       "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
     # Get an option from the userVars module
-    getUserVars = option: config: builtins.toString config.userVars.${option};
+    getUserVars = option: config: toString config.userVars.${option};
 
     # Pick the name of the .desktop file for the default terminal
     getTerminalDesktopFile =

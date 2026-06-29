@@ -22,10 +22,6 @@ let
   };
 
   exports = {
-    # Paths used for various parts of the flake and lib functions
-    flakePath = config: "${config.home.sessionVariables.FLAKE}";
-    dotsPath = user: "${user}/dotfiles";
-
     # Import functions for library
     secrets = import ./secrets.nix flakeNLibs;
     conds = import ./conds.nix flakeNLibs;
@@ -54,3 +50,38 @@ let
   };
 in
 exports
+// {
+  # The "magic": produce a host/user aware library for use in specialArgs
+  boundWith =
+    { hostname, username, ... }:
+    let
+      dotsPath = "${username}/dotfiles";
+      # Flake path handles both NixOS and home-manager-only configs.
+      flakePath =
+        config:
+        if config ? hm then
+          "${config.hm.home.sessionVariables.FLAKE}"
+        else
+          "${config.home.sessionVariables.FLAKE}";
+    in
+    exports
+    // {
+      inherit dotsPath flakePath;
+      dots = import ./dots.nix {
+        inherit
+          lib
+          dotsPath
+          flakePath
+          ;
+      };
+      utils = import ./utils.nix {
+        inherit
+          lib
+          username
+          hostname
+          dotsPath
+          flakePath
+          ;
+      };
+    };
+}

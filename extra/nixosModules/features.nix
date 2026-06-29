@@ -67,8 +67,6 @@ in
       opts = [ "kde" ];
     };
 
-    useWayland = mkBoolFeature "wayland";
-
     vr = mkEnumFeature {
       desc = "virtual-reality desktop streamer";
       opts = [
@@ -105,21 +103,6 @@ in
   };
 
   config = mkMerge [
-    # Wayland Configs
-    (mkIf cfg.useWayland {
-      environment = {
-        # NOTE This will break stuff if there is a non-wayland user on the same machine,
-        #  but application launchers need this.
-        sessionVariables = waylandEnv;
-        # Install necessary wayland protocol packages
-        systemPackages = with pkgs; [
-          qt5.qtwayland
-          qt6.qtwayland
-        ];
-      };
-      hm.home.sessionVariables = waylandEnv;
-    })
-
     # Common
     (mkIf (cfg.desktop != null) {
       # FIXME: Look at this
@@ -127,6 +110,8 @@ in
       #   "video"
       #   "audio"
       # ];
+
+      hm.home.sessionVariables = waylandEnv;
 
       services = {
         # Enable touchpad support
@@ -143,12 +128,21 @@ in
           pulse.enable = true;
         };
       };
+
+      # NOTE This will break stuff if there is a non-wayland user on the same machine,
+      #  but application launchers need this.
+      environment.sessionVariables = waylandEnv;
+
       environment.systemPackages = with pkgs; [
         #Notifications
         libnotify
 
         #PDF
         poppler
+
+        # Install necessary wayland protocol packages
+        qt5.qtwayland
+        qt6.qtwayland
 
         # Enable guestures for touchpad
         libinput-gestures
@@ -206,10 +200,6 @@ in
         {
           assertion = (cfg.vr != null) -> (cfg.desktop != null);
           message = "There must be a desktop selected via features.desktop in order to use anything related to virutal reality (VR)!";
-        }
-        {
-          assertion = cfg.useWayland -> (cfg.desktop != null);
-          message = "There must be a desktop selected via features.desktop in order to use anything related to Wayland!";
         }
       ];
     }

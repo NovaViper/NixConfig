@@ -1,6 +1,7 @@
 {
   lib,
-  myLib,
+  flakePath,
+  dotsPath,
   ...
 }:
 {
@@ -8,26 +9,21 @@
   mkDotsSymlink =
     {
       config,
-      user,
       source,
       recursive ? false,
       ...
     }:
     let
-      path = "${myLib.flakePath config}/users/${myLib.dotsPath user}/${source}";
+      cfg = if config ? hm then config.hm else config;
+      path = "${flakePath cfg}/home/${dotsPath}/${source}";
     in
     {
-      source = config.lib.file.mkOutOfStoreSymlink path;
+      source = cfg.lib.file.mkOutOfStoreSymlink path;
       inherit recursive;
     };
 
   # Helper function for retrieving the location of the user's dotfiles path
-  getDotsPath =
-    {
-      user,
-      path,
-    }:
-    ../users/${myLib.dotsPath user}/${path};
+  getDotsPath = path: ../home/${dotsPath}/${path};
 
   # Helper function for retrieving all files in a given path
   filesIn = path: builtins.attrNames (builtins.readDir path);

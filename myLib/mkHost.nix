@@ -13,7 +13,7 @@ let
       username ? throw "username must be set for ${hostname}",
       system ? throw "system must be set for ${hostname}",
       stateVersion ? myLib.conds.defaultStateVersion,
-      profiles ? [ ],
+      roles ? [ ],
     }:
     inputs.nixpkgs-patcher.lib.nixosSystem {
       # Pass along the important stuff to the patcher
@@ -27,30 +27,24 @@ let
           system
           stateVersion
           ;
+        # Inject the host/user-bound myLib directly for module use!
+        myLib = myLib.boundWith { inherit hostname username; };
       };
       modules =
         myLib.slimports {
           paths = lib.flatten [
-            ../base
+            ../config/core
 
-            # Import a premade set of options from profiles
-            (map (p: ../hosts/profiles/${p}) profiles)
+            # Import a group of features/options from a role group
+            (map (r: ../config/roles/${r}) roles)
 
             # Host machine
             ../hosts/${hostname}/config
-            ../hosts/${hostname}/features.nix
             ../hosts/${hostname}/hardware-configuration.nix
-            ../hosts/${hostname}/hostVars.nix
+            ../hosts/${hostname}/main.nix
 
             # Primary User
-            ../users/${username}/system.nix
-          ];
-          optionalPaths = lib.flatten [
-            # Import a premade set of options from profiles for users
-            (map (p: ../users/${username}/profiles/${p}) profiles)
-
-            #../users/${username}/config
-            ../users/${username}/hosts/${hostname}.nix
+            ../home/${username}/main.nix
           ];
         }
         ++ self.nixosModules.default;
