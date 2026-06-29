@@ -10,19 +10,20 @@ let
   hm-config = config.hm;
 in
 {
-  imports = myLib.utils.importFeatures [
-    ### Hardware
-    "hardware/qmk"
-    "hardware/openrgb"
-
-    ### Service
-    "services/sunshine-server"
-    "services/wivrn"
-
-    ### Applications
-    "apps/libvirt"
-    "apps/obs-studio"
-  ];
+  imports = myLib.utils.importFeatures {
+    hardware = [
+      "qmk"
+      "openrgb"
+    ];
+    apps = [
+      "libvirt"
+      "obs-studio"
+    ];
+    services = [
+      "sunshine-server"
+      "wivrn"
+    ];
+  };
 
   features.includeMinecraftServer = true;
   #hm.home.packages = with pkgs; [digikam];

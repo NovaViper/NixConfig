@@ -14,15 +14,14 @@ let
   ) config.sops.secrets."passwords/${myself}".path;
 in
 {
-  imports = myLib.utils.importFeatures [
-    ### Shell
-    "cli/shell/fish"
-
-    ### Terminal Utils
-    "cli/utils"
-    "cli/git"
-    "cli/multiplexer/zellij"
-  ];
+  imports = myLib.utils.importFeatures {
+    cli = [
+      "shell/fish"
+      "multiplexer/zellij"
+      "utils"
+      "git"
+    ];
+  };
 
   hm.userVars = {
     fullName = "Nova Leary";

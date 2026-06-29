@@ -10,22 +10,18 @@ let
   myself = "novaviper";
 in
 {
-  imports = myLib.utils.importFeatures [
-    ### Hardware
-    "hardware/bluetooth"
-    "hardware/yubikey"
-
-    ### Service
-    "services/tailscale"
-
-    ### Theme
-    #"theme/dracula"
-    #"theme/catppuccin"
-
-    ### Boot
-    "boot/pretty-plymouth"
-    "boot/disko"
-  ];
+  imports = myLib.utils.importFeatures {
+    boot = [
+      "disko"
+      "pretty-plymouth"
+    ];
+    theme = lib.singleton "catppuccin";
+    hardware = [
+      "bluetooth"
+      "yubikey"
+    ];
+    services = lib.singleton "tailscale";
+  };
 
   hostVars = {
     configDirectory = "/etc/nixos";

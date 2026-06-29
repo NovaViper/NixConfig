@@ -6,26 +6,24 @@
   ...
 }:
 {
-  imports = myLib.utils.importFeatures [
-    ### Applications
-    "apps/browsers/floorp"
-    #"apps/nvim"
-    "apps/ghostty"
+  imports = myLib.utils.importFeatures {
+    apps = [
+      "browsers/floorp"
+      "ghostty"
+    ];
+    cli = [
+      "shell/fish"
+      "multiplexer/tmux"
+      "utils"
+      "git"
+      "oh-my-posh"
+      "atuin"
+      # Decorations
+      "fastfetch"
+      "cava"
+    ];
 
-    ### Shell
-    "cli/shell/fish"
-
-    ### Terminal Utils
-    "cli/utils"
-    "cli/git"
-    "cli/oh-my-posh"
-    "cli/multiplexer/tmux"
-    "cli/atuin"
-
-    #### Deco
-    "cli/fastfetch"
-    "cli/cava"
-  ];
+  };
 
   hm.userVars = {
     defaultTerminal = "ghostty";

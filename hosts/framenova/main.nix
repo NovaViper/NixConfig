@@ -7,7 +7,7 @@
 }:
 {
 
-  # imports = myLib.utils.importFeatures [];
+  # imports = myLib.utils.importFeatures {};
 
   hostVars = {
     configDirectory = "/home/novaviper/Projects/NixConfig";

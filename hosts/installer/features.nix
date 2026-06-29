@@ -1,12 +1,11 @@
-{ myLib, ... }:
+{ myLib, lib, ... }:
 {
-  imports = myLib.utils.importFeatures [
-    ### Hardware
-    "hardware/bluetooth"
-    "hardware/hard-accel"
-    "hardware/yubikey"
-
-    ### Desktop Environment
-    "desktop/plasma6"
-  ];
+  imports = myLib.utils.importFeatures {
+    desktop = lib.singleton "plasma6";
+    hardware = [
+      "bluetooth"
+      "hard-accel"
+      "yubikey"
+    ];
+  };
 }

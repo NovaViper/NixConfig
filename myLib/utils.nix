@@ -34,8 +34,24 @@ let
       else
         throw "Feature '${feature}' does not exist.";
 
-    # Import the given feature folders/files located in the `features` folder
-    importFeatures = features: exports.importPaths (map exports.resolveFeature features);
+    # Import the given feature folders/files located in the features folder
+    importFeatures =
+      features:
+      let
+        normalizeNamespace =
+          namespace: values:
+          if lib.isList values then
+            map (value: "${namespace}/${value}") values
+          else
+            [ "${namespace}/${values}" ];
+
+        normalizeFeatures =
+          if lib.isList features then
+            features
+          else
+            lib.concatLists (lib.mapAttrsToList normalizeNamespace features);
+      in
+      exports.importPaths (map exports.resolveFeature normalizeFeatures);
 
     # Take a base path (baseDir) and a list of subfolders/subfiles (breadcrumbs) and combine them into a normalized path
     mkPath =
