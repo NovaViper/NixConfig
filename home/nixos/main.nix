@@ -8,16 +8,15 @@
 {
   imports = myLib.utils.importFeatures {
     apps = [
-      "browsers/floorp"
+      "browsers/firefox"
       "ghostty"
     ];
     cli = [
       "shell/fish"
-      "multiplexer/tmux"
+      "multiplexer/zellij"
       "utils"
       "git"
       "oh-my-posh"
-      "atuin"
       # Decorations
       "fastfetch"
       "cava"
@@ -27,7 +26,7 @@
 
   hm.userVars = {
     defaultTerminal = "ghostty";
-    defaultBrowser = "floorp";
+    defaultBrowser = "firefox";
   };
 
   hm.programs.zsh.initContent = lib.mkOrder 5000 ''
@@ -37,6 +36,17 @@
       ${lib.getExe pkgs.fastfetch}
     fi
   '';
+
+  hm.programs.fish.functions.fish_greeting = # fish
+    ''
+      sleep 0.1 # Delay slightly to allow for tput to measure the panes
+      set -l cols (tput cols)
+      if test $cols -ge 75
+          or test $cols -ge 100
+        ${lib.getExe pkgs.toilet} -f pagga "ISO MAGE" --metal
+        ${lib.getExe pkgs.fastfetch}
+      end
+    '';
 
   hm.programs.git.settings.user = {
     name = "";

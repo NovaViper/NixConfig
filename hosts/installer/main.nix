@@ -8,4 +8,9 @@
       "yubikey"
     ];
   };
+
+  hostVars = {
+    configDirectory = "/etc/nixos";
+    scalingFactor = 1;
+  };
 }
