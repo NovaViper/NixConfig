@@ -15,7 +15,7 @@ in
   services.matter-server.enable = true;
   services.mosquitto = {
     enable = true;
-    dataDir = "/mnt/docker/homeassistant/mosquitto";
+    dataDir = "/storage/services/homeassistant/mosquitto";
   };
 
   virtualisation.oci-containers.containers = {
@@ -27,7 +27,7 @@ in
         "--network=host"
       ];
       volumes = [
-        "/mnt/docker/homeassistant:/config"
+        "/storage/services/homeassistant:/config"
         "/etc/localtime:/etc/localtime:ro"
         "/run/dbus:/run/dbus:ro"
       ];

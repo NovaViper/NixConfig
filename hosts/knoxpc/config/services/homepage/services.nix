@@ -71,17 +71,22 @@ in
         }
         {
           Network = mkGlanceWidget {
-            metric = "network:wlp2s0";
+            metric = "network:wlp4s0";
           };
         }
         {
-          "Media Disk" = mkGlanceWidget {
-            metric = "fs:/mnt/media";
+          "Media Pool" = mkGlanceWidget {
+            metric = "fs:/storage/media";
           };
         }
         {
-          "System Backups" = mkGlanceWidget {
-            metric = "fs:/mnt/sysbackup";
+          "Services Pool" = mkGlanceWidget {
+            metric = "fs:/storage/services";
+          };
+        }
+        {
+          "Backups Pool" = mkGlanceWidget {
+            metric = "fs:/storage/backups";
           };
         }
       ];

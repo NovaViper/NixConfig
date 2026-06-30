@@ -6,7 +6,7 @@
   ...
 }:
 let
-  interfaces = [ "wlp2s0" ];
+  interfaces = [ "wlp4s0" ];
 in
 {
   sops.secrets."server_networks" = myLib.secrets.mkSecretFile {

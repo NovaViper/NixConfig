@@ -1,128 +1,127 @@
 _:
+# Based on https://github.com/leierx/homelab/blob/4bf3227cb0c28410839eabd3f56ddf79bef3101c/nixos/disko.nix
 let
   device-boot = "/dev/disk/by-id/nvme-WDC_PC_SN520_SDAPMUW-256G-1001_193463464112"; # 256 GB NVME drive
-  device-media = "/dev/disk/by-id/nvme-PC611_NVMe_SK_hynix_1TB_NJA3N740810103U2F"; # 1 TB NVME drive
-  device-docker = "/dev/disk/by-id/ata-WDC_WD5000AAKX-00U6AA0_WD-WCC2EM994761"; # 500 GB SATA drive
-  device-sysbackup = "/dev/disk/by-id/ata-TOSHIBA_MQ01ABD100_Y679CGYGT"; # 1 TB SATA drive
   swapSize = "32";
-in
-{
-  disko.devices.disk = {
-    nvme0n1 = {
-      device = device-boot;
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions = {
-          esp = {
-            type = "EF00";
-            size = "1G";
-            priority = 1;
-            content = {
-              type = "filesystem";
-              format = "vfat";
-              mountpoint = "/boot";
-              mountOptions = [
-                "defaults"
-                "relatime"
-                "umask=0077"
-              ];
-            };
-          };
-          root = {
-            size = "100%";
-            content = {
-              type = "btrfs";
-              extraArgs = [ "-f" ];
-              subvolumes = {
-                "/rootfs" = {
-                  mountpoint = "/";
-                  mountOptions = [
-                    "compress=zstd"
-                    "noatime"
-                  ];
-                };
-                "/home" = {
-                  mountpoint = "/home";
-                  mountOptions = [
-                    "compress=zstd"
-                    "noatime"
-                  ];
-                };
-                "/nix" = {
-                  mountpoint = "/nix";
-                  mountOptions = [
-                    "compress=zstd"
-                    "noatime"
-                  ];
-                };
-                "/swap" = {
-                  mountpoint = "/.swapvol";
-                  swap.swapfile.size = "${swapSize}G";
-                };
-              };
-            };
+
+  dataDisks = {
+    disk1.device = "/dev/disk/by-id/wwn-0x5000c500b5b75c48";
+    disk2.device = "/dev/disk/by-id/wwn-0x5000c500604f2a8b";
+    disk3.device = "/dev/disk/by-id/wwn-0x50014ee2b1b0c4c9";
+    disk4.device = "/dev/disk/by-id/wwn-0x50014ee25c5afeae";
+    disk5.device = "/dev/disk/by-id/wwn-0x50014ee25c469b56";
+    disk6.device = "/dev/disk/by-id/wwn-0x50014ee206f187e1";
+    disk7.device = "/dev/disk/by-id/wwn-0x50014ee20705da2f";
+  };
+
+  mkZfsDisk = name: value: {
+    type = "disk";
+    device = value.device;
+
+    content = {
+      type = "gpt";
+      partitions = {
+        zfs = {
+          size = "100%";
+          content = {
+            type = "zfs";
+            pool = "pool0";
           };
         };
       };
     };
-    sda = {
-      device = device-docker;
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions.containers = {
-          size = "100%";
-          content = {
-            type = "btrfs";
-            extraArgs = [ "-f" ];
-            subvolumes = {
-              "/var/lib/containers" = {
-                mountpoint = "/var/lib/containers";
+  };
+
+in
+{
+  disko.devices = {
+    disk = {
+      nvme0n1 = {
+        device = device-boot;
+        type = "disk";
+        name = "nvme0n1";
+        content = {
+          type = "gpt";
+          partitions = {
+            esp = {
+              type = "EF00";
+              size = "512M";
+              priority = 1;
+              content = {
+                type = "filesystem";
+                format = "vfat";
+                mountpoint = "/boot";
                 mountOptions = [
-                  "compress=zstd"
+                  "defaults"
+                  "relatime"
+                  "umask=0077"
+                ];
+              };
+            };
+            root = {
+              #size = "100%";
+              end = "-${swapSize}G";
+              priority = 2;
+              content = {
+                type = "filesystem";
+                format = "ext4";
+                mountpoint = "/";
+                mountOptions = [
+                  "defaults"
                   "noatime"
                 ];
               };
             };
+            swap = {
+              size = "100%";
+              priority = 3;
+              content = {
+                type = "swap";
+                discardPolicy = "both";
+                resumeDevice = true;
+              };
+            };
           };
         };
       };
-    };
-    nvme1n1 = {
-      device = device-media;
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions.media = {
-          size = "100%";
-          content = {
-            type = "btrfs";
-            mountpoint = "/mnt/media";
-            mountOptions = [
-              "compress=zstd"
-              "noatime"
-            ];
-          };
-        };
+    }
+    // builtins.mapAttrs mkZfsDisk dataDisks;
+
+    zpool.pool0 = {
+      type = "zpool";
+      mode = "raidz2"; # 2-disk fault tolerance, RAID6
+      options = {
+        ashift = "12"; # Force 4K sector size for better performance on modern drives
       };
-    };
-    sdb = {
-      device = device-sysbackup;
-      type = "disk";
-      content = {
-        type = "gpt";
-        partitions.sysbackup = {
-          size = "100%";
-          content = {
-            type = "btrfs";
-            extraArgs = [ "-f" ];
-            mountpoint = "/mnt/sysbackup";
-            mountOptions = [
-              "compress=zstd"
-              "noatime"
-            ];
-          };
+      rootFsOptions = {
+        canmount = "off"; # Do not mount the pool root itself
+        mountpoint = "none";
+        compression = "zstd"; # Enable compression for better storage efficiency
+        atime = "off"; # Don't update file access timestamps
+        xattr = "sa"; # Store extended attributes more efficiently
+        acltype = "posixacl"; # Enable POSIX ACL support
+      };
+
+      datasets = {
+        # NOTE: Here is the reason why we use options.moountpoint instead of just
+        # mountpoint: https://github.com/nix-community/disko/issues/581#issuecomment-2260602290
+        storage = {
+          type = "zfs_fs";
+          options.mountpoint = "/storage";
+        };
+        services = {
+          type = "zfs_fs";
+          options.mountpoint = "/storage/services";
+        };
+
+        media = {
+          type = "zfs_fs";
+          options.mountpoint = "/storage/media";
+        };
+
+        backups = {
+          type = "zfs_fs";
+          options.mountpoint = "/storage/backups";
         };
       };
     };

@@ -11,7 +11,7 @@ let
   base = config.users.users.${user};
   uid = base.uid;
   gid = config.users.groups.${user}.gid;
-  immichPath = "/mnt/media/Library/Photos/Immich";
+  immichPath = "/storage/media/Library/Photos/Immich";
 in
 {
   users.users.immich.extraGroups = [

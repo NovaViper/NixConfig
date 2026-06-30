@@ -8,7 +8,7 @@ let
   # MAIN REPO DECLARATION
   repos = {
     abyneb = {
-      paths = [ "/mnt/sysbackup/PCBackups" ];
+      paths = [ "/storage/backups/PCBackups" ];
       pruneOpts = [
         "--keep-daily 5"
         "--keep-weekly 3"
@@ -17,7 +17,7 @@ let
     };
     sinecl = {
       paths = [
-        "/mnt/media/Library"
+        "/storage/media/Library"
       ]
       ++ lib.optionals config.services.immich.enable [
         config.services.immich.mediaLocation

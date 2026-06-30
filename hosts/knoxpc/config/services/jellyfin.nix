@@ -14,7 +14,7 @@ let
 in
 {
   systemd.tmpfiles.rules = [
-    "d /mnt/media/Library 0755 ${user} ${group} - -"
+    "d /storage/media/Library 0755 ${user} ${group} - -"
   ];
 
   services.jellyfin = {
@@ -37,8 +37,8 @@ in
   #     ];
   #     volumes = [
   #       "jellyfin:/config"
-  #       "/mnt/media/Music:/data/media/music"
-  #       "/mnt/media/Movies:/data/media/movies"
+  #       "/storage/media/Music:/data/media/music"
+  #       "/storage/media/Movies:/data/media/movies"
   #     ];
   #     environment = {
   #       TZ = "America/Chicago";

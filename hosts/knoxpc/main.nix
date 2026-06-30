@@ -41,4 +41,12 @@ in
     name = "";
     email = "";
   };
+
+  hm.sops.secrets = lib.mkForce { };
+
+  stylix = {
+    autoEnable = lib.mkForce false;
+    enable = lib.mkForce false;
+  };
+
 }
