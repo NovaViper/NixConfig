@@ -138,6 +138,25 @@ let
               )
             })
       '';
+
+    flattenPackages =
+      let
+        recurse =
+          prefix: attrs:
+          lib.foldlAttrs (
+            acc: name: value:
+            if lib.isDerivation value then
+              acc
+              // {
+                "${prefix}${name}" = value;
+              }
+            else if lib.isAttrs value && (value.recurseForDerivations or false) then
+              acc // recurse "${prefix}${name}." value
+            else
+              acc
+          ) { } attrs;
+      in
+      recurse "";
   };
 in
 exports

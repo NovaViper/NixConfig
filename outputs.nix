@@ -60,10 +60,12 @@ in
   # Acessible through 'nix build', 'nix shell', etc
   packages = myLib.forAllSystems (
     pkgs:
-    (lib.packagesFromDirectoryRecursive {
-      inherit (pkgs) callPackage newScope;
-      directory = ./pkgs;
-    })
+    myLib.utils.flattenPackages (
+      lib.packagesFromDirectoryRecursive {
+        inherit (pkgs) callPackage newScope;
+        directory = ./pkgs;
+      }
+    )
   );
 
   # Devshell for bootstrapping
