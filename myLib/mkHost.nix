@@ -15,10 +15,7 @@ let
       stateVersion ? myLib.conds.defaultStateVersion,
       roles ? [ ],
     }:
-    inputs.nixpkgs-patcher.lib.nixosSystem {
-      # Pass along the important stuff to the patcher
-      nixpkgsPatcher.nixpkgs = inputs.nixpkgs;
-      nixpkgsPatcher.inputs = inputs;
+    lib.nixosSystem {
       # Make sure we pass everything from the flake inputs and from the mkHost parameters
       specialArgs = flake // {
         inherit

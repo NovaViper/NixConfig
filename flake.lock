@@ -368,33 +368,6 @@
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
       }
     },
-    "nixpkgs-patch-panel-colorizer-fix": {
-      "flake": false,
-      "locked": {
-        "narHash": "sha256-x2GSMZeIeZxUbGRvAj30X3vc+8Qqt4VM3+/6P+FKsv4=",
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/531830.diff"
-      },
-      "original": {
-        "type": "file",
-        "url": "https://github.com/NixOS/nixpkgs/pull/531830.diff"
-      }
-    },
-    "nixpkgs-patcher": {
-      "locked": {
-        "lastModified": 1781789965,
-        "narHash": "sha256-ZRlWPq2Qms6KbesJrj7cUe2GN7s8BZISfp9ZbrCi2x0=",
-        "owner": "gepbird",
-        "repo": "nixpkgs-patcher",
-        "rev": "d2abed2b94b7955e05b4e2e8a9b8ac45597ecf94",
-        "type": "github"
-      },
-      "original": {
-        "owner": "gepbird",
-        "repo": "nixpkgs-patcher",
-        "type": "github"
-      }
-    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1783148766,
@@ -507,8 +480,6 @@
         "nix-index-database": "nix-index-database",
         "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs_2",
-        "nixpkgs-patch-panel-colorizer-fix": "nixpkgs-patch-panel-colorizer-fix",
-        "nixpkgs-patcher": "nixpkgs-patcher",
         "nixpkgs-stable": "nixpkgs-stable",
         "novavim": "novavim",
         "plasma-manager": "plasma-manager",

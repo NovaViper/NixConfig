@@ -21,7 +21,7 @@
     # Core dependencies
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
-    nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
+    # nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
     hardware.url = "github:nixos/nixos-hardware";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -85,10 +85,6 @@
     #######
 
     # Nixpkgs PRs
-    nixpkgs-patch-panel-colorizer-fix = {
-      url = "https://github.com/NixOS/nixpkgs/pull/531830.diff";
-      flake = false;
-    };
     #######
   };
 }
