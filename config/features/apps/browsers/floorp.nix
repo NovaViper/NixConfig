@@ -22,7 +22,7 @@ in
         "text/xml" = [ "floorp.desktop" ];
       };
     in
-    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" hm-config == "floorp") {
+    lib.mkIf (config.vars.apps.browser == "floorp") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;

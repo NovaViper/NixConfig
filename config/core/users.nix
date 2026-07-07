@@ -5,7 +5,7 @@
   ...
 }:
 let
-  userVar = config.hm.userVars;
+  userVar = config.vars.user;
 in
 {
   # Only allow declarative credentials; Required for password to be set via sops during system activation!

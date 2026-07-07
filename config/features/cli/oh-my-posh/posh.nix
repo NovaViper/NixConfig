@@ -1,6 +1,4 @@
 _: {
-  features.prompt = "oh-my-posh";
-
   hm.programs.oh-my-posh.enable = true;
 
   hm.programs.oh-my-posh.settings = {

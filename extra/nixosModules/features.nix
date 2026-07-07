@@ -15,12 +15,12 @@ let
     mkMerge
     ;
   cfg = config.features;
+
   mkFeature =
     description:
     mkOption {
-      type = types.str;
+      type = types.nullOr types.str;
       description = "The chosen ${description}.";
-      default = null;
     };
 
   mkEnumFeature =
@@ -59,31 +59,47 @@ let
   };
 in
 {
+
   options.features = {
     shell = mkFeature "shell, which provides some form of initExtra access";
 
-    desktop = mkEnumFeature {
-      desc = "desktop environment";
-      opts = [ "kde" ];
+    desktop = {
+      type = mkEnumFeature {
+        desc = "desktop environment";
+        opts = [
+          "kde"
+          "niri"
+          "sway"
+        ];
+      };
+      startAgent = mkEnableOption "use OpenSSH agent";
+      askpassProgram = lib.mkOption {
+        type = lib.types.nullOr lib.types.str;
+        default = null;
+        description = "SSH askpass executable provided by the selected desktop.";
+      };
+
+    };
+
+    hardware = {
+      apple.enable = mkEnableOption "Apple device support";
     };
 
     vr = mkEnumFeature {
       desc = "virtual-reality desktop streamer";
       opts = [
-        "alvr"
         "wivrn"
       ];
     };
+    development.enable = mkEnableOption "development tools";
 
-    prompt = mkFeature "shell prompt";
+    includeMinecraftServer = mkBoolFeature "minecraft server";
 
-    abbreviations = mkFeature "provider of abbreviations";
+    # prompt = mkFeature "shell prompt";
 
-    direnv = mkFeature "program for providing direnv functionality";
+    # abbreviations = mkFeature "provider of abbreviations";
 
-    browser = mkFeature "browser";
-
-    terminal = mkFeature "terminal";
+    # direnv = mkFeature "program for providing direnv functionality";
 
     #files = mkFeature "file manager";
 
@@ -93,18 +109,12 @@ in
 
     #videos = mkFeature "video viewer";
 
-    discord = mkFeature "Discord client";
-
     #music = mkFeature "music player";
-
-    includeMinecraftServer = mkBoolFeature "minecraft server";
-
-    #math = mkFeature "math notes";
   };
 
   config = mkMerge [
     # Common
-    (mkIf (cfg.desktop != null) {
+    (mkIf (cfg.desktop.type != null) {
       # FIXME: Look at this
       # users.users.${username}.extraGroups = [
       #   "video"
@@ -117,7 +127,7 @@ in
         # Enable touchpad support
         libinput.enable = true;
         # Enable color management service
-        colord.enable = true;
+        # colord.enable = true;
         # Enable pipewire
         pipewire = {
           enable = true;
@@ -137,9 +147,6 @@ in
         #Notifications
         libnotify
 
-        #PDF
-        poppler
-
         # Install necessary wayland protocol packages
         qt5.qtwayland
         qt6.qtwayland
@@ -149,6 +156,12 @@ in
         # Install audio configuration tools (Especially important for VR)
         pavucontrol
         pulseaudio
+
+        # wayland stuff
+        wl-clipboard
+        wl-clipboard-x11
+
+        libnotify
       ];
 
       # Enable the RealtimeKit system service
@@ -171,12 +184,6 @@ in
       };
 
       hm.xdg = {
-        /*
-            portal = {
-            enable = true;
-            xdgOpenUsePortal = true;
-          };
-        */
         # Don't generate config at the usual place.
         # Allow desktop applications to write their file association
         # preferences to this file.
@@ -198,7 +205,7 @@ in
     {
       assertions = [
         {
-          assertion = (cfg.vr != null) -> (cfg.desktop != null);
+          assertion = (cfg.vr != null) -> (cfg.desktop.type != null);
           message = "There must be a desktop selected via features.desktop in order to use anything related to virutal reality (VR)!";
         }
       ];

@@ -2,6 +2,7 @@
   config,
   lib,
   myLib,
+  pkgs,
   self,
   inputs,
   stateVersion,
@@ -9,9 +10,6 @@
   username,
   ...
 }:
-let
-  hm-config = config.hm;
-in
 {
   imports = [
     inputs.home-manager.nixosModules.home-manager
@@ -31,6 +29,18 @@ in
       myLib
       ;
   };
+  # Backup existing files with a timestamp to avoid backup name collisions.
+  home-manager.backupCommand = pkgs.writeShellScript "hm-backup-command" ''
+    target="$1"
+    timestamp="$(date +%Y%m%d-%H%M%S)"
+    backup_path="''${target}.hm-backup-''${timestamp}"
+
+    if [ -e "''${backup_path}" ]; then
+      backup_path="''${backup_path}-$$"
+        fi
+
+        mv -- "''${target}" "''${backup_path}"
+  '';
 
   home-manager.sharedModules =
     with inputs;
@@ -44,10 +54,8 @@ in
 
     home = {
       inherit stateVersion;
-      # REVIEW: Maybe implement this variable for hostVars?
-      # homeDirectory = "${config.hostVars.homeBaseDirectory}/${username}";
-      sessionVariables.FLAKE = "${config.hostVars.configDirectory}";
-      sessionVariables.NH_FLAKE = "${config.hostVars.configDirectory}";
+      sessionVariables.FLAKE = "${config.vars.host.configDirectory}";
+      sessionVariables.NH_FLAKE = "${config.vars.host.configDirectory}";
     };
 
     #nix.settings = config.nix.settings;
@@ -59,7 +67,5 @@ in
 
     # Disable HTML help page
     manual.html.enable = lib.mkForce false;
-
-    news.display = "silent";
   };
 }

@@ -1,4 +1,5 @@
 _: {
+  # TODO: Buggy, still want this ?
   # CLI audio visualizer
   hm.programs.cava.enable = true;
 

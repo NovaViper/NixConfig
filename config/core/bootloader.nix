@@ -5,14 +5,11 @@
   ...
 }:
 {
-  boot = {
-    #blacklistedKernelModules = [];
-    #extraModulePackages = with config.boot.kernelPackages; [];
-    #initrd.kernelModules = [];
+  # Pin all hosts to LTS Kernel
+  boot.kernelPackages = pkgs.linuxPackages;
 
-    kernelParams = [ "boot.shell_on_fail" ]; # Open terminal environment if we fail to boot
-  };
-
+  # Open terminal environment if we fail to boot
+  boot.kernelParams = [ "boot.shell_on_fail" ];
   boot.loader = {
     systemd-boot.enable = true;
     #systemd-boot.editor = false; # We shouldn't be editing boot params imperatively

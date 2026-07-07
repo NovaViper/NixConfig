@@ -40,9 +40,9 @@ in
             launchers =
               let
                 # Auto switch terminal application desktop file
-                terminal = myLib.utils.getTerminalDesktopFile hm-config;
+                terminal = myLib.utils.getTerminalDesktopFile config;
                 # Auto switch editor application desktop file
-                editor = myLib.utils.getEditorDesktopFile hm-config;
+                editor = myLib.utils.getEditorDesktopFile config;
               in
               [
                 "preferred://browser"

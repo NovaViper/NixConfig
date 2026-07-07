@@ -11,10 +11,6 @@
   fonts.packages =
     with pkgs;
     [
-      # Icon fonts
-      material-symbols
-      joypixels
-
       noto-fonts
       noto-fonts-cjk-sans
       noto-fonts-color-emoji
@@ -22,7 +18,11 @@
       # nerd fonts
       nerd-fonts.symbols-only
     ]
-    ++ lib.optionals (config.features.desktop != null) [
+    ++ lib.optionals (config.features.desktop.type != null) [
+      # Icon fonts
+      material-symbols
+      joypixels
+
       # Microsoft Fonts
       corefonts
       vista-fonts

@@ -65,14 +65,11 @@ let
       pkgs:
       "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
-    # Get an option from the userVars module
-    getUserVars = option: config: toString config.userVars.${option};
-
     # Pick the name of the .desktop file for the default terminal
     getTerminalDesktopFile =
       config:
       let
-        terminal = exports.getUserVars "defaultTerminal" config;
+        terminal = config.vars.apps.terminal;
       in
       if terminal == "ghostty" then
         "com.mitchellh.ghostty"
@@ -85,7 +82,7 @@ let
     getTerminalApp =
       config:
       let
-        terminal = exports.getUserVars "defaultTerminal" config;
+        terminal = config.vars.apps.terminal;
       in
       terminal;
 
@@ -93,7 +90,7 @@ let
     getEditorDesktopFile =
       config:
       let
-        editor = exports.getUserVars "defaultEditor" config;
+        editor = config.vars.apps.editor;
       in
       if editor == "doom-emacs" then
         "emacsclient"

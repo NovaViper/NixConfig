@@ -24,7 +24,7 @@ let
       address = secrets.personal1.address;
 
       aliases = [
-        "${myLib.utils.getUserVars "email" hm-config}"
+        "${config.vars.user.email}"
         "${secrets.personal1.work}"
         "${secrets.personal1.school}"
         "${secrets.personal1.shop}"

@@ -23,7 +23,7 @@ in
         "text/xml" = [ "brave-browser.desktop" ];
       };
     in
-    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" hm-config == "brave") {
+    lib.mkIf (config.vars.apps.browser == "brave") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;

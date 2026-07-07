@@ -18,12 +18,27 @@ in
     cli = [
       "shell/fish"
       "multiplexer/zellij"
-      "utils"
-      "git"
+    ];
+    "cli/ux" = [
+      "zoxide"
+      "eza"
+      "fzf"
+      "bat"
+    ];
+
+    "cli/behavior" = [
+      "pay-respects"
+      "direnv"
+    ];
+    apps = [
+      "yazi"
+      "pass"
+      "fastfetch"
+      "btop"
     ];
   };
 
-  hm.userVars = {
+  vars.user = {
     fullName = "Nova Leary";
     email = "coder.nova99@mailbox.org";
   };

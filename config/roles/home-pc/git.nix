@@ -3,9 +3,6 @@
   myLib,
   ...
 }:
-let
-  hm-config = config.hm;
-in
 {
   hm.programs.git.signing = {
     format = "openpgp";
@@ -16,7 +13,7 @@ in
   hm.programs.git.settings = {
     user = {
       name = "NovaViper";
-      email = myLib.utils.getUserVars "email" hm-config;
+      email = config.vars.user.email;
     };
   };
 }

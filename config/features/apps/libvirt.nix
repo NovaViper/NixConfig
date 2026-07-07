@@ -7,9 +7,6 @@
 {
   users.users.${username}.extraGroups = [ "libvirtd" ];
 
-  # Enable dconf (System Management Tool)
-  #programs.dconf.enable = true;
-
   # Install necessary packages
   environment.systemPackages = with pkgs; [
     virt-manager

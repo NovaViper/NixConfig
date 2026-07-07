@@ -30,7 +30,7 @@ in
         "text/xml" = [ "firefox.desktop" ];
       };
     in
-    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" hm-config == "firefox") {
+    lib.mkIf (config.vars.apps.browser == "firefox") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;

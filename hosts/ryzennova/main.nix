@@ -28,7 +28,9 @@ in
   features.includeMinecraftServer = true;
   #hm.home.packages = with pkgs; [digikam];
 
-  hostVars = {
+  vars.desktop.profile = "full";
+
+  vars.host = {
     configDirectory = "/home/novaviper/Projects/NixConfig";
     scalingFactor = 1;
   };

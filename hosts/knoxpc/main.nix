@@ -15,7 +15,7 @@ in
       "disko"
       "pretty-plymouth"
     ];
-    theme = lib.singleton "catppuccin";
+    # theme = lib.singleton "catppuccin";
     hardware = [
       "bluetooth"
       "yubikey"
@@ -23,7 +23,7 @@ in
     services = lib.singleton "tailscale";
   };
 
-  hostVars = {
+  vars.host = {
     configDirectory = "/etc/nixos";
     scalingFactor = 1;
   };
@@ -44,9 +44,10 @@ in
 
   hm.sops.secrets = lib.mkForce { };
 
-  stylix = {
-    autoEnable = lib.mkForce false;
-    enable = lib.mkForce false;
-  };
+  # Disable stylix
+  # stylix = {
+  #   autoEnable = lib.mkForce false;
+  #   enable = lib.mkForce false;
+  # };
 
 }

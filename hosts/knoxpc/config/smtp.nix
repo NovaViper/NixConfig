@@ -51,7 +51,7 @@ in
                 HOST="${config.networking.hostName}"
                 UNIT="restic-backups-$REPO"
                 LOGS="$(${pkgs.systemd}/bin/journalctl -u "$UNIT" -n 50 --no-pager || true)"
-                MAILTO="${myLib.utils.getUserVars "email" config.hm}"
+                MAILTO="${config.vars.user.email}"
 
                 ${pkgs.system-sendmail}/bin/sendmail -t << EOF
           To: $MAILTO

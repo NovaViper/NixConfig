@@ -1,17 +1,14 @@
 {
   config,
   lib,
-  myLib,
   pkgs,
   ...
 }:
 let
-  hm-config = config.hm;
   neovimPackage = pkgs.inputs.novavim.default;
-  userVars = opt: myLib.utils.getUserVars opt hm-config;
 in
 {
-  hm.home.sessionVariables = lib.mkIf (userVars "defaultEditor" == "neovim") {
+  hm.home.sessionVariables = lib.mkIf (config.vars.apps.editor == "neovim") {
     EDITOR = "nvim";
     VISUAL = "nvim";
   };
