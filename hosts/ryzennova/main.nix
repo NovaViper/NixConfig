@@ -6,7 +6,6 @@
   ...
 }:
 let
-  user = "novaviper";
   hm-config = config.hm;
 in
 {

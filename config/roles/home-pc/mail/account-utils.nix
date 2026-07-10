@@ -3,11 +3,11 @@
   lib,
   pkgs,
   mailAccounts,
+  username,
   ...
 }:
 let
   hm-config = config.hm;
-  myselfName = "novaviper";
   # passwordCmd =
   #   smtpHost: address:
   #   "gpg -q --for-your-eyes-only --no-tty -d ~/.authinfo.gpg | awk '/machine
@@ -54,7 +54,7 @@ let
       cfg = lib.recursiveUpdate {
         inherit address aliases;
         userName = address;
-        realName = myselfName;
+        realName = username;
         # mu.enable = true;
         # Send Email
         msmtp.enable = true;

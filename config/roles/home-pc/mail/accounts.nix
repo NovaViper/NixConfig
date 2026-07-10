@@ -3,13 +3,13 @@
   lib,
   myLib,
   inputs,
+  username,
   ...
 }:
 let
 
   hm-config = config.hm;
-  myselfName = "novaviper";
-  secrets = inputs.nix-secrets.${myselfName}.email;
+  secrets = inputs.nix-secrets.${username}.email;
 
   commonPatterns = [
     "INBOX"
