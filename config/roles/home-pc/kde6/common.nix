@@ -44,8 +44,8 @@ in
       kdeglobals =
         let
           # Auto switch terminal application desktop file
-          terminal = myLib.utils.getTerminalDesktopFile config;
-          termApp = myLib.utils.getTerminalApp config;
+          terminal = config.vars.apps.terminal.desktopFile;
+          termApp = config.vars.apps.terminal.name;
         in
         {
           General.TerminalApplication = "${termApp}";

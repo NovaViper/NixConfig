@@ -65,40 +65,6 @@ let
       pkgs:
       "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
-    # Pick the name of the .desktop file for the default terminal
-    getTerminalDesktopFile =
-      config:
-      let
-        terminal = config.vars.apps.terminal;
-      in
-      if terminal == "ghostty" then
-        "com.mitchellh.ghostty"
-      else if terminal == "konsole" then
-        "org.kde.konsole"
-      else
-        terminal;
-
-    # Pick the name for the executable binary of the default terminal (for the exe)
-    getTerminalApp =
-      config:
-      let
-        terminal = config.vars.apps.terminal;
-      in
-      terminal;
-
-    # Pick the name of the .desktop file for the default editor
-    getEditorDesktopFile =
-      config:
-      let
-        editor = config.vars.apps.editor;
-      in
-      if editor == "doom-emacs" then
-        "emacsclient"
-      else if editor == "neovim" then
-        "neovide"
-      else
-        editor;
-
     useStylix = config: builtins.hasAttr "stylix" config;
 
     # Most of these are left null since I'm piggybacking off of the custom context function I've made

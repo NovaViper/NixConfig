@@ -6,6 +6,11 @@
   ...
 }:
 {
+  vars.apps.terminal = {
+    name = lib.mkDefault "ghostty";
+    desktopFile = lib.mkDefault "com.mitchellh.ghostty";
+  };
+
   hm.xdg.mimeApps =
     let
       defaultApplications = {

@@ -43,20 +43,58 @@ in
     };
 
     apps = {
-      terminal = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        description = "The preferred terminal app";
-        default = null;
+      terminal = {
+        name = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          description = "The preferred terminal app";
+          default = null;
+        };
+        desktopFile = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          description = ''
+            The .desktop file ID of the preferred terminal emulator.
+            This is the reverse-DNS identifier used by XDG MIME and desktop launchers,
+            which often differs from the binary name
+            (e.g. "com.mitchellh.ghostty", not "ghostty").
+            Set automatically by the imported terminal module via lib.mkDefault.
+          '';
+          default = null;
+        };
       };
-      browser = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        description = "The preferred internet browser app";
-        default = null;
+      browser = {
+        name = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          description = "The preferred internet browser app";
+          default = null;
+        };
+        # desktopFile = lib.mkOption {
+        #   type = lib.types.nullOr lib.types.str;
+        #   description = ''
+        #     The .desktop file ID of the preferred browser.
+        #     This is the reverse-DNS identifier used by XDG MIME and desktop launchers,
+        #     which often differs from the binary name
+        #     (e.g. "org.mozilla.firefox", not "firefox").
+        #     Set automatically by the imported browser module via lib.mkDefault.
+        #   '';
+        #   default = null;
+        # };
       };
-      editor = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        description = "The preferred text editor app";
-        default = null;
+      editor = {
+        name = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          description = "The preferred text editor app";
+          default = null;
+        };
+        desktopFile = lib.mkOption {
+          type = lib.types.nullOr lib.types.str;
+          description = ''
+            The .desktop file ID of the preferred editor.
+            May differ from the editor name � neovim's GUI wrapper is "neovide",
+            and doom-emacs launches as "emacsclient".
+            Set automatically by the imported editor module via lib.mkDefault.
+          '';
+          default = null;
+        };
       };
     };
 
@@ -78,16 +116,25 @@ in
     { assertion = cfg.host.configDirectory != null; }
     { assertion = cfg.host.scalingFactor != null; }
     {
-      assertion = (cfg.apps.terminal != null) -> (cfgFeat.desktop != null);
-      message = "vars.apps.terminal must be defined when features.desktop.type is set!";
+      assertion = (cfgFeat.desktop.type != null) -> (cfg.apps.terminal.name != null);
+      message = ''
+        features.desktop.type is set but vars.apps.terminal is null.
+        Import a terminal module (e.g. "terminal/ghostty") or set vars.apps.terminal explicitly.
+      '';
     }
     {
-      assertion = (cfg.apps.browser != null) -> (cfgFeat.desktop != null);
-      message = "vars.apps.browser must be defined when features.desktop.type is set!";
+      assertion = (cfgFeat.desktop.type != null) -> (cfg.apps.browser.name != null);
+      message = ''
+        features.desktop.type is set but vars.apps.browser is null.
+        Import a browser module (e.g. "browsers/firefox") or set vars.apps.browser explicitly.
+      '';
     }
     {
-      assertion = (cfg.apps.browser != null) -> (cfgFeat.desktop != null);
-      message = "vars.apps.browser must be defined when features.desktop is set!";
+      assertion = (cfgFeat.desktop.type != null) -> (cfg.apps.editor.name != null);
+      message = ''
+        features.desktop.type is set but vars.apps.editor is null.
+        Import a editor module (e.g. "editors/neovim") or set vars.apps.editor explicitly.
+      '';
     }
     {
       assertion = config.vars.desktop.profile == null || cfgFeat.desktop.type != null;

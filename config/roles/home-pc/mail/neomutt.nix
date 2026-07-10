@@ -130,7 +130,7 @@ in
     # text
     text/plain; ${config.hm.programs.neomutt.editor} %s
     text/html; ${
-      lib.getExe hm-config.programs.${config.vars.apps.browser}.package
+      lib.getExe hm-config.programs.${config.vars.apps.browser.name}.package
     } --new-window %s > /dev/null 2>&1 &; nametemplate=%s.html; \
       test=test -n "$DISPLAY"; needsterminal;
     text/html; ${lib.getExe pkgs.w3m} -sixel -o auto_image=TRUE -o display_image=1 -T text/html %s; nametemplate=%s.html; needsterminal

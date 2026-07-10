@@ -40,9 +40,9 @@ in
             launchers =
               let
                 # Auto switch terminal application desktop file
-                terminal = myLib.utils.getTerminalDesktopFile config;
+                terminal = config.vars.apps.terminal.desktopFile or "org.kde.konsole.desktop";
                 # Auto switch editor application desktop file
-                editor = myLib.utils.getEditorDesktopFile config;
+                editor = config.vars.apps.editor.desktopFile or "org.kde.kate.desktop";
               in
               [
                 "preferred://browser"

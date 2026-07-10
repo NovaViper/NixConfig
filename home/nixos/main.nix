@@ -31,11 +31,6 @@
     ];
   };
 
-  vars.apps = {
-    terminal = "ghostty";
-    browser = "firefox";
-  };
-
   hm.programs.zsh.initContent = lib.mkOrder 5000 ''
     # Create shell prompt
     if [ $(tput cols) -ge '75' ] || [ $(tput cols) -ge '100' ]; then

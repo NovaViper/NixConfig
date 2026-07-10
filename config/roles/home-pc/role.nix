@@ -62,11 +62,6 @@ in
     hardware.apple.enable = true;
     development.enable = true;
   };
-  vars.apps = {
-    terminal = "ghostty";
-    browser = "firefox";
-    editor = "neovim";
-  };
 
   hm.home.packages = with pkgs; [
     # 3D modeling and CAD

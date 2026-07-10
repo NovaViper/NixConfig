@@ -8,6 +8,11 @@ let
   neovimPackage = pkgs.inputs.novavim.default;
 in
 {
+  vars.apps.editor = {
+    name = lib.mkDefault "neovim";
+    desktopFile = lib.mkDefault "neovide";
+  };
+
   hm.home.sessionVariables = lib.mkIf (config.vars.apps.editor == "neovim") {
     EDITOR = "nvim";
     VISUAL = "nvim";
