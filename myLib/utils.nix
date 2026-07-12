@@ -15,7 +15,9 @@ let
       if lib.pathIsRegularFile path then
         path
       else
-        builtins.filter (lib.hasSuffix ".nix") (exports.filesInDir path);
+        builtins.filter (path: !lib.hasPrefix "_" path && lib.hasSuffix ".nix" path) (
+          exports.filesInDir path
+        );
 
     # Import all nix files in a given list of directories and/or files (paths)
     importPaths = paths: lib.flatten (map exports.listNixFilesForPath paths);
