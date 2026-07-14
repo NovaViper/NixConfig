@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  self,
+  hostNames,
   ...
 }:
 let
@@ -42,7 +42,6 @@ in
     # Add machines delcared in our outputs to be have ssh hosts so we can use remote builds!
     programs.ssh.settings =
       let
-        nixosConfigs = builtins.attrNames self.outputs.nixosConfigurations;
         matchExclusion = str: list: builtins.elem str list;
         excludedHosts = [
           "live-image"
@@ -50,9 +49,9 @@ in
           "installer"
           "knoxpc"
         ];
-        hostNames =
+        nixosConfigs =
           (attrs: builtins.filter (name: (!matchExclusion name excludedHosts)) (lib.unique attrs))
-            nixosConfigs;
+            hostNames;
         matchBlocksForHosts = host: [
           {
             name = host;
@@ -72,7 +71,7 @@ in
           }
         ];
       in
-      builtins.listToAttrs (lib.flatten (map matchBlocksForHosts hostNames))
+      builtins.listToAttrs (lib.flatten (map matchBlocksForHosts nixosConfigs))
       // {
         "yubikey-hosts" = {
           Host = "github.com gitlab.com codeberg.org";

@@ -8,7 +8,7 @@ flake@{
 let
   # Helper function for creating the system config for NixOS
   mkHost =
-    hostname:
+    hostsList: hostname:
     {
       username ? throw "username must be set for ${hostname}",
       system ? throw "system must be set for ${hostname}",
@@ -24,6 +24,9 @@ let
           system
           stateVersion
           ;
+        # All hostnames in the flake, for use in modules that need to know about
+        # other hosts
+        hostNames = builtins.attrNames hostsList;
         # Inject the host/user-bound myLib directly for module use!
         myLib = myLib.boundWith { inherit hostname username; };
       };

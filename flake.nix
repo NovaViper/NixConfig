@@ -100,35 +100,35 @@
 
       # NixOS configuration entrypoint
       # Available through 'nixos-rebuild --flake .#your-hostname'
-      nixosConfigurations =
-        # Run mkHost for each nixosConfiguration, with key passed as hostname
-        builtins.mapAttrs myLib.mkHost {
-          # Main desktop
-          ryzennova = {
-            username = "novaviper";
-            system = "x86_64-linux";
-            roles = lib.singleton "home-pc";
-          };
-
-          # Personal laptop
-          framenova = {
-            username = "novaviper";
-            system = "x86_64-linux";
-            roles = lib.singleton "home-pc";
-          };
-
-          # Homelab
-          knoxpc = {
-            username = "novaviper";
-            system = "x86_64-linux";
-          };
-
-          # Live-image installer
-          installer = {
-            username = "nixos";
-            system = "x86_64-linux";
-          };
+      hosts = {
+        # Main desktop
+        ryzennova = {
+          username = "novaviper";
+          system = "x86_64-linux";
+          roles = lib.singleton "home-pc";
         };
+
+        # Personal laptop
+        framenova = {
+          username = "novaviper";
+          system = "x86_64-linux";
+          roles = lib.singleton "home-pc";
+        };
+
+        # Homelab
+        knoxpc = {
+          username = "novaviper";
+          system = "x86_64-linux";
+        };
+
+        # Live-image installer
+        installer = {
+          username = "nixos";
+          system = "x86_64-linux";
+        };
+      };
+      # Run mkHost for each nixosConfiguration, with key passed as hostname
+      nixosConfigurations = builtins.mapAttrs (myLib.mkHost hosts) hosts;
     in
     {
       # Just inherit everything we made in the let statement
