@@ -1,10 +1,9 @@
-flake@{
-  inputs,
+{
   self,
   lib,
   myLib,
   ...
-}:
+}@flake:
 let
   # Helper function for creating the system config for NixOS
   mkHost =
