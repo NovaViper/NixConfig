@@ -10,7 +10,7 @@ in
 {
   vars.apps.editor = {
     name = lib.mkDefault "neovim";
-    desktopFile = lib.mkDefault "neovide";
+    desktopFile = lib.mkDefault "nvim";
   };
 
   hm.home.sessionVariables = lib.mkIf (config.vars.apps.editor == "neovim") {
@@ -24,9 +24,4 @@ in
   hm.programs.zsh.zsh-abbr.abbreviations.n = "nvim";
 
   hm.home.packages = lib.singleton neovimPackage;
-
-  hm.programs.neovide = {
-    enable = true;
-    settings = { };
-  };
 }
