@@ -13,7 +13,6 @@ let
 in
 {
   # Third party overlays
-  sops-overlay = self.inputs.sops-nix.overlays.default;
 
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.stdenv.hostPlatform.system}' or
