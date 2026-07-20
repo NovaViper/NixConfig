@@ -44,8 +44,4 @@ in
   hm.xdg.enable = true;
 
   hm.xresources.path = lib.mkForce "${hm-config.xdg.configHome}/.Xresources";
-
-  hm.gtk = {
-    enable = if (config.features.desktop != null) then true else false;
-  };
 }

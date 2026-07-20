@@ -23,8 +23,6 @@
     };
   };
 
-  environment.variables.NIX_SSHOPTS = "-t";
-
   documentation.nixos.enable = false; # Apparently speeds up rebuild time
 
   # Run unpatched dynamic binaries on NixOS
@@ -57,8 +55,8 @@
     gc = {
       automatic = true;
       dates = "daily";
-      # Delete generations that are more than 4 days old
-      options = "--delete-older-than 4d";
+      # Delete generations that are more than 7 days old
+      options = "--delete-older-than 7d";
     };
 
     settings = {
@@ -93,11 +91,36 @@
 
       # Reasonable defaults, see https://jackson.dev/post/nix-reasonable-defaults/
       connect-timeout = 5;
-      log-lines = 25;
       min-free = 128000000; # 128MB
       max-free = 1000000000; # 1GB
       fallback = true; # If binary cache fails, it's okay
       keep-going = true; # If a derivation fails, build the others. We'll fix the failed one later
     };
   };
+
+  # Enable nix-index-database for faster searching of packages
+  hm.programs.nix-index-database.comma.enable = true;
+
+  # Enable nix-your-shell for automatically generating shell.nix files for
+  # projects
+  hm.programs.nix-your-shell.enable = true;
+
+  # Much nicer Nix related toolset for nix development
+  hm.home.packages =
+    with pkgs;
+    lib.optionals (config.features.development.enable) [
+      nh # Nice wrapper for NixOS and HM
+      nixfmt # Nix formatter
+      nix-output-monitor # Monitor Nix compilation
+      nvd # Nix/NixOS package version diff tool
+      nixpkgs-review # Review nixpkgs
+      nurl # Automated prefetch tool for
+      nix-init # Automatically create nix packages from URLs
+      nix-inspect # View nix configurations
+      nil # Nix LSP
+      nixd # Another Nix LSP
+      deadnix # Deadcode finder for NIx
+      statix # Anti-pattern detector
+      hydra-check
+    ];
 }

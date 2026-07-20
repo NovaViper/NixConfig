@@ -17,6 +17,11 @@ let
   };
 in
 {
+  vars.apps.browser = {
+    name = lib.mkDefault "firefox";
+    # desktopFile = lib.mkDefault "firefox.desktop";
+  };
+
   hm.xdg.mimeApps =
     let
       defaultApplications = {
@@ -30,7 +35,7 @@ in
         "text/xml" = [ "firefox.desktop" ];
       };
     in
-    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" hm-config == "firefox") {
+    lib.mkIf (config.vars.apps.browser.name == "firefox") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;

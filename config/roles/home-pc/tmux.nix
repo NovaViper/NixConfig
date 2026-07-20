@@ -30,6 +30,4 @@ in
   hm.programs.ghostty.settings = lib.mkIf hm-config.programs.tmux.enable {
     command = toString ghosttyCommand;
   };
-
-  #hm.programs.tmux.which-key.settings = import ./which-key-config.nix;
 }

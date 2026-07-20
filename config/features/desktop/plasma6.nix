@@ -6,8 +6,11 @@
   ...
 }:
 let
+  isFull = config.vars.desktop.profile == "full";
   tesseractLanguages = [
     "eng"
+  ]
+  ++ lib.optionals (isFull) [
     "deu"
     "fra"
     "ita"
@@ -15,7 +18,9 @@ let
   ];
 in
 {
-  features.desktop = "kde";
+  features.desktop.type = "kde";
+  features.desktop.startAgent = true;
+  features.desktop.askpassProgram = lib.getExe pkgs.kdePackages.ksshaskpass;
 
   # Enable native messaging host for Firefox/Firefox forks
   hm.programs.firefox.nativeMessagingHosts = with pkgs; [ kdePackages.plasma-browser-integration ];
@@ -58,25 +63,23 @@ in
       kdePackages.ktorrent
       kdePackages.kfind
       kdePackages.filelight
-      klassy
+      qalculate-qt
+      kdiskmark
 
       # Libraries/Utilities
+      kdePackages.sddm-kcm # Add KCM for sddm
       clinfo # for kinfocenter for OpenCL page
       mesa-demos # for kinfocenter for OpenGL EGL and GLX page
       vulkan-tools # for kinfocenter for Vulkan page
       wayland-utils # for kinfocenter for Wayland page
       ffmpegthumbnailer # for video thumbnails
-      gnuplot # for krunner to display graphs
       kdePackages.kdegraphics-thumbnailers
-      kdePackages.qrca
       (kdePackages.spectacle.override {
         inherit tesseractLanguages;
       })
     ]
-    ++ lib.optionals (config.networking.hostName != "installer") [
+    ++ lib.optionals (isFull) [
       # Apps
-      qalculate-qt
-      kdiskmark
       # Scanner
       (kdePackages.skanpage.override {
         inherit tesseractLanguages;
@@ -86,16 +89,17 @@ in
       kdePackages.plasma-vault
 
       # Libraries/Utilities
+      gnuplot # for krunner to display graphs
+      kdePackages.qrca
       kdePackages.plasma-disks
       linuxquota # for plasma-disks
       libdbusmenu # For global menu support with electron apps
-      kdePackages.sddm-kcm # Add KCM for sddm
       kdePackages.ffmpegthumbs
       kdePackages.qtimageformats
       kdePackages.packagekit-qt
     ];
 
-  hm.programs.plasma.configFile."kwinrc"."Xwayland"."Scale" = config.hostVars.scalingFactor;
+  hm.programs.plasma.configFile."kwinrc"."Xwayland"."Scale" = config.vars.host.scalingFactor;
 
   # Enable kdeconnect service
   hm.services.kdeconnect.enable = true;

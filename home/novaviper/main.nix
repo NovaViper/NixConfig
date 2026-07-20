@@ -4,31 +4,46 @@
   myLib,
   pkgs,
   inputs,
+  username,
   ...
 }:
 let
   hm-config = config.hm;
-  myself = "novaviper";
   sopsHashedPasswordFile = lib.mkIf (
-    config.sops.secrets ? "passwords/${myself}"
-  ) config.sops.secrets."passwords/${myself}".path;
+    config.sops.secrets ? "passwords/${username}"
+  ) config.sops.secrets."passwords/${username}".path;
 in
 {
   imports = myLib.utils.importFeatures {
     cli = [
       "shell/fish"
       "multiplexer/zellij"
-      "utils"
-      "git"
+    ];
+    "cli/ux" = [
+      "zoxide"
+      "eza"
+      "fzf"
+      "bat"
+    ];
+
+    "cli/behavior" = [
+      "pay-respects"
+      "direnv"
+    ];
+    apps = [
+      "yazi"
+      "pass"
+      "fastfetch"
+      "btop"
     ];
   };
 
-  hm.userVars = {
+  vars.user = {
     fullName = "Nova Leary";
     email = "coder.nova99@mailbox.org";
   };
 
-  users.users.${myself} = {
+  users.users.${username} = {
     extraGroups = [
       "wheel"
       "i2c"
@@ -41,6 +56,20 @@ in
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIJ7BJkxw7uEAeun8irHZPS0Z2MUySBhYAqwsWGLwS8OuAAAADnNzaDpuaXhidWlsZGVy" # USBC
     ];
     hashedPasswordFile = sopsHashedPasswordFile;
+  };
+
+  hm.programs.git = {
+    settings = {
+      user = {
+        name = "NovaViper";
+        email = config.vars.user.email;
+      };
+    };
+    signing = {
+      format = "openpgp";
+      signByDefault = true;
+      key = "E5E6D90A268AC09D";
+    };
   };
 
   #time.timeZone = lib.mkForce "America/Chicago";

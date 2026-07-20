@@ -5,10 +5,12 @@
   pkgs,
   ...
 }:
-let
-  hm-config = config.hm;
-in
 {
+  vars.apps.terminal = {
+    name = lib.mkDefault "ghostty";
+    desktopFile = lib.mkDefault "com.mitchellh.ghostty";
+  };
+
   hm.xdg.mimeApps =
     let
       defaultApplications = {
@@ -17,7 +19,7 @@ in
         "x-terminal-emulator" = "com.mitchellh.ghostty.desktop";
       };
     in
-    lib.mkIf (myLib.utils.getUserVars "defaultTerminal" hm-config == "ghostty") {
+    lib.mkIf (config.vars.apps.terminal == "ghostty") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;

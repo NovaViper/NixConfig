@@ -33,7 +33,7 @@ in
             launchers =
               let
                 # Auto switch terminal application desktop file
-                terminal = myLib.utils.getTerminalDesktopFile hm-config;
+                terminal = config.vars.apps.terminal.desktopFile or "org.kde.konsole.desktop";
               in
               [
                 "preferred://browser"

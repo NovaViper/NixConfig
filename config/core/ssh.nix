@@ -2,17 +2,12 @@
   config,
   lib,
   pkgs,
-  self,
+  hostNames,
   ...
 }:
 let
   cfgD = config.features.desktop;
   hm-config = config.hm;
-  askpass =
-    if cfgD == "kde" then
-      "${lib.getExe pkgs.kdePackages.ksshaskpass}"
-    else
-      "${pkgs.x11_ssh_askpass}/libexec/x11-ssh-askpass";
 in
 {
   # Enable the OpenSSH daemon
@@ -28,13 +23,13 @@ in
   };
 
   programs.ssh = {
-    startAgent = true;
-    enableAskPassword = if (cfgD != null) then true else false;
-    askPassword = "${askpass}";
+    startAgent = cfgD.startAgent;
+    enableAskPassword = cfgD.askpassProgram != null;
+    askPassword = cfgD.askpassProgram;
   };
 
   # Enforce askpass gui when the option is enabled (based on rather x11 is running)
-  environment.sessionVariables = lib.mkIf config.programs.ssh.enableAskPassword {
+  environment.sessionVariables = lib.mkIf (config.features.desktop.askpassProgram != null) {
     SSH_ASKPASS_REQUIRE = "prefer";
   };
 
@@ -47,8 +42,6 @@ in
     # Add machines delcared in our outputs to be have ssh hosts so we can use remote builds!
     programs.ssh.settings =
       let
-        nixosConfigs = builtins.attrNames self.outputs.nixosConfigurations;
-        #homeConfigs = map (n: lib.last (lib.splitString "@" n)) (builtins.attrNames self.outputs.homeConfigurations);
         matchExclusion = str: list: builtins.elem str list;
         excludedHosts = [
           "live-image"
@@ -56,10 +49,9 @@ in
           "installer"
           "knoxpc"
         ];
-        hostNames =
+        nixosConfigs =
           (attrs: builtins.filter (name: (!matchExclusion name excludedHosts)) (lib.unique attrs))
-            nixosConfigs;
-        #++ homeConfigs;
+            hostNames;
         matchBlocksForHosts = host: [
           {
             name = host;
@@ -79,7 +71,7 @@ in
           }
         ];
       in
-      builtins.listToAttrs (lib.flatten (map matchBlocksForHosts hostNames))
+      builtins.listToAttrs (lib.flatten (map matchBlocksForHosts nixosConfigs))
       // {
         "yubikey-hosts" = {
           Host = "github.com gitlab.com codeberg.org";

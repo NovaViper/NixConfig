@@ -21,7 +21,7 @@ in
   # Most of the configuration is done with the Home-manager module
   hm.services.syncthing.enable = true;
 
-  hm.services.syncthing.tray.enable = if (cfgFeat.desktop != null) then true else false;
+  hm.services.syncthing.tray.enable = if (cfgFeat.desktop.type != null) then true else false;
 
   hm.services.syncthing.extraOptions = [
     "--config=${hm-config.xdg.configHome}/syncthing"

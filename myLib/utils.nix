@@ -15,7 +15,9 @@ let
       if lib.pathIsRegularFile path then
         path
       else
-        builtins.filter (lib.hasSuffix ".nix") (exports.filesInDir path);
+        builtins.filter (path: !lib.hasPrefix "_" path && lib.hasSuffix ".nix" path) (
+          exports.filesInDir path
+        );
 
     # Import all nix files in a given list of directories and/or files (paths)
     importPaths = paths: lib.flatten (map exports.listNixFilesForPath paths);
@@ -64,43 +66,6 @@ let
     isGpgUnlocked =
       pkgs:
       "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
-
-    # Get an option from the userVars module
-    getUserVars = option: config: toString config.userVars.${option};
-
-    # Pick the name of the .desktop file for the default terminal
-    getTerminalDesktopFile =
-      config:
-      let
-        terminal = exports.getUserVars "defaultTerminal" config;
-      in
-      if terminal == "ghostty" then
-        "com.mitchellh.ghostty"
-      else if terminal == "konsole" then
-        "org.kde.konsole"
-      else
-        terminal;
-
-    # Pick the name for the executable binary of the default terminal (for the exe)
-    getTerminalApp =
-      config:
-      let
-        terminal = exports.getUserVars "defaultTerminal" config;
-      in
-      terminal;
-
-    # Pick the name of the .desktop file for the default editor
-    getEditorDesktopFile =
-      config:
-      let
-        editor = exports.getUserVars "defaultEditor" config;
-      in
-      if editor == "doom-emacs" then
-        "emacsclient"
-      else if editor == "neovim" then
-        "neovide"
-      else
-        editor;
 
     useStylix = config: builtins.hasAttr "stylix" config;
 

@@ -9,6 +9,11 @@ let
   hm-config = config.hm;
 in
 {
+  vars.apps.browser = {
+    name = lib.mkDefault "floorp";
+    # desktopFile = lib.mkDefault "floorp.desktop";
+  };
+
   hm.xdg.mimeApps =
     let
       defaultApplications = {
@@ -22,7 +27,7 @@ in
         "text/xml" = [ "floorp.desktop" ];
       };
     in
-    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" hm-config == "floorp") {
+    lib.mkIf (config.vars.apps.browser.name == "floorp") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;

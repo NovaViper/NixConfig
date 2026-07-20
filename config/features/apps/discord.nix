@@ -6,7 +6,7 @@
 }:
 {
   hm.home.packages = with pkgs; [
-    discord-wayland
+    # discord-wayland
     vesktop
   ];
 

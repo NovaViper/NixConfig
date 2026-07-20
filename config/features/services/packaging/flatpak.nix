@@ -6,6 +6,7 @@
   # Create folder where all fonts are linked to /run/current-system/sw/share/X11/fonts
   fonts.fontDir.enable = true;
 
+  # TODO: Still needed?
   # Automatically configure it
   systemd.services.flatpak-repo = {
     wantedBy = [ "multi-user.target" ];

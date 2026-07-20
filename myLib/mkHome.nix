@@ -1,8 +1,5 @@
-flake@{
-  inputs,
-  self,
+{
   lib,
-  myLib,
   ...
 }:
 let
@@ -34,13 +31,7 @@ let
       nixosConfigurations,
       username ? internals.guessUsername userhost,
       hostname ? internals.guessHostname userhost,
-      #stateVersion ? myLib.conds.defaultStateVersion,
     }:
-    /*
-        lib.homeManagerConfiguration {
-        extraSpecialArgs = flake // {inherit username hostname stateVersion;};
-      };
-    */
     nixosConfigurations.${hostname}.config.home-manager.users.${username}.home; # allows me to independently switch my home environment without rebuilding my entire system
 in
 mkHome

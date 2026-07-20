@@ -9,24 +9,26 @@
   imports = myLib.utils.importFeatures {
     apps = [
       "browsers/firefox"
-      "ghostty"
+      "terminal/ghostty"
+
+      "yazi"
+      "btop"
     ];
     cli = [
       "shell/fish"
       "multiplexer/zellij"
-      "utils"
-      "git"
-      "oh-my-posh"
-      # Decorations
-      "fastfetch"
-      "cava"
+    ];
+    "cli/ux" = [
+      "zoxide"
+      "eza"
+      "fzf"
+      "bat"
     ];
 
-  };
-
-  hm.userVars = {
-    defaultTerminal = "ghostty";
-    defaultBrowser = "firefox";
+    "cli/behavior" = [
+      "pay-respects"
+      "direnv"
+    ];
   };
 
   hm.programs.zsh.initContent = lib.mkOrder 5000 ''

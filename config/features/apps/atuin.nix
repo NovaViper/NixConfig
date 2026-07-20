@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   ...
 }:
@@ -6,7 +7,9 @@
   # The much better shell history database
   hm.programs.atuin.enable = true;
 
-  hm.home.packages = with pkgs; [ atuin-export-fish-history ];
+  hm.home.packages =
+    with pkgs;
+    lib.optionals (config.features.shell == "fish") [ atuin-export-fish-history ];
 
   hm.programs.atuin.settings = {
     auto_sync = true;

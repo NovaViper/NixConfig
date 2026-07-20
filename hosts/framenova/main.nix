@@ -9,10 +9,12 @@
 
   # imports = myLib.utils.importFeatures {};
 
-  hostVars = {
+  vars.host = {
     configDirectory = "/home/novaviper/Projects/NixConfig";
     scalingFactor = 1.40;
   };
+
+  vars.desktop.profile = "minimal";
 
   hm.home.packages = with pkgs; [ moonlight-qt ];
 

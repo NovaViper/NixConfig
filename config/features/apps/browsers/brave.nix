@@ -10,6 +10,11 @@ let
   hm-config = config.hm;
 in
 {
+  vars.apps.browser = {
+    name = lib.mkDefault "brave";
+    # desktopFile = lib.mkDefault "brave.desktop";
+  };
+
   hm.xdg.mimeApps =
     let
       defaultApplications = {
@@ -23,7 +28,7 @@ in
         "text/xml" = [ "brave-browser.desktop" ];
       };
     in
-    lib.mkIf (myLib.utils.getUserVars "defaultBrowser" hm-config == "brave") {
+    lib.mkIf (config.vars.apps.browser.name == "brave") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;

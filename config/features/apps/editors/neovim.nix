@@ -1,17 +1,19 @@
 {
   config,
   lib,
-  myLib,
   pkgs,
   ...
 }:
 let
-  hm-config = config.hm;
   neovimPackage = pkgs.inputs.novavim.default;
-  userVars = opt: myLib.utils.getUserVars opt hm-config;
 in
 {
-  hm.home.sessionVariables = lib.mkIf (userVars "defaultEditor" == "neovim") {
+  vars.apps.editor = {
+    name = lib.mkDefault "neovim";
+    desktopFile = lib.mkDefault "nvim";
+  };
+
+  hm.home.sessionVariables = lib.mkIf (config.vars.apps.editor == "neovim") {
     EDITOR = "nvim";
     VISUAL = "nvim";
   };
@@ -22,9 +24,4 @@ in
   hm.programs.zsh.zsh-abbr.abbreviations.n = "nvim";
 
   hm.home.packages = lib.singleton neovimPackage;
-
-  hm.programs.neovide = {
-    enable = true;
-    settings = { };
-  };
 }

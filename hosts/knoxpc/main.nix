@@ -4,18 +4,16 @@
   lib,
   myLib,
   pkgs,
+  username,
   ...
 }:
-let
-  myself = "novaviper";
-in
 {
   imports = myLib.utils.importFeatures {
     boot = [
       "disko"
       "pretty-plymouth"
     ];
-    theme = lib.singleton "catppuccin";
+    # theme = lib.singleton "catppuccin";
     hardware = [
       "bluetooth"
       "yubikey"
@@ -23,12 +21,12 @@ in
     services = lib.singleton "tailscale";
   };
 
-  hostVars = {
+  vars.host = {
     configDirectory = "/etc/nixos";
     scalingFactor = 1;
   };
 
-  users.users.${myself} = {
+  users.users.${username} = {
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIGGrJs3zMfJ2hKV9Bsrv4L2OgvVnOo2bsh5cTmKvDp+kAAAACHNzaDprbm94" # USBA
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIPDlcBvj1nzXUCL6JU9JIAImMBN5AXY8x590m7d15viJAAAACHNzaDprbm94" # USBC
@@ -44,9 +42,10 @@ in
 
   hm.sops.secrets = lib.mkForce { };
 
-  stylix = {
-    autoEnable = lib.mkForce false;
-    enable = lib.mkForce false;
-  };
+  # Disable stylix
+  # stylix = {
+  #   autoEnable = lib.mkForce false;
+  #   enable = lib.mkForce false;
+  # };
 
 }
