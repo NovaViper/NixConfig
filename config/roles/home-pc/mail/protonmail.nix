@@ -19,6 +19,8 @@ in
     logLevel = "info";
   };
 
+  hm.home.packages = with pkgs; [ protonmail-export ];
+
   # Shamelessly stolen from
   # https://github.com/dailyherold/nixfiles/blob/6e9dc6ed10858b9dc74c25ad6824ae654852ac2c/home-manager/features/cli/protonmail-bridge.nix
   hm.home.activation.checkBridgeLogin = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
