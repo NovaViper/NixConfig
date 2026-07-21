@@ -8,13 +8,23 @@ Home-manager is configured as a [NixOS module](https://nix-community.github.io/h
 
 ## First-time NixOS Install
 
+### Automated via NixOS-Anywhere
+
+The flake now comes with a just command called `remote-install` that completely automates the installation process for NixOS. It will automatically provision secrets, partition your disks, and install NixOS with the flake's configuration.
+**NOTE**: You will still need to provide a disko config, hardware configuration file
+and add the new host into the flake.nix
+
+You can run the remote installer with `just remote-install HOSTNAME TARGET_MACHINE USER "SERIAL_NUMS_FOR_HARDWARE_KEYS"`
+
+### Manual
+
 1. Download a NixOS ISO or create custom one with nix experimental features and Nvidia drivers installed by following the instructions over under [Tips](tips.md); then boot into the ISO's live image environment
 2. Download the repo onto the live image copy of NixOS.
 3. Open the terminal and enter the repo directory.
 4. Run `nix-shell` or `nix develop` to enter environment with all necessary packages to build the config properly
    - `nix-shell` is available on any version of nix. However, in order to use `nix develop`, you must have nix v2.4+, git, and have enabled the `flakes` and `nix-command` experimental features. If you are using the custom ISO as stated previously, you can use `nix develop` without having to do anything additional as the configs already have the needed configurations and dependencies.
    - JUNE 2024: `nix develop` is the recommended way to utilize the devshell, as it directly pulls the flake's overlays into itself without errors along with its other inputs, `nix-shell` **DOES NOT** important any of the flake's inputs thus causing errors when loading into it.
-5. Drag a pre-configured or your own disko config into `hosts/HOSTNAME` named as `disks.nix` and import into your hardware default nix file.
+5. Drag a pre-configured or your own disko config into `hosts/HOSTNAME` named as `disko.nix` and import into your hardware default nix file.
    - Make sure the `hosts/HOSTNAME/config/disko.nix` file to your designed partition configurations (see [disko's getting started guide](https://github.com/nix-community/disko/blob/master/docs/quickstart.md) for more!)
    - Most importantly, make sure to edit the `disk` and `swapSize` variables at the top of the file to point to your drive's id (using `sudo blkid`).
 6. Run `just disko #HOSTNAME` to automatically partition the system's disks according to your `disks.nix` for the host you specified

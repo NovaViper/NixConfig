@@ -29,10 +29,11 @@ Note: There are upcoming changes being actively made so documentation will chang
 - Multiple NixOS configurations, including laptop and desktop
 - Install and partitioning commands via [just](https://github.com/casey/just)
 - Declarative partitioning with [disko](https://github.com/nix-community/disko).
+- Remote installation and configuration of NixOS hosts via [nixos-anywhere](https://github.com/nix-community/nixos-anywhere).
 - Flexible NixOS and Home Manager configs through importable **_feature flags_**
 - Automatically append users to multiple hosts along with specific user settings for each user with a primary user and extra users
 - Modular configuration, easily add new users and machines
-- Wayland/X11 Setups
+- Wayland Setups
 - Multiple fully featured desktop environments (KDE Plasma 6)
 - Live image ISO build with Nvidia drivers, experimental nix features already enabled, unfree software usage, and some nice options for cli
 - Declarative themes with [stylix](https://github.com/danth/stylix)
@@ -63,131 +64,98 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 
 ```
 ./
-├── base/
-│   ├── chromium/
-│   ├── firefox/
-│   ├── stylix/
-│   └── ...
 ├── checks/
+├── config/
+│   ├── core/
+│   │   ├── chromium/
+│   │   ├── firefox/
+│   │   ├── git/
+│   │   └── ...
+│   ├── features/
+│   │   ├── apps/
+│   │   │   ├── browsers/
+│   │   │   ├── editors/
+│   │   │   ├── gaming/
+│   │   │   ├── terminal/
+│   │   │   └── ...
+│   │   ├── boot/
+│   │   ├── cli/
+│   │   │   ├── behavior/
+│   │   │   ├── development/
+│   │   │   ├── multiplexer/
+│   │   │   ├── oh-my-posh/
+│   │   │   ├── shell/
+│   │   │   └── ux/
+│   │   ├── desktop/
+│   │   ├── hardware/
+│   │   ├── services/
+│   │   │   ├── packaging/
+│   │   │   └── ...
+│   │   └── theme/
+│   │       ├── catppuccin/
+│   │       └── dracula/
+│   └── roles/
+│       └── home-pc/
+│           ├── kde6/
+│           ├── mail/
+│           ├── role.nix
+│           └── ...
 ├── extra/
 │   ├── assets/
 │   ├── documentation/
 │   ├── homeModules/
 │   ├── nixosModules/
 │   └── scripts/
-├── features/
-│   ├── boot/
-│   │   ├── disko/
-│   │   └── pretty-boot/
-│   ├── cli/
-│   │   ├── atuin/
-│   │   ├── deco/
-│   │   │   ├── cava/
-│   │   │   └── fastfetch/
-│   │   ├── dev/
-│   │   ├── misc/
-│   │   │   └── topgrade/
-│   │   ├── oh-my-posh/
-│   │   ├── shell/
-│   │   │   ├── fish/
-│   │   │   └── zsh/
-│   │   ├── multiplexer/
-│   │   │   ├── tmux/
-│   │   │   └── zellij/
-│   │   └── utilities/
-│   │       ├── git/
-│   │       └── ...
-│   ├── desktop/
-│   │   └── plasma6/
-│   ├── hardware/
-│   │   ├── bluetooth/
-│   │   ├── hard-accel/
-│   │   ├── qmk/
-│   │   ├── rgb/
-│   │   └── yubikey/
-│   ├── programs/
-│   │   ├── backup/
-│   │   ├── browser/
-│   │   │   ├── brave/
-│   │   │   └── floorp/
-│   │   ├── discord/
-│   │   ├── games/
-│   │   ├── ghostty/
-│   │   ├── keepassxc/
-│   │   ├── libvirt/
-│   │   ├── music-player/
-│   │   ├── neovim/
-│   │   └── obs/
-│   ├── services/
-│   │   ├── gps/
-│   │   ├── localsend/
-│   │   ├── packaging/
-│   │   ├── printing/
-│   │   ├── sunshine-server/
-│   │   ├── syncthing/
-│   │   ├── tailscale/
-│   │   └── wivrn/
-│   └── theme/
-│       ├── catppuccin/
-│       └── dracula/
+├── home/
+│   ├── nixos/
+│   │   └── main.nix
+│   └── novaviper/
+│       ├── dotfiles/
+│       ├── main.nix
+│       └── ssh.pub
 ├── hosts/
+│   ├── framenova/
+│   │   ├── config/
+│   │   │   ├── disko.nix
+│   │   │   └── ...
+│   │   ├── hardware-configuration.nix
+│   │   ├── main.nix
+│   │   └── ssh_host_ed25519_key.pub
 │   ├── installer/
 │   │   ├── config/
-│   │   ├── features.nix
 │   │   ├── hardware-configuration.nix
-│   │   └── hostVars.nix
+│   │   └── main.nix
 │   ├── knoxpc/
 │   │   ├── config/
 │   │   │   ├── services/
 │   │   │   │   ├── homepage/
 │   │   │   │   └── ...
-│   │   │   └── ...
-│   │   ├── features.nix
-│   │   ├── hardware-configuration.nix
-│   │   ├── hostVars.nix
-│   │   └── ssh_host_ed25519_key.pub
-│   ├── profiles/
-│   │   └── home-pc/
-│   │       ├── features.nix
-│   │       └── ...
-│   ├── framenova/
-│   │   ├── config/
 │   │   │   ├── disko.nix
 │   │   │   └── ...
-│   │   ├── features.nix
 │   │   ├── hardware-configuration.nix
-│   │   ├── hostVars.nix
+│   │   ├── main.nix
 │   │   └── ssh_host_ed25519_key.pub
 │   └── ryzennova/
 │       ├── config/
 │       │   ├── disko.nix
 │       │   └── ...
-│       ├── features.nix
 │       ├── hardware-configuration.nix
-│       ├── hostVars.nix
+│       ├── main.nix
 │       └── ssh_host_ed25519_key.pub
 ├── myLib/
 ├── overlays/
 ├── pkgs/
-│   └── common/
-├── users/
-│   ├── nixos/
-│   │   └── system.nix
-│   └── novaviper/
-│       ├── dotfiles/
-│       ├── hosts/
-│       │   ├── framenova.nix
-│       │   ├── knoxpc.nix
-│       │   ├── ryzennova.nix
-│       ├── profiles/
-│       │   └── home-pc/
-│       ├── ssh.pub
-│       └── system.nix
+│   ├── load-resident-key/
+│   ├── my-scripts/
+│   │   ├── mutt-picker/
+│   │   ├── status-battery/
+│   │   ├── status-cpu-ram/
+│   │   └── status-network/
+│   └── ...
 ├── flake.lock
 ├── flake.nix
 ├── justfile
 ├── LICENSE
-├── outputs.nix
 ├── README.md
 ├── shell.nix
 └── statix.toml
@@ -196,19 +164,20 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 - `flake.nix`: Entrypoint for host and home configurations. Also exposes a devshell for boostrapping the system (`nix develop` or `nix shell`).
 - `myLib`: Custom library functions for various parts of the flake, imported into HomeManager and NixOS
 - `hosts`: Configurations for each machine, accessible via `nixos-rebuild --flake`.
-  - `profiles`: Templates that when specified for a host, imports a block of features and configs within the folder (Also located in users/USERNAME)
   - `framenova`: Framework 13 - 32GB RAM, AMD Ryzen 7640U, AMD Radeon 760M | KDE Plasma 6
   - `ryzennova`: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6
-  - `knoxpc`: Homelab/NAS PC - 1GB RAM, Intel Core i5-8400, Intel UHD Graphics 630 | Headless
+  - `knoxpc`: NAS PC - 16GB RAM, Intel Core i5-8400, Intel UHD Graphics 630 | Headless
   - `installer`: ISO configuration | Nvidia drivers included | KDE Plasma 6
-- `users`: Configurations for each user, includes both host OS specific (NixOS or Darwin) and Home Manager configurations. Built together with the `hosts` configurations via `nixos-rebuild --flake` (or the darwin equivalent)
+- `home`: Configurations for each user, includes both host OS specific (NixOS) and Home Manager configurations. Built together with the `hosts` configurations via `nixos-rebuild --flake`
 - `extra`: Extra stuff like custom modules and flake documentation
   - `nixosModules`: Custom NixOS modules used throughout the flake (and some being upstreamable)
   - `homeModules`: Custom Home-Manager modules used throughout the flake (and some being upstreamable)
-  - `scripts`: Bash/Posix scripts needed for various `precommit` and `just` commands
+  - `scripts`: Bash/Posix scripts needed for various `pre-commit` and `just` commands
   - `assets`: Repository assets like images and videos
-- `base`: Shared configurations applied to all hosts and users
-- `features`: Opt-in configurations/feature flags that one or more users/hosts can use
+- `config`: Entrypoint for all configurations, contains the `core` and `features` folders for shared and opt-in configurations respectively. Also contains the `roles` folder for host-specific configurations.
+  - `core`: Shared configurations applied to all hosts and users
+  - `features`: Opt-in configurations/feature flags that one or more users/hosts can use
+  - `roles`: System specific configurations for each host that is tagged with a specific role. These are used to share configurations between multiple hosts.
 - `checks`: Flake evaluation tools for ensuring the flake is properly formatted and builds successfully. Also contains git-hooks to ensure the repository is properly setup. Accessible via `nix flake check`
 - `overlays`: Patches and version overrides for some packages, applied to all systems and even the devshell. Accessible via `nix build`.
 - `pkgs`: Custom nix packages defined similarly to the nixpkgs ones. Also accessible via `nix build`. You can compose these into your own configuration by using my flake&rsquo;s overlay, or consume them through NUR.
@@ -226,15 +195,15 @@ Main user relevant apps
 - kde plasma 6
 - neovim
 - fish + fzf + oh-my-posh
-- brave browser
-- keepassxc + gopass
+- firefox browser
+- keepassxc
 - vesktop
 - sops-nix + gpg + ssh-agent + yubikey
 - tailscale
 - kdeconnect + localsend
 - krita
 - libreoffice
-- ghostty + tmux
+- ghostty + zelllij
 - prusa-slicer
 - and quite a bit more...
 
@@ -242,6 +211,7 @@ Nix stuff
 
 - Home-Manager
 - NixOS and nix, of course
+- Nixos-anywhere
 
 # Final Note
 
