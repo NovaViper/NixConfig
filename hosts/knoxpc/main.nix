@@ -33,13 +33,6 @@
     ];
   };
 
-  # Don't set anything since we're not going to be using git on the server
-  # directly
-  hm.programs.git.settings.user = {
-    name = "";
-    email = "";
-  };
-
   hm.sops.secrets = lib.mkForce { };
 
   # Disable stylix

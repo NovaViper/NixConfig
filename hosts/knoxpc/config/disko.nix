@@ -5,19 +5,19 @@ let
   swapSize = "32";
 
   dataDisks = {
-    disk1.device = "/dev/disk/by-id/wwn-0x5000c500b5b75c48";
-    disk2.device = "/dev/disk/by-id/wwn-0x5000c500604f2a8b";
-    disk3.device = "/dev/disk/by-id/wwn-0x50014ee2b1b0c4c9";
-    disk4.device = "/dev/disk/by-id/wwn-0x50014ee25c5afeae";
-    disk5.device = "/dev/disk/by-id/wwn-0x50014ee25c469b56";
-    disk6.device = "/dev/disk/by-id/wwn-0x50014ee206f187e1";
-    disk7.device = "/dev/disk/by-id/wwn-0x50014ee20705da2f";
+    disk1.device = "/dev/disk/by-id/ata-ST2000DM008-2FR102_ZFL0C9DX"; # wwn-0x5000c500b5b75c48
+    disk2.device = "/dev/disk/by-id/ata-ST3000DM001-1CH166_W1F2QZWA"; # wwn-0x5000c500604f2a8b
+    disk3.device = "/dev/disk/by-id/ata-WDC_WD20EURS-63S48Y0_WD-WMAZA9154955"; # wwn-0x50014ee25c469b56
+    disk4.device = "/dev/disk/by-id/ata-WDC_WD2002FAEX-007BA0_WD-WCAY00205311"; # wwn-0x50014ee20705da2f
+    disk5.device = "/dev/disk/by-id/ata-WDC_WD2002FAEX-007BA0_WD-WCAY00201585"; # wwn-0x50014ee2b1b0c4c9
+    disk6.device = "/dev/disk/by-id/ata-WDC_WD2002FAEX-007BA0_WD-WCAY00199172"; # wwn-0x50014ee25c5afeae
+    disk7.device = "/dev/disk/by-id/ata-WDC_WD20EURS-63S48Y0_WD-WMAZA9145056"; # wwn-0x50014ee206f187e1
+    disk8.device = "/dev/disk/by-id/ata-TOSHIBA_DT01ACA200_Y4RD090AS"; # wwn-0x5000039ffae1a48d
   };
 
   mkZfsDisk = name: value: {
     type = "disk";
     device = value.device;
-
     content = {
       type = "gpt";
       partitions = {
