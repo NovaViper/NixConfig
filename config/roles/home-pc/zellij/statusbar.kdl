@@ -1,0 +1,102 @@
+pane_template name="statusbar" {
+  borderless true
+  plugin location="zjstatus" {
+    // Catppuccin Mocha colors
+    color_rosewater "#f5e0dc"
+    color_flamingo "#f2cdcd"
+    color_pink "#f5c2e7"
+    color_mauve "#cba6f7"
+    color_red "#f38ba8"
+    color_maroon "#eba0ac"
+    color_peach "#fab387"
+    color_yellow "#f9e2af"
+    color_green "#a6e3a1"
+    color_teal "#94e2d5"
+    color_sky "#89dceb"
+    color_sapphire "#74c7ec"
+    color_blue "#89b4fa"
+    color_lavender "#b4befe"
+    color_text "#cdd6f4"
+    color_subtext1 "#bac2de"
+    color_subtext0 "#a6adc8"
+    color_overlay2 "#9399b2"
+    color_overlay1 "#7f849c"
+    color_overlay0 "#6c7086"
+    color_surface2 "#585b70"
+    color_surface1 "#45475a"
+    color_surface0 "#313244"
+    color_base "#1e1e2e"
+    color_mantle "#181825"
+    color_crust "#11111b"
+
+    mode_normal        "#[fg=$sky,reverse,bold] 󰻀 #[fg=$sky,bg=blue]"
+    mode_locked        "#[fg=red,reverse,bold] 󰻀  {name} #[fg=red,bg=blue]"
+    mode_resize        "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_pane          "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_tab           "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_scroll        "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_enter_search  "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_search        "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_rename_tab    "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_rename_pane   "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_session       "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_move          "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_prompt        "#[fg=green,reverse,bold] 󰻀  {name} #[fg=green,bg=blue]"
+    mode_tmux          "#[fg=$peach,reverse,bold] 󰻀  {name} #[fg=$peach,bg=blue]"
+    mode_default_to_mode "normal"
+
+    format_left  "{mode}#[fg=blue,reverse] {session} #[fg=blue]{tabs}"
+    format_right "#[fg=yellow]#[fg=$crust,bg=yellow] {command_network} {command_battery}#[fg=$crust,bg=$mauve] {command_cpu} #[fg=blue,bg=$mauve]#[fg=$crust,bg=blue] {command_ram} #[fg=green,bg=blue]#[fg=$crust,bg=green,bold] {datetime}"
+
+    command_network_command     "status-network"
+    command_network_format      "{stdout}"
+    command_network_interval    "10"
+    command_network_rendermode  "static"
+
+    command_battery_command     "status-battery"
+    command_battery_format      "{stdout}"
+    command_battery_interval    "4"
+    command_battery_rendermode  "dynamic"
+
+    command_cpu_command         "status-cpu-ram cpu"
+    command_cpu_format          " {stdout}"
+    command_cpu_interval        "0.1"
+    command_cpu_rendermode      "dynamic"
+
+    command_ram_command         "status-cpu-ram mem"
+    command_ram_format          " {stdout}"
+    command_ram_interval        "0.1"
+    command_ram_rendermode      "static"
+
+    // indicators
+    tab_sync_indicator       ""
+    tab_fullscreen_indicator "󰊓"
+    tab_floating_indicator   "󰹙"
+
+    tab_normal              "#[fg=$surface0,reverse] #[fg=$text,bg=$surface0]{index} #[fg=$surface0,bg=$text,reverse] {name} {floating_indicator}{bell_indicator}#[fg=$surface0]"
+    tab_normal_fullscreen   "#[fg=$surface0,reverse] #[fg=$text,bg=$surface0]{index} #[fg=$surface0,bg=$text,reverse] {name} {fullscreen_indicator}#[fg=$surface0]"
+    tab_normal_sync         "#[fg=$surface0,reverse] #[fg=$text,bg=$surface0]{index} #[fg=$surface0,bg=$text,reverse] {name} {sync_indicator}#[fg=$surface0]"
+    tab_normal_flashing_bell "#[fg=$surface0,reverse] #[fg=$text,bg=$surface0]{index} #[fg=$surface0,bg=$text,reverse] {name} {floating_indicator}{bell_indicator}#[fg=$surface0]"
+
+    tab_active              "#[fg=$mauve,reverse] #[fg=$crust,bg=$mauve]{index} #[fg=$mauve,bg=$crust,reverse] {name} {floating_indicator}#[fg=$mauve]"
+    tab_active_fullscreen   "#[fg=$mauve,reverse] #[fg=$crust,bg=$mauve]{index} #[fg=$mauve,bg=$crust,reverse] {name} {fullscreen_indicator}#[fg=$mauve]"
+    tab_active_sync         "#[fg=$mauve,reverse] #[fg=$crust,bg=$mauve]{index} #[fg=$mauve,bg=$crust,reverse] {name} {sync_indicator}#[fg=$mauve]"
+
+    tab_bell_indicator       "!"
+    tab_flashing_bell_indicator "!!"
+
+    // limit tab display count
+    tab_display_count         "7"  // limit to showing 3 tabs
+    tab_truncate_start_format "#[fg=red,bg=#181825]"
+    tab_truncate_end_format   "#[fg=red,bg=#181825]"
+
+    notification_format_unread           "#[fg=#89B4FA,blink]  #[fg=#89B4FA] {message} "
+    notification_format_no_notifications "#[fg=#89B4FA,dim]   "
+    notification_show_interval           "10"
+
+
+    datetime          "{format} "
+    datetime_format   "󰭦 %Y-%m-%d  󰅐 %H:%M"
+    datetime_timezone "America/Chicago"
+  }
+}

@@ -46,17 +46,17 @@ pane_template name="statusbar" {
     mode_default_to_mode "normal"
 
     format_left  "{mode}#[fg=blue,reverse] {session} #[fg=blue]{tabs}"
-    format_right "#[fg=yellow]#[fg=$crust,bg=yellow] {command_network} {command_battery}#[fg=$crust,bg=$mauve] {command_cpu} #[fg=blue,bg=$mauve]#[fg=$crust,bg=blue] {command_ram} #[fg=green,bg=blue]#[fg=$crust,bg=$green,bold] {datetime}"
+    format_right "#[fg=$mauve]#[fg=$crust,bg=$mauve] {command_cpu} #[fg=blue,bg=$mauve]#[fg=$crust,bg=blue] {command_ram} #[fg=green,bg=blue]#[fg=$crust,bg=green,bold] {command_user}@{command_host}"
 
-    command_network_command     "status-network"
-    command_network_format      "{stdout}"
-    command_network_interval    "10"
-    command_network_rendermode  "static"
+    command_user_command     "whoami"
+    command_user_format      "{stdout}"
+    command_user_interval    "10"
+    command_user_rendermode  "static"
 
-    command_battery_command     "status-battery"
-    command_battery_format      "{stdout}"
-    command_battery_interval    "4"
-    command_battery_rendermode  "dynamic"
+    command_host_command     "uname -n"
+    command_host_format      "{stdout}"
+    command_host_interval    "10"
+    command_host_rendermode  "static"
 
     command_cpu_command         "status-cpu-ram cpu"
     command_cpu_format          " {stdout}"
@@ -93,10 +93,5 @@ pane_template name="statusbar" {
     notification_format_unread           "#[fg=#89B4FA,blink]  #[fg=#89B4FA] {message} "
     notification_format_no_notifications "#[fg=#89B4FA,dim]   "
     notification_show_interval           "10"
-
-
-    datetime          "{format} "
-    datetime_format   "󰭦 %Y-%m-%d  󰅐 %H:%M"
-    datetime_timezone "America/Chicago"
   }
 }
