@@ -28,7 +28,7 @@ end
 
 # Fallback for desktops if we got nothing at all
 if test -z "$bat"
-    printf "#[fg=green,bg=%s]#[fg=\$crust,bg=green] ♥ AC #[fg=%s,bg=green]" \
+    printf "#[fg=green,bg=%s]#[fg=\$crust,bg=green] ♥ AC #[fg=%s,bg=green]#[default]" \
         $left_bg $right_bg
     exit 0
 end
