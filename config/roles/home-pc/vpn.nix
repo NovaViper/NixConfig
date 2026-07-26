@@ -5,5 +5,5 @@
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [ proton-vpn ];
+  services.ivpn.enable = true;
 }
