@@ -15,18 +15,16 @@ let
     disk8.device = "/dev/disk/by-id/ata-TOSHIBA_DT01ACA200_Y4RD090AS"; # wwn-0x5000039ffae1a48d
   };
 
-  mkZfsDisk = name: value: {
-    type = "disk";
+  mkZfsDisk = _: value: {
     device = value.device;
+    type = "disk";
     content = {
       type = "gpt";
-      partitions = {
-        zfs = {
-          size = "100%";
-          content = {
-            type = "zfs";
-            pool = "pool0";
-          };
+      partitions.zfs = {
+        size = "100%";
+        content = {
+          type = "zfs";
+          pool = "pool0";
         };
       };
     };
@@ -34,95 +32,88 @@ let
 
 in
 {
-  disko.devices = {
-    disk = {
-      nvme0n1 = {
-        device = device-boot;
-        type = "disk";
-        name = "nvme0n1";
-        content = {
-          type = "gpt";
-          partitions = {
-            esp = {
-              type = "EF00";
-              size = "512M";
-              priority = 1;
-              content = {
-                type = "filesystem";
-                format = "vfat";
-                mountpoint = "/boot";
-                mountOptions = [
-                  "defaults"
-                  "relatime"
-                  "umask=0077"
-                ];
-              };
-            };
-            root = {
-              #size = "100%";
-              end = "-${swapSize}G";
-              priority = 2;
-              content = {
-                type = "filesystem";
-                format = "ext4";
-                mountpoint = "/";
-                mountOptions = [
-                  "defaults"
-                  "noatime"
-                ];
-              };
-            };
-            swap = {
-              size = "100%";
-              priority = 3;
-              content = {
-                type = "swap";
-                discardPolicy = "both";
-                resumeDevice = true;
-              };
-            };
+  disko.devices.disk = {
+    nvme0n1 = {
+      device = device-boot;
+      type = "disk";
+      name = "nvme0n1";
+      content = {
+        type = "gpt";
+        partitions.esp = {
+          type = "EF00";
+          size = "512M";
+          priority = 1;
+          content = {
+            type = "filesystem";
+            format = "vfat";
+            mountpoint = "/boot";
+            mountOptions = [
+              "defaults"
+              "relatime"
+              "umask=0077"
+            ];
+          };
+        };
+        partitions.root = {
+          #size = "100%";
+          end = "-${swapSize}G";
+          priority = 2;
+          content = {
+            type = "filesystem";
+            format = "ext4";
+            mountpoint = "/";
+            mountOptions = [
+              "defaults"
+              "noatime"
+            ];
+          };
+        };
+        partitions.swap = {
+          size = "100%";
+          priority = 3;
+          content = {
+            type = "swap";
+            discardPolicy = "both";
+            resumeDevice = true;
           };
         };
       };
-    }
-    // builtins.mapAttrs mkZfsDisk dataDisks;
+    };
+  }
+  // builtins.mapAttrs mkZfsDisk dataDisks;
+  disko.devices.zpool.pool0 = {
+    type = "zpool";
+    mode = "raidz2"; # 2-disk fault tolerance, RAID6
+    options = {
+      ashift = "12"; # Force 4K sector size for better performance on modern drives
+    };
+    rootFsOptions = {
+      canmount = "off"; # Do not mount the pool root itself
+      mountpoint = "none";
+      compression = "zstd"; # Enable compression for better storage efficiency
+      atime = "off"; # Don't update file access timestamps
+      xattr = "sa"; # Store extended attributes more efficiently
+      acltype = "posixacl"; # Enable POSIX ACL support
+    };
 
-    zpool.pool0 = {
-      type = "zpool";
-      mode = "raidz2"; # 2-disk fault tolerance, RAID6
-      options = {
-        ashift = "12"; # Force 4K sector size for better performance on modern drives
+    datasets = {
+      # NOTE: Here is the reason why we use options.moountpoint instead of just
+      # mountpoint: https://github.com/nix-community/disko/issues/581#issuecomment-2260602290
+      storage = {
+        type = "zfs_fs";
+        options.mountpoint = "/storage";
       };
-      rootFsOptions = {
-        canmount = "off"; # Do not mount the pool root itself
-        mountpoint = "none";
-        compression = "zstd"; # Enable compression for better storage efficiency
-        atime = "off"; # Don't update file access timestamps
-        xattr = "sa"; # Store extended attributes more efficiently
-        acltype = "posixacl"; # Enable POSIX ACL support
+      services = {
+        type = "zfs_fs";
+        options.mountpoint = "/storage/services";
       };
-
-      datasets = {
-        # NOTE: Here is the reason why we use options.moountpoint instead of just
-        # mountpoint: https://github.com/nix-community/disko/issues/581#issuecomment-2260602290
-        storage = {
-          type = "zfs_fs";
-          options.mountpoint = "/storage";
-        };
-        services = {
-          type = "zfs_fs";
-          options.mountpoint = "/storage/services";
-        };
-
-        media = {
-          type = "zfs_fs";
-          options.mountpoint = "/storage/media";
-        };
-
-        backups = {
-          type = "zfs_fs";
-          options.mountpoint = "/storage/backups";
-        };
+      media = {
+        type = "zfs_fs";
+        options.mountpoint = "/storage/media";
+      };
+      backups = {
+        type = "zfs_fs";
+        options.mountpoint = "/storage/backups";
       };
     };
   };
