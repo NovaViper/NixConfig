@@ -46,7 +46,7 @@ pane_template name="statusbar" {
     mode_default_to_mode "normal"
 
     format_left  "{mode}#[fg=blue,reverse] {session} #[fg=blue]{tabs}"
-    format_right "#[fg=$mauve]#[fg=$crust,bg=$mauve] {command_cpu} #[fg=blue,bg=$mauve]#[fg=$crust,bg=blue] {command_ram} #[fg=green,bg=blue]#[fg=$crust,bg=green,bold] {command_user}@{command_host}"
+    format_right "#[fg=$mauve]#[fg=$crust,bg=$mauve] {command_cpu} #[fg=blue,bg=$mauve]#[fg=$crust,bg=blue] {command_ram} #[fg=green,bg=blue]#[fg=$crust,bg=green,bold] {command_user}@{command_host} "
 
     command_user_command     "whoami"
     command_user_format      "{stdout}"

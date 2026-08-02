@@ -12,6 +12,9 @@ in
     status-cpu-ram
   ];
 
+  hm.programs.zellij.settings = {
+    pane_frames = false;
+  };
   hm.programs.zellij.layouts = {
     default =
       # kdl
