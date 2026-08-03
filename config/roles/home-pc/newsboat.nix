@@ -1,4 +1,17 @@
-_: {
+_:
+let
+  withTag =
+    tag: feed:
+    feed
+    // {
+      tags = (feed.tags or [ ]) ++ [ tag ];
+    };
+
+  redditFeed = withTag "reddit";
+  securityFeed = withTag "security";
+
+in
+{
   hm.programs.newsboat = {
     enable = true;
     autoReload = true;
@@ -6,37 +19,39 @@ _: {
     autoVacuum.enable = true;
   };
   hm.programs.newsboat.urls = [
-    {
+    (redditFeed {
       title = "NixOS Reddit";
       url = "https://www.reddit.com/r/NixOS/new/.rss";
       tags = [
-        "nixos-reddit"
-        "nr"
+        "nixos"
       ];
-    }
-    {
+    })
+    (redditFeed {
       title = "Unixporn Reddit";
+      url = "https://www.reddit.com/r/unixporn/new/.rss";
       tags = [
         "unixporn"
-        "unix"
+        "ui"
+        "decor"
       ];
-      url = "https://www.reddit.com/r/unixporn/new/.rss";
-    }
+    })
     # Supply Chain Monitoring
-    {
+    (securityFeed {
       title = "The Hackers News";
       url = "https://feeds.feedburner.com/TheHackersNews";
-      tags = [ ];
-    }
-    {
+    })
+    (securityFeed {
       title = "The Bleeping Computer";
       url = "https://www.bleepingcomputer.com/feed/";
-      tags = [ ];
-    }
-    {
+    })
+    (securityFeed {
       title = "Socket.dev";
       url = "https://socket.dev/api/blog/feed.atom";
-      tags = [ ];
-    }
+    })
+    (securityFeed {
+      title = "NixOS Security Annoucements";
+      url = "https://discourse.nixos.org/c/announcements/security/56.rss";
+      tags = [ "nixos" ];
+    })
   ];
 }
