@@ -40,7 +40,7 @@ in
 
   vars.user = {
     fullName = "Nova Leary";
-    email = "coder.nova99@mailbox.org";
+    email = "code4nova@aluwux.me";
   };
 
   users.users.${username} = {
