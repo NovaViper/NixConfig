@@ -4,6 +4,5 @@
     # :lang markdown
     proselint
     pandoc
-    grip
   ];
 }
