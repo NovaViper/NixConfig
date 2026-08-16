@@ -22,18 +22,18 @@ in
   # Email service
   programs.msmtp =
     let
-      secrets = inputs.nix-secrets.novaviper.email;
+      fromAddress = inputs.nix-secrets.email.knoxpc.msmtp;
     in
     {
       enable = true;
       accounts.default = {
-        host = "smtp.gmail.com";
+        host = "smtp.protonmail.ch";
         port = 587;
         auth = true;
         tls = true;
         tls_starttls = true;
-        user = "${secrets.personal2}";
-        from = "${secrets.personal2}";
+        user = "${fromAddress}";
+        from = "${fromAddress}";
         passwordeval = "cat ${config.sops.secrets."msmtp-pass".path}";
       };
     };

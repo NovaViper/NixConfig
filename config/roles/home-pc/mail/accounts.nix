@@ -9,7 +9,7 @@
 let
 
   hm-config = config.hm;
-  secrets = inputs.nix-secrets.${username}.email;
+  secrets = inputs.nix-secrets.email.${username};
 
   commonPatterns = [
     "INBOX"
