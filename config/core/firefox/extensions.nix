@@ -39,12 +39,19 @@ let
       updates_disabled = true;
     };
 
-    # Return Youtube Dislikes
-    "{762f9885-5a13-4abd-9c77-433dcd38b8fd}" = {
-      install_url = moz "return-youtube-dislikes";
+    # ImprovedTube: https://github.com/code-charity/youtube
+    "{3c6bf0cc-3ae2-42fb-9993-0d33104fdcaf}" = {
+      install_url = moz "youtube-addon";
       installation_mode = "normal_installed";
       updates_disabled = true;
     };
+
+    # # Return Youtube Dislikes
+    # "{762f9885-5a13-4abd-9c77-433dcd38b8fd}" = {
+    #   install_url = moz "return-youtube-dislikes";
+    #   installation_mode = "normal_installed";
+    #   updates_disabled = true;
+    # };
 
     "addon@darkreader.org" = {
       install_url = moz "darkreader";
