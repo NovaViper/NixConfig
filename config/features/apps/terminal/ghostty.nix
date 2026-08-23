@@ -27,8 +27,6 @@
 
   hm.programs.ghostty.enable = true;
 
-  hm.programs.ghostty.package = pkgs.inputs.ghostty.default;
-
   hm.programs.ghostty.installVimSyntax = true;
 
   hm.programs.ghostty.installBatSyntax = true;
