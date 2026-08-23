@@ -119,7 +119,6 @@
 
     # Other things from runtime
     glib
-    gtk2
     gtk3
     bzip2
     flac
@@ -133,10 +132,7 @@
     libtiff
     pixman
     speex
-    libappindicator-gtk2
     libappindicator-gtk3
-    libdbusmenu-gtk2
-    libindicator-gtk2
     libcaca
     libcanberra
     libgcrypt
