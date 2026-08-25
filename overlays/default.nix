@@ -103,7 +103,7 @@ in
         };
 
     vesktop = prev.vesktop.overrideAttrs {
-      desktopItems = prev.lib.optionals final.stdenv.isLinux (
+      desktopItems = prev.lib.optionals final.stdenv.hostPlatform.isLinux (
         prev.makeDesktopItem {
           name = "vesktop";
           desktopName = "Vesktop";

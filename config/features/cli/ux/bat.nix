@@ -28,7 +28,7 @@ in
 
   hm.home.activation.batCache = lib.mkForce ""; # Waiting for https://github.com/nix-community/home-manager/issues/5481 is fixed
 
-  hm.programs.fzf.fileWidgetOptions = lib.mkIf hm-config.programs.fzf.enable (
+  hm.programs.fzf.fileWidget.options = lib.mkIf hm-config.programs.fzf.enable (
     lib.mkBefore [ "--preview '${pkgs.bat}/bin/bat -n --color=always {}'" ]
   );
 }
