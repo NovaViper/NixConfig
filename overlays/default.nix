@@ -102,7 +102,7 @@ in
           enableWidevine = true;
         };
 
-    vesktop = prev.vesktop.overrideAttrs {
+    vesktop = (prev.vesktop.override { electron_43 = final.electron_42; }).overrideAttrs {
       desktopItems = prev.lib.optionals final.stdenv.hostPlatform.isLinux (
         prev.makeDesktopItem {
           name = "vesktop";
@@ -124,6 +124,10 @@ in
           ];
         }
       );
+      preBuild = ''
+        cp -r ${final.electron_42.dist} electron-dist
+        chmod -R u+w electron-dist
+      '';
     };
 
     discord-wayland =
