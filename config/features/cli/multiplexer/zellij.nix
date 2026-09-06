@@ -18,6 +18,7 @@
       env = {
         TERM = "xterm-256color";
       };
+      nested_session_handling = "descend";
       mouse_hover_effects = true;
       visual_bell = true;
       load_plugins = {
