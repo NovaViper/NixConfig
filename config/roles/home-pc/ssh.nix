@@ -13,17 +13,17 @@ in
     in
     {
       "knoxpc-*" = {
-        HostName = "192.168.1.120";
+        HostName = "knoxpc";
         IdentityFile = [
           "${homePath}/knox_ed25519-sk_usba"
           "${homePath}/knox_ed25519-sk_usbc"
         ];
         Port = 22;
         RequestTTY = "yes";
-        RemoteCommand = "tmux new-session -A -s \${%n}";
+        RemoteCommand = "zellij attach %n || zellij --session %n";
       };
       "knoxpc" = {
-        HostName = "192.168.1.120";
+        HostName = "knoxpc";
         IdentityFile = [
           "${homePath}/knox_ed25519-sk_usba"
           "${homePath}/knox_ed25519-sk_usbc"
@@ -31,7 +31,7 @@ in
         Port = 22;
       };
       "knoxpcb" = {
-        HostName = "192.168.1.120";
+        HostName = "knoxpc";
         User = "borg";
         Port = 22;
         IdentityFile = [

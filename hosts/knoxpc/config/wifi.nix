@@ -31,4 +31,22 @@ in
     pskRaw = "ext:home_pskRaw";
     authProtocols = [ "WPA-PSK" ];
   };
+  # Static IPv4 configuration
+  networking.interfaces.wlp4s0 = {
+    useDHCP = false;
+    ipv4.addresses = [
+      {
+        address = "192.168.1.120";
+        prefixLength = 24;
+      }
+    ];
+  };
+  networking.defaultGateway = {
+    address = "192.168.1.1";
+    interface = "wlp4s0";
+  };
+  networking.nameservers = [
+    "192.168.1.1"
+    "1.1.1.1"
+  ];
 }
