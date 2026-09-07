@@ -36,7 +36,6 @@ Note: There are upcoming changes being actively made so documentation will chang
 - Wayland Setups
 - Multiple fully featured desktop environments (KDE Plasma 6)
 - Live image ISO build with Nvidia drivers, experimental nix features already enabled, unfree software usage, and some nice options for cli
-- Declarative themes with [stylix](https://github.com/danth/stylix)
 - Deployment of secrets using **[sops-nix](https://github.com/Mic92/sops-nix) (with yubikey)** via a private repository called `nix-secrets`
 - Includes [pre-commit](https://github.com/pre-commit/pre-commit) scripts to make sure flake is correctly setup and ready for publication to a git repository
 - Remote building with desktop configurations

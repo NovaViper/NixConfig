@@ -67,8 +67,6 @@ let
       pkgs:
       "${lib.getExe' pkgs.procps "pgrep"} 'gpg-agent' &> /dev/null && ${lib.getExe' pkgs.gnupg "gpg-connect-agent"} 'scd getinfo card_list' /bye | ${lib.getExe pkgs.gnugrep} SERIALNO -q";
 
-    useStylix = config: builtins.hasAttr "stylix" config;
-
     # Most of these are left null since I'm piggybacking off of the custom context function I've made
     mkMu4eContext =
       {

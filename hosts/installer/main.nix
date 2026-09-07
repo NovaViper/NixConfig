@@ -23,12 +23,6 @@
   # Disabling these makes the ISO boot
   programs.nix-ld.enable = lib.mkForce false;
 
-  # # Disable stylix
-  # stylix = {
-  #   autoEnable = lib.mkForce false;
-  #   enable = lib.mkForce false;
-  # };
-
   hm.programs.plasma =
     let
       workspace = {

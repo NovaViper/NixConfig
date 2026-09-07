@@ -34,11 +34,4 @@
   };
 
   hm.sops.secrets = lib.mkForce { };
-
-  # Disable stylix
-  # stylix = {
-  #   autoEnable = lib.mkForce false;
-  #   enable = lib.mkForce false;
-  # };
-
 }

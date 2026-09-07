@@ -61,13 +61,6 @@ in
         zstyle ':fzf-tab:*' fzf-flags \
         --exact \
         --multi \
-        ${
-          if myLib.utils.useStylix hm-config then
-            with hm-config.lib.stylix.colors.withHashtag;
-            ''--color=fg:"${base06}",bg:"${base00}",preview-fg:"${base06}",preview-bg:"${base00}",hl:"${base08}",fg+:"${base00}",bg+:"${base0B}",gutter:"${base0B}",hl+:"${base00}",info:"${base0C}",border:"${base03}",prompt:"${base0C}",pointer:"${base00}",marker:"${base0E}",spinner:"${base0C}",header:"${base0C}"''
-          else
-            ""
-        }
 
         # switch group using `<` and `>`
         zstyle ':fzf-tab:*' switch-group '<' '>'
