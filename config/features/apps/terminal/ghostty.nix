@@ -19,7 +19,7 @@
         "x-terminal-emulator" = "com.mitchellh.ghostty.desktop";
       };
     in
-    lib.mkIf (config.vars.apps.terminal == "ghostty") {
+    lib.mkIf (config.vars.apps.terminal.name == "ghostty") {
       enable = true;
       inherit defaultApplications;
       associations.added = defaultApplications;
