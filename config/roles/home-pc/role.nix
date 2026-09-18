@@ -89,6 +89,7 @@ in
     asciinema-agg
     webcamoid
     headsetcontrol
+    easyeffects
   ];
 
   sopsHome.secrets."borg_token" = myLib.secrets.mkSecretFile {
