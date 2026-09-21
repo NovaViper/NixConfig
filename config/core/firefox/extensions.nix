@@ -106,12 +106,6 @@ let
       installation_mode = "normal_installed";
       updates_disabled = true;
     };
-
-    "privacy@privacy.com" = {
-      install_url = moz "pay-by-privacy";
-      installation_mode = "normal_installed";
-      updates_disabled = true;
-    };
   };
   extensionSettings = {
     "keepassxc-browser@keepassxc.org".settings.settings = {

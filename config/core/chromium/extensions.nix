@@ -8,7 +8,6 @@ let
     { id = "ponfpcnoihfmfllpaingbgckeeldkhle"; } # Enhancer for YouTube
     { id = "fonfeflegdnbhkfefemcgbdokiinjilg"; } # Chat Replay
     { id = "eimadpbcbfnmbkopoojfekhnkhdbieeh"; } # Dark Reader
-    { id = "hmgpakheknboplhmlicfkkgjipfabmhp"; } # Pay
     { id = "cimiefiiaegbelhefglklhhakcgmhkai"; } # Plasma Browser Integration
     { id = "fkagelmloambgokoeokbpihmgpkbgbfm"; } # Indie Wiki Buddy
     { id = "clngdbkpkpeebahjckkjfobafhncgmne"; } # Stylus
