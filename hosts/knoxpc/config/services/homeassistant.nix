@@ -20,11 +20,14 @@ in
 
   virtualisation.oci-containers.containers = {
     homeassistant = {
-      image = "homeassistant/home-assistant:stable";
+      image = "docker.io/homeassistant/home-assistant:stable";
       autoStart = true;
       extraOptions = [
         "--pull=newer"
         "--network=host"
+        # Needed for Bluetooth to work
+        "--cap-add=NET_ADMIN"
+        "--cap-add=NET_RAW"
       ];
       volumes = [
         "/storage/services/homeassistant:/config"
