@@ -13,6 +13,7 @@ in
       "127.0.0.1"
       "192.168.1.120"
       "${config.networking.hostName}"
+      "${config.networking.hostName}.local"
     ];
     settings = {
       tile = "KnoxPC Homelab";
