@@ -12,7 +12,6 @@ in
     heroic
     protonup-qt
     protontricks
-    goverlay
     ludusavi
     pkgsCross.mingw32.wine-discord-ipc-bridge
 
