@@ -5,18 +5,17 @@
   ...
 }:
 {
-  hm.xdg.mimeApps = {
-    associations = {
-      added = {
-        "x-scheme-handler/prusaslicer" = "PrusaSlicerURLProtocol.desktop";
+  hm.xdg.mimeApps =
+    let
+      profiles = {
         "model/stl" = "PrusaSlicer.desktop";
+        "x-scheme-handler/prusaslicer" = "PrusaSlicerURLProtocol.desktop"; # printables
       };
+    in
+    {
+      associations.added = profiles;
+      defaultApplications = profiles;
     };
-    defaultApplications = {
-      "x-scheme-handler/prusaslicer" = "PrusaSlicerURLProtocol.desktop";
-      "model/stl" = "PrusaSlicer.desktop";
-    };
-  };
 
   hm.xdg.configFile =
     let
