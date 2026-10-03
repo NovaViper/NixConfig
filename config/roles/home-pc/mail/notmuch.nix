@@ -9,7 +9,7 @@ in
 {
   hm.programs.notmuch = {
     enable = true;
-    maildir.synchronizeFlags = true;
+    settings.maildir.synchronize_flags = true;
     hooks = {
       preNew = "${lib.getExe hm-config.programs.mbsync.package} -a";
     };

@@ -42,9 +42,6 @@
     # Force latest nix version
     package = pkgs.nixVersions.latest;
 
-    # for Nix path
-    nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-
     # Perform nix store optimisation weekly to maintain low disk usage
     optimise = {
       automatic = true;
@@ -65,6 +62,9 @@
         "nix-command"
         "flakes"
       ];
+
+      # for Nix path
+      nix-path = [ "nixpkgs=${inputs.nixpkgs}" ];
 
       # No warnings if git isn't pushed
       warn-dirty = false;
