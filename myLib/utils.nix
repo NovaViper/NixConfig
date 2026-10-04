@@ -6,18 +6,24 @@
 }:
 let
   exports = {
+    # Filter builder to ensure files prefixed with "_" are completely ignored
+    isNixFile =
+      path:
+      let
+        name = baseNameOf path;
+      in
+      lib.hasSuffix ".nix" name && !lib.hasPrefix "_" name;
+
     # List everything in a given directory (dir)
-    filesInDir = dir: lib.filesystem.listFilesRecursive dir;
+    filesInDir = dir: builtins.filter exports.isNixFile (lib.filesystem.listFilesRecursive dir);
 
     # List only nix files in a given path (path), if it's a file, then we should return the file itself. Any invalid paths will be skipped
     listNixFilesForPath =
       path:
       if lib.pathIsRegularFile path then
-        path
+        lib.optional (exports.isNixFile path) path
       else
-        builtins.filter (path: !lib.hasPrefix "_" path && lib.hasSuffix ".nix" path) (
-          exports.filesInDir path
-        );
+        exports.filesInDir path;
 
     # Import all nix files in a given list of directories and/or files (paths)
     importPaths = paths: lib.flatten (map exports.listNixFilesForPath paths);

@@ -7,7 +7,7 @@ let
   importOptionalPaths =
     paths:
     lib.flatten (
-      builtins.map (path: if lib.pathExists path then myLib.utils.listNixFilesForPath path else [ ]) paths
+      map (path: if lib.pathExists path then myLib.utils.listNixFilesForPath path else [ ]) paths
     );
 
   # The actually exported function
