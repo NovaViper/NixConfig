@@ -46,10 +46,9 @@ let
   waylandEnv = {
     NIXOS_OZONE_WL = "1";
     MOZ_ENABLE_WAYLAND = "1";
-    GDK_BACKEND = "wayland,x11";
     SDL_VIDEODRIVER = "wayland,x11,windows";
     CLUTTER_BACKEND = "wayland";
-    # QT_QPA_PLATFORM = "wayland";
+    QT_QPA_PLATFORM = "wayland";
     # LIBSEAT_BACKEND = "logind";
     XDG_SESSION_TYPE = "wayland";
     #WLR_NO_HARDWARE_CURSORS = "1";
@@ -121,7 +120,11 @@ in
       #   "audio"
       # ];
 
-      hm.home.sessionVariables = waylandEnv;
+      hm.home.sessionVariables =
+        waylandEnv
+        // lib.mkIf (cfg.desktop.type == "kde") {
+          GDK_BACKEND = "wayland,x11";
+        };
 
       services = {
         # Enable touchpad support

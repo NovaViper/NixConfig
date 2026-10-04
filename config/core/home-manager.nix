@@ -47,6 +47,7 @@
     [
       nix-index-database.homeModules.nix-index
       plasma-manager.homeModules.plasma-manager
+      noctalia.homeModules.default
     ]
     ++ self.homeModules.default;
 

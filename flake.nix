@@ -49,6 +49,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    # Niri+Noctalia setup
+    # niri = {
+    #   url = "github:sodiboo/niri-flake";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    noctalia = {
+      # https://github.com/noctalia-dev/noctalia/issues/2458
+      url = "github:noctalia-dev/noctalia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    qtengine = {
+      url = "github:kossLAN/qtengine";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     #######
 
     # Personal Repos

@@ -197,6 +197,26 @@
         "type": "github"
       }
     },
+    "noctalia": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790958263,
+        "narHash": "sha256-CjzvZ4ZUhJe30ziX46DHMauP/EMdddlwN9Xt1rXVISA=",
+        "owner": "noctalia-dev",
+        "repo": "noctalia",
+        "rev": "141eb7eead5c87b41dbd96d83e752d8b5f84c549",
+        "type": "github"
+      },
+      "original": {
+        "owner": "noctalia-dev",
+        "repo": "noctalia",
+        "type": "github"
+      }
+    },
     "novavim": {
       "inputs": {
         "mnw": "mnw",
@@ -241,6 +261,26 @@
         "type": "github"
       }
     },
+    "qtengine": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1790355032,
+        "narHash": "sha256-9nhKFJ9AUxIS7wZ3be7Vxy36Q+4lgihB/RLooJ41niE=",
+        "owner": "kossLAN",
+        "repo": "qtengine",
+        "rev": "167e7d9a27cdc8005ef2bd4d5d317b9da01b853f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kossLAN",
+        "repo": "qtengine",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "disko": "disko",
@@ -251,8 +291,10 @@
         "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-stable": "nixpkgs-stable",
+        "noctalia": "noctalia",
         "novavim": "novavim",
         "plasma-manager": "plasma-manager",
+        "qtengine": "qtengine",
         "sops-nix": "sops-nix",
         "wallpapers": "wallpapers"
       }
