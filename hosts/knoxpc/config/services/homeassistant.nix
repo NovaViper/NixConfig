@@ -12,7 +12,13 @@ in
 {
   networking.firewall.allowedTCPPorts = [ 8123 ];
 
-  services.matter-server.enable = true;
+  services.matterjs-server = {
+    enable = true;
+    bluetoothSupport = true;
+    extraArgs = [
+      "--primary-interface=wlp4s0"
+    ];
+  };
   services.mosquitto = {
     enable = true;
     dataDir = "/storage/services/homeassistant/mosquitto";
