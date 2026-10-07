@@ -26,13 +26,15 @@ in
   };
 
   # Install yubikey package to udev to give it usb access
-  services.udev.packages = with pkgs; [ yubikey-personalization ];
+  services.udev.packages = with pkgs; [
+    yubikey-manager
+    libfido2
+  ];
 
   environment.systemPackages =
     with pkgs;
     [
       load-resident-key # Custom script for loading resident keys
-      yubikey-personalization
       yubikey-manager
       yubico-piv-tool
     ]
