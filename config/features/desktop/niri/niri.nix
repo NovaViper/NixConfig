@@ -13,7 +13,7 @@ let
 in
 {
   features.desktop.type = "niri";
-  features.desktop.startAgent = false;
+  features.desktop.startAgent = true;
   features.desktop.askpassProgram = lib.getExe pkgs.kdePackages.ksshaskpass;
 
   programs.niri.enable = true;
