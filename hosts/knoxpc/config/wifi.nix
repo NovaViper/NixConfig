@@ -27,8 +27,8 @@ in
 
   networking.wireless.secretsFile = config.sops.secrets."server_networks".path;
 
-  networking.wireless.networks."${inputs.nix-secrets.networking.home-ssid}" = {
-    pskRaw = "ext:home_pskRaw";
+  networking.wireless.networks."${inputs.nix-secrets.networking.main-ssid}" = {
+    pskRaw = "ext:main_pskRaw";
     authProtocols = [ "WPA-PSK" ];
   };
 }
