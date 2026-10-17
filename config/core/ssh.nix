@@ -3,22 +3,37 @@
   lib,
   pkgs,
   hostNames,
+  hostname,
   ...
 }:
 let
   cfgD = config.features.desktop;
   hm-config = config.hm;
+
+  matchExclusion = str: list: builtins.elem str list;
+
+  # Host names that are installer/ISO images rather than real machines.
+  isoHostNames = [
+    "live-image"
+    "iso"
+    "installer"
+  ];
+  # The installer ISO needs more permissive SSH access (e.g. password auth) for
+  # initial/remote installs, so hardening is only applied to real machines
+  isInstaller = matchExclusion hostname isoHostNames;
 in
 {
   # Enable the OpenSSH daemon
   services.openssh = {
     enable = true;
     settings = {
-      #Harden
-      PasswordAuthentication = false;
-      PermitRootLogin = "no";
       # Automatically remove stale sockets
       StreamLocalBindUnlink = "yes";
+    }
+    // lib.optionalAttrs (!isInstaller) {
+      # Harden
+      PasswordAuthentication = false;
+      PermitRootLogin = "no";
     };
   };
 
@@ -42,13 +57,7 @@ in
     # Add machines delcared in our outputs to be have ssh hosts so we can use remote builds!
     programs.ssh.settings =
       let
-        matchExclusion = str: list: builtins.elem str list;
-        excludedHosts = [
-          "live-image"
-          "iso"
-          "installer"
-          "knoxpc"
-        ];
+        excludedHosts = isoHostNames ++ [ "knoxpc" ];
         nixosConfigs =
           (attrs: builtins.filter (name: (!matchExclusion name excludedHosts)) (lib.unique attrs))
             hostNames;
