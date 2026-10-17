@@ -10,6 +10,8 @@
   };
 
   vars.desktop.profile = "minimal";
+  vars.apps.editor.name = "kate";
+  vars.apps.editor.desktopFile = "kate";
 
   vars.host = {
     configDirectory = "/etc/nixos";
