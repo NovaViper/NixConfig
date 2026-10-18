@@ -12,7 +12,6 @@ in
 {
   imports = myLib.utils.importFeatures {
     boot = [
-      "disko"
       "pretty-plymouth"
     ];
     desktop = lib.singleton "plasma6";

@@ -10,7 +10,6 @@
 {
   imports = myLib.utils.importFeatures {
     boot = [
-      "disko"
       "pretty-plymouth"
     ];
     # theme = lib.singleton "catppuccin";

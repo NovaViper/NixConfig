@@ -21,6 +21,9 @@ TARGET="$2"
 USER="$3"
 shift 3
 
+# Disk setup and installer always run as root in nixos-anywhere, so we force the SSH target to be root.
+ROOT_TARGET="root@${TARGET#*@}"
+
 # Ensure we can support instances like:
 #   12345678 87654321
 #   "12345678 87654321"
@@ -79,7 +82,7 @@ if ! ssh-add -s "$PKCS"; then
   exit 1
 fi
 echo "  -> Updating nix-secrets input"
-if ! nix flake lock nix-secrets; then
+if ! nix flake update nix-secrets; then
   echo "Error: Failed to update nix-secrets input." >&2
   echo "Verify the YubiKey PIV key and secrets access." >&2
   exit 1
@@ -133,13 +136,47 @@ dir "$BOOTSTRAP/var/lib/sops/keys.txt" -l
 dir "$BOOTSTRAP/home/$USER/.config/sops/age/keys.txt" -l
 
 echo
-echo "==> Phase 5: Install NixOS with nixos-anywhere"
-
+echo "==> Phase 5: Kexec into the NixOS installer"
 nix run github:nix-community/nixos-anywhere -- \
   --flake ".#$HOST" \
-  --copy-host-keys \
-  --extra-files "$BOOTSTRAP" \
+  --phases kexec \
   "$TARGET"
+
+echo
+echo "==> Phase 6: Partition, format, and mount disks"
+echo "  !! WARNING: disks-create and disks-format will PERMANENTLY ERASE all data"
+echo "     on $HOST's disks (target: $ROOT_TARGET)."
+read -rp "  Type the host name ('$HOST') to confirm and continue: " CONFIRM_HOST
+if [ "$CONFIRM_HOST" != "$HOST" ]; then
+  echo "Error: Confirmation did not match '$HOST'. Aborting before touching any disks." >&2
+  exit 1
+fi
+
+for script in disks-create disks-format disks-mount; do
+  echo "  -> Building $script"
+  script_path=$(nix build --no-link --print-out-paths ".#nixosConfigurations.$HOST.config.$script")
+  echo "  -> Copying $script to $ROOT_TARGET"
+  nix copy --to "ssh://$ROOT_TARGET" "$script_path"
+  echo "  -> Running $script on $ROOT_TARGET"
+  ssh "$ROOT_TARGET" "$script_path/bin/$script"
+done
+
+echo "  -> Verifying /mnt is mounted on $ROOT_TARGET before installing"
+if ! ssh "$ROOT_TARGET" "mountpoint -q /mnt"; then
+  echo "Error: /mnt is not mounted on $ROOT_TARGET. Refusing to proceed with install." >&2
+  echo "       Check the disks-mount output above before retrying." >&2
+  exit 1
+fi
+echo "  -> /mnt is mounted on $ROOT_TARGET!"
+
+echo
+echo "==> Phase 7: Install NixOS with nixos-anywhere"
+nix run github:nix-community/nixos-anywhere -- \
+  --flake ".#$HOST" \
+  --extra-files "$BOOTSTRAP" \
+  --copy-host-keys \
+  --phases install,reboot \
+  "$ROOT_TARGET"
 
 echo
 echo "==> Remote install complete!"

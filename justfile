@@ -42,11 +42,19 @@ build-host HOST MODE:
 nixos-install HOST:
     sudo nixos-install --flake '.#{{ HOST }}' --root /mnt --option accept-flake-config true --no-root-passwd |& nom
 
-[doc('Create disko file for HOST')]
-disko HOST:
-    sudo nix --experimental-features "nix-command flakes" run github:nix-community/disko -- \
-    --mode disko \
-    hosts/{{ HOST }}/config/disko.nix |&nom
+[confirm("This will PERMANENTLY ERASE all data on the target disks. Continue?")]
+[doc('Partition the disks for HOST by running its disks-create script (run from the installer environment)')]
+disks-create HOST:
+    sudo nix run --experimental-features "nix-command flakes" '.#nixosConfigurations.{{ HOST }}.config.disks-create' |& nom
+
+[confirm("This will PERMANENTLY ERASE all data on the target partitions. Continue?")]
+[doc('Format the already-partitioned disks for HOST by running its disks-format script (run from the installer environment)')]
+disks-format HOST:
+    sudo nix run --experimental-features "nix-command flakes" '.#nixosConfigurations.{{ HOST }}.config.disks-format' |& nom
+
+[doc('Mount the formatted disks for HOST at /mnt by running its disks-mount script (run from the installer environment)')]
+disks-mount HOST:
+    sudo nix run --experimental-features "nix-command flakes" '.#nixosConfigurations.{{ HOST }}.config.disks-mount' |& nom
 
 [doc('Generate and display hardware config file for current machine')]
 show-hardware-config:

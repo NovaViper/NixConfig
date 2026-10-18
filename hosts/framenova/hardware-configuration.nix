@@ -28,20 +28,6 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
-  #boot.resumeDevice = "/dev/mapper/cryptswap";  # for hibernation
-  #  boot.initrd.luks.devices = {
-  #  cryptroot = { device = "/dev/disk/by-partlabel/luksRoot"; tpm2 = true; fido2 = true; };
-  #  cryptswap = { device = "/dev/disk/by-partlabel/luksSwap"; tpm2 = true; fido2 = true; };
-  #};
-
-  #boot.resumeDevice = "/dev/mapper/cryptswap"; # hibernation
+  # LUKS devices, filesystems, and swap are configured in ./config/disks.nix and ./config/luks.nix
   security.tpm2.enable = true;
-
-  #fileSystems = {
-  #  "/" = { device = "/dev/mapper/cryptroot"; fsType = "btrfs"; options = [ "subvol=@root" "compress=zstd" "noatime" ]; };
-  #  "/home" = { device = "/dev/mapper/cryptroot"; fsType = "btrfs"; options = [ "subvol=@home" "compress=zstd" "noatime" ]; };
-  #  "/boot" = { device = "/dev/disk/by-partlabel/esp"; fsType = "vfat"; };
-  #};
-
-  #swapDevices = [ { device = "/dev/mapper/cryptswap"; } ];
 }

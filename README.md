@@ -28,7 +28,7 @@ Note: There are upcoming changes being actively made so documentation will chang
 
 - Multiple NixOS configurations, including laptop and desktop
 - Install and partitioning commands via [just](https://github.com/casey/just)
-- Declarative partitioning with [disko](https://github.com/nix-community/disko).
+- Declarative partitioning with custom partitioning scripts, based on Baitinq's work.
 - Remote installation and configuration of NixOS hosts via [nixos-anywhere](https://github.com/nix-community/nixos-anywhere).
 - Flexible NixOS and Home Manager configs through importable **_feature flags_**
 - Automatically append users to multiple hosts along with specific user settings for each user with a primary user and extra users
@@ -115,7 +115,7 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 ├── hosts/
 │   ├── framenova/
 │   │   ├── config/
-│   │   │   ├── disko.nix
+│   │   │   ├── disks.nix
 │   │   │   └── ...
 │   │   ├── hardware-configuration.nix
 │   │   ├── main.nix
@@ -129,14 +129,14 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 │   │   │   ├── services/
 │   │   │   │   ├── homepage/
 │   │   │   │   └── ...
-│   │   │   ├── disko.nix
+│   │   │   ├── disks.nix
 │   │   │   └── ...
 │   │   ├── hardware-configuration.nix
 │   │   ├── main.nix
 │   │   └── ssh_host_ed25519_key.pub
 │   └── ryzennova/
 │       ├── config/
-│       │   ├── disko.nix
+│       │   ├── disks.nix
 │       │   └── ...
 │       ├── hardware-configuration.nix
 │       ├── main.nix

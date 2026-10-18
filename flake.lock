@@ -1,25 +1,5 @@
 {
   "nodes": {
-    "disko": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1789770686,
-        "narHash": "sha256-uZkBR7yHdIKUFB5SZdfgh1qkGfI3XmYmI/lTiquxbck=",
-        "owner": "nix-community",
-        "repo": "disko",
-        "rev": "725ea35e410ad83be4931d1bff7e090eacaf3563",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "disko",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -137,10 +117,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1792064204,
-        "narHash": "sha256-uojhkxj8M6HT9KtXTgrww9McGgqRheIK39eVIjBYVbc=",
+        "lastModified": 1792290553,
+        "narHash": "sha256-ntjo+6MAvgG8ZEnRrnNgjmitnoosYHmJIV7OuAwnvDY=",
         "ref": "main",
-        "rev": "504ea2a3906f0a1c8bcf25eca900655a6789bb07",
+        "rev": "de7fbc4f72e9877dd76793b094a277d7839316c6",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@codeberg.org/NovaViper/nix-secrets.git"
@@ -283,7 +263,6 @@
     },
     "root": {
       "inputs": {
-        "disko": "disko",
         "git-hooks": "git-hooks",
         "hardware": "hardware",
         "home-manager": "home-manager",
