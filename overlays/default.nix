@@ -150,5 +150,32 @@ in
           discord
         ];
       };
+
+    kernelPackagesExtensions = prev.kernelPackagesExtensions ++ [
+      (_: kernelPrev: {
+        # TODO: Wait for patch to be merged upstream, then remove this overlay
+        # Workaround for v4l2loopback modules.alias conflict on kernel 6.18.57+
+        # Issue: https://github.com/NixOS/nixpkgs/issues/575851
+        # Pull: https://github.com/NixOS/nixpkgs/pull/575861
+        v4l2loopback = kernelPrev.v4l2loopback.overrideAttrs (oldAttrs: {
+          postInstall = (oldAttrs.postInstall or "") + ''
+            find "$out/lib/modules" -type f -name 'modules.*' -delete
+          '';
+        });
+        # TODO: Wait for patch to arrive to unstable channel
+        # Workaround for Framework laptop missing .ko.cer certificate
+        # Issue: https://github.com/NixOS/nixpkgs/issues/575192
+        framework-laptop-kmod = kernelPrev.framework-laptop-kmod.overrideAttrs (oldAttrs: {
+          makeFlags = (oldAttrs.makeFlags or [ ]) ++ [
+            "INSTALL_MOD_PATH=${placeholder "out"}"
+            "INSTALL_MOD_DIR=extra"
+            "DEPMOD=true"
+          ];
+          installPhase = null;
+          installTargets = [ "modules_install" ];
+        });
+      })
+    ];
+
   };
 }
