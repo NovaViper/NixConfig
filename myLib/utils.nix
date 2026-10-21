@@ -108,6 +108,8 @@ let
             })
       '';
 
+    # Flatten a nested attribute set of packages into a single-level attribute set,
+    # with keys representing the path to the package in the original structure
     flattenPackages =
       let
         recurse =
@@ -126,6 +128,19 @@ let
           ) { } attrs;
       in
       recurse "";
+
+    # Runtime disk size in MiB minus swapSize in GiB converted to MiB.
+    swapStartMiB =
+      device: swapSize:
+      ''$(( $(blockdev --getsize64 "${device}") / 1048576 - ${toString swapSize} * 1024 ))'';
+
+    # Bundle an installer script with its runtime tools
+    mkDiskScript =
+      pkgs: name: script: packages:
+      pkgs.symlinkJoin {
+        inherit name;
+        paths = [ (pkgs.writeShellScriptBin name script) ] ++ packages;
+      };
   };
 in
 exports

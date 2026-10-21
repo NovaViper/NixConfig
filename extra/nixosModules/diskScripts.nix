@@ -4,6 +4,7 @@
   ...
 }:
 let
+  # Based on https://github.com/Baitinq/nixos-config/blob/979313a290981f3c9f62fb5c6f180e87e331ac5f/hardware/pc/disks.nix
   inherit (lib) mkOption types;
 
   mkDiskScriptOption =
@@ -15,7 +16,6 @@ let
     };
 in
 {
-  # Based on https://github.com/Baitinq/nixos-config/blob/979313a290981f3c9f62fb5c6f180e87e331ac5f/hardware/pc/disks.nix
   # The host's disks.nix file will define the scripts to create, format, and mount the disks. This module will then expose those scripts as packages in the system environment, so they can be run from the installer environment.
   options = {
     disks-create = mkDiskScriptOption "partitions this host's disks";

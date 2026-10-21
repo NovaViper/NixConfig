@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-# Based on https://github.com/Baitinq/nixos-config/blob/979313a290981f3c9f62fb5c6f180e87e331ac5f/hardware/pc/disks.nix
+{ pkgs, myLib, ... }:
 let
   device = "/dev/disk/by-id/nvme-WD_BLACK_SN850X_1000GB_251637800361";
   swapSize = "32"; # GiB
@@ -14,11 +13,9 @@ let
     parted -s "${device}" mkpart ESP fat32 1MiB 513MiB
     parted -s "${device}" set 1 esp on
 
-    # Compute an explicit end of the root partition in MiB, which is the total
-    # size of the disk minus the swap size in GiB, converted to MiB; gets rid of the "improperly aligned" warning.
-    rootEndMiB=$(( ( $(blockdev --getsize64 "${device}") - ${swapSize} * 1024 * 1024 * 1024 ) / 1024 / 1024 ))
-    parted -s -a optimal "${device}" -- mkpart luksRoot 513MiB "''${rootEndMiB}MiB"
-    parted -s -a optimal "${device}" -- mkpart luksSwap "''${rootEndMiB}MiB" 100%
+    swapStartMiB=${myLib.utils.swapStartMiB device swapSize}
+    parted -s -a optimal "${device}" -- mkpart luksRoot 513MiB "''${swapStartMiB}MiB"
+    parted -s -a optimal "${device}" -- mkpart luksSwap "''${swapStartMiB}MiB" 100%
 
     udevadm trigger --subsystem-match=block
     udevadm settle
@@ -116,33 +113,21 @@ in
 
     boot.resumeDevice = "/dev/mapper/cryptswap";
 
-    disks-create = pkgs.symlinkJoin {
-      name = "disks-create";
-      paths = [
-        (pkgs.writeShellScriptBin "disks-create" partitionsCreateScript)
-        pkgs.parted
-        pkgs.util-linux
-      ];
-    };
+    disks-create = myLib.utils.mkDiskScript pkgs "disks-create" partitionsCreateScript [
+      pkgs.parted
+      pkgs.util-linux
+    ];
 
-    disks-format = pkgs.symlinkJoin {
-      name = "disks-format";
-      paths = [
-        (pkgs.writeShellScriptBin "disks-format" partitionsFormatScript)
-        pkgs.dosfstools
-        pkgs.cryptsetup
-        pkgs.btrfs-progs
-        pkgs.systemd
-      ];
-    };
+    disks-format = myLib.utils.mkDiskScript pkgs "disks-format" partitionsFormatScript [
+      pkgs.dosfstools
+      pkgs.cryptsetup
+      pkgs.btrfs-progs
+      pkgs.systemd
+    ];
 
-    disks-mount = pkgs.symlinkJoin {
-      name = "disks-mount";
-      paths = [
-        (pkgs.writeShellScriptBin "disks-mount" partitionsMountScript)
-        pkgs.cryptsetup
-        pkgs.util-linux
-      ];
-    };
+    disks-mount = myLib.utils.mkDiskScript pkgs "disks-mount" partitionsMountScript [
+      pkgs.cryptsetup
+      pkgs.util-linux
+    ];
   };
 }

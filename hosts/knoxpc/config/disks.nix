@@ -1,5 +1,9 @@
-{ pkgs, lib, ... }:
-# Based on https://github.com/Baitinq/nixos-config/blob/979313a290981f3c9f62fb5c6f180e87e331ac5f/hardware/pc/disks.nix
+{
+  pkgs,
+  lib,
+  myLib,
+  ...
+}:
 let
   bootDevice = "/dev/disk/by-id/nvme-WDC_PC_SN520_SDAPMUW-256G-1001_193463464112"; # 256 GB NVME drive
   swapSize = "32"; # GiB
@@ -21,11 +25,9 @@ let
     parted -s "${bootDevice}" mkpart ESP fat32 1MiB 513MiB
     parted -s "${bootDevice}" set 1 esp on
 
-    # Compute an explicit end of the root partition in MiB, which is the total
-    # size of the disk minus the swap size in GiB, converted to MiB; gets rid of the "improperly aligned" warning.
-    rootEndMiB=$(( ( $(blockdev --getsize64 "${bootDevice}") - ${swapSize} * 1024 * 1024 * 1024 ) / 1024 / 1024 ))
-    parted -s -a optimal "${bootDevice}" -- mkpart root ext4 513MiB "''${rootEndMiB}MiB"
-    parted -s -a optimal "${bootDevice}" -- mkpart swap linux-swap "''${rootEndMiB}MiB" 100%
+    swapStartMiB=${myLib.utils.swapStartMiB bootDevice swapSize}
+    parted -s -a optimal "${bootDevice}" -- mkpart root ext4 513MiB "''${swapStartMiB}MiB"
+    parted -s -a optimal "${bootDevice}" -- mkpart swap linux-swap "''${swapStartMiB}MiB" 100%
 
     ${lib.concatMapStringsSep "\n" (disk: ''
       wipefs -a "${disk}"
@@ -97,33 +99,21 @@ in
 
     boot.resumeDevice = "/dev/disk/by-partlabel/swap";
 
-    disks-create = pkgs.symlinkJoin {
-      name = "disks-create";
-      paths = [
-        (pkgs.writeShellScriptBin "disks-create" partitionsCreateScript)
-        pkgs.parted
-        pkgs.util-linux
-      ];
-    };
+    disks-create = myLib.utils.mkDiskScript pkgs "disks-create" partitionsCreateScript [
+      pkgs.parted
+      pkgs.util-linux
+    ];
 
-    disks-format = pkgs.symlinkJoin {
-      name = "disks-format";
-      paths = [
-        (pkgs.writeShellScriptBin "disks-format" partitionsFormatScript)
-        pkgs.dosfstools
-        pkgs.e2fsprogs
-        pkgs.util-linux
-        pkgs.zfs
-      ];
-    };
+    disks-format = myLib.utils.mkDiskScript pkgs "disks-format" partitionsFormatScript [
+      pkgs.dosfstools
+      pkgs.e2fsprogs
+      pkgs.util-linux
+      pkgs.zfs
+    ];
 
-    disks-mount = pkgs.symlinkJoin {
-      name = "disks-mount";
-      paths = [
-        (pkgs.writeShellScriptBin "disks-mount" partitionsMountScript)
-        pkgs.util-linux
-        pkgs.zfs
-      ];
-    };
+    disks-mount = myLib.utils.mkDiskScript pkgs "disks-mount" partitionsMountScript [
+      pkgs.util-linux
+      pkgs.zfs
+    ];
   };
 }
