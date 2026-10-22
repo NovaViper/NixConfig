@@ -10,9 +10,13 @@ let
   # Helper for referring to the new stdenv.hostPlatform.system, so we don't have
   # to write out that long string so many times
   refSystem = ref: ref.stdenv.hostPlatform.system;
+
 in
 {
-  # Third party overlays
+  # Third party/extra overlays
+  # TODO: Wait til https://github.com/NixOS/nixpkgs/pull/576853
+  # is available
+  php-security = import ./php-security.nix;
 
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.stdenv.hostPlatform.system}' or

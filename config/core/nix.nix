@@ -16,7 +16,11 @@
 
   # Config Nixpkgs
   nixpkgs = {
-    overlays = builtins.attrValues self.overlays;
+    # TODO: Keep until https://github.com/NixOS/nixpkgs/pull/576853 is available
+    overlays = lib.mkMerge [
+      (builtins.attrValues (builtins.removeAttrs self.overlays [ "php-security" ]))
+      (lib.mkAfter [ self.overlays.php-security ])
+    ];
     config = {
       allowUnfree = true;
       joypixels.acceptLicense = true;
