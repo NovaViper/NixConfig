@@ -10,19 +10,28 @@ let
       serviceName ? name,
       forceUse ? false,
       icon ? "${name}.svg",
-      port,
+      port ? toString (
+        let
+          service = lib.getAttrFromPath ([ "services" ] ++ lib.splitString "." serviceName) config;
+        in
+        if service ? port then
+          service.port
+        else if service ? guiAddress then
+          lib.last (lib.splitString ":" service.guiAddress)
+        else
+          throw "mkService: ${serviceName} needs an explicit port"
+      ),
+      url ? "http://${config.localdns.address}:${port}",
       widget ? null,
     }:
     let
       attrPath = lib.splitString "." serviceName;
       enable = lib.getAttrFromPath ([ "services" ] ++ attrPath ++ [ "enable" ]) config;
-      #port = lib.getAttrFromPath ([ "services" ] ++ attrPath ++ [ "port" ]) config;
     in
     lib.mkIf (enable || forceUse) (
       {
         inherit icon;
-        # TODO: Use a FQDN
-        href = "http://192.168.1.120:${port}";
+        href = url;
       }
       // lib.optionalAttrs (widget != null) {
         widget = widget // {
@@ -40,6 +49,7 @@ let
       port = toString config.services.glances.port;
     in
     {
+      href = "https://glances.home.arpa";
       widget = {
         inherit metric chart;
         type = "glances";
@@ -49,7 +59,6 @@ let
     };
 in
 {
-  # TODO Not working
   services.homepage-dashboard.services = [
     {
       "Glances" = [
@@ -97,25 +106,27 @@ in
           Jellyfin = mkService {
             name = "jellyfin";
             port = "8096/web";
+            url = "https://jellyfin.home.arpa";
           };
         }
         {
           Immich = mkService {
             name = "immich";
-            port = "2283";
+            url = "https://immich.home.arpa";
           };
         }
         {
           "Home Assistant" = mkService {
             name = "home-assistant";
             port = "8123";
+            url = "https://smarthome.home.arpa";
             forceUse = true;
           };
         }
         {
           "Syncthing" = mkService {
             name = "syncthing";
-            port = "8384";
+            url = "https://syncthing.${config.localdns.domain}";
           };
         }
       ];

@@ -14,6 +14,8 @@ let
   immichPath = "/storage/media/Library/Photos/Immich";
 in
 {
+  localdns.proxies.immich = config.services.immich.port;
+
   users.users.immich.extraGroups = [
     "samba"
     "video"
@@ -26,7 +28,7 @@ in
     mediaLocation = immichPath;
     openFirewall = true;
     environment = {
-      IMMICH_TRUSTED_PROXIES = "100.86.0.0/10,192.168.1.0/24";
+      IMMICH_TRUSTED_PROXIES = "127.0.0.1/32,::1/128";
     };
     machine-learning = {
       enable = true;

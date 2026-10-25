@@ -13,6 +13,8 @@ let
   gid = config.users.groups.${user}.gid;
 in
 {
+  localdns.proxies.jellyfin = 8096;
+
   systemd.tmpfiles.rules = [
     "d /storage/media/Library 0755 ${user} ${group} - -"
   ];

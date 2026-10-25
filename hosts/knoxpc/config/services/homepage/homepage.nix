@@ -1,20 +1,28 @@
 { config, ... }:
-let
-  mkHosts = addresses: builtins.concatStringsSep "," (map (addr: "${addr}:8082") addresses);
-in
 {
-  services.glances.enable = true;
+  localdns.proxies = {
+    homepage = config.services.homepage-dashboard.listenPort;
+    glances = config.services.glances.port;
+  };
+
+  # Since we are using a reverse proxy, we don't need to open the ports to the
+  # outside world (plus we want it to be lan only)
+  systemd.services.homepage-dashboard.environment.HOSTNAME = "127.0.0.1";
+
+  services.glances = {
+    enable = true;
+    openFirewall = false;
+    extraArgs = [
+      "--webserver"
+      "--bind"
+      "127.0.0.1"
+    ];
+  };
   services.homepage-dashboard = {
     enable = true;
     listenPort = 8082;
-    openFirewall = true;
-    allowedHosts = mkHosts [
-      "localhost"
-      "127.0.0.1"
-      "192.168.1.120"
-      "${config.networking.hostName}"
-      "${config.networking.hostName}.local"
-    ];
+    openFirewall = false;
+    allowedHosts = "homepage.home.arpa";
     settings = {
       tile = "KnoxPC Homelab";
       language = "en-US";
@@ -30,11 +38,9 @@ in
     };
     widgets = [
       {
-        datetime = {
-          format = {
-            dateStyle = "short";
-            timeStyle = "short";
-          };
+        datetime.format = {
+          dateStyle = "short";
+          timeStyle = "short";
         };
       }
       {

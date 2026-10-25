@@ -10,6 +10,8 @@ let
   gid = config.users.groups.${username}.gid;
 in
 {
+  localdns.proxies.smarthome = 8123;
+
   networking.firewall.allowedTCPPorts = [ 8123 ];
 
   services.matterjs-server = {
