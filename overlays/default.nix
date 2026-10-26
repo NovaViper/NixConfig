@@ -13,11 +13,6 @@ let
 
 in
 {
-  # Third party/extra overlays
-  # TODO: Wait til https://github.com/NixOS/nixpkgs/pull/576853
-  # is available
-  php-security = import ./php-security.nix;
-
   # For every flake input, aliases 'pkgs.inputs.${flake}' to
   # 'inputs.${flake}.packages.${pkgs.stdenv.hostPlatform.system}' or
   # 'inputs.${flake}.legacyPackages.${pkgs.stdenv.hostPlatform.system}'
@@ -106,7 +101,7 @@ in
           enableWidevine = true;
         };
 
-    vesktop = (prev.vesktop.override { electron_43 = final.electron_42; }).overrideAttrs {
+    vesktop = prev.vesktop.overrideAttrs {
       desktopItems = prev.lib.optionals final.stdenv.hostPlatform.isLinux (
         prev.makeDesktopItem {
           name = "vesktop";
@@ -128,10 +123,6 @@ in
           ];
         }
       );
-      preBuild = ''
-        cp -r ${final.electron_42.dist} electron-dist
-        chmod -R u+w electron-dist
-      '';
     };
 
     discord-wayland =
@@ -154,32 +145,5 @@ in
           discord
         ];
       };
-
-    kernelPackagesExtensions = prev.kernelPackagesExtensions ++ [
-      (_: kernelPrev: {
-        # TODO: Wait for patch to be merged upstream, then remove this overlay
-        # Workaround for v4l2loopback modules.alias conflict on kernel 6.18.57+
-        # Issue: https://github.com/NixOS/nixpkgs/issues/575851
-        # Pull: https://github.com/NixOS/nixpkgs/pull/575861
-        v4l2loopback = kernelPrev.v4l2loopback.overrideAttrs (oldAttrs: {
-          postInstall = (oldAttrs.postInstall or "") + ''
-            find "$out/lib/modules" -type f -name 'modules.*' -delete
-          '';
-        });
-        # TODO: Wait for patch to arrive to unstable channel
-        # Workaround for Framework laptop missing .ko.cer certificate
-        # Issue: https://github.com/NixOS/nixpkgs/issues/575192
-        framework-laptop-kmod = kernelPrev.framework-laptop-kmod.overrideAttrs (oldAttrs: {
-          makeFlags = (oldAttrs.makeFlags or [ ]) ++ [
-            "INSTALL_MOD_PATH=${placeholder "out"}"
-            "INSTALL_MOD_DIR=extra"
-            "DEPMOD=true"
-          ];
-          installPhase = null;
-          installTargets = [ "modules_install" ];
-        });
-      })
-    ];
-
   };
 }

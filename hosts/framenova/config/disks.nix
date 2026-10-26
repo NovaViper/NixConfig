@@ -54,8 +54,6 @@ let
 in
 {
   config = {
-    # Enable systemd in initrd to support TPM2 and FIDO2 for unlocking LUKS volumes
-    boot.initrd.systemd.enable = true;
     # Enable TPM2 support in initrd for unlocking LUKS volumes
     security.tpm2.enable = true;
     security.tpm2.pkcs11.enable = true;
