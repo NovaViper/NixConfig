@@ -73,6 +73,12 @@ in
     {
       Services = [
         {
+          qBittorrent = mkService {
+            name = "qbittorrent";
+            url = "https://qbittorrent.${config.localdns.domain}";
+          };
+        }
+        {
           Jellyfin = mkService {
             name = "jellyfin";
             port = "8096/web";
