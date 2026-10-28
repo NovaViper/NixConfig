@@ -20,6 +20,8 @@
     services = lib.singleton "tailscale";
   };
 
+  time.timeZone = "America/Chicago";
+
   vars.host = {
     configDirectory = "/etc/nixos";
     scalingFactor = 1;
