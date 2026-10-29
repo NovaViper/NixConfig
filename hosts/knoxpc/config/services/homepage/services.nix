@@ -63,39 +63,9 @@ in
     {
       "Glances" = [
         {
-          Info = mkGlanceWidget {
-            metric = "info";
-          };
-        }
-        {
           "CPU Temp" = mkGlanceWidget {
             metric = "sensor:Package id 0";
             chart = true;
-          };
-        }
-        {
-          Processes = mkGlanceWidget {
-            metric = "process";
-          };
-        }
-        {
-          Network = mkGlanceWidget {
-            metric = "network:wlp4s0";
-          };
-        }
-        {
-          "Media Pool" = mkGlanceWidget {
-            metric = "fs:/storage/media";
-          };
-        }
-        {
-          "Services Pool" = mkGlanceWidget {
-            metric = "fs:/storage/services";
-          };
-        }
-        {
-          "Backups Pool" = mkGlanceWidget {
-            metric = "fs:/storage/backups";
           };
         }
       ];

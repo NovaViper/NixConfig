@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   localdns.proxies = {
     homepage = config.services.homepage-dashboard.listenPort;
@@ -24,29 +24,54 @@
     openFirewall = false;
     allowedHosts = "homepage.home.arpa";
     settings = {
-      tile = "KnoxPC Homelab";
+      title = "KnoxPC Homelab";
       language = "en-US";
       layout = [
         {
           Glances = {
             header = false;
             style = "row";
-            columns = 4;
+            columns = 2;
           };
         }
       ];
     };
     widgets = [
       {
-        datetime.format = {
-          dateStyle = "short";
-          timeStyle = "short";
+        resources = {
+          cpu = true;
+          memory = true;
+          expanded = true;
+        };
+      }
+      {
+        resources = {
+          label = "ROOT";
+          expanded = true;
+          disk = lib.singleton "/";
+        };
+      }
+      {
+        resources = {
+          label = "ARRAY";
+          expanded = true;
+          disk = lib.singleton "/storage";
         };
       }
       {
         search = {
           provider = "brave";
           showSearchSuggestions = true;
+        };
+      }
+      { openmeteo = { }; }
+      {
+        datetime = {
+          text_size = "xl";
+          format = {
+            dateStyle = "short";
+            timeStyle = "short";
+          };
         };
       }
     ];
