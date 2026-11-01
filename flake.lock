@@ -42,11 +42,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1792697326,
-        "narHash": "sha256-2UBK0jdmPANGaeAIoVOZY+hSPB2Gy13ZuZeSxP3vF8k=",
+        "lastModified": 1793355509,
+        "narHash": "sha256-/Zs18x+IW4LuVH0rKxra0WPRgsk0DQsi0Bwkf8sOC5c=",
         "owner": "nixos",
         "repo": "nixos-hardware",
-        "rev": "1b418b8f203e49a92f250f8babdd19af1b6f7a7f",
+        "rev": "04c6b94fa104bc23650983a4513aea196794d321",
         "type": "github"
       },
       "original": {
@@ -62,11 +62,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792896866,
-        "narHash": "sha256-/0tELNnhdSnP+bHSdWiEe6KpfSwi6WrTnT9cm/jNkjA=",
+        "lastModified": 1793193205,
+        "narHash": "sha256-X6xa6sGA7RnJQuZGbFMC+K+KToWAlBDCCjJXfTwEPsw=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "c216bf5a1f173b0481bd5c8c489ebe5595ecc68c",
+        "rev": "095fef2f265c3c0da4fe315efba8f8a04495ab34",
         "type": "github"
       },
       "original": {
@@ -97,11 +97,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792915725,
-        "narHash": "sha256-v75hPw5NJ+mRRcwUzKi2OQtVSVv1hgq6ceAlPQB2kEE=",
+        "lastModified": 1793543282,
+        "narHash": "sha256-PHtGxKYM99f8WhGR5YD7iiCiwemKa2wUD4yVI2oALFg=",
         "owner": "nix-community",
         "repo": "nix-index-database",
-        "rev": "93696586f3463024cceb089353539be95a38ae2b",
+        "rev": "cee0f879d338cf08f814210fa6c2b280594ade0a",
         "type": "github"
       },
       "original": {
@@ -117,10 +117,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1792969429,
-        "narHash": "sha256-8TR6TE5R4O0gCiN24JgI8j1XywFlv2iS1xZUWJWoQd8=",
+        "lastModified": 1793549834,
+        "narHash": "sha256-mg9k+y1u18wrjlY/R5NfHP8amwg0eGGE2jyNhnK199k=",
         "ref": "main",
-        "rev": "29f1015fd19f29aa402ff86f88bc58b4011202cf",
+        "rev": "fc276f2de6aa9547cf8f5a7a1477812b56a6a54d",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@codeberg.org/NovaViper/nix-secrets.git"
@@ -147,11 +147,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1792898606,
-        "narHash": "sha256-Mg3rRjsbMqhSMxop5PYMXos8SwAjejrxSgVThTvP9eg=",
+        "lastModified": 1793410479,
+        "narHash": "sha256-HzgjxrLY4AEc0044ZuM5CHbLSWLZgDlay1idmzvvpJs=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "1f607aa79b6356ed45d3cd3c8079c196e79efa2c",
+        "rev": "fa1373130d5a21c040a47c5dbe1913d59ed91808",
         "type": "github"
       },
       "original": {
@@ -163,11 +163,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1792773339,
-        "narHash": "sha256-rZLrzrC6i+jnTAlvPZHogKDulY7WWDEv9hJeHieO7Zw=",
+        "lastModified": 1793341285,
+        "narHash": "sha256-Y1CiZ4SoBUjLQyQM/pY+rS2dXD3CHLPstF0lmOc73D4=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "3ec636362e1816bc2f0888fa0fa2c69f1bc9e504",
+        "rev": "1c89083e451e891152365b799595cf7790a43325",
         "type": "github"
       },
       "original": {
@@ -184,11 +184,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792969604,
-        "narHash": "sha256-1OasQBpd9V83gSHc1X8gOdKuYky07TcivkILjFdncHA=",
+        "lastModified": 1793550783,
+        "narHash": "sha256-wpzpRLhyZ0nXtKrgvOiuhC4GBmP82nSVyOjCU6ruC6s=",
         "owner": "noctalia-dev",
         "repo": "noctalia",
-        "rev": "6c83e27c5a1b3fa5acd6c925104968f00d13e17b",
+        "rev": "368b240b5ff6ca7cfe587491b0a3291543506cb5",
         "type": "github"
       },
       "original": {
@@ -205,11 +205,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792971053,
-        "narHash": "sha256-KgihdDHDbHteC/pJgq3OnRybtpLd2RvCk6jvYenODiw=",
+        "lastModified": 1793550826,
+        "narHash": "sha256-4+rSrmYOI7jGNrYyp4xUFfprBfNtUqifk/3J0c9Xt0s=",
         "ref": "refs/heads/main",
-        "rev": "4d725e7039f01df5062d2af1d179c97a4ce7f3ff",
-        "revCount": 239,
+        "rev": "f41b93415737b6fe531ef3c2757ad421b54e7698",
+        "revCount": 240,
         "type": "git",
         "url": "https://codeberg.org/NovaViper/novavim"
       },
@@ -248,11 +248,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792961407,
-        "narHash": "sha256-Zbzcs4v56x/sXeua+iTZaLNhouzeOJBsm8ke1UtNTXc=",
+        "lastModified": 1793242847,
+        "narHash": "sha256-qITtV7EBgBOL59l9XvFQUUPBUnoGx0R1x8wvdPOtUC4=",
         "owner": "kossLAN",
         "repo": "qtengine",
-        "rev": "9dd87a5e5b7d417e51a6ef131d7f24146283336e",
+        "rev": "df169d5cd3fa66f8239b76f6c8de811b1f831940",
         "type": "github"
       },
       "original": {
@@ -285,11 +285,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1792809984,
-        "narHash": "sha256-KV+CaZX7QS0hcdKxwGKehDb1jmUgx6lbkTPpaoIW5Nw=",
+        "lastModified": 1793052255,
+        "narHash": "sha256-Y/JIHTnMlOabDfyaSBubWGLDIVGihLEUuoMhFvQKaDo=",
         "owner": "Mic92",
         "repo": "sops-nix",
-        "rev": "442449fa7b1fe6c692d0103ac9fc8f9e82931cf3",
+        "rev": "60182817ee048ac94b4c68ea76d5ef2e8aac730d",
         "type": "github"
       },
       "original": {
