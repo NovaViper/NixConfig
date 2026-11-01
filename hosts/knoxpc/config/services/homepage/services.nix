@@ -73,6 +73,34 @@ in
     {
       Services = [
         {
+          Prowlarr = mkService {
+            name = "prowlarr";
+            port = toString config.services.prowlarr.settings.server.port;
+            url = "https://prowlarr.${config.localdns.domain}";
+          };
+        }
+        {
+          Lidarr = mkService {
+            name = "lidarr";
+            port = toString config.services.lidarr.settings.server.port;
+            url = "https://lidarr.${config.localdns.domain}";
+          };
+        }
+        {
+          Radarr = mkService {
+            name = "radarr";
+            port = toString config.services.radarr.settings.server.port;
+            url = "https://radarr.${config.localdns.domain}";
+          };
+        }
+        {
+          Sonarr = mkService {
+            name = "sonarr";
+            port = toString config.services.sonarr.settings.server.port;
+            url = "https://sonarr.${config.localdns.domain}";
+          };
+        }
+        {
           qBittorrent = mkService {
             name = "qbittorrent";
             url = "https://qbittorrent.${config.localdns.domain}";

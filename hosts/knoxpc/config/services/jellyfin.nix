@@ -27,26 +27,4 @@ in
     # For internal access
     openFirewall = true;
   };
-
-  # virtualisation.oci-containers.containers = {
-  #   jellyfin = {
-  #     image = "jellyfin/jellyfin";
-  #     autoStart = true;
-  #     ports = [
-  #       "8096:8096"
-  #       "8920:8920"
-  #       "7359:7359/udp"
-  #     ];
-  #     volumes = [
-  #       "jellyfin:/config"
-  #       "/storage/media/Music:/data/media/music"
-  #       "/storage/media/Movies:/data/media/movies"
-  #     ];
-  #     environment = {
-  #       TZ = "America/Chicago";
-  #       PUID = toString uid;
-  #       PGID = toString gid;
-  #     };
-  #   };
-  # };
 }

@@ -86,7 +86,8 @@ in
 
   systemd.tmpfiles.rules = lib.mkIf cfg.enable [
     "d ${cfg.profileDir} 0700 ${cfg.user} ${cfg.group} - -"
-    "d ${downloads} 0750 ${cfg.user} ${cfg.group} - -"
+    # Setgid shares new downloads with Sonarr; existing contents are untouched.
+    "d ${downloads} 2770 ${cfg.user} media - -"
   ];
 
   # ProtonVPN tunnel (credentials stay in the existing secret sources).
@@ -151,6 +152,8 @@ in
     partOf = [ "wireguard-proton0.service" ];
     serviceConfig = {
       # Insert the rendered password after the module installs the other settings.
+      # New downloads remain writable by the shared media group.
+      UMask = "0007";
       ExecStartPre = lib.mkAfter [
         (pkgs.writeShellScript "qbittorrent-password" ''
           set -eu

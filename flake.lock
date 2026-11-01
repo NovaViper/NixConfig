@@ -1,5 +1,27 @@
 {
   "nodes": {
+    "configarr": {
+      "inputs": {
+        "flake-parts": "flake-parts",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "systems": "systems"
+      },
+      "locked": {
+        "lastModified": 1793507292,
+        "narHash": "sha256-1eiqOYySWunDkRHAqiewbqSts5ZbTEvclhfvQhftsrU=",
+        "owner": "raydak-labs",
+        "repo": "configarr",
+        "rev": "5603fa8de032327dc9d9da546bbbcbc92d06f49b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "raydak-labs",
+        "repo": "configarr",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -13,6 +35,24 @@
       "original": {
         "owner": "NixOS",
         "repo": "flake-compat",
+        "type": "github"
+      }
+    },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": "nixpkgs-lib"
+      },
+      "locked": {
+        "lastModified": 1782949081,
+        "narHash": "sha256-vp6Y/Grm98ESt6ceOkWiHWyZRDV3J1RID4w+6NWK9yA=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "17c9d6cdfc60c64f4ee8d306f9bc0b4ccb51481e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
         "type": "github"
       }
     },
@@ -117,10 +157,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793549837,
-        "narHash": "sha256-sB4Mm6Zu1pDl/5TKZVQq43hKQCPKT9S4vGxCbipirzY=",
+        "lastModified": 1793549838,
+        "narHash": "sha256-DlwHTQgw7sPDNZ9HnJQrB6HwbUNfYAhVRmrDs0ReG/w=",
         "ref": "main",
-        "rev": "949e85eaa5044272d6c22cebf909806cda0cea22",
+        "rev": "a93cc1cd0adefc094e455fc8375b7019b87cbdb9",
         "shallow": true,
         "type": "git",
         "url": "ssh://git@codeberg.org/NovaViper/nix-secrets.git"
@@ -143,6 +183,21 @@
       "original": {
         "type": "tarball",
         "url": "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz"
+      }
+    },
+    "nixpkgs-lib": {
+      "locked": {
+        "lastModified": 1782614948,
+        "narHash": "sha256-ePjCwr1sNm9NYUqywL7QfK3JnlS015msC+eBu2zKlp8=",
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "rev": "db3f255737b94216eb71cce308e2912cf6bc2d7c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "nixpkgs.lib",
+        "type": "github"
       }
     },
     "nixpkgs-stable": {
@@ -263,6 +318,7 @@
     },
     "root": {
       "inputs": {
+        "configarr": "configarr",
         "git-hooks": "git-hooks",
         "hardware": "hardware",
         "home-manager": "home-manager",
@@ -295,6 +351,21 @@
       "original": {
         "owner": "Mic92",
         "repo": "sops-nix",
+        "type": "github"
+      }
+    },
+    "systems": {
+      "locked": {
+        "lastModified": 1681028828,
+        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
+        "owner": "nix-systems",
+        "repo": "default",
+        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-systems",
+        "repo": "default",
         "type": "github"
       }
     },

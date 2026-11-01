@@ -40,6 +40,10 @@
     #######
 
     # Extras
+    configarr = {
+      url = "github:raydak-labs/configarr";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     plasma-manager = {
       url = "github:pjones/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
