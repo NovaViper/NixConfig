@@ -5,8 +5,8 @@
   ...
 }:
 {
-  # Pin all hosts to LTS Kernel
-  boot.kernelPackages = pkgs.linuxPackages;
+  # Keep all hosts on the 7.3.x series.
+  boot.kernelPackages = pkgs.linuxPackages_7_3;
 
   # Open terminal environment if we fail to boot
   boot.kernelParams = [ "boot.shell_on_fail" ];

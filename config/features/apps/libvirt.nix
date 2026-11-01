@@ -16,8 +16,9 @@
     #spice-protocol
     virtio-win
     win-spice
-    guestfs-tools
-    libguestfs
+    # TODO: Broken currently, waiting until https://github.com/NixOS/nixpkgs/pull/581034
+    # guestfs-tools
+    # libguestfs
   ];
 
   # Manage the virutalisation services

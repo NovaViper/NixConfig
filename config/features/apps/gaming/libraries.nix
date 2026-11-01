@@ -4,30 +4,13 @@
   ...
 }:
 {
+  # For standalone, unpatched Linux binaries. Steam and Heroic provide their own
+  # runtime environments; Steam-specific additions belong in extraLibraries.
+  # nix-ld already supplies common libraries such as the C++ runtime, zlib,
+  # OpenSSL, libxml2, bzip2, and systemd. Commands and data files belong elsewhere.
   programs.nix-ld.libraries = with pkgs; [
-    # Needed for operating system detection until
-    # https://github.com/ValveSoftware/steam-for-linux/issues/5909 is resolved
-    lsb-release
-    # Errors in output without those
-    pciutils
-    # Games' dependencies
-    xrandr
-    which
-    # Needed by gdialog, including in the steam-runtime
-    perl
-    # Open URLs
-    xdg-utils
-    iana-etc
-    # Steam Play / Proton
-    python3
-
-    # It tries to execute xdg-user-dir and spams the log with command not founds
-    xdg-user-dirs
-
     # electron based launchers need newer versions of these libraries than what runtime provides
     sqlite
-    # Godot + Blender
-    stdenv.cc.cc
     # Blender
     libdecor
     # Godot Engine
@@ -42,32 +25,20 @@
     libxkbfile
     libGL
     libva
-    libva-utils
-    #pipewire.lib
-    ocamlPackages.alsa
     alsa-lib
     libpulseaudio
-    # steamwebhelper
+    # Launcher UI libraries
     harfbuzz
     libthai
     pango
     brotli
     fuse3
-    icu
-    libglvnd
     libnotify
-    libxml2
-    openssl
     pipewire
-    pulseaudio
-    systemd
     x264
     libplist
 
-    lsof # friends options won't display "Launch Game" without it
-    file # called by steam's setup.sh
-
-    # dependencies for mesa drivers, needed inside pressure-vessel
+    # Graphics libraries for standalone games
     mesa
     mesa.llvmPackages.llvm.lib
     vulkan-loader
@@ -96,7 +67,6 @@
     libusb1
     dbus
     dbus-glib
-    gsettings-desktop-schemas
     ffmpeg
     libudev0-shim
 
@@ -110,22 +80,14 @@
     glew_1_10
     libidn
     tbb
-    zlib
-
-    # SteamVR
-    procps
-    usbutils
-    udev
 
     # Other things from runtime
     glib
     gtk3
-    bzip2
     flac
     freeglut
     libjpeg
     libpng
-    libpng12
     libsamplerate
     libmikmod
     libtheora
@@ -141,29 +103,19 @@
     libXft
     libvdpau
 
-    # required by coreutils stuff to run correctly
-    # Steam ends up with LD_LIBRARY_PATH=<bunch of runtime stuff>:/usr/lib:<etc>
-    # which overrides DT_RUNPATH in our binaries, so it tries to dynload the
-    # very old versions of stuff from the runtime.
-    attr
-
     # Not formally in runtime but needed by some games
-    at-spi2-atk
     at-spi2-core # CrossCode
     gst_all_1.gstreamer
     gst_all_1.gst-plugins-ugly
     gst_all_1.gst-plugins-base
     json-glib # paradox launcher (Stellaris)
-    libdrm
     libxkbcommon # paradox launcher
     libxcrypt # Alien Isolation, XCOM 2, Company of Heroes 2
     mono
-    xkeyboardconfig
     libpciaccess
     icu # dotnet runtime, e.g. Stardew Valley
 
     # screeps dependencies
-    atk
     cairo
     gdk-pixbuf
 

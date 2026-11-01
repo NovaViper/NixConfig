@@ -15,6 +15,10 @@ in
     ludusavi
     pkgsCross.mingw32.wine-discord-ipc-bridge
 
+    # VR process and USB diagnostics, also available outside Steam's runtime.
+    procps
+    usbutils
+
     # Fixes SteamLink/Remote play crashing
     keyutils
     libcanberra
@@ -33,6 +37,17 @@ in
     # Make Steam folder spawn in ~/.config instead of /home/USER
     package = pkgs.steam.override {
       extraLibraries = pkgs: [ pkgs.libxcb ];
+      # Steam already includes usbutils and udev; retain other useful runtime tools.
+      extraPkgs =
+        pkgs: with pkgs; [
+          procps # SteamVR process discovery
+          lsof
+          xrandr
+          which
+          perl
+          python3
+          xdg-user-dirs
+        ];
     };
     remotePlay.openFirewall = true;
   };
