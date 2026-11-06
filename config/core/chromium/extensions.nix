@@ -15,6 +15,5 @@ let
   ];
 in
 {
-  hm.programs.brave = { inherit extensions; };
   hm.programs.vivaldi = { inherit extensions; };
 }
