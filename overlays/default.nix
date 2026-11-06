@@ -76,6 +76,18 @@ in
   # You can change versions, add patches, set compilation flags, anything really.
   # https://wiki.nixos.org/wiki/Overlays
   modifications = final: prev: {
+    # Override the pinned upstream package's mismatched pnpm dependency hash.
+    configarr = self.inputs.configarr.packages.${refSystem final}.default.overrideAttrs (oldAttrs: {
+      src = self.inputs.configarr;
+      inherit (oldAttrs) version;
+      pnpmDeps = oldAttrs.pnpmDeps.override {
+        hash = "sha256-l7MYBONmq5bEboPQb/J2ZK/B5DbX4ANIy7Nh6WCf5Ro=";
+      };
+      passthru = (oldAttrs.passthru or { }) // {
+        autoUpdate = true;
+      };
+    });
+
     # example = prev.example.overrideAttrs (oldAttrs: {
     # ...
     # });

@@ -35,14 +35,14 @@ in
     };
   };
 
-  # ZFS events use the system sendmail provided by msmtp above.
+  # ZFS events use the system sendmail provided by msmtp
   services.zfs.zed = {
     enableMail = true;
     settings = {
       ZED_EMAIL_ADDR = [ myAddress ];
-      # Include successful scrub/resilver reports, not just failures.
+      # Include successful scrub/resilver reports, not just failures
       ZED_NOTIFY_VERBOSE = true;
-      # Limit repeated notifications for the same event to once per hour.
+      # Limit repeated notifications for the same event to once per hour
       ZED_NOTIFY_INTERVAL_SECS = 3600;
     };
   };

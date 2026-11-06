@@ -27,6 +27,10 @@
     scalingFactor = 1;
   };
 
+  # The LAN IP address; reserved in OpenWRT for this host
+  # This is used for the local DNS resolver
+  localdns.address = "192.168.1.120";
+
   users.users.${username} = {
     openssh.authorizedKeys.keys = [
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIGGrJs3zMfJ2hKV9Bsrv4L2OgvVnOo2bsh5cTmKvDp+kAAAACHNzaDprbm94" # USBA
