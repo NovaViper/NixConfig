@@ -18,7 +18,10 @@ let
   # Helper functions we don't plan on exporting past this file
   internals = {
     # Supported systems for your flake packages, shell, etc.
-    supportedSystems = [ "x86_64-linux" ];
+    supportedSystems = [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
   };
 
   exports = {

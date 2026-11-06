@@ -134,13 +134,19 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
 │   │   ├── hardware-configuration.nix
 │   │   ├── main.nix
 │   │   └── ssh_host_ed25519_key.pub
-│   └── ryzennova/
+│   ├── ryzennova/
+│   │   ├── config/
+│   │   │   ├── disks.nix
+│   │   │   └── ...
+│   │   ├── hardware-configuration.nix
+│   │   ├── main.nix
+│   │   └── ssh_host_ed25519_key.pub
+│   └── terminus/
 │       ├── config/
 │       │   ├── disks.nix
 │       │   └── ...
 │       ├── hardware-configuration.nix
-│       ├── main.nix
-│       └── ssh_host_ed25519_key.pub
+│       └── main.nix
 ├── myLib/
 ├── overlays/
 ├── pkgs/
@@ -167,6 +173,7 @@ Here's an overview of the repository's file structure (Generated with `eza --ico
   - `ryzennova`: Primary PC - 32GB RAM, Ryzen 5600G, RTX 2060 6GB | KDE Plasma 6
   - `knoxpc`: NAS PC - 16GB RAM, Intel Core i5-8400, Intel UHD Graphics 630 | Headless
   - `installer`: ISO configuration | Nvidia drivers included | KDE Plasma 6
+  - `terminus`: Oracle Cloud Ampere A1 ARM VPS - 2 OCPUs, 6 GB RAM | Headless
 - `home`: Configurations for each user, includes both host OS specific (NixOS) and Home Manager configurations. Built together with the `hosts` configurations via `nixos-rebuild --flake`
 - `extra`: Extra stuff like custom modules and flake documentation
   - `nixosModules`: Custom NixOS modules used throughout the flake (and some being upstreamable)

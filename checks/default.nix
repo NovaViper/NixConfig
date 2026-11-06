@@ -15,10 +15,17 @@ let
   makeSystemBuildCheck =
     nixosConfigs:
     builtins.listToAttrs (
-      map (host: {
-        name = "${host}-system";
-        value = nixosConfigs.${host}.config.system.build.toplevel;
-      }) (builtins.attrNames nixosConfigs)
+      map
+        (host: {
+          name = "${host}-system";
+          value = nixosConfigs.${host}.config.system.build.toplevel;
+        })
+        # Make sure to filter out platforms that DO NOT match the one we are currently building on
+        (
+          builtins.filter (host: nixosConfigs.${host}.pkgs.stdenv.hostPlatform.system == refSystem pkgs) (
+            builtins.attrNames nixosConfigs
+          )
+        )
     );
 in
 {

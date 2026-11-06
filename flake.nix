@@ -121,6 +121,12 @@
           system = "x86_64-linux";
         };
 
+        # VPS
+        terminus = {
+          username = "novaviper";
+          system = "aarch64-linux";
+        };
+
         # Live-image installer
         installer = {
           username = "nixos";
@@ -173,6 +179,7 @@
           "novaviper@ryzennova" = { inherit nixosConfigurations; };
           "novaviper@framenova" = { inherit nixosConfigurations; };
           "novaviper@knoxpc" = { inherit nixosConfigurations; };
+          "novaviper@terminus" = { inherit nixosConfigurations; };
           "nixos@installer" = { inherit nixosConfigurations; };
         };
 
