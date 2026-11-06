@@ -34,9 +34,15 @@ eval-package HOST PACKAGE:
 
 ########## NixOS Installation tools ##########
 
-[doc('Run nixos-rebuild on given remote HOST with specified MODE')]
-build-host HOST MODE:
-    NIX_SSHOPTS="-t" nixos-rebuild --target-host {{ HOST }} --show-trace --no-reexec --elevate=sudo --ask-elevate-password --flake '.#{{ HOST }}' {{ MODE }}
+[doc('Rebuild a remote NixOS host with the chosen action and build location. Run without arguments for options.')]
+[positional-arguments]
+build-host *ARGS:
+    extra/scripts/build-host.sh "$@"
+
+[doc('Remotely install NixOS and provision secrets; serials may be separate or quoted together. Run without arguments for options.')]
+[positional-arguments]
+remote-install *ARGS:
+    extra/scripts/nixos-anywhere.sh "$@"
 
 [doc('Run NixOS installer for HOST, monitored with nom and forcibly accept flake configs. Runs with sudo')]
 nixos-install HOST:
@@ -74,7 +80,3 @@ generate-key-host-ssh-age:
     sudo cp /etc/ssh/ssh_host_ed25519_key {{ ROOT }}/etc/ssh/ssh_host_ed25519_key
     sudo cp /etc/ssh/ssh_host_ed25519_key.pub {{ ROOT }}/etc/ssh/ssh_host_ed25519_key.pub
     sudo sed -i 's/\(root@\).*/\1{{ HOST }}/' {{ ROOT }}/etc/ssh/ssh_host_ed25519_key.pub
-
-[doc("Remotely install NixOS with nixos-anywhere, privisioning secrets before hand")]
-remote-install HOST TARGET USER *SERIALS:
-    extra/scripts/nixos-anywhere.sh {{ HOST }} {{ TARGET }} {{ USER }} {{ SERIALS }}
