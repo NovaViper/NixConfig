@@ -34,6 +34,8 @@
   zramSwap.enable = true;
 
   # ZFS
+  # Use the default LTS kernel; the shared 7.3 kernel is unsupported by ZFS.
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages;
   networking.hostId = lib.substring 0 8 (builtins.hashString "sha256" config.networking.hostName);
   boot.supportedFilesystems = [ "zfs" ];
   boot.zfs.extraPools = [ "pool0" ];

@@ -38,7 +38,6 @@
     };
     lidarr = {
       enable = true;
-      package = pkgs.lidarr-bin;
       openFirewall = false;
       settings.server.bindaddress = "127.0.0.1";
     };
