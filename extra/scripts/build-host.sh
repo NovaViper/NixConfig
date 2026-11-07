@@ -14,7 +14,7 @@ ARGUMENTS
     build       Build only; do not activate or change the boot default
 
 OPTIONS
-  -b, --build-on LOCATION     Choose the build location (default: local):
+  -b, --build-on LOCATION     Choose the build location (default: auto):
     local       Build on this machine
     remote      Build on HOST
     auto        Build locally if platforms match, otherwise on HOST
@@ -36,7 +36,7 @@ if [ "$#" -eq 0 ]; then
   exit 0
 fi
 
-BUILD_ON=local
+BUILD_ON=auto
 POSITIONAL=()
 while [ "$#" -gt 0 ]; do
   case "$1" in
@@ -85,11 +85,15 @@ if [ "$BUILD_ON" = auto ]; then
   else
     BUILD_ON=remote
   fi
+  echo "Auto build selection: local platform $LOCAL_SYSTEM, target platform $HOST_SYSTEM."
 fi
 
 BUILD_OPTIONS=()
 if [ "$BUILD_ON" = remote ]; then
+  echo "Building remotely on $HOST."
   BUILD_OPTIONS=(--build-host "$HOST")
+else
+  echo "Building locally, targeting $HOST."
 fi
 
 # A PTY merges remote stderr into stdout, corrupting captured Nix store paths.

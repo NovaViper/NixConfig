@@ -235,8 +235,13 @@ if [ "$BUILD_ON" = auto ]; then
   else
     BUILD_ON=remote
   fi
+  echo "  -> Auto build selection: local platform $LOCAL_SYSTEM, target platform $HOST_SYSTEM."
 fi
-echo "  -> Build location: $BUILD_ON"
+if [ "$BUILD_ON" = remote ]; then
+  echo "  -> Building remotely on $ROOT_TARGET."
+else
+  echo "  -> Building locally, targeting $ROOT_TARGET."
+fi
 
 echo
 if [ "$RESUME" = false ]; then
