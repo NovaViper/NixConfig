@@ -4,6 +4,7 @@
   myLib,
   pkgs,
   username,
+  inputs,
   ...
 }:
 let
@@ -100,6 +101,8 @@ in
     destination = "${hm-config.xdg.configHome}/borg/keys/srv_dev_disk_by_uuid_5aaed6a3_d2c7_4623_b121_5ebb8d37d930_Backups";
     format = "binary";
   };
+
+  security.pki.certificateFiles = lib.singleton inputs.nix-secrets.networking.service-certs;
 
   hm.programs.password-store.settings.PASSWORD_STORE_DIR =
     lib.mkForce "${hm-config.home.homeDirectory}/Sync/.password-store";

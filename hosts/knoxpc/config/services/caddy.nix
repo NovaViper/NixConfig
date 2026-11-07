@@ -3,12 +3,24 @@
   lib,
   ...
 }:
+let
+  ca_name = "Knoxpc Homelab";
+in
 {
   services.caddy = {
     enable = true;
     email = config.vars.user.email;
     openFirewall = false;
     globalConfig = ''
+      # Add a custom identity to the local CA, so that it can be distinguished from other CAs in the trust store.
+      pki {
+        ca local {
+          name "${ca_name}"
+          root_cn "${ca_name} Root CA"
+          intermediate_cn "${ca_name} Issuing CA"
+        }
+      }
+
       # Use TCP for HTTP/HTTPS
       servers {
         protocols h1 h2
