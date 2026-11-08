@@ -54,10 +54,13 @@ in
     # Deprecated
     programs.ssh.enableDefaultConfig = lib.mkForce false;
 
-    # Add machines delcared in our outputs to be have ssh hosts so we can use remote builds!
+    # Add machines declared in our outputs to be have ssh hosts so we can use remote builds!
     programs.ssh.settings =
       let
-        excludedHosts = isoHostNames ++ [ "knoxpc" ];
+        excludedHosts = isoHostNames ++ [
+          "knoxpc"
+          "terminus"
+        ];
         nixosConfigs =
           (attrs: builtins.filter (name: (!matchExclusion name excludedHosts)) (lib.unique attrs))
             hostNames;
@@ -106,8 +109,14 @@ in
     # HACK: https://github.com/nix-community/home-manager/issues/322#issuecomment-1856128020
     home.file.".ssh/config" = {
       target = ".ssh/config_source";
-      onChange = "cat ~/.ssh/config_source > ~/.ssh/config && chmod 400 ~/.ssh/config";
     };
+
+    # Refresh the writable copy on every activation, even when the source is unchanged.
+    home.activation.refreshSshConfig = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+      run ${pkgs.coreutils}/bin/install -m 600 \
+        ${lib.escapeShellArg "${hm-config.home.homeDirectory}/.ssh/config_source"} \
+        ${lib.escapeShellArg "${hm-config.home.homeDirectory}/.ssh/config"}
+    '';
 
     home.shellAliases = {
       # Remove all identities

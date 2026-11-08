@@ -1,22 +1,54 @@
 {
   config,
-  pkgs,
+  lib,
+  myLib,
+  username,
   ...
 }:
 let
   hm-config = config.hm;
 in
 {
+  sops.secrets."networking/terminus/address" = myLib.secrets.mkSecretFile {
+    source = "secrets.yaml";
+    subDir = "hosts";
+    owner = "root";
+    mode = "0400";
+  };
+
+  sops.templates."ssh-terminus.conf" = {
+    owner = username;
+    mode = "0400";
+    content = ''
+      Host terminus
+        HostName ${config.sops.placeholder."networking/terminus/address"}
+      Host *
+    '';
+  };
+
+  # Add in the ssh config template for terminus to the user's ssh config
+  hm.programs.ssh.includes = lib.mkBefore [
+    config.sops.templates."ssh-terminus.conf".path
+  ];
+
   hm.programs.ssh.settings =
     let
-      homePath = "${hm-config.home.homeDirectory}/.ssh";
+      sshPath = "${hm-config.home.homeDirectory}/.ssh";
     in
     {
+      "terminus" = {
+        IdentityFile = [
+          "${sshPath}/terminus_ed25519-sk_usba"
+          "${sshPath}/terminus_ed25519-sk_usbc"
+        ];
+        IdentitiesOnly = true;
+        Port = 22;
+      };
       "knoxpc-*" = {
         HostName = "knoxpc";
         IdentityFile = [
-          "${homePath}/knox_ed25519-sk_usba"
-          "${homePath}/knox_ed25519-sk_usbc"
+          "${sshPath}/knox_ed25519-sk_usba"
+          "${sshPath}/knox_ed25519-sk_usbc"
         ];
         Port = 22;
         RequestTTY = "yes";
@@ -25,8 +57,8 @@ in
       "knoxpc" = {
         HostName = "knoxpc";
         IdentityFile = [
-          "${homePath}/knox_ed25519-sk_usba"
-          "${homePath}/knox_ed25519-sk_usbc"
+          "${sshPath}/knox_ed25519-sk_usba"
+          "${sshPath}/knox_ed25519-sk_usbc"
         ];
         Port = 22;
       };
@@ -35,8 +67,8 @@ in
         User = "borg";
         Port = 22;
         IdentityFile = [
-          "${homePath}/borg_ed25519-sk_usba"
-          "${homePath}/borg_ed25519-sk_usbc"
+          "${sshPath}/borg_ed25519-sk_usba"
+          "${sshPath}/borg_ed25519-sk_usbc"
         ];
       };
       "printerpi" = {
