@@ -26,6 +26,10 @@
 
   # Native startup settings. The applications keep their default data locations.
   services = {
+    flaresolverr = {
+      enable = true;
+      openFirewall = false;
+    };
     sonarr = {
       enable = true;
       openFirewall = false;
@@ -57,6 +61,8 @@
   };
 
   systemd.services = {
+    # Prowlarr reaches this proxy locally; indexers opt in with its matching tag.
+    flaresolverr.environment.HOST = "127.0.0.1";
     sonarr = {
       unitConfig.RequiresMountsFor = [
         "/storage/media/Downloads"

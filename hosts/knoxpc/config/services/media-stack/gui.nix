@@ -78,6 +78,30 @@ let
     prowlarr.knoxpc = {
       base_url = appUrl "prowlarr";
       api_key = secretRef "PROWLARR_API_KEY";
+      tags = [ "flaresolverr" ];
+      sync_profiles = {
+        data = [
+          {
+            name = "Standard";
+            enable_rss = true;
+            enable_automatic_search = true;
+            enable_interactive_search = true;
+            minimum_seeders = 1;
+          }
+        ];
+        delete_unmanaged.enabled = false;
+      };
+      indexer_proxies = {
+        data = [
+          {
+            name = "FlareSolverr";
+            type = "FlareSolverr";
+            fields.host = "http://127.0.0.1:${toString config.services.flaresolverr.port}/";
+            tags = [ "flaresolverr" ];
+          }
+        ];
+        delete_unmanaged.enabled = false;
+      };
       applications = {
         data =
           map
@@ -109,7 +133,7 @@ let
               "lidarr"
             ];
         delete_unmanaged.enabled = false;
-        sync_indexers = false;
+        sync_indexers = true;
       };
     };
   };
@@ -186,6 +210,7 @@ in
       "lidarr.service"
       "prowlarr.service"
       "qbittorrent.service"
+      "flaresolverr.service"
     ];
     wants = [
       "sonarr.service"
@@ -193,6 +218,7 @@ in
       "lidarr.service"
       "prowlarr.service"
       "qbittorrent.service"
+      "flaresolverr.service"
     ];
     environment = {
       DRY_RUN = lib.boolToString gui.dryRun;
