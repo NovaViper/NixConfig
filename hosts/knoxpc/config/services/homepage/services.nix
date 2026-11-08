@@ -135,5 +135,16 @@ in
         }
       ];
     }
-  ];
+  ]
+  ++ lib.optional config.networking.wormhole.enable {
+    Network = [
+      {
+        Wormhole = {
+          icon = "wireguard.svg";
+          description = "Terminus tunnel";
+          ping = "10.9.0.1";
+        };
+      }
+    ];
+  };
 }
