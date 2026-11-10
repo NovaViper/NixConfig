@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  myLib,
   pkgs,
   ...
 }:
@@ -10,10 +9,6 @@ let
   lock-false = {
     Value = false;
     status = "locked";
-  };
-  lock-true = {
-    Value = true;
-    Status = "locked";
   };
 in
 {
@@ -60,9 +55,7 @@ in
       SponsoredStories = false;
     };
     # Make Firefox restore previous sessions
-    Homepage = {
-      StartPage = "previous-session";
-    };
+    Homepage.StartPage = "previous-session";
     # Enable strict protection
     EnableTrackingProtection = {
       Value = true;
@@ -84,12 +77,25 @@ in
       SponsoredSuggestions = false;
       ImproveSuggest = false;
     };
-    # Disable everything AI related..
+    # Strongly control the AI usage..
     AIControls = {
+      # We do not need most of these, bad bot
       Default = {
         Locked = true;
         Value = "blocked";
       };
+
+      # These serve legitimate accessibility purposes
+      Translations.Locked = false;
+      PDFAltText.Locked = false;
+      SpeechRecognition.Locked = false;
+
+      # This one is necessary
+      Translations.Value = "available";
+      # I don't really want this.. leave the text as is
+      PDFAltText.Value = "blocked";
+      # This is one is necessary for my ears
+      SpeechRecognition.Value = "available";
     };
     # Keep Firefox Accounts enabled
     DisableFirefoxAccounts = false;
@@ -103,20 +109,6 @@ in
     settings = {
       # Disable about:config warning
       "browser.aboutConfig.showWarning" = false;
-      # Search
-      /**
-        Handled by FirefoxSuggest policy
-        "browser.search.suggest.enabled" = lock-false;
-        "browser.search.suggest.enabled.private" = lock-false;
-        "browser.urlbar.suggest.quicksuggest.sponsored" = lock-false;
-        "browser.urlbar.showSearchSuggestionsFirst" = lock-false;
-      */
-      # Privacy and Security
-      /**
-        * Handled by telemetry policy
-        "datareporting.healthreport.uploadEnabled"  = lock-false;
-        "datareporting.usage.uploadEnabled" = lock-false;
-      */
       # Disable suggestions for extensions
       "browser.discovery.enabled" = lock-false;
       # Stop sending additional analytics to webservers
@@ -125,7 +117,6 @@ in
       "identity.fxaccounts.telemetry.clientAssociationPing.enabled" = lock-false;
       # Disable automatic crash reporting
       "browser.crashReports.unsubmittedCheck.autoSubmit2" = lock-false;
-
     };
 
     # settings = {
