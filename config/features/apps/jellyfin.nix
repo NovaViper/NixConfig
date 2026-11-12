@@ -25,7 +25,6 @@ in
 {
   hm.home.packages = with pkgs; [
     feishin
-    jellyfin-tui
     pear-desktop
   ];
 
