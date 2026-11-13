@@ -1,9 +1,20 @@
 {
   config,
   lib,
+  myLib,
   ...
 }:
 let
+  arrApps = builtins.filter (name: config.services.${name}.enable) [
+    "sonarr"
+    "radarr"
+    "lidarr"
+    "prowlarr"
+  ];
+  mkArrWidget = name: fields: {
+    inherit fields;
+    key = "{{HOMEPAGE_FILE_${lib.toUpper name}_API_KEY}}";
+  };
   mkService =
     {
       name,
@@ -36,7 +47,7 @@ let
       // lib.optionalAttrs (widget != null) {
         widget = widget // {
           type = name;
-          url = "http://localhost:${port}";
+          url = "http://127.0.0.1:${port}";
         };
       }
     );
@@ -59,6 +70,29 @@ let
     };
 in
 {
+  sops.secrets = lib.genAttrs (map (name: "${name}-api-key") arrApps) (
+    _:
+    myLib.secrets.mkSecretFile {
+      source = "arrs.yaml";
+      subDir = [
+        "hosts"
+        config.networking.hostName
+      ];
+      restartUnits = [ "homepage-dashboard.service" ];
+    }
+  );
+
+  systemd.services.homepage-dashboard = {
+    serviceConfig.LoadCredential = map (
+      name: "${name}-api-key:${config.sops.secrets."${name}-api-key".path}"
+    ) arrApps;
+    environment = lib.listToAttrs (
+      map (
+        name: lib.nameValuePair "HOMEPAGE_FILE_${lib.toUpper name}_API_KEY" "%d/${name}-api-key"
+      ) arrApps
+    );
+  };
+
   services.homepage-dashboard.services = [
     {
       "Glances" = [
@@ -71,12 +105,17 @@ in
       ];
     }
     {
-      Services = [
+      Arr = [
         {
           Prowlarr = mkService {
             name = "prowlarr";
             port = toString config.services.prowlarr.settings.server.port;
             url = "https://prowlarr.${config.localdns.domain}";
+            widget = mkArrWidget "prowlarr" [
+              "numberOfQueries"
+              "numberOfGrabs"
+              "numberOfFailQueries"
+            ];
           };
         }
         {
@@ -84,6 +123,11 @@ in
             name = "lidarr";
             port = toString config.services.lidarr.settings.server.port;
             url = "https://lidarr.${config.localdns.domain}";
+            widget = mkArrWidget "lidarr" [
+              "artists"
+              "wanted"
+              "queued"
+            ];
           };
         }
         {
@@ -91,6 +135,11 @@ in
             name = "radarr";
             port = toString config.services.radarr.settings.server.port;
             url = "https://radarr.${config.localdns.domain}";
+            widget = mkArrWidget "radarr" [
+              "movies"
+              "missing"
+              "queued"
+            ];
           };
         }
         {
@@ -98,8 +147,17 @@ in
             name = "sonarr";
             port = toString config.services.sonarr.settings.server.port;
             url = "https://sonarr.${config.localdns.domain}";
+            widget = mkArrWidget "sonarr" [
+              "series"
+              "wanted"
+              "queued"
+            ];
           };
         }
+      ];
+    }
+    {
+      Services = [
         {
           qBittorrent = mkService {
             name = "qbittorrent";
