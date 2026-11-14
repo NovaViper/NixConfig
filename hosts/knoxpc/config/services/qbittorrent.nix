@@ -8,6 +8,7 @@
 }:
 let
   cfg = config.services.qbittorrent;
+  # Paths we need
   downloads = "/storage/media/Downloads";
 
   # Service dependencies
@@ -55,31 +56,17 @@ let
   '';
 in
 {
-  sops.secrets = {
-    vpn-key = myLib.secrets.mkSecretFile {
-      source = "secrets.yaml";
-      subDir = [
-        "hosts"
-        "${config.networking.hostName}"
-      ];
-    };
-    qBtpass-hash = myLib.secrets.mkSecretFile {
-      source = "secrets.yaml";
-      owner = "qbittorrent";
-      group = "qbittorrent";
-      subDir = [
-        "hosts"
-        "${config.networking.hostName}"
-      ];
-    };
-  };
+  localdns.proxies.qbittorrent = cfg.webuiPort;
 
-  sops.templates."qbittorrent-password.conf" = {
+  # Secrets setup
+  sops.secrets = {
+    vpn-key = myLib.secrets.mkSecretFile secretDefaults;
+    qBtpass-hash = myLib.secrets.mkSecretFile (secretDefaults // qbittorrentOwnership);
+  };
+  sops.templates.qbittorrent-password-config = qbittorrentOwnership // {
     content = ''
       Password_PBKDF2=${config.sops.placeholder.qBtpass-hash}
     '';
-    owner = cfg.user;
-    group = cfg.group;
     restartUnits = [ "qbittorrent.service" ];
   };
 
@@ -89,7 +76,6 @@ in
     profileDir = "/storage/services/qbittorrent";
     webuiPort = 8080;
     openFirewall = false;
-
     serverConfig = {
       AutoRun = {
         enabled = true;
@@ -99,6 +85,11 @@ in
       BitTorrent.Session = {
         DefaultSavePath = downloads;
         Interface = "proton0";
+        # Stop at a 1:1 upload ratio or 24 hours of seeding, whichever comes first
+        # And also keep the torrent and its files available for the media stack!
+        GlobalMaxRatio = 1.0;
+        GlobalMaxSeedingMinutes = 1440;
+        ShareLimitAction = "Stop";
       };
       WebUI = {
         Username = "admin";
@@ -111,14 +102,13 @@ in
       };
     };
   };
-
   systemd.tmpfiles.rules = lib.mkIf cfg.enable [
     "d ${cfg.profileDir} 0700 ${cfg.user} ${cfg.group} - -"
-    # Setgid shares new downloads with Sonarr; existing contents are untouched.
+    # Make sure the group is set to media so that Sonarr can read/write files
     "d ${downloads} 2770 ${cfg.user} media - -"
   ];
 
-  # ProtonVPN tunnel (credentials stay in the existing secret sources).
+  # ProtonVPN tunnel setup
   networking.wireguard.interfaces.proton0 = {
     ips = [
       "10.2.0.2/32"
@@ -140,8 +130,9 @@ in
     ];
   };
 
-  # Network namespace and firewall kill switch.
-  # Only loopback and ProtonVPN are available inside this namespace.
+  # Setup the network namespace and firewall before bringing up the WireGuard
+  # interface to ensure only qBittorrent can use the VPN and that it cannot
+  # leak traffic if the VPN is down
   systemd.services.qbittorrent-netns = {
     description = "Isolated network for qBittorrent";
     before = [ "wireguard-proton0.service" ];
@@ -155,7 +146,6 @@ in
     ];
     script = ''
       ip netns add qbittorrent
-      # Fail closed: install the firewall before bringing up any interfaces.
       ip netns exec qbittorrent nft -f ${vpnFirewall}
       ip -n qbittorrent link set lo up
     '';
@@ -164,14 +154,14 @@ in
     '';
   };
 
-  # Service ordering: namespace/firewall -> WireGuard -> qBittorrent.
+  # Reorder the services; namespace/firewall -> WireGuard -> qBittorrent
   systemd.services.wireguard-proton0 = {
     requires = [ "qbittorrent-netns.service" ];
     after = [ "qbittorrent-netns.service" ];
     bindsTo = [ "qbittorrent-netns.service" ];
   };
 
-  # Keep namespace diagnostics and qBittorrent on the same VPN DNS server.
+  # Keep namespace diagnostics and qBittorrent on the same VPN DNS server
   environment.etc."netns/qbittorrent/resolv.conf".source = vpnResolvConf;
   systemd.services.qbittorrent = {
     requires = torrentDependencies ++ [ "clamav-daemon.socket" ];
@@ -179,21 +169,19 @@ in
     bindsTo = [ "wireguard-proton0.service" ];
     partOf = [ "wireguard-proton0.service" ];
     serviceConfig = {
-      # Insert the rendered password after the module installs the other settings.
-      # New downloads remain writable by the shared media group.
+      # Ensure new downloads are created with the correct ownership and group
       UMask = "0007";
+      # Place the rendered password into the qBittorrent config file before starting the service
       ExecStartPre = lib.mkAfter [
         (pkgs.writeShellScript "qbittorrent-password" ''
           set -eu
-          test -r ${config.sops.templates."qbittorrent-password.conf".path}
-          ${pkgs.gnused}/bin/sed -i '/^\[WebUI\]$/r ${
-            config.sops.templates."qbittorrent-password.conf".path
-          }' ${lib.escapeShellArg "${cfg.profileDir}/qBittorrent/config/qBittorrent.conf"}
+          test -r ${config.sops.templates.qbittorrent-password-config.path}
+          ${pkgs.gnused}/bin/sed -i '/^\[WebUI\]$/r ${config.sops.templates.qbittorrent-password-config.path}' ${lib.escapeShellArg "${cfg.profileDir}/qBittorrent/config/qBittorrent.conf"}
         '')
       ];
       NetworkNamespacePath = "/run/netns/qbittorrent";
       BindReadOnlyPaths = [ "${vpnResolvConf}:/etc/resolv.conf" ];
-      # The application cannot change firewall rules, interfaces or namespaces.
+      # The application cannot change firewall rules, interfaces or namespaces
       CapabilityBoundingSet = "";
       NoNewPrivileges = true;
       RestrictNamespaces = true;
@@ -202,11 +190,8 @@ in
     };
   };
 
-  # LAN HTTPS access through Caddy and the loopback socket bridge.
-  localdns.proxies.qbittorrent = cfg.webuiPort;
-
-  # Caddy connects to this host-side loopback socket. The proxy joins the VPN
-  # namespace and reaches qBittorrent there, without adding a fallback route.
+  # Caddy will connect to this socket and then qBittorrent will see the connection as
+  # coming from the VPN interface, without any other traffic being able to leak out
   systemd.sockets.qbittorrent-web = {
     wantedBy = [ "sockets.target" ];
     listenStreams = [ "127.0.0.1:${toString cfg.webuiPort}" ];

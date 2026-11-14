@@ -184,7 +184,7 @@ in
       };
       # qBittorrent regenerates its configuration on restart. Preserve the same
       # API key used by the three applications, alongside its existing password.
-      "qbittorrent-password.conf".content = lib.mkAfter ''
+      qbittorrent-password-config.content = lib.mkAfter ''
         APIKey=${config.sops.placeholder.qbittorrent-api-key}
       '';
     }
