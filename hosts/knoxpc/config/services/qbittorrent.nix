@@ -10,13 +10,37 @@ let
   cfg = config.services.qbittorrent;
   downloads = "/storage/media/Downloads";
 
-  # Replace locally with the DNS IP from Proton's WireGuard configuration.
+  # Service dependencies
+  torrentDependencies = [
+    "wireguard-proton0.service"
+  ];
+  # Defaults for the secrets needed for qBittorrent
+  secretDefaults = {
+    source = "secrets.yaml";
+    subDir = [
+      "hosts"
+      config.networking.hostName
+    ];
+  };
+  qbittorrentOwnership = {
+    owner = cfg.user;
+    group = cfg.group;
+  };
+
+  scanCompletedTorrent = pkgs.writeShellScript "qbittorrent-clamav-scan" ''
+    set -euo pipefail
+    # Pass the content path as one argument; never evaluate torrent names as shell code
+    /etc/clamav/scan torrent "$1" 2>&1 \
+      | ${pkgs.systemd}/bin/systemd-cat --identifier=qbittorrent-clamav
+  '';
+
+  # Replace locally with the DNS IP from Proton's WireGuard configuration
   vpnResolvConf = pkgs.writeText "qbittorrent-resolv.conf" ''
     nameserver 10.2.0.1
     nameserver 2a07:b944::2:1
   '';
 
-  # Allow only loopback and VPN egress, for both IPv4 and IPv6.
+  # Allow only loopback and VPN egress, for both IPv4 and IPv6
   vpnFirewall = pkgs.writeText "qbittorrent-vpn-only.nft" ''
     table inet vpn_only {
       chain output {
@@ -59,7 +83,7 @@ in
     restartUnits = [ "qbittorrent.service" ];
   };
 
-  # qBittorrent application and storage.
+  # qBittorrent application and storage
   services.qbittorrent = {
     enable = true;
     profileDir = "/storage/services/qbittorrent";
@@ -67,6 +91,10 @@ in
     openFirewall = false;
 
     serverConfig = {
+      AutoRun = {
+        enabled = true;
+        program = ''${scanCompletedTorrent} "%F"'';
+      };
       LegalNotice.Accepted = true;
       BitTorrent.Session = {
         DefaultSavePath = downloads;
@@ -146,8 +174,8 @@ in
   # Keep namespace diagnostics and qBittorrent on the same VPN DNS server.
   environment.etc."netns/qbittorrent/resolv.conf".source = vpnResolvConf;
   systemd.services.qbittorrent = {
-    requires = [ "wireguard-proton0.service" ];
-    after = [ "wireguard-proton0.service" ];
+    requires = torrentDependencies ++ [ "clamav-daemon.socket" ];
+    after = torrentDependencies ++ [ "clamav-daemon.socket" ];
     bindsTo = [ "wireguard-proton0.service" ];
     partOf = [ "wireguard-proton0.service" ];
     serviceConfig = {
@@ -169,6 +197,8 @@ in
       CapabilityBoundingSet = "";
       NoNewPrivileges = true;
       RestrictNamespaces = true;
+      # Completion scans and journal logging use local Unix sockets inside the VPN namespace.
+      RestrictAddressFamilies = [ "AF_UNIX" ];
     };
   };
 
