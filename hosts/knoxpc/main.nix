@@ -17,7 +17,10 @@
       "bluetooth"
       "yubikey"
     ];
-    services = lib.singleton "tailscale";
+    services = [
+      "tailscale"
+      "fail2ban"
+    ];
   };
 
   time.timeZone = "America/Chicago";

@@ -6,6 +6,12 @@
   ...
 }:
 {
+  imports = myLib.utils.importFeatures {
+    services = [
+      "fail2ban"
+    ];
+  };
+
   vars.host.configDirectory = "/etc/nixos";
 
   # Terminus uses its own resident security keys instead of the shared host keys.
