@@ -48,6 +48,7 @@
       nix-index-database.homeModules.nix-index
       plasma-manager.homeModules.plasma-manager
       noctalia.homeModules.default
+      umbriel.homeModules.default
     ]
     ++ self.homeModules.default;
 

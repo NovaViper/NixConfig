@@ -67,7 +67,7 @@ in
         desc = "desktop environment";
         opts = [
           "kde"
-          "niri"
+          "umbriel"
           "sway"
         ];
       };

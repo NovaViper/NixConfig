@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   myLib,
   pkgs,
   ...
@@ -7,7 +8,7 @@
 let
   hm-config = config.hm;
 in
-{
+lib.mkIf (config.features.desktop.type == "kde") {
   hm.home.packages = with pkgs; [
     plasma-panel-colorizer
     plasma-panel-spacer-extended

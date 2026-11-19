@@ -16,6 +16,9 @@
 
   vars.desktop.profile = "minimal";
 
+  # Persistent starting scale; wdisplays can adjust it during the session.
+  hm.programs.umbriel.settings.output."eDP-1".scale = lib.mkDefault config.vars.host.scalingFactor;
+
   hm.home.packages = with pkgs; [ moonlight-qt ];
 
   hm.programs.plasma.input.keyboard.options = [ "caps:ctrl_modifier" ];

@@ -34,6 +34,12 @@ in
     scalingFactor = 1;
   };
 
+  # Assumed DisplayPort connector; verify with `umbriel outputs` on this host.
+  hm.programs.umbriel.settings = {
+    general.xwayland_primary_output = "DP-1";
+    output."DP-1".focus_at_startup = true;
+  };
+
   hm.xdg.configFile = {
     "OpenRGB/plugins/settings/effect-profiles/default".source =
       myLib.dots.getDotsPath "openrgb/rgb-default-effect.json";

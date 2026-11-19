@@ -11,7 +11,7 @@ in
   services.gnome.gnome-keyring.enable = lib.mkForce false;
   xdg.portal.extraPortals = with pkgs; [ kdePackages.kwallet ];
   xdg.portal.config.common."org.freedesktop.impl.portal.Secret" = [ "kwallet" ];
-  xdg.portal.config.niri."org.freedesktop.impl.portal.Secret" = lib.mkForce [ "kwallet" ];
+  xdg.portal.config.umbriel."org.freedesktop.impl.portal.Secret" = lib.mkForce [ "kwallet" ];
   security.pam.services =
     let
       enableKeyrings = {
@@ -75,7 +75,7 @@ in
             done
 
             if [ -z "''${WAYLAND_DISPLAY:-}" ]; then
-              echo "WAYLAND_DISPLAY was not exported by the Niri session" >&2
+              echo "WAYLAND_DISPLAY was not exported by the Umbriel session" >&2
               exit 1
             fi
 

@@ -8,7 +8,7 @@
 let
   hm-config = config.hm;
 in
-{
+lib.mkIf (config.features.desktop.type == "kde") {
   hm.programs.zsh.shellAliases.reload-plasma-theming = # zsh
 
     "rm -R ~/.local/share/plasma-manager/last_run_script_* && ~/.local/share/plasma-manager/run_all.sh";
