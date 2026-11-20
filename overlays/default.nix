@@ -81,7 +81,7 @@ in
       src = self.inputs.configarr;
       inherit (oldAttrs) version;
       pnpmDeps = oldAttrs.pnpmDeps.override {
-        hash = "sha256-l7MYBONmq5bEboPQb/J2ZK/B5DbX4ANIy7Nh6WCf5Ro=";
+        hash = "sha256-TVRi6LOuDRNLe2RjVeFBscg10/Qt217uuGGXxTPvetQ=";
       };
       passthru = (oldAttrs.passthru or { }) // {
         autoUpdate = true;
