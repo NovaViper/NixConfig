@@ -51,6 +51,11 @@
       openFirewall = false;
       settings.server.bindaddress = "127.0.0.1";
     };
+    seerr = {
+      enable = true;
+      openFirewall = false;
+      stateRevision = 1;
+    };
   };
 
   localdns.proxies = {
@@ -58,11 +63,13 @@
     radarr = config.services.radarr.settings.server.port;
     lidarr = config.services.lidarr.settings.server.port;
     prowlarr = config.services.prowlarr.settings.server.port;
+    seerr = config.services.seerr.port;
   };
 
   systemd.services = {
     # Prowlarr reaches this proxy locally; indexers opt in with its matching tag.
     flaresolverr.environment.HOST = "127.0.0.1";
+    seerr.environment.HOST = "127.0.0.1";
     sonarr = {
       unitConfig.RequiresMountsFor = [
         "/storage/media/Downloads"

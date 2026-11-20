@@ -172,6 +172,12 @@ in
           };
         }
         {
+          Seerr = mkService {
+            name = "seerr";
+            url = "https://seerr.${config.localdns.domain}";
+          };
+        }
+        {
           Immich = mkService {
             name = "immich";
             url = "https://immich.home.arpa";
