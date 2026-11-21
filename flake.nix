@@ -19,6 +19,8 @@
     # Core dependencies
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
+    # Orca Slicer 2.5.1 and its dependency changes from nixpkgs PR #588520.
+    nixpkgs-orca-slicer.url = "github:NixOS/nixpkgs/ab12efc50283b24e3b3cc6714826673294426adc";
     # nixpkgs-patcher.url = "github:gepbird/nixpkgs-patcher";
     hardware.url = "github:nixos/nixos-hardware";
     home-manager = {

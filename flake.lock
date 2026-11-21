@@ -200,6 +200,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-orca-slicer": {
+      "locked": {
+        "lastModified": 1795164841,
+        "narHash": "sha256-BHYVupA6jxls8g4QPixv58BgEf9hAx5fRb8pvoI8s3U=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ab12efc50283b24e3b3cc6714826673294426adc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ab12efc50283b24e3b3cc6714826673294426adc",
+        "type": "github"
+      }
+    },
     "nixpkgs-stable": {
       "locked": {
         "lastModified": 1794872590,
@@ -325,6 +341,7 @@
         "nix-index-database": "nix-index-database",
         "nix-secrets": "nix-secrets",
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs-orca-slicer": "nixpkgs-orca-slicer",
         "nixpkgs-stable": "nixpkgs-stable",
         "noctalia": "noctalia",
         "novavim": "novavim",

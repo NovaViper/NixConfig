@@ -1,17 +1,31 @@
 {
   config,
   myLib,
+  lib,
   pkgs,
   ...
 }:
+let
+  orcaSlicer = pkgs.inputs.nixpkgs-orca-slicer.orca-slicer;
+  desktopFile = "com.orcaslicer.OrcaSlicer.desktop";
+in
 {
+  hm.xdg.dataFile."applications/${desktopFile}" =
+    lib.mkIf (lib.elem "nvidia" config.services.xserver.videoDrivers)
+      {
+        source = pkgs.runCommand desktopFile { } ''
+          substitute ${orcaSlicer}/share/applications/${desktopFile} "$out" \
+            --replace-fail 'Exec=orca-slicer' 'Exec=env WEBKIT_DISABLE_DMABUF_RENDERER=1 orca-slicer'
+        '';
+      };
+
   hm.xdg.mimeApps =
     let
       profiles = {
-        "model/step" = "OrcaSlicer.desktop";
-        "x-scheme-handler/orcaslicer" = "OrcaSlicer.desktop";
-        "x-scheme-handler/bambustudio" = "OrcaSlicer.desktop"; # makerworld
-        "x-scheme-handler/prusaslicer" = "OrcaSlicer.desktop"; # printables
+        "model/step" = desktopFile;
+        "x-scheme-handler/orcaslicer" = desktopFile;
+        "x-scheme-handler/bambustudio" = desktopFile; # makerworld
+        "x-scheme-handler/prusaslicer" = desktopFile; # printables
       };
     in
     {
@@ -36,5 +50,8 @@
   #     "OrcaSlicer/bed_models" = dots "OrcaSlicer/bed_models";
   #   };
 
-  hm.home.packages = with pkgs; [ orca-slicer ];
+  hm.home.packages = [
+    orcaSlicer
+  ]
+  ++ lib.optional (lib.meta.availableOn pkgs.stdenv.hostPlatform pkgs.snapmaker-orca) pkgs.snapmaker-orca;
 }
